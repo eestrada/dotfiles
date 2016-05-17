@@ -129,7 +129,7 @@
 (use-package racket-mode
   :ensure t)
 
-;; Apparently this is pretty awesome
+;; Apparently quack is pretty awesome for scheme and racket
 (use-package quack
   :ensure t)
 
@@ -144,7 +144,7 @@
   :ensure t)
 (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
 
-;; use flake8 instead
+;; use flake8 instead of pyflakes
 (setq flymake-python-pyflakes-executable "flake8")
 
 ;; extra args to pyflakes executable
