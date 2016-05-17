@@ -135,10 +135,6 @@
 
 (require 'quack)
 
-;; cua-mode is a bit gimpy, so disable it for the time being.
-;; besides, I am mainly using evil-mode these days.
-;; (cua-mode)
-
 ;; at flymake hook for python's pyflakes
 (use-package flymake-python-pyflakes
   :ensure t)
