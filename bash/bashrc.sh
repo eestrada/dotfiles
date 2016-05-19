@@ -7,7 +7,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    source /etc/bashrc
 fi
 
 # User specific aliases and functions
@@ -244,6 +244,10 @@ run_ssh ()
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
     source ~/.bashrc_local;
+fi
+
+if [ -e "${HOME}/.bashrc_local.sh" ]; then
+    source ~/.bashrc_local.sh;
 fi
 
 # Functions to run
