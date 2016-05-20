@@ -18,6 +18,7 @@ linknew  bash/bash_logout.sh .bash_logout
 linknew  bash/bash_profile.sh .bash_profile
 linknew  emacs.el .emacs
 linknew  guile.scm .guile
+linknew  racketrc.rkt .racketrc
 linknew  vimrc.vim .vimrc
 linknew  gitconfig.ini .gitconfig
 linknew  hgrc.ini .hgrc
