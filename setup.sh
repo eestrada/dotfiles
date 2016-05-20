@@ -8,6 +8,7 @@ function relpath()
 
 function linknew()
 {
+    # TODO: prompt for each call (defaulting to yes).
     mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
     ln -vfs $(relpath ${1}) "${HOME}/${2}"
 }
