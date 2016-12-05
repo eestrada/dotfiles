@@ -250,6 +250,10 @@ if [ -e "${HOME}/.bashrc_local.sh" ]; then
     source ~/.bashrc_local.sh;
 fi
 
+if [ -e "${HOME}/.bashrc-local.sh" ]; then
+    source ~/.bashrc-local.sh;
+fi
+
 # Functions to run
 custvars
 setaliases
