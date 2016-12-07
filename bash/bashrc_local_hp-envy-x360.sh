@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function _mmb_scroll_generic()
+function mmb_scroll_setup()
 {
     xinput --set-prop "$1" 'Evdev Wheel Emulation' 1;
     xinput --set-prop "$1" 'Evdev Wheel Emulation Button' 2;
@@ -8,10 +8,10 @@ function _mmb_scroll_generic()
     xinput --set-prop "$1" 'Evdev Wheel Emulation Timeout' 200;
 }
 
-function mmb_scroll()
+function _mmb_scroll_init()
 {
-    _mmb_scroll_generic 'Logitech USB Optical Mouse';
-    _mmb_scroll_generic 'pointer:Microsoft Microsoft® Nano Transceiver v1.0';
+    mmb_scroll_setup 'Logitech USB Optical Mouse';
+    mmb_scroll_setup 'pointer:Microsoft Microsoft® Nano Transceiver v1.0';
 }
 
-mmb_scroll 2>/dev/null;
+_mmb_scroll_init 2>/dev/null;
