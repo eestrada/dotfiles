@@ -241,6 +241,41 @@ run_ssh ()
     fi
 }
 
+install_racket ()
+{
+    if [ -z "$1" ]; then
+        echo "No arguments given!";
+        echo 'Need at least one argument.';
+        echo 'First arguments indicates the version of Racket to install (e.g. "6.7", "6.8", etc.)';
+        echo 'The second argument, if the string "false", will prevent the script from creating links after install';
+        return 1
+    fi
+
+    plt_url="https://mirror.racket-lang.org/installers/${1}/racket-${1}-x86_64-linux.sh";
+    plt_local="${TEMP}/racket-${1}-x86_64-linux.sh";
+    dest="/usr/local/racket/$1";
+    links="/usr/local";
+
+    if [ "$2" = "false" ]; then
+        create_links="";
+    else
+        create_links="--create-links ${links}";
+    fi
+
+    curl ${plt_url} > ${plt_local};
+    chmod a+x ${plt_local};
+
+    echo "We are about to execute the following command: 'sudo ${plt_local} --in-place --dest ${dest} ${create_links}'";
+    echo "Do you want to proceed? (select your choice by number)"
+    select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) sudo ${plt_local} --in-place --dest ${dest} ${create_links}; break;;
+        No ) return 1;;
+    esac
+    done
+}
+
+
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
     source ~/.bashrc_local;
