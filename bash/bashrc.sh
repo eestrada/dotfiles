@@ -46,6 +46,9 @@ setaliases()
 
     # Do not create gvim swap files.
     alias gvimn="gvim -n -p";
+
+    # Make diff nicer for interactive usage
+    alias diff='diff --unified=3 --report-identical-files';
 }
 
 # Set custom path. SYSPATH variable should exist
