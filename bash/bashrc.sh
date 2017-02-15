@@ -18,6 +18,9 @@ echoerr()
     echo "$@"  1>&2;
 }
 
+# NOTE: make `echoerr` available to subprocesses and sub-shells
+export -f echoerr
+
 dush()
 {
     du --max-depth=1 -h "$@" | sort -h;
