@@ -52,6 +52,10 @@ setaliases()
 
     # Make diff nicer for interactive usage
     alias diff='diff --unified=3 --report-identical-files';
+
+    # I often forget the rsync flags I like for backups, so let's just
+    # bake them into an alias. Ignore obvious temporary files.
+    alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'";
 }
 
 # Set custom path. SYSPATH variable should exist
