@@ -14,6 +14,9 @@
  '(inhibit-startup-screen t)
  '(neo-window-fixed-size nil)
  '(neo-window-width 40)
+ '(package-selected-packages
+   (quote
+    (dockerfile-mode yaml-mode use-package racket-mode quack pyflakes pep8 neotree markdown-mode llvm-mode git-gutter flymake-python-pyflakes evil-commentary)))
  '(scheme-program-name "guile")
  '(show-paren-mode t)
  '(standard-indent 4)
@@ -119,6 +122,9 @@
 (use-package neotree
   :ensure t)
 
+;; Show hiddens files in neotree by default
+(setq-default neo-show-hidden-files t)
+
 ;; Extra major modes to always have available
 (use-package llvm-mode
   :ensure t)
@@ -217,3 +223,12 @@ logical line.  This is useful, e.g., for use with
   (interactive "*r")
   (let ((fill-column (point-max)))
     (fill-region beg end)))
+
+;; Get neotree to behave better in `evil-mode`
+
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
