@@ -132,13 +132,24 @@ custvars()
 
     # Environment variables to declare
     export TEMP="/tmp";
-    export VISUAL="gvim --nofork";
     if `which vim &>/dev/null`;
     then
         export EDITOR="vim";
     else
         export EDITOR="vi";
     fi
+
+    # I use emacs in eVil mode, so it is basically like gvim
+    if `which emacs &>/dev/null`;
+    then
+        export VISUAL="emacs";
+    elif `which gvim &>/dev/null`;
+    then
+        export VISUAL="gvim ";
+    else
+        export VISUAL=${EDITOR};
+    fi
+
     export PAGER="less";
 
     # don't use set_cc by default
