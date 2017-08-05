@@ -262,7 +262,7 @@ run_ssh ()
     fi
 }
 
-install_racket ()
+racket_install ()
 {
     if [ -z "$1" ]; then
         echo "No arguments given!";
@@ -296,6 +296,17 @@ install_racket ()
     done
 }
 
+racket_repl ()
+{
+    cd ${TEMP};
+    racket;
+}
+
+racket_repl_exec ()
+{
+    cd ${TEMP};
+    exec racket;
+}
 
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
