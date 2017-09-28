@@ -125,6 +125,20 @@
 ;; Show hiddens files in neotree by default
 (setq-default neo-show-hidden-files t)
 
+;; Get neotree to behave better in `evil-mode`
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
+;; Open a neotree panel of the CWD on startup
+;; FIXME: is this the right place for this? Should I have some sort of
+;; conditional to make sure this doesn't open during the wrong init
+;; process.
+(neotree)
+
 ;; Extra major modes to always have available
 (use-package llvm-mode
   :ensure t)
@@ -224,11 +238,10 @@ logical line.  This is useful, e.g., for use with
   (let ((fill-column (point-max)))
     (fill-region beg end)))
 
-;; Get neotree to behave better in `evil-mode`
+;; Add file extensions to major modes. The first value is a regex, the
+;; second is the function for the mode to use. See this URL here:
+;; https://www.emacswiki.org/emacs/AutoModeAlist
 
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+(add-to-list 'auto-mode-alist '("\\.tf\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.tfstate\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
