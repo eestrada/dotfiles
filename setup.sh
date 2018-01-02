@@ -1,12 +1,14 @@
 #!/bin/sh
 
-function relpath()
+set -e
+
+relpath()
 {
-    python -c "import os, sys; sys.stdout.write(os.path.relpath('${PWD}/${1}', '${HOME}'))";
+    python3 -c "import os, sys; sys.stdout.write(os.path.relpath('${PWD}/${1}', '${HOME}'))";
     # echo 1>&2
 }
 
-function linknew()
+linknew()
 {
     # TODO: prompt for each call (defaulting to yes).
     mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"

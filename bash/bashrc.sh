@@ -21,6 +21,15 @@ echoerr()
 # NOTE: make `echoerr` available to subprocesses and sub-shells
 export -f echoerr
 
+_is_freebsd()
+{
+    if [ $(uname -s) = "FreeBSD" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 dush()
 {
     du --max-depth=1 -h "$@" | sort -h;
@@ -29,9 +38,14 @@ dush()
 # Set any custom aliases
 setaliases()
 {
+    if $(_is_freebsd); then
+        alias ls="ls -G";
+        alias ll="ls -Gslh";
+    else
+        alias ls="ls --color=auto";
+        alias ll="ls -slh";
+    fi
     # User specific aliases
-    alias ls="ls --color=auto";
-    alias ll="ls -slh";
     alias rm="rm -I --preserve-root";
     #alias mv="mv -u";
     #alias cp="cp -u"; # This has caused me too many headaches
