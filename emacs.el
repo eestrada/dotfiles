@@ -68,6 +68,8 @@
 (evil-mode 1)
 (modify-syntax-entry ?_ "w") ;; ignore underscores in words, like vim does
 
+;; NOTE: good reference for all things Evil: https://www.emacswiki.org/emacs/Evil
+
 ;; for evil mode. pulled from: https://github.com/davvil/.emacs.d/blob/master/init.el
 ;; esc quits pretty much everything
 (defun minibuffer-keyboard-quit ()
