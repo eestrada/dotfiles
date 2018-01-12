@@ -165,6 +165,7 @@ custvars()
     fi
 
     export PAGER="less";
+    export GPG_TTY="$(tty)";
 
     # don't use set_cc by default
     # set_cc
