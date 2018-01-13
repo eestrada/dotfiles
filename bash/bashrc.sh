@@ -342,6 +342,15 @@ noise_gen ()
     # TODO: look into wrapping with `pysox`: https://github.com/rabitt/pysox
 }
 
+playbeep ()
+{
+    # NOTE: try to use the sox play utility. Failing that, send a
+    # regular old terminal 'bel' character.
+    play -n synth 0.1 sin 880 2>/dev/null || echo -ne "\a";
+}
+
+export -f playbeep
+
 
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
