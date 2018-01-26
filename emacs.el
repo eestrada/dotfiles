@@ -16,7 +16,7 @@
  '(neo-window-width 40)
  '(package-selected-packages
    (quote
-    (dockerfile-mode yaml-mode use-package racket-mode quack pyflakes pep8 neotree markdown-mode llvm-mode git-gutter flymake-python-pyflakes evil-commentary)))
+    (dockerfile-mode yaml-mode use-package racket-mode quack pyflakes pep8 markdown-mode llvm-mode git-gutter flymake-python-pyflakes)))
  '(scheme-program-name "guile")
  '(show-paren-mode t)
  '(standard-indent 4)
@@ -91,22 +91,12 @@
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (global-set-key [escape] 'evil-exit-emacs-state)
 
-;; (use-package evil-search-highlight-persist
-;;   :ensure t)
-;; (global-evil-search-highlight-persist t)
 
-;; Using visual selection is more portable and it is still fairly easy to do
-;; (use-package evil-commentary
-;;   :ensure t)
-;; (evil-commentary-mode)
 
-;; (use-package ergoemacs-mode
-;;   :ensure t)
+;; Move only one line at a time, like a vi clone should!
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
 
-;; (setq ergoemacs-theme nil)
-;; (setq ergoemacs-keyboard-layout "us")
-;; (require 'ergoemacs-mode)
-;; (ergoemacs-mode 1)
 
 ;; NOTE: git-gutter isn't working right now, so just disable it for
 ;; the time being.
@@ -121,25 +111,6 @@
 (use-package pyflakes
   :ensure t)
 
-(use-package neotree
-  :ensure t)
-
-;; Show hiddens files in neotree by default
-(setq-default neo-show-hidden-files t)
-
-;; Get neotree to behave better in `evil-mode`
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-
-;; Open a neotree panel of the CWD on startup
-;; FIXME: is this the right place for this? Should I have some sort of
-;; conditional to make sure this doesn't open during the wrong init
-;; process.
-(neotree)
 
 ;; Extra major modes to always have available
 (use-package llvm-mode
@@ -247,3 +218,4 @@ logical line.  This is useful, e.g., for use with
 (add-to-list 'auto-mode-alist '("\\.tf\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.tfstate\\'" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.mdt\\'" . markdown-mode))
