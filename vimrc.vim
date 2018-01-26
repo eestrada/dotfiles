@@ -27,3 +27,7 @@ set expandtab "Use the appropriate number of spaces to insert a	<Tab>.
 set softtabstop=4 "Number of spaces that a <Tab> counts for while editing.
 set tabstop=4 "Number of spaces that a <Tab> in the file counts for.
 
+"Trailing whitespace
+" Autocmd pulled from:
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces#Automatically_removing_all_trailing_whitespace
+"autocmd BufWritePre * %s/\s\+$//e

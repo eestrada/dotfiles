@@ -25,3 +25,4 @@ linknew  vimrc.vim .vimrc
 linknew  gitconfig.ini .gitconfig
 linknew  hgrc.ini .hgrc
 linknew  idlerc .idlerc
+linknew  tmux.conf .tmux.conf
