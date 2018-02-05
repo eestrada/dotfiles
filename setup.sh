@@ -22,6 +22,7 @@ linknew  emacs.el .emacs
 linknew  guile.scm .guile
 linknew  racketrc.rkt .racketrc
 linknew  vimrc.vim .vimrc
+linknew  vim .vim
 linknew  gitconfig.ini .gitconfig
 linknew  hgrc.ini .hgrc
 linknew  idlerc .idlerc

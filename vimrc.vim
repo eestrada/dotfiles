@@ -1,12 +1,12 @@
 set nocompatible "Kind of pointless, but better safe than sorry.
 
-colorscheme koehler "Set default color scheme for gvim.
-
 "Don't create swapfiles by default
 set uc=0
 
 "Syntax settings
 syntax on "Make sure syntax highlighting is on for supported file types.
+set background=dark
+colorscheme elflord
 set list "turn on special character highlighting
 set listchars=trail:·,tab:»-,eol:¬ "define what special characters look like
 

@@ -1,0 +1,15 @@
+[submodule "color-themes/base16-shell"]
+	path = color-themes/base16-shell
+	url = https://github.com/chriskempson/base16-shell.git
+[submodule "color-themes/base16-vim"]
+	path = color-themes/base16-vim
+	url = https://github.com/chriskempson/base16-vim.git
+[submodule "color-themes/base16-i3"]
+	path = color-themes/base16-i3
+	url = https://github.com/khamer/base16-i3.git
+[submodule "color-themes/base16-xfce4-terminal"]
+	path = color-themes/base16-xfce4-terminal
+	url = https://github.com/afg984/base16-xfce4-terminal
+[submodule "color-themes/base16-xresources"]
+	path = color-themes/base16-xresources
+	url = https://github.com/chriskempson/base16-xresources.git
