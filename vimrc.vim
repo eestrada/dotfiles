@@ -27,7 +27,19 @@ set expandtab "Use the appropriate number of spaces to insert a	<Tab>.
 set softtabstop=4 "Number of spaces that a <Tab> counts for while editing.
 set tabstop=4 "Number of spaces that a <Tab> in the file counts for.
 
-"Trailing whitespace
+"System friendly settings
+"Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
+"Use system clipboard for Yank and Put
+set clipboard=unnamed
+if has('unnamedplus')
+    "Use system AND xterm clipboards for Yank and Put
+    set clipboard=unnamed,unnamedplus
+endif
+
+"Delete Trailing whitespace
 " Autocmd pulled from:
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces#Automatically_removing_all_trailing_whitespace
 "autocmd BufWritePre * %s/\s\+$//e
+
+"Search in visual mode
+vnoremap <expr> // 'y/\V'.escape(@",'\').'<CR>'

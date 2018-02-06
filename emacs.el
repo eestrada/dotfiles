@@ -111,7 +111,6 @@
 (use-package pyflakes
   :ensure t)
 
-
 ;; Extra major modes to always have available
 (use-package llvm-mode
   :ensure t)
