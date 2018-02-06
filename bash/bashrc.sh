@@ -70,6 +70,9 @@ setaliases()
     # I often forget the rsync flags I like for backups, so let's just
     # bake them into an alias. Ignore obvious temporary files.
     alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'";
+
+    # Make colors work right, dagnabit!
+    alias tmux='tmux -2';
 }
 
 # Set custom path. SYSPATH variable should exist
@@ -373,7 +376,11 @@ run_ssh
 refreshpath
 
 # The next line updates PATH for the Google Cloud SDK.
-source "${HOME}/google-cloud-sdk/path.bash.inc";
+[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && source "${HOME}/google-cloud-sdk/path.bash.inc";
 
 # The next line enables shell command completion for gcloud.
-source "${HOME}/google-cloud-sdk/completion.bash.inc";
+[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && source "${HOME}/google-cloud-sdk/completion.bash.inc";
+
+BASE16_SHELL=$HOME/.base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
+

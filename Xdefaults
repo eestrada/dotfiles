@@ -1,0 +1,4 @@
+! rxvt-unicode settings
+URxvt*scrollBar:             true
+URxvt*scrollBar_right:       true
+URxvt.saveLines:             8192

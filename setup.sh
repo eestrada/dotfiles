@@ -11,8 +11,8 @@ relpath()
 linknew()
 {
     # TODO: prompt for each call (defaulting to yes).
-    mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
-    ln -vfs $(relpath ${1}) "${HOME}/${2}"
+    test -e "${HOME}/${2}" && mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
+    ln -vfs $(relpath ${1} ${2}) "${HOME}/${2}"
 }
 
 linknew  bash/bashrc.sh .bashrc
@@ -27,3 +27,5 @@ linknew  gitconfig.ini .gitconfig
 linknew  hgrc.ini .hgrc
 linknew  idlerc .idlerc
 linknew  tmux.conf .tmux.conf
+linknew  color-themes/base16-shell .base16-shell
+linknew  Xdefaults .Xdefaults
