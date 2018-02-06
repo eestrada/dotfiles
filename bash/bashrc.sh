@@ -156,13 +156,9 @@ custvars()
         export EDITOR="vi";
     fi
 
-    # I use emacs in eVil mode, so it is basically like gvim
-    if `which emacs &>/dev/null`;
+    if `which gvim >/dev/null 2>&1`;
     then
-        export VISUAL="emacs";
-    elif `which gvim &>/dev/null`;
-    then
-        export VISUAL="gvim ";
+        export VISUAL="gvim --nofork";
     else
         export VISUAL=${EDITOR};
     fi
