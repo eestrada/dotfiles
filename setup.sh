@@ -30,3 +30,4 @@ linknew  tmux.conf .tmux.conf
 linknew  color-themes/base16-shell .base16-shell
 linknew  Xdefaults .Xdefaults
 linknew  xscreensaver .xscreensaver
+linknew  i3status.conf .i3status.conf
