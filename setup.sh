@@ -29,3 +29,4 @@ linknew  idlerc .idlerc
 linknew  tmux.conf .tmux.conf
 linknew  color-themes/base16-shell .base16-shell
 linknew  Xdefaults .Xdefaults
+linknew  xscreensaver .xscreensaver
