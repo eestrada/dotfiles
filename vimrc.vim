@@ -4,9 +4,10 @@ set nocompatible "Kind of pointless, but better safe than sorry.
 set uc=0
 
 "Syntax settings
+let base16colorspace=256  " Access colors present in 256 colorspace
 syntax on "Make sure syntax highlighting is on for supported file types.
 set background=dark
-colorscheme elflord
+colorscheme base16-google-dark
 set list "turn on special character highlighting
 set listchars=trail:·,tab:»-,eol:¬ "define what special characters look like
 
