@@ -236,7 +236,13 @@ start_agent()
     echoerr "succeeded";
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null;
+
+    # Add default key
     ssh-add;
+    # Add any private keys that have corresponding public keys
+    cd ~;
+    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/');
+    cd -;
 }
 
 # test for identities
