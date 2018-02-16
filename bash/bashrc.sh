@@ -11,6 +11,12 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
+_canonical_home ()
+{
+    if [ "$(pwd)" -ef "${HOME}" ] && [ "$(pwd)" '!=' "${HOME}" ]; then
+        cd "${HOME}";
+    fi
+}
 
 # echo command, but to stderr instead of stdout
 echoerr()
@@ -396,3 +402,4 @@ refreshpath
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
 
+_canonical_home
