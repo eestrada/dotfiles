@@ -259,11 +259,20 @@ test_identities ()
     fi
 }
 
+_ps_all ()
+{
+    if $(_is_freebsd); then
+        ps -auxw;
+    else
+        ps -ef;
+    fi
+}
+
 run_ssh ()
 {
     # check for running ssh-agent with proper $SSH_AGENT_PID
     if [ -n "${SSH_AGENT_PID}" ]; then
-        ps -ef | grep "${SSH_AGENT_PID}" | grep ssh-agent > /dev/null;
+        _ps_all | grep "${SSH_AGENT_PID}" | grep ssh-agent > /dev/null;
         if [ $? -eq 0 ]; then
         test_identities;
         fi
@@ -271,9 +280,10 @@ run_ssh ()
     # ${SSH_ENV}
     else
         if [ -f "${SSH_ENV}" ]; then
-        . "${SSH_ENV}" > /dev/null;
+            . "${SSH_ENV}" > /dev/null;
         fi
-        ps -ef | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent > /dev/null;
+
+        _ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent > /dev/null;
         if [ $? -eq 0 ]; then
             test_identities;
         else
