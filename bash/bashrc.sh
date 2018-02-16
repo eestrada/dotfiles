@@ -399,7 +399,11 @@ refreshpath
 # The next line enables shell command completion for gcloud.
 [ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && source "${HOME}/google-cloud-sdk/completion.bash.inc";
 
+# Use Base16 syntax highlighting, if available
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
+
+# Use bash-completion, if available
+[ -n "$PS1" ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
 
 _canonical_home
