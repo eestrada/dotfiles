@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.37 for eestrada on Wed Feb  7 11:56:15 2018.
+# Written by xscreensaver-demo 5.38 for eestrada on Fri Feb 16 15:35:45 2018.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
@@ -32,7 +32,7 @@ dpmsOff:	4:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: True
-imageDirectory:	/usr/share/backgrounds/images
+imageDirectory:	/home/eestrada/Pictures
 
 mode:		blank
 selected:	153
