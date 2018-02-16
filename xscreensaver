@@ -17,7 +17,7 @@ demoCommand:	xscreensaver-demo
 prefsCommand:	xscreensaver-demo -prefs
 nice:		10
 memoryLimit:	0
-fade:		True
+fade:		False
 unfade:		False
 fadeSeconds:	0:00:03
 fadeTicks:	20
@@ -269,6 +269,19 @@ programs:								      \
   GL: 				hexstrut -root				    \n\
   GL: 				splodesic -root				    \n\
   GL: 				vigilance -root				    \n\
+				xaos -root -autopilot -nogui -delay 10000     \
+				  -maxframerate 30 -incoloring -1	      \
+				  -outcoloring -1			    \n\
+				xdaliclock -root -font BUILTIN3 -cycle	    \n\
+				xearth -nofork -ncolors 50 -night 3 -pos      \
+				  sunrel/38/-30 -wait 0			    \n\
+				xmountains -b -M -Z 0 -r 1		    \n\
+	    "XMountains (top)" 	xmountains -b -M -Z 0 -r 1 -m		    \n\
+				xplanet -vroot -wait 1 -timewarp 400	      \
+				  -label -origin moon			    \n\
+-				xsnow -bg SkyBlue3 -solidbg		    \n\
+  GL: 				fireflies -root				    \n\
+  GL: 				esper -root				    \n\
 
 
 pointerPollTime:    0:00:05
