@@ -117,6 +117,9 @@ for_window [title="Open Database File"] floating enable
 # Float Firefox pop-ups
 for_window [instance="Browser" class="Firefox"] floating enable
 
+# Float Firefox bookmarks window
+for_window [instance="Places" class="Firefox"] floating enable
+
 # For things like browser pop-ups
 for_window [window_role="pop-up"] floating enable
 

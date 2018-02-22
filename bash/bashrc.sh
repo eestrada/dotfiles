@@ -376,6 +376,12 @@ playbeep ()
 
 export -f playbeep
 
+rclone-sync-dropbox ()
+{
+    rclone sync --verbose --update --delete-after ~/Dropbox/ dropbox: ;
+    rclone sync --verbose --update --delete-after dropbox: ~/Dropbox/ ;
+}
+
 
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
