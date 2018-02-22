@@ -1,0 +1,7 @@
+SHELL=/bin/sh
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+# Order of crontab fields
+# minute	hour	mday	month	wday	command
+
+# non-standard cron macros, such as '@reboot'
+@reboot			/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase

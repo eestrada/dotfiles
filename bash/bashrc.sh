@@ -52,7 +52,11 @@ setaliases()
         alias ll="ls -slh";
     fi
     # User specific aliases
-    alias rm="rm -I --preserve-root";
+    if $(_is_freebsd); then
+        alias rm="rm -I";
+    else
+        alias rm="rm -I --preserve-root";
+    fi
     #alias mv="mv -u";
     #alias cp="cp -u"; # This has caused me too many headaches
     alias mkdir="mkdir -v";
