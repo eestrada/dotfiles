@@ -159,16 +159,16 @@ custvars()
 
     # Environment variables to declare
     export TEMP="/tmp";
-    if `which vim &>/dev/null`;
+    if $(which vim >/dev/null 2>&1);
     then
         export EDITOR="vim";
     else
         export EDITOR="vi";
     fi
 
-    if `which gvim >/dev/null 2>&1`;
+    if $(which vim >/dev/null 2>&1);
     then
-        export VISUAL="gvim --nofork";
+        export VISUAL="vim";
     else
         export VISUAL=${EDITOR};
     fi

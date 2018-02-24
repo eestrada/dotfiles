@@ -202,16 +202,18 @@ bar {
 exec --no-startup-id xfce4-notifyd
 
 # Startup programs
-# Blueman Bluetooth Manager
+# Blueman Bluetooth Manager (Fedora)
 exec --no-startup-id blueman-applet
+
+# Dropbox daemon (Fedora)
 exec --no-startup-id dropbox start -i
 
-#Keybase Filesystem Service and GUI
+# Keybase Filesystem Service and GUI (for Fedora)
 exec --no-startup-id "env KEYBASE_START_UI=hideWindow run_keybase"
 
 # Network manager applet
 exec --no-startup-id nm-applet  # Linux: https://wiki.gnome.org/Projects/NetworkManager
-exec --no-startup-id pc-nettray # FreeBSD: https://www.freshports.org/sysutils/pc-networkmanager/
+exec --no-startup-id networkmgr # FreeBSD: https://www.freshports.org/net-mgmt/networkmgr/
 
 exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id xdg-user-dirs-update
@@ -224,7 +226,7 @@ exec --no-startup-id xfce4-power-manager
 
 # Not sure that pulseaudio strictly needs to be on in FreeBSD to work properly,
 # but it does seem to be needed in Fedora Linux.
-exec --no-startup-id start-pulseaudio-x11
+# exec --no-startup-id start-pulseaudio-x11
 
 # This does NOT have a notification area applet. It ONLY allows the media keys
 # to be used to turn up/down the volume. It will show transient pop-up

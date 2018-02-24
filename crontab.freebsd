@@ -4,4 +4,5 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 # minute	hour	mday	month	wday	command
 
 # non-standard cron macros, such as '@reboot'
-@reboot			/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase
+@reboot						/usr/local/bin/docker-machine start
+@reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase
