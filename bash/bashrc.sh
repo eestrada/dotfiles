@@ -64,7 +64,6 @@ setaliases()
     alias gtar="tar --format=gnu";
     alias ustar="tar --format=ustar";
     alias ptar="tar --format=pax";
-    alias tar="tar --format=pax";
 
     alias c++="${CXX} -std=c++98";
     alias c99="${CC} -std=c99";
