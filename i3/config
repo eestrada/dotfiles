@@ -231,7 +231,14 @@ exec --no-startup-id xfce4-power-manager
 # This does NOT have a notification area applet. It ONLY allows the media keys
 # to be used to turn up/down the volume. It will show transient pop-up
 # notifications if they are supported.
-exec --no-startup-id xfce4-volumed
+# exec --no-startup-id xfce4-volumed
+
+# raise/lower volume with the volume keys. The mute key appears to not register
+# with X11. It is not a hardware thing either, because there is no muting
+# effect, even at a fundemental hardware level.
+bindsym XF86AudioRaiseVolume exec --no-startup-id "mixer vol +5 && pkill -SIGUSR1 i3status"
+bindsym XF86AudioLowerVolume exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status"
+# bindsym XF86AudioMute exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status"
 
 # Use xfce panel, because then we can have fancy notifications, etc.
 # exec --no-startup-id xfce4-panel --disable-wm-check
