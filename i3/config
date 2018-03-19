@@ -199,8 +199,9 @@ bar {
 }
 
 # Make sure we get pop up notifications in FreeBSD.
-# dunst is lightweight and desktop environment independed. Score!
-exec --no-startup-id dunst
+# dunst a is lightweight notification utility. It is also desktop environment
+# and toolkit independent.  Score!
+# exec --no-startup-id dunst
 
 # Startup programs
 # Blueman Bluetooth Manager (Fedora)
@@ -216,8 +217,8 @@ exec --no-startup-id "env KEYBASE_START_UI=hideWindow run_keybase"
 exec --no-startup-id nm-applet  # Linux: https://wiki.gnome.org/Projects/NetworkManager
 # exec --no-startup-id networkmgr # FreeBSD: https://www.freshports.org/net-mgmt/networkmgr/
 
-exec --no-startup-id xscreensaver -no-splash
-exec --no-startup-id xdg-user-dirs-update
+# exec --no-startup-id xscreensaver -no-splash
+# exec --no-startup-id xdg-user-dirs-update
 # exec --no-startup-id xfsettingsd
 
 # Be certain to call this first with the --customize flag in order to turn on

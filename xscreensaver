@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.38 for eestrada on Fri Feb 16 15:35:45 2018.
+# Written by xscreensaver-demo 5.38 for eestrada on Mon Mar 19 11:58:41 2018.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
@@ -24,11 +24,11 @@ fadeTicks:	20
 captureStderr:	False
 ignoreUninstalledPrograms:True
 font:		*-medium-r-*-140-*-m-*
-dpmsEnabled:	False
-dpmsQuickOff:	False
-dpmsStandby:	2:00:00
-dpmsSuspend:	2:00:00
-dpmsOff:	4:00:00
+dpmsEnabled:	True
+dpmsQuickOff:	True
+dpmsStandby:	0:15:00
+dpmsSuspend:	0:30:00
+dpmsOff:	1:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: True
