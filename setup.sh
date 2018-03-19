@@ -33,3 +33,4 @@ linknew  xscreensaver .xscreensaver
 linknew  i3/i3status.conf .i3status.conf
 linknew  i3 .i3
 linknew  xinitrc.sh .xinitrc
+linknew  Xmodmap .Xmodmap
