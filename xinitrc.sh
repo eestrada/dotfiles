@@ -23,6 +23,8 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
+XDG_CURRENT_DESKTOP="XFCE";
+export XDG_CURRENT_DESKTOP
 # start some nice programs
 
 # We use xscreensaver both to lock the screen, but also for its basic power
@@ -33,7 +35,7 @@ xscreensaver -no-splash &
 xdg-user-dirs-update &
 
 # Have numlock on at start up
-numlockx on $
+numlockx on
 
 # Make sure we get pop up notifications in FreeBSD.
 # dunst a is lightweight notification utility. It is also desktop environment

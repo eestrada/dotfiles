@@ -153,13 +153,13 @@
     ### Icons ###
 
     # Align icons left/right/off
-    icon_position = off
+    icon_position = left
 
     # Scale larger icons down to this size, set to 0 to disable
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_folders = /usr/local/share/icons/gnome/16x16/status/:/usr/local/share/icons/gnome/16x16/devices/
+    icon_folders = /usr/local/share/icons/gnome/32x32/emblems/:/usr/local/share/icons/gnome/32x32/status/:/usr/local/share/icons/gnome/32x32/devices/
 
     ### History ###
 
@@ -173,7 +173,7 @@
     ### Misc/Advanced ###
 
     # dmenu path.
-    dmenu = /usr/local/bin/dmenu -p dunst:
+    # dmenu = /usr/local/bin/dmenu -p dunst:
 
     # Browser for opening urls in context menu.
     # browser = /usr/bin/firefox -new-tab

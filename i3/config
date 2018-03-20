@@ -198,11 +198,6 @@ bar {
         status_command i3status --config ~/.i3status.conf
 }
 
-# Make sure we get pop up notifications in FreeBSD.
-# dunst a is lightweight notification utility. It is also desktop environment
-# and toolkit independent.  Score!
-# exec --no-startup-id dunst
-
 # Startup programs
 # Blueman Bluetooth Manager (Fedora)
 exec --no-startup-id blueman-applet
@@ -215,24 +210,6 @@ exec --no-startup-id "env KEYBASE_START_UI=hideWindow run_keybase"
 
 # Network manager applet
 exec --no-startup-id nm-applet  # Linux: https://wiki.gnome.org/Projects/NetworkManager
-# exec --no-startup-id networkmgr # FreeBSD: https://www.freshports.org/net-mgmt/networkmgr/
-
-# exec --no-startup-id xscreensaver -no-splash
-# exec --no-startup-id xdg-user-dirs-update
-# exec --no-startup-id xfsettingsd
-
-# Be certain to call this first with the --customize flag in order to turn on
-# the notification area applet
-# exec --no-startup-id xfce4-power-manager
-
-# Not sure that pulseaudio strictly needs to be on in FreeBSD to work properly,
-# but it does seem to be needed in Fedora Linux.
-# exec --no-startup-id start-pulseaudio-x11
-
-# This does NOT have a notification area applet. It ONLY allows the media keys
-# to be used to turn up/down the volume. It will show transient pop-up
-# notifications if they are supported.
-# exec --no-startup-id xfce4-volumed
 
 # raise/lower volume with the volume keys. The mute key appears to not register
 # with X11. It is not a hardware thing either, because there is no muting
