@@ -6,3 +6,4 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 # non-standard cron macros, such as '@reboot'
 @reboot						/usr/local/bin/docker-machine start >/dev/null
 @reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase
+@hourly						/usr/local/bin/rclone sync --update --delete-after ~/Dropbox/ dropbox: ; /usr/local/bin/rclone sync --update --delete-after dropbox: ~/Dropbox/
