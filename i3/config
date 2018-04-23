@@ -196,6 +196,10 @@ bindsym $mod+r mode "resize"
 bar {
         position bottom
         status_command i3status --config ~/.i3status.conf
+
+        # colors {
+        #     separator "#0000FF"
+        # }
 }
 
 # Startup programs

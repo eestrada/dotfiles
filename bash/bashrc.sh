@@ -7,7 +7,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-    source /etc/bashrc
+    . /etc/bashrc
 fi
 
 # User specific aliases and functions
@@ -25,7 +25,7 @@ echoerr()
 }
 
 # NOTE: make `echoerr` available to subprocesses and sub-shells
-export -f echoerr
+# export -f echoerr
 
 _is_freebsd()
 {
@@ -65,9 +65,9 @@ setaliases()
     alias ustar="tar --format=ustar";
     alias ptar="tar --format=pax";
 
-    alias c++="${CXX} -std=c++98";
-    alias c99="${CC} -std=c99";
-    alias c89="${CC} -std=c89";
+    # alias c++="${CXX} -std=c++98";
+    # alias c99="${CC} -std=c99";
+    # alias c89="${CC} -std=c89";
     #alias nospaces="rename -v \  _ ";
 
     # Do not create gvim swap files.
@@ -130,13 +130,13 @@ set_manpath()
 set_cc()
 {
     # Use clang if it exists, otherwise use gcc, otherwise use the system default
-    if `which clang &>/dev/null`;
+    if `which clang >/dev/null 2>&1`;
     then
         export CXX=clang++;
         export CC=clang;
         export CXXFLAGS="-pedantic -Wall";
         export CFLAGS="-pedantic -Wall";
-    elif `which gcc &>/dev/null`;
+    elif `which gcc  >/dev/null 2>&1`;
     then
         export CXX=g++;
         export CC=gcc;
@@ -179,8 +179,11 @@ custvars()
     # set_cc
 
     # Local variables
-    PS1="[\u@\h \W]\$ "; # Custom terminal prompt
+    # PS1="[\u@\h \W]\n$ "; # Custom terminal prompt
+    PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]\n$ ")';
     SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
+
+    [ "$(basename ${SHELL})" = 'mksh' ] && export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="2047"
 
     echoerr "Environment variables customized.";
 }
@@ -192,7 +195,7 @@ hfsinit()
 {
     if [ -d "${HFS}" ]; then
         cd ${HFS};
-        source ./houdini_setup;
+        . ./houdini_setup;
         cd - > /dev/null;
         # Modifying PYTHONPATH causes issues when switching Houdini versions
         #export PYTHONPATH=${PYTHONPATH}:${HH}/python2.6libs;
@@ -370,29 +373,39 @@ playbeep ()
 {
     # NOTE: try to use the sox play utility. Failing that, send a
     # regular old terminal 'bel' character.
-    play -n synth 0.1 sin 880 2>/dev/null || echo -ne "\a";
+    play -n synth 0.1 sin 880 2>/dev/null || print -n "\a";
 }
 
-export -f playbeep
+# export -f playbeep
 
-rclone-sync-dropbox ()
+rclone_sync_dropbox ()
 {
-    rclone sync --verbose --update --delete-after ~/Dropbox/ dropbox: ;
-    rclone sync --verbose --update --delete-after dropbox: ~/Dropbox/ ;
+    rclone copy --verbose --update dropbox: ~/Dropbox/ ;
+    rclone copy --verbose --update ~/Dropbox/ dropbox: ;
 }
 
+wlan_init ()
+{
+    # NOTE: for freebsd since for some reason loading this all at boot causes a
+    # kernel panic or something and the machine fails to boot. :(
+
+    sudo kldload if_iwm iwm3160fw ;
+    sudo service netif restart ;
+    sleep 20 ;
+    docker-machine restart ;
+}
 
 # Source local scripts
 if [ -e "${HOME}/.bashrc_local" ]; then
-    source ~/.bashrc_local;
+    . ~/.bashrc_local;
 fi
 
 if [ -e "${HOME}/.bashrc_local.sh" ]; then
-    source ~/.bashrc_local.sh;
+    . ~/.bashrc_local.sh;
 fi
 
 if [ -e "${HOME}/.bashrc-local.sh" ]; then
-    source ~/.bashrc-local.sh;
+    . ~/.bashrc-local.sh;
 fi
 
 # Functions to run
@@ -403,16 +416,16 @@ run_ssh
 refreshpath
 
 # The next line updates PATH for the Google Cloud SDK.
-[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && source "${HOME}/google-cloud-sdk/path.bash.inc";
+[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && . "${HOME}/google-cloud-sdk/path.bash.inc";
 
 # The next line enables shell command completion for gcloud.
-[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && source "${HOME}/google-cloud-sdk/completion.bash.inc";
+[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && . "${HOME}/google-cloud-sdk/completion.bash.inc";
 
 # Use Base16 syntax highlighting, if available
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
 
 # Use bash-completion, if available
-[ -n "$PS1" ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
+[ -n "$PS1" ] && [ "$(basename ${SHELL})" = 'bash' ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
 
 _canonical_home

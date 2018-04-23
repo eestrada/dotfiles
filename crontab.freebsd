@@ -1,4 +1,5 @@
 SHELL=/bin/sh
+HOME=/home/eestrada
 PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 # Order of crontab fields
 # minute	hour	mday	month	wday	command
@@ -6,4 +7,6 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 # non-standard cron macros, such as '@reboot'
 @reboot						/usr/local/bin/docker-machine start >/dev/null
 @reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase
-@hourly						/usr/local/bin/rclone sync --update --delete-after ~/Dropbox/ dropbox: ; /usr/local/bin/rclone sync --update --delete-after dropbox: ~/Dropbox/
+@reboot						/usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/logs/syncthing.log
+@reboot						/usr/local/bin/rclone copy --update ~/Dropbox/ dropbox: ; /usr/local/bin/rclone copy --update dropbox: ~/Dropbox/
+@hourly						/usr/local/bin/rclone copy --update ~/Dropbox/ dropbox: ; /usr/local/bin/rclone copy --update dropbox: ~/Dropbox/
