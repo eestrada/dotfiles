@@ -382,8 +382,9 @@ playbeep ()
 
 rclone_sync_dropbox ()
 {
-    rclone copy --verbose --update dropbox: ~/Dropbox/ ;
-    rclone copy --verbose --update ~/Dropbox/ dropbox: ;
+    # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
+    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' ~/Syncthing/Main/ dropbox: ;
+    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' dropbox: ~/Syncthing/Main/ ;
 }
 
 wlan_init ()
@@ -391,7 +392,7 @@ wlan_init ()
     # NOTE: for freebsd since for some reason loading this all at boot causes a
     # kernel panic or something and the machine fails to boot. :(
 
-    sudo kldload if_iwm iwm3160fw ;
+    sudo kldload iwm3160fw if_iwm ;
     sudo service netif restart ;
     sleep 20 ;
     docker-machine restart ;

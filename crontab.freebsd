@@ -6,7 +6,9 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
 # non-standard cron macros, such as '@reboot'
 @reboot						/usr/local/bin/docker-machine start >/dev/null
-@reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs mount' /keybase
+@reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs-mount' /keybase
 @reboot						/usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/logs/syncthing.log
-@reboot						/usr/local/bin/rclone copy --update ~/Dropbox/ dropbox: ; /usr/local/bin/rclone copy --update dropbox: ~/Dropbox/
-@hourly						/usr/local/bin/rclone copy --update ~/Dropbox/ dropbox: ; /usr/local/bin/rclone copy --update dropbox: ~/Dropbox/
+
+# NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
+@reboot						/usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' ~/Syncthing/Main/ dropbox: ; /usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' dropbox: ~/Syncthing/Main/
+@hourly						/usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' ~/Syncthing/Main/ dropbox: ; /usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' dropbox: ~/Syncthing/Main/
