@@ -36,6 +36,9 @@ linknew  Xmodmap .Xmodmap
 # linknew  Xdefaults .Xdefaults
 linknew  Xresources .Xresources
 linknew  Xresources.d .Xresources.d
+linknew  notestxtrc.sh .notestxtrc
+
+# ln -vs .mkshrc ~/.shrc
 
 # NOTE: nested folders under .config and similar
 # linknew  dunst .config/dunst  # FIXME: won't work because we can't do symlinks to nested folders yet
