@@ -1,5 +1,5 @@
 # .bashrc
-
+# vim: set syntax=sh:
 # Emacs stuff
 # Local Variables:
 # mode: sh
@@ -185,7 +185,7 @@ custvars()
     PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]\n$ ")';
     SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
 
-    [ "$(basename ${SHELL})" = 'mksh' ] && export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="2047"
+    [ "$(basename ${SHELL})" = 'mksh' ] && export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
 
     echoerr "Environment variables customized.";
 }
@@ -241,6 +241,17 @@ set_job()
     echoerr "Current JOB is: ${JOB}"
 }
 
+add_all_keys ()
+{
+    # Add default key
+    ssh-add;
+    # Add any private keys that have corresponding public keys
+    cd ~;
+    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/');
+    cd -;
+}
+
+
 # start the ssh-agent
 start_agent()
 {
@@ -250,13 +261,7 @@ start_agent()
     echoerr "succeeded";
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null;
-
-    # Add default key
-    ssh-add;
-    # Add any private keys that have corresponding public keys
-    cd ~;
-    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/');
-    cd -;
+    add_all_keys
 }
 
 # test for identities
