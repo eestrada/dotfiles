@@ -15,11 +15,11 @@ linknew()
     ln -vfs $(relpath ${1} ${2}) "${HOME}/${2}"
 }
 
-linknew  bash/bashrc.sh .shrc
-linknew  bash/bashrc.sh .mkshrc
-linknew  bash/bashrc.sh .bashrc
-linknew  bash/bash_logout.sh .bash_logout
-linknew  bash/bash_profile.sh .bash_profile
+linknew  sh/shrc.sh .shrc
+linknew  sh/shrc.sh .mkshrc
+linknew  sh/shrc.sh .bashrc
+linknew  sh/bash_logout.sh .bash_logout
+linknew  sh/bash_profile.sh .bash_profile
 linknew  emacs.el .emacs
 linknew  guile.scm .guile
 linknew  racketrc.rkt .racketrc
