@@ -18,6 +18,7 @@ linknew()
 linknew  sh/shrc.sh .shrc
 linknew  sh/shrc.sh .mkshrc
 linknew  sh/shrc.sh .bashrc
+linknew  sh/profile.sh .profile
 linknew  sh/bash_logout.sh .bash_logout
 linknew  sh/bash_profile.sh .bash_profile
 linknew  emacs.el .emacs
