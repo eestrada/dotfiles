@@ -88,14 +88,18 @@ setaliases()
 refreshpath()
 {
     # Modify PATH now that env vars are set
-    SYSPATH=${SYSPATH}:${PATH}
-    PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:${PATH};
-    PATH=/usr/local/sbin:/usr/local/bin:/usr/local/games:${PATH};
-    PATH=${HOME}/bin:${HOME}/usr/bin:${HOME}/usr/local/bin:${PATH};
-    PATH=${HOME}/sbin:${HOME}/usr/sbin:${HOME}/usr/local/sbin:${PATH};
-    PATH=${HOME}/.bin:${HOME}/.usr/bin:${HOME}/.usr/local/bin:${HOME}/.local/bin:${PATH};
-    PATH=${HOME}/.sbin:${HOME}/.usr/sbin:${HOME}/.usr/local/sbin:${HOME}/.local/sbin:${PATH};
-    # PATH=/usr/local/cuda/bin:/usr/local/cuda-6.5/bin:${PATH};
+    SYSPATH=${PATH}:${SYSPATH}
+
+    PATH=${HOME}/bin:${HOME}/sbin:${HOME}/games;
+    PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
+    PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games;
+    PATH=${PATH}:${HOME}/usr/local/bin:${HOME}/usr/local/sbin:${HOME}/usr/local/games;
+    PATH=${PATH}:${HOME}/.usr/bin:${HOME}/.usr/sbin:${HOME}/.usr/games;
+    PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
+    PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
+    PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
+    PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
+    PATH=${PATH}:/bin:/sbin;
     PATH=${PATH}:${SYSPATH}
 
     # Remove duplicate entries
