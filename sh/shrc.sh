@@ -441,3 +441,15 @@ BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ "$(basename ${SHELL})" = 'bash' ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
 
 _canonical_home
+
+# Automatically start TMUX for interactive terminals
+if which tmux >/dev/null 2>&1; then
+    # See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+    if [ -z "$TMUX" ] ; then
+        # see answer here: https://unix.stackexchange.com/a/26827/28898
+        case $- in
+          *i*) exec tmux new-session;;
+          *) ;;
+        esac
+    fi
+fi
