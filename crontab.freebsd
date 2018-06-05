@@ -8,6 +8,7 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 @reboot						/usr/local/bin/docker-machine start >/dev/null
 @reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs-mount' /keybase
 @reboot						/usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/logs/syncthing.log
+@reboot						/usr/local/bin/vdirsyncer sync > /dev/null
 
 # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
 @reboot						/usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' ~/Syncthing/Main/ dropbox: ; /usr/local/bin/rclone copy --update --modify-window='3s' --exclude='.st*/' dropbox: ~/Syncthing/Main/
