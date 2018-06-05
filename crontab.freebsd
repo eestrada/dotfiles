@@ -1,6 +1,9 @@
 SHELL=/bin/sh
 HOME=/home/eestrada
 PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+LANG="en_US.UTF-8"; export LANG
+CHARSET="UTF-8";    export CHARSET
+
 # Order of crontab fields
 # minute	hour	mday	month	wday	command
 
