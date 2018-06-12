@@ -404,7 +404,15 @@ wlan_init ()
     sudo kldload iwm3160fw if_iwm ;
     sudo service netif restart ;
     sleep 20 ;
-    docker-machine restart ;
+    # docker-machine restart ;
+}
+
+docker_machine_init ()
+{
+    docker-machine start
+    docker-machine restart # NOTE: in case it was already running before
+    eval $(docker-machine env)
+    export DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
 }
 
 # Source local scripts
