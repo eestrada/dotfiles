@@ -19,7 +19,7 @@ _canonical_home ()
 }
 
 # echo command, but to stderr instead of stdout
-echoerr()
+echoerr ()
 {
     echo "$@"  1>&2;
 }
@@ -27,7 +27,7 @@ echoerr()
 # NOTE: make `echoerr` available to subprocesses and sub-shells
 # export -f echoerr
 
-_is_freebsd()
+_is_freebsd ()
 {
     if [ $(uname -s) = "FreeBSD" ]; then
         return 0
@@ -36,13 +36,13 @@ _is_freebsd()
     fi
 }
 
-dush()
+dush ()
 {
     du --max-depth=1 -h "$@" | sort -h;
 }
 
 # Set any custom aliases
-setaliases()
+setaliases ()
 {
     if $(_is_freebsd); then
         alias ls="ls -G";
@@ -85,7 +85,7 @@ setaliases()
 }
 
 # Set custom path. SYSPATH variable should exist
-refreshpath()
+refreshpath ()
 {
     # Modify PATH now that env vars are set
     SYSPATH=${PATH}:${SYSPATH}
@@ -122,7 +122,7 @@ refreshpath()
 }
 
 
-set_manpath()
+set_manpath ()
 {
     echoerr $MANPATH;
     oldman=$MANPATH;
@@ -133,7 +133,7 @@ set_manpath()
     unset oldman;
 }
 
-set_cc()
+set_cc ()
 {
     # Use clang if it exists, otherwise use gcc, otherwise use the system default
     if `which clang >/dev/null 2>&1`;
@@ -157,7 +157,7 @@ set_cc()
 }
 
 # Set any custom variables
-custvars()
+custvars ()
 {
     # Environment Variables to unset
     unset SSH_ASKPASS; # Don't pop up gui password window for SSH
@@ -197,7 +197,7 @@ custvars()
 # Set up any Houdini specific env
 
 # Function for general initialization of Houdini
-hfsinit()
+hfsinit ()
 {
     if [ -d "${HFS}" ]; then
         cd ${HFS};
@@ -208,37 +208,37 @@ hfsinit()
     fi
 }
 
-hcurrent()
+hcurrent ()
 {
     export HFS="/opt/hfs.current";
     hfsinit;
 }
 
-h130init()
+h130init ()
 {
     export HFS="/opt/hfs13.0.current";
     hfsinit;
 }
 
-h125init()
+h125init ()
 {
     export HFS="/opt/hfs12.5.current";
     hfsinit;
 }
 
-h121init()
+h121init ()
 {
     export HFS="/opt/hfs12.1.current";
     hfsinit;
 }
 
-h111init()
+h111init ()
 {
     export HFS="/opt/hfs11.1.current";
     hfsinit;
 }
 
-set_job()
+set_job ()
 {
     echoerr "Previous JOB was: ${JOB}"
     export JOB=$(pwd);
@@ -257,7 +257,7 @@ add_all_keys ()
 
 
 # start the ssh-agent
-start_agent()
+start_agent ()
 {
     echoerr "Initializing new SSH agent...";
     # spawn ssh-agent
@@ -443,7 +443,7 @@ refreshpath
 
 # Use Base16 syntax highlighting, if available
 BASE16_SHELL=$HOME/.base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 1;
 
 # Use bash-completion, if available
 [ -n "$PS1" ] && [ "$(basename ${SHELL})" = 'bash' ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
