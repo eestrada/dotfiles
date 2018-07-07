@@ -8,12 +8,17 @@ CHARSET="UTF-8"
 # Order of crontab fields
 # minute	hour	mday	month	wday	command
 
-# non-standard cron macros, such as '@reboot'
+# All the things that only run at '@reboot'
 # @reboot						/usr/local/bin/docker-machine start >/dev/null
 @reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs-mount' /keybase
 @reboot						/usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/logs/syncthing.log
 @reboot						/usr/local/bin/vdirsyncer sync > /dev/null
+@reboot						cd ${HOME}/tmp/ && find . -delete
+
+# All the things that only run at '@hourly'
 @hourly						${HOME}/local/bin/backup_passwd_db.sh
+
+# Commands that run at mixed times
 @reboot						${HOME}/local/bin/backup_wiki.sh
 @daily						${HOME}/local/bin/backup_wiki.sh
 
