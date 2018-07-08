@@ -25,8 +25,8 @@ fi
 
 # start some nice programs
 
-# set the background image (requires graphics/feh in freebsd)
-sh ~/.fehbg || feh --bg-fill /usr/local/share/wallpapers/local/black1x1.png &
+# set the background to pure black
+xsetroot -solid black &
 
 # We use xscreensaver both to lock the screen and for its basic power
 # management functionality.
