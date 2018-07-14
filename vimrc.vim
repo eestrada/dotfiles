@@ -24,9 +24,10 @@ set numberwidth=4 "Minimal number of columns to use for the line number.
 set backspace=2 "make backspace work line most other apps
 
 "Tab Settings
-set expandtab "Use the appropriate number of spaces to insert a	<Tab>.
-set softtabstop=4 "Number of spaces that a <Tab> counts for while editing.
-set tabstop=4 "Number of spaces that a <Tab> in the file counts for.
+"set expandtab "Use the appropriate number of spaces to insert a	<Tab>.
+set noexpandtab "Messes up Makefiles and stuff. Just hit spacebar a few extra times.
+set softtabstop=8 "Number of spaces that a <Tab> counts for while editing.
+set tabstop=8 "Number of spaces that a <Tab> in the file counts for.
 
 "System friendly settings
 "Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
