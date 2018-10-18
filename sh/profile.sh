@@ -23,6 +23,11 @@ fi
 export EDITOR="vi";
 export PAGER="more";
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
 # set ENV to a file invoked each time sh is started for interactive use.
 if [ "$(basename ${SHELL})" = 'mksh' ]
 then
@@ -35,3 +40,9 @@ else
 fi
 
 if [ -x /usr/bin/fortune ] ; then /usr/bin/fortune freebsd-tips && echo ; fi
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
