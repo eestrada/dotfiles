@@ -421,7 +421,8 @@ wlan_init ()
 
     sudo kldload iwm3160fw if_iwm ;
     sudo service netif restart ;
-    sleep 20 ;
+    sleep 10 ;
+    sudo service wpa_supplicant restart wlan0;
     # docker-machine restart ;
 }
 

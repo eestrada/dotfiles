@@ -12,16 +12,18 @@ CHARSET="UTF-8"
 # @reboot						/usr/local/bin/docker-machine start >/dev/null
 @reboot						/usr/local/bin/keybase login ; /usr/local/bin/kbfsfuse -label 'kbfs-mount' /keybase
 @reboot						/usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/logs/syncthing.log
-@reboot						/usr/local/bin/vdirsyncer sync > /dev/null
 @reboot						cd ${HOME}/tmp/ && find . -delete
 
 # All the things that only run at '@hourly'
 @hourly						${HOME}/local/bin/backup_passwd_db.sh
 
 # Commands that run at mixed times
-@reboot						${HOME}/local/bin/backup_wiki.sh
+@reboot						/bin/sleep 3600 && ${HOME}/local/bin/backup_wiki.sh
 @daily						${HOME}/local/bin/backup_wiki.sh
 
+@reboot						/bin/sleep 3600 && /usr/local/bin/vdirsyncer sync > /dev/null
+@daily						/usr/local/bin/vdirsyncer sync > /dev/null
+
 # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
-@reboot						/usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
+@reboot						/bin/sleep 1800 && /usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
 @hourly						/usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:

@@ -87,6 +87,10 @@ bindsym $mod+e layout toggle split
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
+# NOTE: to find the instance and class of an X11 window, run `xprop | grep
+# WM_CLASS`, then select the window you want to learn about. The first field is
+# the instance type and the second is the class type.
+
 # Float Pulseaudio settings manager
 for_window [instance="paman" class="Paman"] floating enable
 
@@ -111,6 +115,9 @@ for_window [instance="git-gui" class="Git-gui"] floating enable
 # Float KeePass
 for_window [instance="keepass2" class="KeePass2"] floating enable
 
+# Float KeePassX
+for_window [instance="keepassx" class="Keepassx"] floating enable
+
 # Float KeePass Open dialog
 for_window [title="Open Database File"] floating enable
 
@@ -119,6 +126,9 @@ for_window [instance="Browser" class="Firefox"] floating enable
 
 # Float Firefox bookmarks window
 for_window [instance="Places" class="Firefox"] floating enable
+
+# Float Ibus ui and Emoji picker
+for_window [instance="ibus-ui-gtk3" class="Ibus-ui-gtk3"] floating enable
 
 # For things like browser pop-ups
 for_window [window_role="pop-up"] floating enable
