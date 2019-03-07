@@ -95,8 +95,8 @@ setaliases ()
     # Do not create gvim swap files.
     alias gvimn="gvim -n -p";
 
-    # Make diff nicer for interactive usage
-    alias diff='diff --unified=3 --report-identical-files';
+    # Make diff print in an easier to read format by default
+    alias diff='diff --unified=3';
 
     # I often forget the rsync flags I like for backups, so let's just
     # bake them into an alias. Ignore obvious temporary files.
