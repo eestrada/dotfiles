@@ -55,7 +55,12 @@ _is_freebsd ()
 
 dush ()
 {
-    du --max-depth=1 -h "$@" | sort -h;
+    du -d 1 -h "$@" | sort -h;
+}
+
+find_dupes_in_cwd ()
+{
+    find ./ -type f -print0 | xargs -0 sha256 | sort -k 4 | uniq -d -f 3
 }
 
 # Set any custom aliases
@@ -204,7 +209,7 @@ custvars ()
 
     # Local variables
     # PS1="[\u@\h \W]\n$ "; # Custom terminal prompt
-    PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]\n$ ")';
+    PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]$ ")';
     SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
 
     [ "$(basename ${SHELL})" = 'mksh' ] && export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
