@@ -1,18 +1,35 @@
+Environment variables customized.
+Path has been refreshed.
 #!/bin/sh
 
 set -e
 
+
 relpath()
 {
-    python3 -c "import os, sys; sys.stdout.write(os.path.relpath('${PWD}/${1}', '${HOME}'))";
-    # echo 1>&2
+    _py_script=$(cat <<EOF
+import os, sys
+
+cwd = os.path.realpath('${PWD}')
+arg1 = os.path.join(cwd, '${1}')
+home = os.path.realpath('${HOME}')
+relpath = os.path.relpath(arg1, home)
+sys.stdout.write(relpath)
+EOF
+)
+    echo "${_py_script}" | python3 -
+}
+
+joinpath()
+{
+    python3 -c "import os, sys; sys.stdout.write(os.path.join('${1}', '${2}'))";
 }
 
 linknew()
 {
     # TODO: prompt for each call (defaulting to yes).
     test -e "${HOME}/${2}" && mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
-    ln -vfs $(relpath ${1} ${2}) "${HOME}/${2}"
+    ln -vfs "$(relpath ${1} ${2})" "$(joinpath ${HOME} ${2})"
 }
 
 linknew  sh/shrc.sh .shrc
