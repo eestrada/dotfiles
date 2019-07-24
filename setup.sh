@@ -1,5 +1,3 @@
-Environment variables customized.
-Path has been refreshed.
 #!/bin/sh
 
 set -e
