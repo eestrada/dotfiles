@@ -1,0 +1,16 @@
+# check for package updates daily and system updates weekly
+# Emails user if there are updates. Must be run as root.
+# On FreeBSD, copy to /etc/cron.d/crontab.updates
+SHELL=/bin/sh
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin
+#
+#minute	hour	mday	month	wday	who	command
+#
+# Check for freebsd updates, download them, and mail root.
+#15	11	*	*	3	root	/bin/sleep 600; /usr/sbin/freebsd-update cron
+@reboot					root	/bin/sleep 600 && /usr/sbin/freebsd-update cron
+@daily					root	/bin/sleep 600 && /usr/sbin/freebsd-update cron
+# Check for binary package updates, download them, and mail root.
+#1	12	*	*	*	root	/bin/sleep 600; /usr/local/sbin/pkg upgrade --quiet --dry-run
+@reboot					root	/bin/sleep 600 && /usr/local/sbin/pkg upgrade --quiet --dry-run
+@daily					root	/bin/sleep 600 && /usr/local/sbin/pkg upgrade --quiet --dry-run
