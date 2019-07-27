@@ -118,6 +118,9 @@ for_window [instance="keepass2" class="KeePass2"] floating enable
 # Float KeePassX
 for_window [instance="keepassx" class="Keepassx"] floating enable
 
+# Float KeePassXC
+for_window [instance="keepassxc" class="keepassxc"] floating enable
+
 # Float KeePass Open dialog
 for_window [title="Open Database File"] floating enable
 
