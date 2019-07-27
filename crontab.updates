@@ -1,4 +1,4 @@
-# check for package updates daily and system updates weekly
+# check for package and system updates daily
 # Emails user if there are updates. Must be run as root.
 # On FreeBSD, copy to /etc/cron.d/crontab.updates
 SHELL=/bin/sh
