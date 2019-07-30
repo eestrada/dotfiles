@@ -1,6 +1,8 @@
 # check for package and system updates daily
 # Emails user if there are updates. Must be run as root.
 # On FreeBSD, copy to /etc/cron.d/crontab.updates
+# Also, restart cron with `service cron restart` to pick up changes.
+
 SHELL=/bin/sh
 PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin
 #
@@ -13,3 +15,8 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin
 # Check for binary package updates, download them, and mail root.
 @reboot					root	/bin/sleep 600 && /usr/local/sbin/pkg upgrade --quiet --dry-run
 @daily					root	/bin/sleep 600 && /usr/local/sbin/pkg upgrade --quiet --dry-run
+
+# Check for ports updates, download them, and mail root.
+#@reboot					root	/usr/sbin/portsnap cron && /usr/sbin/portsnap -I update && /usr/local/sbin/pkg version -l '<'
+#@daily					root	/usr/sbin/portsnap cron && /usr/sbin/portsnap -I update && /usr/local/sbin/pkg version -l '<'
+
