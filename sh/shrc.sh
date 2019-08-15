@@ -7,8 +7,7 @@
 
 # Use Base16 syntax highlighting, if available
 BASE16_SHELL=$HOME/.base16-shell/
-# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)";
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 1;
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 0.1
 
 # Automatically start TMUX for interactive terminals
 if which tmux >/dev/null 2>&1; then
@@ -16,7 +15,7 @@ if which tmux >/dev/null 2>&1; then
     if [ -z "$TMUX" ] ; then
         # see answer here: https://unix.stackexchange.com/a/26827/28898
         case $- in
-          *i*) exec tmux new-session;;
+          *i*) tmux new-session && exit;;
           *) ;;
         esac
     fi
@@ -30,26 +29,10 @@ fi
 # User specific aliases and functions
 _canonical_home ()
 {
+    # NOTE: on FreeBSD, /home is actually just a symlink to /usr/home. Here we
+    # detect this and get us back home... which is actually /home.
     if [ "$(pwd)" -ef "${HOME}" ] && [ "$(pwd)" '!=' "${HOME}" ]; then
-        cd "${HOME}";
-    fi
-}
-
-# echo command, but to stderr instead of stdout
-echoerr ()
-{
-    echo "$@"  1>&2;
-}
-
-# NOTE: make `echoerr` available to subprocesses and sub-shells
-# export -f echoerr
-
-_is_freebsd ()
-{
-    if [ $(uname -s) = "FreeBSD" ]; then
-        return 0
-    else
-        return 1
+        cd "${HOME}" >/dev/null;
     fi
 }
 
@@ -66,21 +49,23 @@ find_dupes_in_cwd ()
 # Set any custom aliases
 setaliases ()
 {
-    if $(_is_freebsd); then
+    if [ $(uname -s) = "FreeBSD" ]; then
         alias ls="ls -G";
         alias ll="ls -Gslh";
     else
         alias ls="ls --color=auto";
         alias ll="ls -slh";
     fi
+
     # User specific aliases
-    if $(_is_freebsd); then
+    if [ $(uname -s) = "FreeBSD" ]; then
         alias rm="rm -I";
     else
         alias rm="rm -I --preserve-root";
     fi
-    #alias mv="mv -u";
-    #alias cp="cp -u"; # This has caused me too many headaches
+
+    # alias mv="mv -u";
+    # alias cp="cp -u"; # This has caused me too many headaches
     alias mkdir="mkdir -v";
     alias dus="du --max-depth=1";
     alias gtar="tar --format=gnu";
@@ -102,57 +87,17 @@ setaliases ()
     # bake them into an alias. Ignore obvious temporary files.
     alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'";
 
-    # Make colors work right, dagnabit!
+    # Make colors work right in tmux, dagnabit!
     alias tmux='tmux -2';
 }
 
-# Set custom path. SYSPATH variable should exist
-refreshpath ()
+# Cause tmux to have a "dirty" exit so that we fall back to a bare shell
+# instead of exiting entirely from the terminal, which is the default on a
+# clean tmux exit. Probably don't use this, as it exits not only the current
+# client, but also kills the tmux server as well. :(
+tmux_exit ()
 {
-    # Modify PATH now that env vars are set
-    SYSPATH=${PATH}:${SYSPATH}
-
-    PATH=${HOME}/bin:${HOME}/sbin:${HOME}/games;
-    PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
-    PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games;
-    PATH=${PATH}:${HOME}/usr/local/bin:${HOME}/usr/local/sbin:${HOME}/usr/local/games;
-    PATH=${PATH}:${HOME}/.usr/bin:${HOME}/.usr/sbin:${HOME}/.usr/games;
-    PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
-    PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
-    PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
-    PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
-    PATH=${PATH}:/bin:/sbin;
-    PATH=${PATH}:${SYSPATH}
-
-    # Remove duplicate entries
-    IFS=:
-    old_PATH=$PATH:; PATH=
-    while [ -n "$old_PATH" ]; do
-      x=${old_PATH%%:*}       # the first remaining entry
-      case ${PATH}: in
-        *:${x}:*) :;;         # already there
-        *) PATH=$PATH:$x;;    # not there yet
-      esac
-      old_PATH=${old_PATH#*:}
-    done
-    PATH=${PATH#:}
-    unset IFS old_PATH x
-
-    export PATH;
-
-    echoerr "Path has been refreshed.";
-}
-
-
-set_manpath ()
-{
-    echoerr $MANPATH;
-    oldman=$MANPATH;
-    unset MANPATH;
-    echoerr $(manpath);
-    export MANPATH="$(manpath):~/.usr/local/share/man:$oldman";
-    echoerr $MANPATH;
-    unset oldman;
+    kill -s TERM $PPID
 }
 
 set_cc ()
@@ -178,44 +123,6 @@ set_cc ()
     fi
 }
 
-# Set any custom variables
-custvars ()
-{
-    # Environment Variables to unset
-    unset SSH_ASKPASS; # Don't pop up gui password window for SSH
-
-    # Environment variables to declare
-    export TEMP="/tmp";
-    if $(which vim >/dev/null 2>&1);
-    then
-        export EDITOR="vim";
-    else
-        export EDITOR="vi";
-    fi
-
-    if $(which vim >/dev/null 2>&1);
-    then
-        export VISUAL="vim";
-    else
-        export VISUAL=${EDITOR};
-    fi
-
-    export PAGER="less";
-    export LESS='-IMRXF';
-    export GPG_TTY="$(tty)";
-
-    # don't use set_cc by default
-    # set_cc
-
-    # Local variables
-    # PS1="[\u@\h \W]\n$ "; # Custom terminal prompt
-    PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]$ ")';
-    SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
-
-    [ "$(basename ${SHELL})" = 'mksh' ] && export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
-
-    echoerr "Environment variables customized.";
-}
 
 # Set up any Houdini specific env
 
@@ -263,79 +170,9 @@ h111init ()
 
 set_job ()
 {
-    echoerr "Previous JOB was: ${JOB}"
+    echo "Previous JOB was: ${JOB}" 1>&2
     export JOB=$(pwd);
-    echoerr "Current JOB is: ${JOB}"
-}
-
-add_all_keys ()
-{
-    # Add default key
-    ssh-add;
-    # Add any private keys that have corresponding public keys
-    cd ~;
-    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/');
-    cd -;
-}
-
-
-# start the ssh-agent
-start_agent ()
-{
-    echoerr "Initializing new SSH agent...";
-    # spawn ssh-agent
-    ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}";
-    echoerr "succeeded";
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null;
-    add_all_keys
-}
-
-# test for identities
-test_identities ()
-{
-    # test whether standard identities have been added to the agent already
-    ssh-add -l | grep "The agent has no identities" > /dev/null;
-    if [ $? -eq 0 ]; then
-        ssh-add
-        # ${SSH_AUTH_SOCK} broken so we start a new proper agent
-        if [ $? -eq 2 ];then
-            start_agent
-        fi
-    fi
-}
-
-_ps_all ()
-{
-    if $(_is_freebsd); then
-        ps -auxw;
-    else
-        ps -ef;
-    fi
-}
-
-run_ssh ()
-{
-    # check for running ssh-agent with proper $SSH_AGENT_PID
-    if [ -n "${SSH_AGENT_PID}" ]; then
-        _ps_all | grep "${SSH_AGENT_PID}" | grep ssh-agent > /dev/null;
-        if [ $? -eq 0 ]; then
-        test_identities;
-        fi
-    # if ${SSH_AGENT_PID} is not properly set, we might be able to load one from
-    # ${SSH_ENV}
-    else
-        if [ -f "${SSH_ENV}" ]; then
-            . "${SSH_ENV}" > /dev/null;
-        fi
-
-        _ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent > /dev/null;
-        if [ $? -eq 0 ]; then
-            test_identities;
-        else
-            start_agent;
-        fi
-    fi
+    echo "Current JOB is: ${JOB}" 1>&2
 }
 
 racket_install ()
@@ -363,13 +200,10 @@ racket_install ()
     chmod a+x ${plt_local};
 
     echo "We are about to execute the following command: 'sudo ${plt_local} --in-place --dest ${dest} ${create_links}'";
+    echo "Mash Ctrl-c within the next 10 seconds to cancel..."
+    sleep 10
     echo "Do you want to proceed? (select your choice by number)"
-    select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) sudo ${plt_local} --in-place --dest ${dest} ${create_links}; break;;
-        No ) return 1;;
-    esac
-    done
+    sudo ${plt_local} --in-place --dest ${dest} ${create_links}
 }
 
 racket_repl ()
@@ -410,8 +244,6 @@ playbeep ()
     play -n synth 0.1 sin 880 2>/dev/null || print -n "\a";
 }
 
-# export -f playbeep
-
 rclone_sync_dropbox ()
 {
     # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
@@ -424,11 +256,27 @@ wlan_init ()
     # NOTE: for freebsd since for some reason loading this all at boot causes a
     # kernel panic or something and the machine fails to boot. :(
 
-    sudo kldload iwm3160fw if_iwm ;
-    sudo service netif restart ;
-    sleep 10 ;
-    sudo service wpa_supplicant restart wlan0;
-    # docker-machine restart ;
+    # NOTE: after upgrading from FreeBSD 11.1 to 12.0 it now seems that the
+    # proper kernal modules are automatically loaded on init now. However, link
+    # aggregation is broken since the wlan0 device is not created and/or active
+    # when link aggregation tries to add it... or something; I'm not 100%
+    # certain why  it is failing yet, but that just seems like what it is from
+    # the print outs from boot and init. Restarting netif is still required.
+    # Not sure if restarting wpa_supplicant is necessary anymore (it doesn't
+    # seem to be after the upgrade), but other than a few seconds of down time,
+    # it doesn't seem to hurt anything.
+
+    # NOTE: now that I dynamically load the correct kernal modules in rc.conf
+    # (via kld_list) everything works. wlan, link aggregation, everything. None
+    # of this code is really necessary anymore. I will keep it around for now
+    # until I can test using wi-fi away from home just to make sure
+    # wpa_supplicant is working as expected.
+
+    # sudo kldload iwm3160fw if_iwm
+    sudo service netif restart
+    sleep 10
+    sudo service wpa_supplicant restart wlan0
+    # docker-machine restart
 }
 
 docker_machine_init ()
@@ -439,36 +287,61 @@ docker_machine_init ()
     export DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
 }
 
-# Source local scripts
-if [ -e "${HOME}/.bashrc_local" ]; then
-    . ~/.bashrc_local;
-fi
+interactive_vars ()
+{
+    # Terminal variables
+    # Custom terminal prompt
+    if [ "$(basename ${SHELL})" = 'bash' ]; then
+        PS1="[\u@\h \W]"
+    elif [ "$(basename ${SHELL})" = 'mksh' ]; then
+        PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]")'
+        export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
+    else
+        # Assume /bin/sh or something compatible
+        PS1="[$(whoami)@\h \W]"
+    fi
 
-if [ -e "${HOME}/.bashrc_local.sh" ]; then
-    . ~/.bashrc_local.sh;
-fi
+    # Trailing character of PS1 determined on whether we are currently root or not
+    case `id -u` in
+        0) PS1="${PS1}# ";;
+        *) PS1="${PS1}$ ";;
+    esac
+}
 
-if [ -e "${HOME}/.bashrc-local.sh" ]; then
-    . ~/.bashrc-local.sh;
+# final bash specific stuff
+if [ "$(basename ${SHELL})" = 'bash' ];
+then
+    # Source local scripts
+    if [ -e "${HOME}/.bashrc_local" ]; then
+        . ~/.bashrc_local;
+    fi
+
+    if [ -e "${HOME}/.bashrc_local.sh" ]; then
+        . ~/.bashrc_local.sh;
+    fi
+
+    if [ -e "${HOME}/.bashrc-local.sh" ]; then
+        . ~/.bashrc-local.sh;
+    fi
+
+    # Use bash-completion, if available
+    [ -n "$PS1" ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
+
+    # update PATH for the Google Cloud SDK.
+    [ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/path.bash.inc" ] && . "${HOME}/google-cloud-sdk/path.bash.inc";
+
+    # enable bash command completion for gcloud.
+    [ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && . "${HOME}/google-cloud-sdk/completion.bash.inc";
 fi
 
 # Functions to run
-custvars
 setaliases
-
-run_ssh
-refreshpath
-
-# The next line updates PATH for the Google Cloud SDK.
-[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && . "${HOME}/google-cloud-sdk/path.bash.inc";
-
-# The next line enables shell command completion for gcloud.
-[ -n "$PS1" ] && [ -s "${HOME}/google-cloud-sdk/completion.bash.inc" ] && . "${HOME}/google-cloud-sdk/completion.bash.inc";
-
-# Use bash-completion, if available
-[ -n "$PS1" ] && [ "$(basename ${SHELL})" = 'bash' ] && [ -s /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion;
-
+interactive_vars
 _canonical_home
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# Load RVM into a shell session *as a function*
+[ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
+

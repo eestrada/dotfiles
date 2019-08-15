@@ -1,9 +1,20 @@
 #!/bin/sh
 
+# Source our environment. For example, this makes sure applications like dmenu
+# see our customized PATH pointing to executables in our home directory, and so
+# on. Otherwise we just get the basic default PATH set up by the system.
+. $HOME/.profile
+
+# FIXME: set "XDG_CURRENT_DESKTOP" variable
+# https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
+# NOTE: force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
+export XDG_CURRENT_DESKTOP=XFCE
+
 sysresources=/usr/local/etc/X11/xinit/.Xresources
 sysmodmap=/usr/local/etc/X11/xinit/.Xmodmap
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
+xinitrclocal=$HOME/.xinitrc_local.sh
 
 # merge in defaults and keymaps
 
@@ -21,6 +32,10 @@ fi
 
 if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
+fi
+
+if [ -f "$xinitrclocal" ]; then
+    . "$xinitrclocal"
 fi
 
 # start some nice programs
