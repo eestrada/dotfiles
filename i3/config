@@ -30,7 +30,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -215,6 +215,18 @@ bar {
         # }
 }
 
+# Assign workspaces to specific screens
+workspace 1 output eDP1
+workspace 2 output eDP1
+workspace 3 output eDP1
+workspace 4 output HDMI1
+workspace 5 output HDMI1
+workspace 6 output HDMI1
+workspace 7 output HDMI1
+workspace 8 output HDMI1
+workspace 9 output HDMI1
+workspace 10 output HDMI1
+
 # Startup programs
 # Blueman Bluetooth Manager (Fedora)
 exec --no-startup-id blueman-applet
@@ -228,12 +240,13 @@ exec --no-startup-id "env KEYBASE_START_UI=hideWindow run_keybase"
 # Network manager applet
 exec --no-startup-id nm-applet  # Linux: https://wiki.gnome.org/Projects/NetworkManager
 
+# I always start up a terminal anyway. Just make it automatically happen on workspace 1
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-terminal'
+
 # raise/lower volume with the volume keys. The mute key appears to not register
 # with X11. It is not a hardware thing either, because there is no muting
 # effect, even at a fundemental hardware level.
-bindsym XF86AudioRaiseVolume exec --no-startup-id "mixer vol +5 && pkill -SIGUSR1 i3status"
-bindsym XF86AudioLowerVolume exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "mixer vol +5 && pkill -SIGUSR1 i3status && dunstify -u low -i audio-volume-high -r 12345 Volume $(mixer vol | sed -E -e 's/Mixer vol.*set to\s*(\d*)/\1/g')"
+bindsym XF86AudioLowerVolume exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status && dunstify -u low -i audio-volume-low  -r 12345 Volume $(mixer vol | sed -E -e 's/Mixer vol.*set to\s*(\d*)/\1/g')"
 # bindsym XF86AudioMute exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status"
 
-# FIXME: set "XDG_CURRENT_DESKTOP" variable
-# https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
