@@ -2,6 +2,12 @@
 export SHELL="/bin/sh"
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
 
+# this function is not useful now, but is potentially useful in the future
+hdmi1_state ()
+{
+    xrandr -q | grep HDMI1 | cut -w -f2
+}
+
 # We'll just run this on everybody's Xorg session to make sure we don't miss anyone.
 _users="$(who | cut -w -f1 | sort --unique)"
 
