@@ -19,3 +19,23 @@ echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr 
 # Let all logged in users know that something changed.
 echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-send 'Auto adjusted for monitor change' 'Use the xrandr CLI tool to query new state or make adjustments'
 
+# # Below is the devd.conf entry for HDMI connect/disconnect used to run this script
+# # Below is what we get when we run `telnet /var/run/devd.pipe`. It is the same message for connection and disconnection
+# #
+# # !system=DRM subsystem=CONNECTOR type=HOTPLUG cdev=dri/card0
+# #
+#
+# # XXX: Matching on 'type HOTPLUG' does not work for some reason. We don't
+# # strictly need it because is seems like the system and sybsystem never
+# # generate any events other than notifying that the HDMI cable has been
+# # connected/disconnected. Even if/when we did pick up other events, running the
+# # xrandr script would not really hurt anything (other than a few wasted
+# # cycles).
+# notify 100 {
+# 	match "system"		"DRM";
+# 	match "subsystem"	"CONNECTOR";
+# 	# match "type"		"HOTPUG";
+# 	match "cdev"		"dri/card0";
+# 	action "/home/eestrada/local/bin/xrandr_default_action.sh";
+# };
+#
