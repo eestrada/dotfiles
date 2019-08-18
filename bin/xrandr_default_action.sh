@@ -3,6 +3,7 @@ export SHELL="/bin/sh"
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
 
 # this function is not useful now, but is potentially useful in the future
+# The two potential return values are 'connected' and 'disconnected'
 hdmi1_state ()
 {
     xrandr -q | grep HDMI1 | cut -w -f2
