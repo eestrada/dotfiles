@@ -292,8 +292,15 @@ dotenv_src ()
     # Source and export environment variables from a dotenv file. Should work
     # in all bourne compatible shells.
 
+    # If no file is given, default to '.env'
+    if [ -n "$1" ]; then
+        filename="$1"
+    else
+        filename=".env"
+    fi
+
     # grep removes all blank and commented out lines
-    export $(grep -vE '^#|^$' "$1" | xargs -0)
+    export $(grep -vE '^#|^$' "$filename" | xargs -0)
 }
 
 dotenv_unsrc ()
@@ -301,9 +308,16 @@ dotenv_unsrc ()
     # Unset any variable names found in a given dotenv file wihin the current
     # scope. Should work in all bourne compatible shells.
 
+    # If no file is given, default to '.env'
+    if [ -n "$1" ]; then
+        filename="$1"
+    else
+        filename=".env"
+    fi
+
     # grep removes all blank and commented out lines
     # sed grabs all variable names and ignores variable values
-    unset $(grep -vE '^#|^$' "$1" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
+    unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
 }
 
 interactive_vars ()
