@@ -287,6 +287,25 @@ docker_machine_init ()
     export DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
 }
 
+dotenv_src ()
+{
+    # Source and export environment variables from a dotenv file. Should work
+    # in all bourne compatible shells.
+
+    # grep removes all blank and commented out lines
+    export $(grep -vE '^#|^$' "$1" | xargs -0)
+}
+
+dotenv_unsrc ()
+{
+    # Unset any variable names found in a given dotenv file wihin the current
+    # scope. Should work in all bourne compatible shells.
+
+    # grep removes all blank and commented out lines
+    # sed grabs all variable names and ignores variable values
+    unset $(grep -vE '^#|^$' "$1" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
+}
+
 interactive_vars ()
 {
     # Terminal variables
