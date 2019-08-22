@@ -189,7 +189,14 @@ fi
 # Use hardware acceleration for video decoding/encoding
 export LIBVA_DRIVER_NAME=iHD
 
-if [ -x /usr/bin/fortune ] ; then /usr/bin/fortune freebsd-tips && echo ; fi
+# This is the most de-facto portable way I have found so far to check if the
+# shell we are in is interactive.
+case $- in
+  *i*) _interactive_shell="1";;
+  *) ;;
+esac
+
+[ -n ${_interactive_shell} ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
 refreshpath
 set_manpath
