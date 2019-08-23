@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.38 for eestrada on Mon Mar 19 11:58:41 2018.
+# Written by xscreensaver-demo 5.42 for eestrada on Fri Aug 23 09:12:54 2019.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
@@ -26,9 +26,9 @@ ignoreUninstalledPrograms:True
 font:		*-medium-r-*-140-*-m-*
 dpmsEnabled:	True
 dpmsQuickOff:	True
-dpmsStandby:	0:15:00
-dpmsSuspend:	0:30:00
-dpmsOff:	1:00:00
+dpmsStandby:	0:01:00
+dpmsSuspend:	0:10:00
+dpmsOff:	0:20:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: True
@@ -282,6 +282,14 @@ programs:								      \
 -				xsnow -bg SkyBlue3 -solidbg		    \n\
   GL: 				fireflies -root				    \n\
   GL: 				esper -root				    \n\
+  GL: 				crumbler -root				    \n\
+				filmleader -root			    \n\
+				glitchpeg -root				    \n\
+  GL: 				handsy -root				    \n\
+  GL: 				maze3d -root				    \n\
+  GL: 				peepers -root				    \n\
+  GL: 				razzledazzle -root			    \n\
+				vfeedback -root				    \n\
 
 
 pointerPollTime:    0:00:05
