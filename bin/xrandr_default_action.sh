@@ -24,7 +24,7 @@ echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr 
 echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr --output eDP1 --auto --pos 0x0 --output HDMI1 --auto --right-of eDP1
 
 # Let all logged in users know that something changed.
-echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-send 'Auto adjusted for monitor change' 'Use the xrandr CLI tool to query new state or make adjustments'
+echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-send 'Adjusted monitor layout' 'Use xrandr to query current state or make adjustments'
 
 # # Below is the devd.conf entry for HDMI connect/disconnect used to run this script
 # # Below is what we get when we run `telnet /var/run/devd.pipe`. It is the same message for connection and disconnection
