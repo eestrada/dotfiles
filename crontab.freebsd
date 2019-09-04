@@ -12,7 +12,6 @@ CHARSET="UTF-8"
 @reboot						/usr/local/bin/keybase login; /usr/local/bin/kbfsfuse -label 'kbfs-mount' /keybase
 @reboot						mkdir -p ${HOME}/.local/var/logs; /usr/local/bin/syncthing -no-browser -logflags="19" >> ${HOME}/.local/var/logs/syncthing.log
 @reboot						cd ${HOME}/tmp/ && find . -delete
-@reboot						/bin/sleep 1800 && ${HOME}/local/bin/backup_passwd_db.sh
 
 # Commands that run at mixed times
 @reboot						/bin/sleep 1800 && ${HOME}/local/bin/backup_wiki.sh
@@ -20,6 +19,9 @@ CHARSET="UTF-8"
 
 @reboot						/bin/sleep 1800 && /usr/local/bin/vdirsyncer --verbosity WARNING sync
 @daily						/usr/local/bin/vdirsyncer --verbosity WARNING sync
+
+@reboot						/bin/sleep 1800 && ${HOME}/local/bin/backup_passwd_db.sh
+@daily						${HOME}/local/bin/backup_passwd_db.sh
 
 # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
 @reboot						/bin/sleep 1800 && /usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
