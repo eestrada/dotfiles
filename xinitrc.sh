@@ -16,6 +16,9 @@ userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 xinitrclocal=$HOME/.xinitrc_local.sh
 
+DEFAULT_SESSION="i3"
+SESSION=${1:-i3}
+
 # merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
@@ -59,5 +62,12 @@ numlockx on &
 # install from sysutils/dunst on FreeBSD
 dunst &
 
+# TODO: instead of this case statement, use an if statement to set `SESSION`
+#  higher in the file and just return this case statement to a simple call
+#  to exec.
 # start the window manager passed into the script
-exec $1
+case "$SESSION" in
+    default) exec "$DEFAULT_SESSION" ;;
+    *) exec "$SESSION" ;;
+esac
+

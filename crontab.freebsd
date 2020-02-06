@@ -24,5 +24,5 @@ CHARSET="UTF-8"
 @daily						${HOME}/local/bin/backup_passwd_db.sh
 
 # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
-@reboot						/bin/sleep 1800 && /usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
-@hourly						/usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
+# @reboot						/bin/sleep 1800 && /usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
+# @hourly						/usr/local/bin/rclone sync --update --delete-before --modify-window='3s' --exclude='.st*/' ~/Sync/Main/ dropbox:
