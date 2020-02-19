@@ -94,6 +94,9 @@ bindsym $mod+Shift+space floating toggle
 # then select the window you want to learn about. The first field is
 # the instance type and the second is the class type.
 
+# Float dsbmixer
+for_window [instance="dsbmixer" class="dsbmixer"] floating enable
+
 # Float Pulseaudio settings manager
 for_window [instance="paman" class="Paman"] floating enable
 

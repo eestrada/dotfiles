@@ -62,6 +62,13 @@ numlockx on &
 # install from sysutils/dunst on FreeBSD
 dunst &
 
+
+# dsbmixer is a mixer for bsd. In situations where keyboard keys for turning
+# up/down/off do not work, having this mixer in the tray is pretty critical.
+# The `-i` flag ensures the mixer does not show a window on startup, only a
+# status tray icon.
+dsbmixer -i &
+
 # TODO: instead of this case statement, use an if statement to set `SESSION`
 #  higher in the file and just return this case statement to a simple call
 #  to exec.
