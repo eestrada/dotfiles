@@ -218,6 +218,23 @@ racket_repl_exec ()
     exec racket;
 }
 
+beadm_update ()
+{
+    # Ideas for this code were inspired by: https://forums.FreeBSD.org/threads/freebsd-upgrade-with-beadm.53225/post-299112
+    set -v
+    local to_mount=$1
+
+    sudo beadm mount "$to_mount" /mnt
+    sudo mount -t devfs devfs /mnt/dev
+
+    sudo chroot /mnt $SHELL
+
+    sudo umount /mnt/dev
+    sudo beadm umount "$to_mount"
+    sudo beadm activate "$to_mount"
+    set +v
+}
+
 noise_gen ()
 {
     # NOTE: command string originally sourced from this Stack Overflow
