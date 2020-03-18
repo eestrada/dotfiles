@@ -49,7 +49,7 @@ find_dupes_in_cwd ()
 # Set any custom aliases
 setaliases ()
 {
-    if [ $(uname -s) = "FreeBSD" ]; then
+    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
         alias ls="ls -G";
         alias ll="ls -Gslh";
     else
@@ -58,7 +58,7 @@ setaliases ()
     fi
 
     # User specific aliases
-    if [ $(uname -s) = "FreeBSD" ]; then
+    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
         alias rm="rm -I";
     else
         alias rm="rm -I --preserve-root";

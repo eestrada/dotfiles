@@ -139,8 +139,8 @@ test_identities ()
 
 _ps_all ()
 {
-    if [ $(uname -s) = "FreeBSD" ]; then
-        ps -auxw;
+    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
+        ps -avxw;
     else
         ps -ef;
     fi
