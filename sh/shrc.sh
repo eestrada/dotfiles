@@ -1,4 +1,4 @@
-# .bashrc
+# .shrc
 # vim: set syntax=sh:
 # Emacs stuff
 # Local Variables:
@@ -396,4 +396,3 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # Load RVM into a shell session *as a function*
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
-

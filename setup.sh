@@ -33,7 +33,11 @@ linknew()
 linknew  sh/shrc.sh .shrc
 linknew  sh/shrc.sh .mkshrc
 linknew  sh/shrc.sh .bashrc
+linknew  sh/shrc.sh .zshrc
 linknew  sh/profile.sh .profile
+linknew  sh/profile.sh .zprofile
+linknew  sh/zlogin.sh .zlogin
+linknew  sh/zlogout.sh .zlogout
 linknew  sh/bash_logout.sh .bash_logout
 linknew  sh/bash_profile.sh .bash_profile
 linknew  emacs.el .emacs
@@ -43,16 +47,15 @@ linknew  vimrc.vim .vimrc
 linknew  vim .vim
 linknew  gitconfig.ini .gitconfig
 linknew  hgrc.ini .hgrc
-linknew  idlerc .idlerc
 linknew  tmux.conf .tmux.conf
 linknew  color-themes/base16-shell .base16-shell
-linknew  xscreensaver .xscreensaver
-linknew  i3/i3status.conf .i3status.conf
-linknew  i3 .i3
-linknew  xinitrc.sh .xinitrc
-linknew  Xmodmap .Xmodmap
-linknew  Xresources .Xresources
-linknew  Xresources.d .Xresources.d
+# linknew  xscreensaver .xscreensaver
+# linknew  i3/i3status.conf .i3status.conf
+# linknew  i3 .i3
+# linknew  xinitrc.sh .xinitrc
+# linknew  Xmodmap .Xmodmap
+# linknew  Xresources .Xresources
+# linknew  Xresources.d .Xresources.d
 linknew  notestxtrc.sh .notestxtrc
 
 # NOTE: nested folders under .config and similar
@@ -60,4 +63,3 @@ linknew  notestxtrc.sh .notestxtrc
 
 # mkdir -p ~/.vdirsyncer
 # linknew  vdirsyncer/config.ini ~/.vdirsyncer/config
-

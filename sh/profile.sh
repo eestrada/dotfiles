@@ -1,5 +1,3 @@
-# $FreeBSD: releng/11.1/share/skel/dot.profile 278616 2015-02-12 05:35:00Z cperciva $
-#
 # .profile - Bourne Shell startup script for login shells
 #
 # see also sh(1), environ(7).
@@ -202,4 +200,3 @@ refreshpath
 set_manpath
 custvars
 run_ssh
-
