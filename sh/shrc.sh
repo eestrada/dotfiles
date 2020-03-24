@@ -345,6 +345,8 @@ interactive_vars ()
     # Custom terminal prompt
     if [ "$(basename ${SHELL})" = 'bash' ]; then
         PS1="[\u@\h \W]"
+    elif [ "$(basename ${SHELL})" = 'zsh' ]; then
+        PS1='[%n@%m %~]'
     elif [ "$(basename ${SHELL})" = 'mksh' ]; then
         PS1='[$(echo -n "`logname`@`hostname`: " ; if [ "${PWD}" -ef "${HOME}" ] ; then echo -n "~" ; else echo -n "$(basename ${PWD})" ; fi ; echo "]")'
         export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
