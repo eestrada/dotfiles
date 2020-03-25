@@ -13,18 +13,46 @@
 # serial line.
 # TERM=xterm;   export TERM
 
+source_files ()
+{
+  for fpath in "$@"; do
+    if [ -f "${fpath}" ]; then
+        . "${fpath}"
+    fi
+  done
+  fpath=;
+}
+
 # Source global definitions
-if [ -f /etc/profile ]; then
-    . /etc/profile
-fi
+source_files /etc/profile
 
 # Set any custom variables
+
+remove_duplicate_paths ()
+{
+  _arg_path="$1"
+  # Remove duplicate entries
+  IFS=:
+  old_PATH=$_arg_path:; _arg_path=
+  while [ -n "$old_PATH" ]; do
+    x=${old_PATH%%:*}       # the first remaining entry
+    case ${_arg_path}: in
+      *:${x}:*) :;;         # already there
+      *) _arg_path=$_arg_path:$x;;    # not there yet
+    esac
+    old_PATH=${old_PATH#*:}
+  done
+  _arg_path=${_arg_path#:}
+  printf '%s\n' "${_arg_path}"
+  IFS= ; old_PATH= ; x= ; _arg_path= ;
+}
 
 refreshpath ()
 {
     # Modify PATH now that env vars are set
     SYSPATH=${PATH}:${SYSPATH}
 
+    # Vanilla path vars
     PATH=${HOME}/bin:${HOME}/sbin:${HOME}/games;
     PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
     PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games;
@@ -37,20 +65,7 @@ refreshpath ()
     PATH=${PATH}:/bin:/sbin;
     PATH=${PATH}:${SYSPATH}
 
-    # Remove duplicate entries
-    IFS=:
-    old_PATH=$PATH:; PATH=
-    while [ -n "$old_PATH" ]; do
-      x=${old_PATH%%:*}       # the first remaining entry
-      case ${PATH}: in
-        *:${x}:*) :;;         # already there
-        *) PATH=$PATH:$x;;    # not there yet
-      esac
-      old_PATH=${old_PATH#*:}
-    done
-    PATH=${PATH#:}
-    unset IFS old_PATH x
-
+    PATH=$(remove_duplicate_paths "$PATH")
     export PATH;
 }
 
@@ -61,7 +76,9 @@ set_manpath ()
     else
         oldman=$MANPATH
     fi
-    export MANPATH="${HOME}/.usr/local/man:${HOME}/.local/man:${HOME}/local/man:${HOME}/man:${oldman}";
+    MANPATH="${HOME}/.usr/local/man:${HOME}/.local/man:${HOME}/local/man:${HOME}/man:${oldman}";
+    MANPATH=$(remove_duplicate_paths "$MANPATH")
+    export MANPATH;
     unset oldman;
 }
 
@@ -173,16 +190,15 @@ run_ssh ()
 export EDITOR="vi";
 export PAGER="more";
 
-# set ENV to a file invoked each time sh is started for interactive use.
-if [ "$(basename ${SHELL})" = 'mksh' ]
-then
-    export ENV="$HOME/.mkshrc";
-elif [ "$(basename ${SHELL})" = 'bash' ]
-then
-    export ENV="$HOME/.bashrc";
-else
-    export ENV="$HOME/.shrc";
-fi
+export ENV="$HOME/.shrc";
+for _shname in "zsh" "bash" "mksh" "ksh"; do
+  if [ "$(basename ${SHELL})" = "${_shname}" ]; then
+    export ENV="${HOME}/.${_shname}rc";
+    break;
+  fi
+done
+_shname=
+
 
 # Use hardware acceleration for video decoding/encoding
 export LIBVA_DRIVER_NAME=iHD
@@ -200,3 +216,5 @@ refreshpath
 set_manpath
 custvars
 run_ssh
+
+source_files "~/.profile_local.sh" "~/.profile-local.sh" "~/.profile_local"
