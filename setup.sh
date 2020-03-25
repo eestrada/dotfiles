@@ -1,8 +1,5 @@
 #!/bin/sh
 
-set -e
-
-
 relpath()
 {
     _py_script=$(cat <<EOF
@@ -25,9 +22,27 @@ joinpath()
 
 linknew()
 {
-    # TODO: prompt for each call (defaulting to yes).
-    test -e "${HOME}/${2}" && mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
-    ln -vfs "$(relpath ${1} ${2})" "$(joinpath ${HOME} ${2})"
+    _chicken="Answer not 'y'. Chickening out of dealing with '%s'.\n"
+    _target=$(joinpath "${HOME}" "${2}")
+    _link_to=$(relpath "${1}" "${2}")
+    printf "\nCreate symlink '~/%s' pointing to '%s'? [y/N] " "${2}" "${_link_to}"
+    IFS= read confirm_link
+    if [ "$confirm_link" = 'y' ] || [ "$confirm_link" = 'Y' ]; then
+      if [ -e "${HOME}/${2}" ]; then
+        printf "First rename existing file/folder '~/%s' to '~/%s.prev'? [y/N] " "${2}" "${2}"
+        IFS= read confirm_mv
+        if [ "$confirm_mv" = 'y' ] || [ "$confirm_mv" = 'Y' ]; then
+          mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
+        else
+          printf "${_chicken}" "~/${2}.prev"
+          return 1
+        fi
+      fi
+      ln -vfs "$_link_to" "$_target"
+    else
+      printf "${_chicken}" "${2}"
+      return 1
+    fi
 }
 
 echo "Setting up configs general to all systems."
