@@ -12,7 +12,7 @@ relpath = os.path.relpath(arg1, home)
 sys.stdout.write(relpath)
 EOF
 )
-    echo "${_py_script}" | python3 -
+    printf '%s' "${_py_script}" | python3 -
 }
 
 joinpath()
@@ -45,7 +45,7 @@ linknew()
     fi
 }
 
-echo "Setting up configs general to all systems."
+printf "Setting up configs general to all systems.\n"
 linknew  sh/shrc.sh .shrc
 linknew  sh/shrc.sh .mkshrc
 linknew  sh/shrc.sh .bashrc
@@ -68,10 +68,10 @@ linknew  color-themes/base16-shell .base16-shell
 linknew  notestxtrc.sh .notestxtrc
 
 if [ $(uname -s) = "Darwin" ]; then
-  echo "\nSetting up macOS/Darwin specific configs:"
+  printf "\nSetting up macOS/Darwin specific configs:\n"
   linknew  macOS/hammerspoon .hammerspoon
 elif [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Linux" ]; then
-  echo "\nSetting up configs general to both FreeBSD and Linux:"
+  printf "\nSetting up configs general to both FreeBSD and Linux:\n"
   linknew  xscreensaver .xscreensaver
   linknew  i3/i3status.conf .i3status.conf
   linknew  i3 .i3
@@ -87,10 +87,12 @@ elif [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Linux" ]; then
   # linknew  vdirsyncer/config.ini ~/.vdirsyncer/config
 
   if [ $(uname -s) = "FreeBSD" ]; then
-    echo "\nSetting up configs specific to FreeBSD:"
+    printf "\nSetting up configs specific to FreeBSD:\n"
   elif [ $(uname -s) = "Linux" ]; then
-    echo "\nSetting up configs specific to Linux:"
+    printf "\nSetting up configs specific to Linux:\n"
   fi
 else
-  echo "\nNot on a system we recognize as needing special configs: $(uname -s)"
+  printf "\nNot on a system we recognize as needing special configs: $(uname -s)\n"
 fi
+
+printf '\nFinished setting up all dotfiles.\n'
