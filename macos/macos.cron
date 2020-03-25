@@ -1,0 +1,13 @@
+SHELL=/bin/sh
+HOME=/Users/eestrada
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+LC_ALL="en_US.UTF-8"
+LANG="en_US.UTF-8"
+CHARSET="UTF-8"
+
+# Order of crontab fields
+# minute	hour	mday	month	wday	command
+
+# Clear out the ~/tmp and ~/Downloads folder at every reboot.
+@reboot						cd ${HOME}/tmp/ && find . -delete
+@reboot						cd ${HOME}/Downloads/ && find . -delete
