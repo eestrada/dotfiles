@@ -60,8 +60,10 @@ setaliases ()
     fi
 
     # User specific aliases
-    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
+    if [ $(uname -s) = "FreeBSD" ]; then
         alias rm="rm -I";
+    elif [ $(uname -s) = "Darwin" ]; then
+        alias rm="rm -i";
     else
         alias rm="rm -I --preserve-root";
     fi
