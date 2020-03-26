@@ -268,8 +268,8 @@ playbeep ()
 rclone_sync_dropbox ()
 {
     # NOTE: we use a 3 second window because FAT filesystems only have a 2 second resolution for modified datetimes
-    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' ~/Syncthing/Main/ dropbox: ;
-    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' dropbox: ~/Syncthing/Main/ ;
+    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' "${HOME}/Syncthing/Main/" dropbox: ;
+    rclone copy --verbose --update --modify-window='3s' --exclude='.st*/' dropbox: "${HOME}/Syncthing/Main/" ;
 }
 
 wlan_init ()
@@ -369,15 +369,15 @@ if [ "$(basename ${SHELL})" = 'bash' ];
 then
     # Source local scripts
     if [ -e "${HOME}/.bashrc_local" ]; then
-        . ~/.bashrc_local;
+        . "${HOME}/.bashrc_local";
     fi
 
     if [ -e "${HOME}/.bashrc_local.sh" ]; then
-        . ~/.bashrc_local.sh;
+        . "${HOME}/.bashrc_local.sh";
     fi
 
     if [ -e "${HOME}/.bashrc-local.sh" ]; then
-        . ~/.bashrc-local.sh;
+        . "${HOME}/.bashrc-local.sh";
     fi
 
     # Use bash-completion, if available

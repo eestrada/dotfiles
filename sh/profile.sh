@@ -120,7 +120,7 @@ add_all_keys ()
     # Add default key
     ssh-add -q >/dev/null 2>&1;
     # Add any private keys that have corresponding public keys
-    cd ~;
+    cd "${HOME}";
     ssh-add -q $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/') >/dev/null 2>&1;
     cd - >/dev/null 2>&1;
 }
@@ -217,4 +217,4 @@ set_manpath
 custvars
 run_ssh
 
-source_files "~/.profile_local.sh" "~/.profile-local.sh" "~/.profile_local"
+source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
