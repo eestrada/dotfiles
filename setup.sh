@@ -1,5 +1,13 @@
 #!/bin/sh
 
+if ! command -v python3 >/dev/null; then
+  cat << EOM
+The command "python3" cannot be found and is need for this script. Either modify
+your \$PATH environment variable or install "python3" to make it available.
+EOM
+  exit 1
+fi
+
 relpath()
 {
     _py_script=$(cat <<EOF
@@ -48,14 +56,17 @@ linknew()
 printf "Setting up configs general to all systems.\n"
 linknew  sh/shrc.sh .shrc
 linknew  sh/shrc.sh .mkshrc
-linknew  sh/shrc.sh .bashrc
-linknew  sh/shrc.sh .zshrc
 linknew  sh/profile.sh .profile
-linknew  sh/profile.sh .zprofile
+
+linknew  sh/zshrc.sh .zshrc
+linknew  sh/zprofile.sh .zprofile
 linknew  sh/zlogin.sh .zlogin
 linknew  sh/zlogout.sh .zlogout
+
+linknew  sh/shrc.sh .bashrc
 linknew  sh/bash_logout.sh .bash_logout
 linknew  sh/bash_profile.sh .bash_profile
+
 linknew  emacs.el .emacs
 linknew  guile.scm .guile
 linknew  racketrc.rkt .racketrc
