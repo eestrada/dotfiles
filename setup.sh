@@ -1,15 +1,18 @@
 #!/bin/sh
 
-if ! command -v python3 >/dev/null; then
+# See SO answer here: https://stackoverflow.com/a/26759734/1733321
+if [ ! -x "$(command -v python3)" ]; then
   cat << EOM
-The command "python3" cannot be found and is need for this script. Either modify
-your \$PATH environment variable or install "python3" to make it available.
+The command "python3" cannot be found. Either modify your \$PATH environment
+variable or install "python3" to make it available to this script.
 EOM
   exit 1
 fi
 
 relpath()
 {
+    # TODO: pass in these arguments more safely, instead of using shell variable
+    # expansion in a python snippet (dangerous!)
     _py_script=$(cat <<EOF
 import os, sys
 
