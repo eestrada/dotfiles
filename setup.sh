@@ -56,57 +56,62 @@ linknew()
     fi
 }
 
-printf "Setting up configs general to all systems.\n"
-linknew  sh/shrc.sh .shrc
-linknew  sh/shrc.sh .mkshrc
-linknew  sh/profile.sh .profile
+main ()
+{
+  printf "Setting up configs general to all systems.\n"
+  linknew  sh/shrc.sh .shrc
+  linknew  sh/shrc.sh .mkshrc
+  linknew  sh/profile.sh .profile
 
-linknew  sh/zshrc.sh .zshrc
-linknew  sh/zprofile.sh .zprofile
-linknew  sh/zlogin.sh .zlogin
-linknew  sh/zlogout.sh .zlogout
+  linknew  sh/zshrc.sh .zshrc
+  linknew  sh/zprofile.sh .zprofile
+  linknew  sh/zlogin.sh .zlogin
+  linknew  sh/zlogout.sh .zlogout
 
-linknew  sh/shrc.sh .bashrc
-linknew  sh/bash_logout.sh .bash_logout
-linknew  sh/bash_profile.sh .bash_profile
+  linknew  sh/shrc.sh .bashrc
+  linknew  sh/bash_logout.sh .bash_logout
+  linknew  sh/bash_profile.sh .bash_profile
 
-linknew  emacs.el .emacs
-linknew  guile.scm .guile
-linknew  racketrc.rkt .racketrc
-linknew  vimrc.vim .vimrc
-linknew  vim .vim
-linknew  gitconfig.ini .gitconfig
-linknew  hgrc.ini .hgrc
-linknew  tmux.conf .tmux.conf
-linknew  color-themes/base16-shell .base16-shell
-linknew  notestxtrc.sh .notestxtrc
+  linknew  emacs.el .emacs
+  linknew  guile.scm .guile
+  linknew  racketrc.rkt .racketrc
+  linknew  vimrc.vim .vimrc
+  linknew  vim .vim
+  linknew  gitconfig.ini .gitconfig
+  linknew  hgrc.ini .hgrc
+  linknew  tmux.conf .tmux.conf
+  linknew  color-themes/base16-shell .base16-shell
+  linknew  notestxtrc.sh .notestxtrc
 
-if [ $(uname -s) = "Darwin" ]; then
-  printf "\nSetting up macOS/Darwin specific configs:\n"
-  linknew  macOS/hammerspoon .hammerspoon
-elif [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Linux" ]; then
-  printf "\nSetting up configs general to both FreeBSD and Linux:\n"
-  linknew  xscreensaver .xscreensaver
-  linknew  i3/i3status.conf .i3status.conf
-  linknew  i3 .i3
-  linknew  xinitrc.sh .xinitrc
-  linknew  Xmodmap .Xmodmap
-  linknew  Xresources .Xresources
-  linknew  Xresources.d .Xresources.d
+  if [ $(uname -s) = "Darwin" ]; then
+    printf "\nSetting up macOS/Darwin specific configs:\n"
+    linknew  macOS/hammerspoon .hammerspoon
+  elif [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Linux" ]; then
+    printf "\nSetting up configs general to both FreeBSD and Linux:\n"
+    linknew  xscreensaver .xscreensaver
+    linknew  i3/i3status.conf .i3status.conf
+    linknew  i3 .i3
+    linknew  xinitrc.sh .xinitrc
+    linknew  Xmodmap .Xmodmap
+    linknew  Xresources .Xresources
+    linknew  Xresources.d .Xresources.d
 
-  # NOTE: nested folders under .config and similar
-  # linknew  dunst .config/dunst  # FIXME: won't work because we can't do symlinks from nested folders yet
+    # NOTE: nested folders under .config and similar
+    # linknew  dunst .config/dunst  # FIXME: won't work because we can't do symlinks from nested folders yet
 
-  # mkdir -p ~/.vdirsyncer
-  # linknew  vdirsyncer/config.ini ~/.vdirsyncer/config
+    # mkdir -p ~/.vdirsyncer
+    # linknew  vdirsyncer/config.ini ~/.vdirsyncer/config
 
-  if [ $(uname -s) = "FreeBSD" ]; then
-    printf "\nSetting up configs specific to FreeBSD:\n"
-  elif [ $(uname -s) = "Linux" ]; then
-    printf "\nSetting up configs specific to Linux:\n"
+    if [ $(uname -s) = "FreeBSD" ]; then
+      printf "\nSetting up configs specific to FreeBSD:\n"
+    elif [ $(uname -s) = "Linux" ]; then
+      printf "\nSetting up configs specific to Linux:\n"
+    fi
+  else
+    printf "\nNot on a system we recognize as needing special configs: $(uname -s)\n"
   fi
-else
-  printf "\nNot on a system we recognize as needing special configs: $(uname -s)\n"
-fi
 
-printf '\nFinished setting up all dotfiles.\n'
+  printf '\nFinished setting up all dotfiles.\n'
+}
+
+main
