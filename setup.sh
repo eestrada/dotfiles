@@ -28,7 +28,7 @@ EOF
 
 joinpath()
 {
-    python3 -c "import os, sys; sys.stdout.write(os.path.join('${1}', '${2}'))";
+  python3 -c 'import os, sys; sys.stdout.write(os.path.join(*sys.argv[1:]));' "${@}";
 }
 
 linknew()
@@ -39,11 +39,11 @@ linknew()
     printf "\nCreate symlink '~/%s' pointing to '%s'? [y/N] " "${2}" "${_link_to}"
     IFS= read confirm_link
     if [ "$confirm_link" = 'y' ] || [ "$confirm_link" = 'Y' ]; then
-      if [ -e "${HOME}/${2}" ]; then
+      if [ -e "${_target}" ]; then
         printf "First rename existing file/folder '~/%s' to '~/%s.prev'? [y/N] " "${2}" "${2}"
         IFS= read confirm_mv
         if [ "$confirm_mv" = 'y' ] || [ "$confirm_mv" = 'Y' ]; then
-          mv -vf "${HOME}/${2}" "${HOME}/${2}.prev"
+          mv -vf "${_link_to}" "${_link_to}.prev"
         else
           printf "${_chicken}" "~/${2}.prev"
           return 1
