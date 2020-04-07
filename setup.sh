@@ -43,7 +43,7 @@ linknew()
         printf "First rename existing file/folder '~/%s' to '~/%s.prev'? [y/N] " "${2}" "${2}"
         IFS= read confirm_mv
         if [ "$confirm_mv" = 'y' ] || [ "$confirm_mv" = 'Y' ]; then
-          mv -vf "${_link_to}" "${_link_to}.prev"
+          mv -vf "${_target}" "${_target}.prev"
         else
           printf "${_chicken}" "~/${2}.prev"
           return 1
