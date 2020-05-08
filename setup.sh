@@ -33,16 +33,17 @@ joinpath()
 
 linknew()
 {
-    _chicken="Answer not 'y'. Chickening out of dealing with '%s'.\n"
+    _chicken="Answer 'n'. Chickening out of dealing with '%s'.\n"
     _target=$(joinpath "${HOME}" "${2}")
     _link_to=$(relpath "${1}" "${2}")
-    printf "\nCreate symlink '~/%s' pointing to '%s'? [y/N] " "${2}" "${_link_to}"
+    printf "\nCreate symlink '~/%s' pointing to '%s'? [Y/n] " "${2}" "${_link_to}"
     IFS= read confirm_link
-    if [ "$confirm_link" = 'y' ] || [ "$confirm_link" = 'Y' ]; then
+    if [ "$confirm_link" '!=' 'n' ] || [ "$confirm_link" '!=' 'N' ]; then
       if [ -e "${_target}" ]; then
-        printf "First rename existing file/folder '~/%s' to '~/%s.prev'? [y/N] " "${2}" "${2}"
+        printf "\nFirst rename existing file/folder '~/%s' to '~/%s.prev'? [Y/n] " "${2}" "${2}"
         IFS= read confirm_mv
-        if [ "$confirm_mv" = 'y' ] || [ "$confirm_mv" = 'Y' ]; then
+        printf "\n"
+        if [ "$confirm_mv" '!=' 'n' ] || [ "$confirm_mv" '!=' 'N' ]; then
           mv -vf "${_target}" "${_target}.prev"
         else
           printf "${_chicken}" "~/${2}.prev"
