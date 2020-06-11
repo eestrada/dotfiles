@@ -7,13 +7,22 @@ if [[ $# -ne 2 ]] ; then
   exit 0
 fi
 
+git_pwd="$(pwd)"
+
 git mv "$1" "$2"
-git commit -n -m "Split history $1 to $2 - rename file to target-name"
+cd "$git_pwd"
+git commit -n -m "Split $1 to $2 - rename to target"
 REV=`git rev-parse HEAD`
+
 git reset --hard HEAD^
-git mv "$1" temp
-git commit -n -m "Split history $1 to $2 - rename source-file to temp"
+cd "$git_pwd"
+git mv "$1" "${1}_temp"
+cd "$git_pwd"
+git commit -n -m "Split $1 to $2 - rename to temp"
+
 git merge $REV
-git commit -a -n -m "Split history $1 to $2 - resolve conflict and keep both files"
-git mv temp "$1"
-git commit -n -m "Split history $1 to $2 - restore name of source-file"
+git commit -a -n -m "Split $1 to $2 - keep both files"
+
+git mv "${1}_temp" "$1"
+cd "$git_pwd"
+git commit -n -m "Split $1 to $2 - restore source from temp"
