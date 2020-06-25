@@ -65,6 +65,11 @@ refreshpath ()
     PATH=${PATH}:/bin:/sbin;
     PATH=${PATH}:${SYSPATH}
 
+    # dotfiles repo is *usually* in root of home directory
+    if [ -e "${HOME}/dotfiles/bin" ]; then
+      PATH=${HOME}/dotfiles/bin:${PATH}
+    fi
+
     PATH=$(remove_duplicate_paths "$PATH")
     export PATH;
 }
