@@ -60,19 +60,24 @@ linknew()
 main ()
 {
   printf "Setting up configs general to all systems.\n"
+
+  # sh and mksh
   linknew  sh/shrc.sh .shrc
   linknew  sh/shrc.sh .mkshrc
   linknew  sh/profile.sh .profile
 
+  # zsh
   linknew  sh/zshrc.sh .zshrc
   linknew  sh/zprofile.sh .zprofile
   linknew  sh/zlogin.sh .zlogin
   linknew  sh/zlogout.sh .zlogout
 
+  # bash
   linknew  sh/shrc.sh .bashrc
   linknew  sh/bash_logout.sh .bash_logout
   linknew  sh/bash_profile.sh .bash_profile
 
+  # misc. rc files
   linknew  emacs.el .emacs
   linknew  guile.scm .guile
   linknew  racketrc.rkt .racketrc

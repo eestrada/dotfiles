@@ -394,7 +394,7 @@ setaliases
 interactive_vars
 _canonical_home
 
-# source local shell overrides and addtions
+# source local shell overrides and additions
 source_files "${HOME}/.shrc_local" "${HOME}/.shrc_local.sh" "${HOME}/.shrc-local.sh"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
