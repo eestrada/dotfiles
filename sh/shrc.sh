@@ -308,6 +308,7 @@ docker_machine_init ()
     export DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
 }
 
+# dotenv code originally from: https://stackoverflow.com/a/20909045/1733321
 dotenv_src ()
 {
     # Source and export environment variables from a dotenv file. Should work
@@ -320,6 +321,7 @@ dotenv_src ()
         filename=".env"
     fi
 
+    # FIXME: change grep and xargs invocations if on *BSD or Darwin
     # grep removes all blank and commented out lines
     export $(grep -vE '^#|^$' "$filename" | xargs -0)
 }
@@ -336,6 +338,7 @@ dotenv_unsrc ()
         filename=".env"
     fi
 
+    # FIXME: change grep and xargs invocations if on *BSD or Darwin
     # grep removes all blank and commented out lines
     # sed grabs all variable names and ignores variable values
     unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
