@@ -390,6 +390,7 @@ elif [ "$(basename ${SHELL})" = 'zsh' ]; then
   # zstyle :compinstall filename '/Users/eestrada/.zshrc'
   #
   # # End of lines added by compinstall
+  echo "In zsh" > /dev/null;
 fi
 
 # Functions to run
