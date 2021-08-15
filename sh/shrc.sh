@@ -9,7 +9,7 @@
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 0.1
 
-if [ "${TERM_PROGRAM}" '!=' "iTerm.app" ]; then
+if [ "${TERM_PROGRAM}" '!=' "iTerm.app" ] && [ -z "${DONT_AUTO_RUN_TMUX}" ]; then
 # Automatically start TMUX for interactive terminals
 if which tmux >/dev/null 2>&1; then
     # See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login

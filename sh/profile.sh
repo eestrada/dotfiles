@@ -53,7 +53,7 @@ refreshpath ()
     SYSPATH=${PATH}:${SYSPATH}
 
     # Vanilla path vars
-    PATH=${HOME}/bin:${HOME}/sbin:${HOME}/games;
+    PATH=${HOME}/.rbenv/bin:${HOME}/bin:${HOME}/sbin:${HOME}/games;
     PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
     PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games;
     PATH=${PATH}:${HOME}/usr/local/bin:${HOME}/usr/local/sbin:${HOME}/usr/local/games;
@@ -223,3 +223,5 @@ custvars
 run_ssh
 
 source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
+
+which rbenv >/dev/null && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
