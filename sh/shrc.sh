@@ -5,6 +5,17 @@
 # mode: sh
 # End:
 
+# This might not pull in from profile.sh if it isn't sourced as part of the same shell session. Just redefine it here.
+source_files ()
+{
+  for fpath in "$@"; do
+    if [ -f "${fpath}" ]; then
+        . "${fpath}"
+    fi
+  done
+  fpath=;
+}
+
 # Use Base16 syntax highlighting, if available
 BASE16_SHELL=$HOME/.base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 0.1
