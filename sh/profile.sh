@@ -53,7 +53,8 @@ refreshpath ()
     SYSPATH=${PATH}:${SYSPATH}
 
     # Vanilla path vars
-    PATH=${HOME}/.rbenv/bin:${HOME}/bin:${HOME}/sbin:${HOME}/games;
+    PATH=${HOME}/go/bin;
+    PATH=${PATH}:${HOME}/.rbenv/bin:${HOME}/bin:${HOME}/sbin:${HOME}/games;
     PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
     PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games;
     PATH=${PATH}:${HOME}/usr/local/bin:${HOME}/usr/local/sbin:${HOME}/usr/local/games;
