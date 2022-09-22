@@ -5,6 +5,14 @@
 # hidden files to ignore at top level
 /.ICEauthority
 /.Xauthority
+
+# no trailing slash if symlink
+/.aws
+# no trailing slash if symlink
+/.azure
+
+/.aws/
+/.azure/
 /.bash_history
 /.bundle/
 /.cache/
@@ -40,6 +48,11 @@
 /.zcompdump
 
 # Normal files to ignore at top level
+# no trailing slash if symlink
+/Documents
+/Downloads
+/Sync
+
 /Desktop/
 /Documents/
 /Downloads/
