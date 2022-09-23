@@ -1,4 +1,9 @@
 # .profile - Bourne Shell startup script for login shells
+# vim: set syntax=sh:
+# Emacs stuff
+# Local Variables:
+# mode: sh
+# End:
 #
 # see also sh(1), environ(7).
 #
