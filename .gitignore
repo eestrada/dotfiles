@@ -67,3 +67,4 @@
 /dotfiles/
 /go/
 /tmp/
+.sudo_as_admin_successful
