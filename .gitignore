@@ -1,6 +1,7 @@
 # hidden files to ignore at all levels
 .DS_Store
 .pulse-cookie
+.idea/
 
 # hidden files to ignore at top level
 /.ICEauthority
@@ -10,6 +11,9 @@
 /.aws
 # no trailing slash if symlink
 /.azure
+
+# macOS
+/.CFUserTextEncoding
 
 /.aws/
 /.azure/
@@ -35,6 +39,7 @@
 /.profile_local.sh
 /.python_history
 /.rbenv/
+/.shrc-local.sh
 /.ssh/
 /.steam/
 /.steampath
@@ -46,6 +51,9 @@
 /.wine/
 /.xsession-errors*
 /.zcompdump
+/.zcompcache/
+/.zsh_history
+/.zsh_sessions/
 
 # Normal files to ignore at top level
 # no trailing slash if symlink
@@ -53,6 +61,12 @@
 /Downloads
 /Sync
 
+# macOS
+/Applications/
+/Library/
+/Movies/
+
+# General
 /Desktop/
 /Documents/
 /Downloads/
@@ -68,3 +82,4 @@
 /go/
 /tmp/
 .sudo_as_admin_successful
+

@@ -54,6 +54,10 @@ remove_duplicate_paths ()
 
 refreshpath ()
 {
+
+    # must be calculated before the PATH is modified.
+    _sysname="$(uname -s)"
+
     # Modify PATH now that env vars are set
     SYSPATH=${PATH}:${SYSPATH}
 
@@ -66,6 +70,14 @@ refreshpath ()
     PATH=${PATH}:${HOME}/.usr/bin:${HOME}/.usr/sbin:${HOME}/.usr/games;
     PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
     PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
+
+    if [ "${_sysname}" = "Darwin" ] ; then
+      # path for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew installed elsewhere.
+      PATH=${PATH}:/opt/homebrew/bin;
+    fi
+    _sysname=""
+
+
     PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
     PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
     PATH=${PATH}:/bin:/sbin;
