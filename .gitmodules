@@ -10,6 +10,3 @@
 [submodule "color-themes/base16-xfce4-terminal"]
 	path = .dotfile_misc/color-themes/base16-xfce4-terminal
 	url = https://github.com/afg984/base16-xfce4-terminal
-[submodule "color-themes/base16-xresources"]
-	path = .dotfile_misc/color-themes/base16-xresources
-	url = https://github.com/chriskempson/base16-xresources.git
