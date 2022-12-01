@@ -36,9 +36,13 @@
 /.motd_shown
 /.netrc
 /.pki/
+/.profile_local
 /.profile_local.sh
+/.profile-local.sh
 /.python_history
 /.rbenv/
+/.shrc_local
+/.shrc_local.sh
 /.shrc-local.sh
 /.ssh/
 /.steam/
