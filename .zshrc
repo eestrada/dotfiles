@@ -57,3 +57,6 @@ fi
 # This seems to work best when it is the last thing called.
 export FPATH
 autoload -Uz compinit && compinit
+
+# source local shell overrides and additions
+source_files "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"

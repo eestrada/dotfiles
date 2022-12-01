@@ -23,6 +23,9 @@ rm -rf "${HOME}/homedir-dotfiles"
 # because we created the worktree without checking out, we need to fix its initial stage.
 cd "${HOME}" || exit 1 && git restore --staged .
 
+# "restore" the files that are safe to do so (i.e. files that don't already exist)
+git restore $(git ls-files --deleted)
+
 echo 'Running `git status` in your home directory should now work.'
 echo 'Try it to see how much drift there is between your home dir and the repo.'
 echo "Be careful with checking out files! You don't want to mess up your pre-existing configurations."

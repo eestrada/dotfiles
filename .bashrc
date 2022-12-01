@@ -29,3 +29,6 @@ source_files "${HOME}/google-cloud-sdk/path.bash.inc"
 source_files  /usr/local/share/bash-completion/bash_completion \
               /usr/local/etc/profile.d/bash_completion.sh \
               "${HOME}/google-cloud-sdk/completion.bash.inc";
+
+# source local shell overrides and additions
+source_files "${HOME}/.bashrc_local" "${HOME}/.bashrc_local.sh" "${HOME}/.bashrc-local.sh"
