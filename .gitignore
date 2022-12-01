@@ -38,6 +38,8 @@
 /.mirb_history
 /.motd_shown
 /.netrc
+/.npm/
+/.nvm/
 /.pki/
 /.profile_local
 /.profile_local.sh

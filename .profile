@@ -233,7 +233,7 @@ case $- in
   *) ;;
 esac
 
-[ -n ${_interactive_shell} ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
+[ -n ${_interactive_shell} ] && [ $(uname -s) = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
 refreshpath
 set_manpath
@@ -242,4 +242,4 @@ run_ssh
 
 source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
 
-which rbenv >/dev/null && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
+type rbenv >/dev/null && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
