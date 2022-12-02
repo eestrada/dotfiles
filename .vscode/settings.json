@@ -1,5 +1,25 @@
 {
+    "editor.smoothScrolling": true,
+    "files.exclude": {
+        "**/.Trash": true
+    },
     "git.autofetch": "all",
+    "search.exclude": {
+        ".base16-shell": true,
+        ".dotfile_misc/color-themes/base16-i3": true,
+        ".dotfile_misc/color-themes/base16-xfce4-terminal": true,
+        ".vscode/extensions": true
+    },
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules"
+    ],
+    "todo-tree.filtering.ignoreGitSubmodules": true,
+    "todo-tree.filtering.includeHiddenFiles": true,
+    "todo-tree.filtering.passGlobsToRipgrep": true,
+    "todo-tree.filtering.useBuiltInExcludes": "file and search excludes",
+    "todo-tree.general.debug": true,
+    "todo-tree.general.enableFileWatcher": true,
+    "todo-tree.general.statusBar": "total",
     "todo-tree.highlights.backgroundColourScheme": [
         "red",
         "orange",
@@ -9,26 +29,6 @@
         "indigo",
         "violet"
     ],
-    "todo-tree.filtering.ignoreGitSubmodules": true,
-    "todo-tree.filtering.includeHiddenFiles": true,
-    "todo-tree.filtering.useBuiltInExcludes": "file and search excludes",
-    "todo-tree.ripgrep.usePatternFile": true,
-    "todo-tree.filtering.excludeGlobs": [
-        "**/node_modules"
-    ],
-    "todo-tree.general.debug": true,
-    "todo-tree.general.enableFileWatcher": true,
-    "todo-tree.general.statusBar": "total",
-    "files.exclude": {
-        "**/.Trash": true
-    },
-    "search.exclude": {
-        ".base16-shell": true,
-        ".dotfile_misc/color-themes/base16-i3": true,
-        ".dotfile_misc/color-themes/base16-xfce4-terminal": true,
-        ".vscode/extensions": true
-    },
-    "todo-tree.filtering.passGlobsToRipgrep": true,
     "todo-tree.highlights.useColourScheme": false,
-    "editor.smoothScrolling": true
+    "todo-tree.ripgrep.usePatternFile": true
 }
