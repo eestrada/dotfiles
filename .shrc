@@ -96,9 +96,6 @@ setaliases ()
     # I often forget the rsync flags I like for backups, so let's just
     # bake them into an alias. Ignore obvious temporary files.
     alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'";
-
-    # Make colors work right in tmux, dagnabit!
-    alias tmux='tmux -2';
 }
 
 # Cause tmux to have a "dirty" exit so that we fall back to a bare shell
