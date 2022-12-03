@@ -97,3 +97,27 @@
 /tmp/
 .sudo_as_admin_successful
 
+# Windows stuff
+/.VirtualBox/
+/.atom/
+/.dlv/
+/.eclipse/
+/.git-for-windows-updater
+/.gtk-bookmarks
+/.sonarlint/
+/.tox/
+/.vagrant.d/
+/.vscode-oss/
+/3D Objects/
+/AppData/
+/Contacts/
+/Favorites/
+/Links/
+/NTUSER.*
+/Nt
+/OneDrive/
+/Saved Games/
+/Searches/
+/VirtualBoxVMs/
+/_netrc
+/houdini*/
