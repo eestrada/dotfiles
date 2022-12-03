@@ -1,5 +1,9 @@
 {
     "recommendations": [
-        "gruntfuggly.todo-tree"
+        "gruntfuggly.todo-tree",
+        "tamasfe.even-better-toml",
+        "eamodio.gitlens",
+        "sonarsource.sonarlint-vscode",
+        "golang.go"
     ]
 }
