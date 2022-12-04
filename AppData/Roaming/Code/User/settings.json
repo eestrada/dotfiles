@@ -1,4 +1,6 @@
 {
-    "workbench.colorTheme": "Default Dark+",
-    "telemetry.telemetryLevel": "off"
+    "workbench.colorTheme": "Monokai",
+    "telemetry.telemetryLevel": "off",
+    "gitlens.telemetry.enabled": false,
+    "sonarlint.disableTelemetry": true
 }
