@@ -243,25 +243,6 @@ beadm_update ()
     set +v
 }
 
-noise_gen ()
-{
-    # NOTE: command string originally sourced from this Stack Overflow
-    # answer: https://askubuntu.com/a/789472/517979
-
-    # NOTE: the `sox` package needs to be installed for the `play`
-    # command to be available.
-    play -n synth 1:0:0 brownnoise synth pinknoise mix synth sine amod 0.1 50;
-
-    # TODO: add fade-in/fade-out. See answer here for details:
-    # https://stackoverflow.com/a/24307805/1733321
-    # TODO: control noise duration
-    # TODO: control on/off via computer activity
-    # TODO: make it loop (to save on CPU utilization). See Github Gist
-    # here: https://gist.github.com/eestrada/f2808b95faaf24b5a7148a645e5b4545#file-noise-sh-L38
-
-    # TODO: look into wrapping with `pysox`: https://github.com/rabitt/pysox
-}
-
 playbeep ()
 {
     # NOTE: try to use the sox play utility. Failing that, send a

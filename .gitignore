@@ -121,3 +121,5 @@
 /VirtualBoxVMs/
 /_netrc
 /houdini*/
+
+.sonarlint/telemetry/vscode/usage

@@ -8,6 +8,7 @@
         ".base16-shell": true,
         ".dotfile_misc/color-themes/base16-i3": true,
         ".dotfile_misc/color-themes/base16-xfce4-terminal": true,
+        ".vim/pack/eestrada/start/base16-vim": true,
         ".vscode/extensions": true
     },
     "todo-tree.filtering.excludeGlobs": [
@@ -30,5 +31,10 @@
         "violet"
     ],
     "todo-tree.highlights.useColourScheme": false,
-    "todo-tree.ripgrep.usePatternFile": true
+    "todo-tree.ripgrep.usePatternFile": true,
+    "explorer.excludeGitIgnore": false,
+    "search.useGlobalIgnoreFiles": true,
+    "search.useParentIgnoreFiles": true,
+    "todo-tree.general.showActivityBarBadge": true,
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false
 }
