@@ -16,6 +16,10 @@ fi
 # Custom terminal prompt
 PS1="[\u@\h \W]"
 
+if [ -n "$TMUX" ]; then
+    PS1="$PS1 \$(_tmux_print_status)"
+fi
+
 # Trailing character of PS1 determined on whether we are currently root or not
 case `id -u` in
     0) PS1="${PS1}# ";;

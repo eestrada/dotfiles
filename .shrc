@@ -348,6 +348,16 @@ dotenv_unsrc ()
     unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
 }
 
+_tmux_new_session_group ()
+{
+    tmux new-session -c "$(pwd)" -t main ';' new-window -c "$(pwd)";
+}
+
+_tmux_print_status ()
+{
+    tmux display-message -p '(tmux: #{session_name} #{window_id} #{pane_id})';
+}
+
 # Functions to run
 setaliases
 _canonical_home
