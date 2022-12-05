@@ -13,12 +13,16 @@ fi
 # Source general shrc definitions
 . "${HOME}/.shrc"
 
+# TODO: add color to prompt
 # Custom terminal prompt
 PS1="[\u@\h \W]"
 
 if [ -n "$TMUX" ]; then
     PS1="$PS1 \$(_tmux_print_status)"
 fi
+
+# Always add newline
+PS1="$PS1"$'\n'
 
 # Trailing character of PS1 determined on whether we are currently root or not
 case `id -u` in

@@ -331,13 +331,21 @@ dotenv_unsrc ()
 
 _tmux_new_session_group ()
 {
+    # This is mostly for reference. Something similar is used in VS Code
+    # settings.json file for internal terminal windows.
     tmux new-session -c "$(pwd)" -t main ';' new-window -c "$(pwd)";
 }
 
 _tmux_print_status ()
 {
-    tmux display-message -p '(tmux: #{session_name} #{window_id} #{pane_id})';
+    tmux display-message -p '(tmux: #{session_name} #{window_id})';
 }
+
+ssh_tmux_iterm2 ()
+{
+    ssh -t "$1" "tmux -CC new -A -s '$1'"
+}
+
 
 # Functions to run
 setaliases
