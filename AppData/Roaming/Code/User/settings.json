@@ -3,5 +3,43 @@
     "telemetry.telemetryLevel": "off",
     "gitlens.telemetry.enabled": false,
     "sonarlint.disableTelemetry": true,
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "terminal.integrated.defaultProfile.windows": "Ubuntu-20.04 tmux (WSL)",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Ubuntu-20.04 tmux (WSL)": {
+            "path": [
+                "${env:windir}\\Sysnative\\wsl.exe",
+                "${env:windir}\\System32\\wsl.exe"
+            ],
+            "args": [
+                "-d",
+                "Ubuntu-20.04",
+                "--cd",
+                "${cwd}",
+                "--",
+                "tmux",
+                "new-session",
+                "-t",
+                "vscode",
+                "\\;",
+                "new-window",
+            ],
+            "icon": "terminal-tmux"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    },
 }
