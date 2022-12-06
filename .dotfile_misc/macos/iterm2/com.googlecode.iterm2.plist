@@ -4,16 +4,6 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>AutoHideTmuxClientSession</key>
 	<true/>
 	<key>ClosingTmuxTabKillsTmuxWindows</key>
@@ -679,6 +669,19 @@
 			<integer>66</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermUserNotificationTrigger</string>
+					<key>parameter</key>
+					<string>"\4" Synced at \2</string>
+					<key>partial</key>
+					<true/>
+					<key>regex</key>
+					<string>(.*?) (.*?) Synchronizing /(.*)/(.*?)/src</string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -699,6 +702,14 @@
 			<string>~/</string>
 		</dict>
 	</array>
+	<key>OnlyWhenMoreTabs</key>
+	<true/>
+	<key>OpenArrangementAtStartup</key>
+	<false/>
+	<key>OpenBookmark</key>
+	<false/>
+	<key>OpenNoWindowsAtStartup</key>
+	<true/>
 	<key>OpenTmuxDashboardIfHiddenWindows</key>
 	<true/>
 	<key>OpenTmuxWindowsIn</key>
@@ -742,6 +753,8 @@
 	<false/>
 	<key>RequireAuthenticationAfterScreenLocks</key>
 	<true/>
+	<key>RunJobsInServers</key>
+	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>SoundForEsc</key>
