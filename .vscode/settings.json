@@ -36,5 +36,8 @@
     "search.useGlobalIgnoreFiles": true,
     "search.useParentIgnoreFiles": true,
     "todo-tree.general.showActivityBarBadge": true,
-    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false,
+    "files.associations": {
+        "*.cron": "crontab"
+    }
 }

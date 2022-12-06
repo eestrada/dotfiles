@@ -4,6 +4,7 @@
         "tamasfe.even-better-toml",
         "eamodio.gitlens",
         "sonarsource.sonarlint-vscode",
-        "golang.go"
+        "golang.go",
+        "hogashi.crontab-syntax-highlight"
     ]
 }
