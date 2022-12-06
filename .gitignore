@@ -108,6 +108,7 @@
 /.tox/
 /.vagrant.d/
 /.vscode-oss/
+/.vscode-server/
 /3D Objects/
 /AppData/
 /Contacts/
