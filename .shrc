@@ -8,12 +8,12 @@
 # This might not pull in from profile.sh if it isn't sourced as part of the same shell session. Just redefine it here.
 source_files ()
 {
-  for fpath in "$@"; do
-    if [ -f "${fpath}" ]; then
-        . "${fpath}"
+  for _file_path in "$@"; do
+    if [ -f "${_file_path}" ]; then
+        . "${_file_path}"
     fi
   done
-  fpath=;
+  _file_path=;
 }
 
 # Use Base16 syntax highlighting, if available

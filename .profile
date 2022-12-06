@@ -20,12 +20,12 @@
 
 source_files ()
 {
-  for fpath in "$@"; do
-    if [ -f "${fpath}" ]; then
-        . "${fpath}"
+  for _file_path in "$@"; do
+    if [ -f "${_file_path}" ]; then
+        . "${_file_path}"
     fi
   done
-  fpath=;
+  _file_path=;
 }
 
 # Source global definitions
