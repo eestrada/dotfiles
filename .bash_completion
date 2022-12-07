@@ -1,0 +1,26 @@
+# .bash_completion
+# vim: set syntax=sh:
+# Emacs stuff
+# Local Variables:
+# mode: sh
+# End:
+
+# Use bash-completion
+source_files /usr/local/share/bash-completion/bash_completion \
+             /usr/local/etc/profile.d/bash_completion.sh \
+             "${HOME}/google-cloud-sdk/completion.bash.inc";
+
+if type brew &>/dev/null
+then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+    if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]
+    then
+        source_files "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+        source_files "${HOMEBREW_PREFIX}/etc/bash_completion.d/"* >/dev/null 2>&1
+    fi
+fi
+export FPATH
+
+# load nvm bash_completion
+source_files "$NVM_DIR/bash_completion";

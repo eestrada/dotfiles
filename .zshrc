@@ -70,3 +70,6 @@ source_files "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-lo
 
 # This seems to work best when it is the last thing called.
 autoload -Uz compinit && compinit
+
+# This echos some parse errors to the terminal and might not be worth enabling.
+autoload -Uz bashcompinit && bashcompinit && source_files "${HOME}/.bash_completion"
