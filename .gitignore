@@ -40,6 +40,7 @@
 /.netrc
 /.npm/
 /.nvm/
+/.nvmrc
 /.pki/
 /.profile_local
 /.profile_local.sh
