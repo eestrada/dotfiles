@@ -18,6 +18,7 @@
 /.aws/
 /.azure/
 /.bash_history
+/.bash_sessions/
 /.bashrc_local
 /.bashrc_local.sh
 /.bashrc-local.sh
