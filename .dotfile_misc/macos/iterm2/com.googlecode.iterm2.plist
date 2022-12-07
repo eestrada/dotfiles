@@ -677,7 +677,7 @@
 					<key>parameter</key>
 					<string>"\4" Synced at \2</string>
 					<key>partial</key>
-					<true/>
+					<false/>
 					<key>regex</key>
 					<string>(.*?) (.*?) Synchronizing /(.*)/(.*?)/src</string>
 				</dict>

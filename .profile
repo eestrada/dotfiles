@@ -141,10 +141,10 @@ custvars ()
 add_all_keys ()
 {
     # Add default key
-    ssh-add -q >/dev/null 2>&1;
+    ssh-add >/dev/null 2>&1;
     # Add any private keys that have corresponding public keys
     cd "${HOME}";
-    ssh-add -q $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/') >/dev/null 2>&1;
+    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/') >/dev/null 2>&1;
     cd - >/dev/null 2>&1;
 }
 
@@ -167,7 +167,7 @@ test_identities ()
     # test whether standard identities have been added to the agent already
     ssh-add -l | grep "The agent has no identities" > /dev/null;
     if [ $? -eq 0 ]; then
-        ssh-add -q
+        ssh-add >/dev/null 2>&1;
         # ${SSH_AUTH_SOCK} broken so we start a new proper agent
         if [ $? -eq 2 ];then
             start_agent
