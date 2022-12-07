@@ -1,21 +1,18 @@
+# XXX: double entries with and without a slash are to account for possible
+# symlinks pointing to directories, instead of true directories.
+
 # hidden files to ignore at all levels
 .DS_Store
-.pulse-cookie
 .idea/
+.pulse-cookie
+.sonarlint/telemetry/vscode/usage
+.sudo_as_admin_successful
 
 # hidden files to ignore at top level
-/.ICEauthority
-/.Xauthority
-
-# no trailing slash if symlink
+/.atom/
 /.aws
-# no trailing slash if symlink
-/.azure
-
-# macOS
-/.CFUserTextEncoding
-
 /.aws/
+/.azure
 /.azure/
 /.bash_history
 /.bash_sessions/
@@ -24,12 +21,18 @@
 /.bashrc-local.sh
 /.bundle/
 /.cache/
+/.CFUserTextEncoding
 /.config/
+/.dlv/
 /.docker/
+/.eclipse/
 /.fossil
+/.git-for-windows-updater
 /.gitconfig-local.ini
 /.gnupg/
+/.gtk-bookmarks
 /.history
+/.ICEauthority
 /.icons/
 /.irb_history
 /.landscape/
@@ -51,78 +54,69 @@
 /.shrc_local
 /.shrc_local.sh
 /.shrc-local.sh
+/.sonarlint/
 /.ssh/
 /.steam/
 /.steampath
 /.steampid
 /.themes/
+/.tox/
+/.vagrant.d/
 /.vim/.netrwhist
 /.viminfo
+/.VirtualBox/
+/.vscode-oss/
+/.vscode-server/
 /.wget-hsts
 /.wine/
+/.Xauthority
 /.xsession-errors*
-/.zsh/
-/.zcompdump
 /.zcompcache/
+/.zcompdump
 /.zsh_history
 /.zsh_sessions/
+/.zsh/
 /.zshrc_local
 /.zshrc_local.sh
 /.zshrc-local.sh
 
-# Normal files to ignore at top level
-# no trailing slash if symlink
+# files to ignore at top level
+# General 
+/bin/
+/Desktop/
+/dev/
 /Documents
+/Documents/
+/dotfiles/
 /Downloads
+/Downloads/
+/go/
+/Music/
+/Pictures/
+/Public/
 /Sync
+/Sync/
+/Templates/
+/tmp/
+/Videos/
 
-# macOS
+# Apple macOS
 /Applications/
 /Library/
 /Movies/
 /.Trash/
 
-# General
-/Desktop/
-/Documents/
-/Downloads/
-/Music/
-/Pictures/
-/Public/
-/Sync/
-/Templates/
-/Videos/
-/bin/
-/dev/
-/dotfiles/
-/go/
-/tmp/
-.sudo_as_admin_successful
-
-# Windows stuff
-/.VirtualBox/
-/.atom/
-/.dlv/
-/.eclipse/
-/.git-for-windows-updater
-/.gtk-bookmarks
-/.sonarlint/
-/.tox/
-/.vagrant.d/
-/.vscode-oss/
-/.vscode-server/
+# MS Windows
+/_netrc
 /3D Objects/
 /AppData/
 /Contacts/
 /Favorites/
+/houdini*/
 /Links/
-/NTUSER.*
 /Nt
+/NTUSER.*
 /OneDrive/
 /Saved Games/
 /Searches/
 /VirtualBoxVMs/
-/_netrc
-/houdini*/
-
-.sonarlint/telemetry/vscode/usage
