@@ -5,22 +5,28 @@
 # mode: sh
 # End:
 
-# Use bash-completion
-source_files /usr/local/share/bash-completion/bash_completion \
-             /usr/local/etc/profile.d/bash_completion.sh \
-             "${HOME}/google-cloud-sdk/completion.bash.inc";
+# source local shell overrides and additions
+for _COMPLETION in "/usr/local/share/bash-completion/bash_completion" "/usr/local/etc/profile.d/bash_completion.sh" "$NVM_DIR/bash_completion"
+do
+  [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
+done
+unset _COMPLETION
 
 if type brew &>/dev/null
 then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]
     then
-        source_files "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+        [ -r "${_COMPLETION}" ] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
-        source_files "${HOMEBREW_PREFIX}/etc/bash_completion.d/"* >/dev/null 2>&1
+        for _COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+        do
+            [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
+        done
+        unset _COMPLETION
     fi
 fi
-export FPATH
 
-# load nvm bash_completion
-source_files "$NVM_DIR/bash_completion";
+# occasionally, bash completion scripts will have zsh completion baked into them
+# as well. export FPATH to take advantage of that if it is the case.
+export FPATH

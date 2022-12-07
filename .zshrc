@@ -67,10 +67,15 @@ fi
 export FPATH
 
 # source local shell overrides and additions
-source_files "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
+for _COMPLETION in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
+do
+  [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
+done
+unset _COMPLETION
+
 
 # This seems to work best when it is the last thing called.
 autoload -Uz compinit && compinit
 
 # This echos some parse errors to the terminal and might not be worth enabling.
-autoload -U +X bashcompinit && bashcompinit && source_files "${HOME}/.bash_completion"
+autoload -U +X bashcompinit && bashcompinit && . "${HOME}/.bash_completion" >/dev/null 2>&1
