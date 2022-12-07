@@ -44,19 +44,20 @@ setopt PROMPT_SUBST
 
 # TODO: add color to prompt
 # Custom terminal prompt
-PS1='[%n@%m %~]'
+# In zsh, $PROMPT can be used in the place of $PS1
+PROMPT='[%n@%m %~]'
 
 if [ -n "$TMUX" ]; then
-    PS1="$PS1 \$(_tmux_print_status)"
+    PROMPT="$PROMPT \$(_tmux_print_status)"
 fi
 
 # Always add newline
-PS1="$PS1"$'\n'
+PROMPT="$PROMPT"$'\n'
 
-# Trailing character of PS1 determined on whether we are currently root or not
+# Trailing character of PROMPT determined on whether we are currently root or not
 case `id -u` in
-    0) PS1="${PS1}# ";;
-    *) PS1="${PS1}$ ";;
+    0) PROMPT="${PROMPT}# ";;
+    *) PROMPT="${PROMPT}$ ";;
 esac
 
 if type brew &>/dev/null
@@ -72,4 +73,4 @@ source_files "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-lo
 autoload -Uz compinit && compinit
 
 # This echos some parse errors to the terminal and might not be worth enabling.
-autoload -Uz bashcompinit && bashcompinit && source_files "${HOME}/.bash_completion"
+autoload -U +X bashcompinit && bashcompinit && source_files "${HOME}/.bash_completion"
