@@ -1,10 +1,11 @@
 {
     "recommendations": [
-        "gruntfuggly.todo-tree",
-        "tamasfe.even-better-toml",
         "eamodio.gitlens",
-        "sonarsource.sonarlint-vscode",
         "golang.go",
-        "hogashi.crontab-syntax-highlight"
+        "gruntfuggly.todo-tree",
+        "hogashi.crontab-syntax-highlight",
+        "sonarsource.sonarlint-vscode",
+        "tamasfe.even-better-toml",
+        "thinker.sort-json"
     ]
 }

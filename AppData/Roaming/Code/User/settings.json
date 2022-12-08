@@ -1,97 +1,60 @@
 {
-    "workbench.colorTheme": "Monokai",
-    "telemetry.telemetryLevel": "off",
-    "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false,
-    "gitlens.telemetry.enabled": false,
-    "sonarlint.disableTelemetry": true,
-    "git.confirmSync": false,
-    "terminal.integrated.defaultProfile.windows": "Ubuntu-20.04 tmux (WSL)",
-    "terminal.integrated.profiles.windows": {
-        "PowerShell": {
-            "source": "PowerShell",
-            "icon": "terminal-powershell"
-        },
-        "Command Prompt": {
-            "path": [
-                "${env:windir}\\Sysnative\\cmd.exe",
-                "${env:windir}\\System32\\cmd.exe"
-            ],
-            "args": [],
-            "icon": "terminal-cmd"
-        },
-        "Ubuntu-20.04 tmux (WSL)": {
-            "path": [
-                "${env:windir}\\Sysnative\\wsl.exe",
-                "${env:windir}\\System32\\wsl.exe"
-            ],
-            "args": [
-                "-d",
-                "Ubuntu-20.04",
-                "--cd",
-                "${cwd}",
-                "--",
-                "tmux",
-                "new-session",
-                "-t",
-                "vscode",
-                "\\;",
-                "new-window",
-            ],
-            "icon": "terminal-tmux"
-        },
-        "Git Bash": {
-            "source": "Git Bash"
-        }
-    },
-    "editor.smoothScrolling": true,
-    "editor.renderWhitespace": "boundary",
     "editor.insertSpaces": false,
+    "editor.renderWhitespace": "boundary",
     "editor.rulers": [
         80,
         120
     ],
+    "editor.smoothScrolling": true,
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.svn": true,
+        "**/.Trash": true,
+        "**/CVS": true,
+        "**/Thumbs.db": true
+    },
     "files.watcherExclude": {
-        "**/build/**": true,
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,
-        "**/node_modules/*/**": true,
-        "**/.hg/store/**": true
+        "**/.hg/store/**": true,
+        "**/build/**": true,
+        "**/node_modules/*/**": true
     },
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/.Trash": true
-    },
+    "git.autofetchPeriod": 300,
+    "git.confirmSync": false,
+    "gitlens.telemetry.enabled": false,
+    "java.codeGeneration.generateComments": true,
+    "java.codeGeneration.useBlocks": true,
     "java.configuration.runtimes": [
         {
             "name": "JavaSE-1.8",
             "path": "/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"
-          },
-          {
+        },
+        {
             "name": "JavaSE-11",
             "path": "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home",
             "default": true
-          },
-          {
+        },
+        {
             "name": "JavaSE-17",
             "path": "/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
-          },
-          {
+        },
+        {
             "name": "JavaSE-18",
             "path": "/Library/Java/JavaVirtualMachines/amazon-corretto-18.jdk/Contents/Home"
-          }
+        }
     ],
-    "java.codeGeneration.generateComments": true,
-    "java.codeGeneration.useBlocks": true,
+    "sonarlint.disableTelemetry": true,
+    "sort-json.settings.ignoreArraysOnDeepSort": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "telemetry.telemetryLevel": "off",
     "terminal.external.osxExec": "iTerm.app",
     "terminal.integrated.defaultProfile.osx": "tmux-vscode",
+    "terminal.integrated.defaultProfile.windows": "Ubuntu-20.04 tmux (WSL)",
     "terminal.integrated.profiles.osx": {
-
         "bash": {
             "path": "bash",
             "args": [
@@ -99,17 +62,15 @@
             ],
             "icon": "terminal-bash"
         },
-        "zsh": {
-            "path": "zsh",
-            "args": [
-                "-l"
-            ]
-        },
         "fish": {
             "path": "fish",
             "args": [
                 "-l"
             ]
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
         },
         "tmux": {
             "path": "tmux",
@@ -130,10 +91,49 @@
                 "${cwd}"
             ]
         },
-        "pwsh": {
-            "path": "pwsh",
-            "icon": "terminal-powershell"
+        "zsh": {
+            "path": "zsh",
+            "args": [
+                "-l"
+            ]
         }
     },
-    "sort-json.settings.ignoreArraysOnDeepSort": true
+    "terminal.integrated.profiles.windows": {
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Ubuntu-20.04 tmux (WSL)": {
+            "path": [
+                "${env:windir}\\Sysnative\\wsl.exe",
+                "${env:windir}\\System32\\wsl.exe"
+            ],
+            "args": [
+                "-d",
+                "Ubuntu-20.04",
+                "--cd",
+                "${cwd}",
+                "--",
+                "tmux",
+                "new-session",
+                "-t",
+                "vscode",
+                "\\;",
+                "new-window"
+            ],
+            "icon": "terminal-tmux"
+        }
+    },
+    "workbench.colorTheme": "Monokai"
 }
