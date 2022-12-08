@@ -23,9 +23,11 @@
 /.cache/
 /.CFUserTextEncoding
 /.config/
+/.dbus/
 /.dlv/
 /.docker/
 /.eclipse/
+/.esd_auth
 /.fossil
 /.git-for-windows-updater
 /.gitconfig-local.ini
