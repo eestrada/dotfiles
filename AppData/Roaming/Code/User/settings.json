@@ -22,7 +22,7 @@
         "**/build/**": true,
         "**/node_modules/*/**": true
     },
-    "git.autofetchPeriod": 300,
+    "git.autofetchPeriod": 600,
     "git.confirmSync": false,
     "gitlens.telemetry.enabled": false,
     "java.codeGeneration.generateComments": true,
