@@ -138,19 +138,8 @@ custvars ()
     SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
 }
 
-add_all_keys ()
-{
-    # Add default key
-    ssh-add >/dev/null 2>&1;
-    # Add any private keys that have corresponding public keys
-    cd "${HOME}";
-    ssh-add $(ls .ssh/ | awk '/\.pub$/' | sed 's/^\(.*\)\.pub/.ssh\/\1/') >/dev/null 2>&1;
-    cd - >/dev/null 2>&1;
-}
-
-
 # start the ssh-agent
-start_agent ()
+_start_ssh_agent ()
 {
     # echo "Initializing new SSH agent..." 1>&2;
     # spawn ssh-agent
@@ -158,21 +147,6 @@ start_agent ()
     # echo "succeeded" 1>&2;
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null;
-    add_all_keys
-}
-
-# test for identities
-test_identities ()
-{
-    # test whether standard identities have been added to the agent already
-    ssh-add -l | grep "The agent has no identities" > /dev/null;
-    if [ $? -eq 0 ]; then
-        ssh-add >/dev/null 2>&1;
-        # ${SSH_AUTH_SOCK} broken so we start a new proper agent
-        if [ $? -eq 2 ];then
-            start_agent
-        fi
-    fi
 }
 
 _ps_all ()
@@ -184,28 +158,45 @@ _ps_all ()
     fi
 }
 
+_ssh_agent_isnt_running ()
+{
+    test -z "${SSH_AGENT_PID}" || test -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)"
+    return $?
+}
+
 run_ssh ()
 {
     # check for running ssh-agent with proper $SSH_AGENT_PID
-    if [ -n "${SSH_AGENT_PID}" ]; then
-        _ps_all | grep "${SSH_AGENT_PID}" | grep ssh-agent > /dev/null;
-        if [ $? -eq 0 ]; then
-            test_identities;
-        fi
-    # if ${SSH_AGENT_PID} is not properly set, we might be able to load one from
-    # ${SSH_ENV}
-    else
+
+    # if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
+    if _ssh_agent_isnt_running; then
+        # if ${SSH_AGENT_PID} is not properly set, we might be able to load one from ${SSH_ENV}
         if [ -f "${SSH_ENV}" ]; then
             . "${SSH_ENV}" > /dev/null;
         fi
 
-        _ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent > /dev/null;
-        if [ $? -eq 0 ]; then
-            test_identities;
-        else
-            start_agent;
+        # if there was no SSH_ENV to source or the SSH_ENV is stale/incorrect, then start the ssh agent and set a fresh SSH_ENV
+        # if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ] ; then
+        if _ssh_agent_isnt_running; then
+            _start_ssh_agent;
         fi
+
     fi
+
+    cat  >/dev/null <<-EOF
+# We don't need to add ssh keys directly anymore. This can all be done in the ssh config.
+
+# The config below will automatically decrypt keyfiles using credentials stored in the Apple Keychain.
+# Answer sourced from stackexchange questions:
+# * https://apple.stackexchange.com/a/250572/365333
+# * https://unix.stackexchange.com/q/269121/28898
+
+Host *
+	UseKeychain yes
+	AddKeysToAgent yes
+
+EOF
+
 }
 
 # Values for EDITOR and PAGER are just defaults since they should be overridden

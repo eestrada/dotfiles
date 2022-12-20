@@ -12,9 +12,25 @@
 	<integer>1</integer>
 	<key>Default Bookmark Guid</key>
 	<string>17A4F223-64D5-464C-A5C1-08280B59E33B</string>
+	<key>DimBackgroundWindows</key>
+	<true/>
+	<key>DimOnlyText</key>
+	<true/>
+	<key>DisableFullscreenTransparency</key>
+	<true/>
 	<key>DoubleClickPerformsSmartSelection</key>
 	<false/>
+	<key>EnableDivisionView</key>
+	<true/>
+	<key>EnableProxyIcon</key>
+	<false/>
+	<key>HTMLTabTitles</key>
+	<false/>
 	<key>HapticFeedbackForEsc</key>
+	<false/>
+	<key>HideScrollbar</key>
+	<false/>
+	<key>HideTab</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
@@ -676,10 +692,22 @@
 				<dict>
 					<key>action</key>
 					<string>iTermUserNotificationTrigger</string>
+					<key>disabled</key>
+					<true/>
 					<key>parameter</key>
 					<string>"\4" Synced at \2</string>
 					<key>partial</key>
 					<false/>
+					<key>regex</key>
+					<string>(.*?) (.*?) Synchronizing /(.*)/(.*?)/src</string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>BounceTrigger</string>
+					<key>disabled</key>
+					<true/>
+					<key>parameter</key>
+					<integer>1</integer>
 					<key>regex</key>
 					<string>(.*?) (.*?) Synchronizing /(.*)/(.*?)/src</string>
 				</dict>
@@ -759,18 +787,32 @@
 	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
+	<key>SeparateStatusBarsPerPane</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.14999999999999999</real>
+	<key>StatusBarPosition</key>
+	<integer>1</integer>
+	<key>TabStyleWithAutomaticOption</key>
+	<integer>4</integer>
+	<key>TabViewType</key>
+	<integer>0</integer>
 	<key>TmuxUsesDedicatedProfile</key>
 	<false/>
 	<key>ToolbeltTools</key>
 	<array>
 		<string>Captured Output</string>
 	</array>
+	<key>UseBorder</key>
+	<false/>
 	<key>UseTmuxStatusBar</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
+	<key>WindowNumber</key>
+	<true/>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 </dict>
