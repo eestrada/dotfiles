@@ -135,16 +135,13 @@ custvars ()
     export LESS='-IMRXF';
     export GPG_TTY="$(tty)";
 
-    SSH_ENV="${HOME}/.ssh/environment";    # Used to set up ssh environment
+    # Used to set up ssh environment
+    SSH_ENV="${HOME}/.ssh/environment";
 }
 
-# start the ssh-agent
 _start_ssh_agent ()
 {
-    # echo "Initializing new SSH agent..." 1>&2;
-    # spawn ssh-agent
     ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}";
-    # echo "succeeded" 1>&2;
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null;
 }
@@ -160,43 +157,55 @@ _ps_all ()
 
 _ssh_agent_isnt_running ()
 {
-    test -z "${SSH_AGENT_PID}" || test -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)"
-    return $?
+    if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
+      return 0
+    else
+      return 1
+    fi
 }
 
 run_ssh_agent ()
 {
     # check for running ssh-agent with proper $SSH_AGENT_PID
-
-    # if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
     if _ssh_agent_isnt_running; then
-        # if ${SSH_AGENT_PID} is not properly set, we might be able to load one from ${SSH_ENV}
+        # if ${SSH_AGENT_PID} is not properly set, we might be able to load one
+        # from ${SSH_ENV} if it is set.
         if [ -f "${SSH_ENV}" ]; then
             . "${SSH_ENV}" > /dev/null;
+        else
+            # If we can't find SSH_ENV, we can probably assume that we have
+            # never set up the environment on this machine before so lets add
+            # some useful values to the ssh config.
+            cat >> "${HOME}/.ssh/config" << EOF
+# .ssh/config
+# vim: set syntax=sh:
+# Emacs stuff
+# Local Variables:
+# mode: sh
+# End:
+
+# We don't need to directly add ssh keys in our ~/.profile anymore. This can all
+# be done here in the ssh config.
+
+# The config below will automatically decrypt keyfiles using credentials stored
+# in the Apple Keychain and will add key files to the agent on demand.
+# Config ideas sourced from these stackexchange questions:
+# * https://apple.stackexchange.com/a/250572/365333
+# * https://unix.stackexchange.com/q/269121/28898
+
+Host *
+	# UseKeychain yes
+	AddKeysToAgent yes
+EOF
         fi
 
-        # if there was no SSH_ENV to source or the SSH_ENV is stale/incorrect, then start the ssh agent and set a fresh SSH_ENV
-        # if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ] ; then
+        # if there was no SSH_ENV to source or the SSH_ENV is stale/incorrect,
+        # then start the ssh agent and set a fresh SSH_ENV
         if _ssh_agent_isnt_running; then
             _start_ssh_agent;
         fi
 
     fi
-
-    cat  >/dev/null <<-EOF
-# We don't need to add ssh keys directly anymore. This can all be done in the ssh config.
-
-# The config below will automatically decrypt keyfiles using credentials stored in the Apple Keychain.
-# Answer sourced from stackexchange questions:
-# * https://apple.stackexchange.com/a/250572/365333
-# * https://unix.stackexchange.com/q/269121/28898
-
-Host *
-	UseKeychain yes
-	AddKeysToAgent yes
-
-EOF
-
 }
 
 # Values for EDITOR and PAGER are just defaults since they should be overridden
@@ -233,4 +242,4 @@ run_ssh_agent
 
 source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
 
-type rbenv >/dev/null && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
+type rbenv >/dev/null 2>&1 && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
