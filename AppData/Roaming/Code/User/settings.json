@@ -53,7 +53,6 @@
     "telemetry.telemetryLevel": "off",
     "terminal.external.osxExec": "iTerm.app",
     "terminal.integrated.defaultProfile.osx": "tmux-vscode",
-    "terminal.integrated.defaultProfile.windows": "Ubuntu-20.04 tmux (WSL)",
     "terminal.integrated.profiles.osx": {
         "bash": {
             "path": "bash",
@@ -135,5 +134,6 @@
             "icon": "terminal-tmux"
         }
     },
-    "workbench.colorTheme": "Monokai"
+    "workbench.colorTheme": "Monokai",
+    "problems.sortOrder": "position"
 }
