@@ -37,8 +37,9 @@ remove_duplicate_paths ()
 {
   _arg_path="$1"
   # Remove duplicate entries
-  IFS=:
-  old_PATH=$_arg_path:; _arg_path=
+  IFS=':'
+  old_PATH="${_arg_path}:"
+  _arg_path=''
   while [ -n "$old_PATH" ]; do
     x=${old_PATH%%:*}       # the first remaining entry
     case ${_arg_path}: in
@@ -71,21 +72,14 @@ refreshpath ()
     PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
     PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
 
-    if [ "${_sysname}" = "Darwin" ] ; then
-      # path for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew installed elsewhere.
-      PATH=${PATH}:/opt/homebrew/bin;
-    fi
-    _sysname=""
-
-
     PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
     PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
     PATH=${PATH}:/bin:/sbin;
     PATH=${PATH}:${SYSPATH}
 
-    # dotfiles repo is *usually* in root of home directory
-    if [ -e "${HOME}/dotfiles/bin" ]; then
-      PATH=${HOME}/dotfiles/bin:${PATH}
+    # Add dotfiles repo if possible
+    if [ -e "${HOME}/dev/dotfiles/.dotfile_misc/bin" ]; then
+      PATH=${HOME}/dev/dotfiles/.dotfile_misc/bin:${PATH}
     fi
 
     PATH=$(remove_duplicate_paths "$PATH")
@@ -220,7 +214,7 @@ for _shname in "zsh" "bash" "mksh" "ksh"; do
     break;
   fi
 done
-_shname=
+_shname=""
 
 
 # Use hardware acceleration for video decoding/encoding
@@ -234,6 +228,10 @@ case $- in
 esac
 
 [ -n ${_interactive_shell} ] && [ $(uname -s) = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
+
+# Add homebrew variables for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew
+# installed elsewhere.
+[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 refreshpath
 set_manpath

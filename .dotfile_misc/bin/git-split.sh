@@ -4,7 +4,7 @@
 
 if [[ $# -ne 2 ]] ; then
   echo "Usage: git-split.sh original copy"
-  exit 0
+  exit 2
 fi
 
 git_pwd="$(pwd)"

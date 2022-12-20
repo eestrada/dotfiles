@@ -341,6 +341,11 @@ _tmux_print_status ()
     tmux display-message -p '(tmux: #{session_name} #{window_id})';
 }
 
+tmux_iterm2 ()
+{
+    tmux -CC new -A -s "$1"
+}
+
 ssh_tmux_iterm2 ()
 {
     ssh -t "$1" "tmux -CC new -A -s '$1'"
