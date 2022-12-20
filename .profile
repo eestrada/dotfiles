@@ -94,7 +94,7 @@ refreshpath ()
 
 set_manpath ()
 {
-    if [ -z $MANPATH ]; then
+    if [ -z "$MANPATH" ]; then
         oldman=$(manpath)
     else
         oldman=$MANPATH
@@ -116,7 +116,7 @@ custvars ()
     unset SSH_ASKPASS; # Don't pop up gui password window for SSH
 
     # Environment variables to declare
-    export TEMP="/tmp";
+    [ -z "${TEMP}" ] && export TEMP="/tmp";
     if $(which vim >/dev/null 2>&1);
     then
         export EDITOR="vim";
@@ -164,7 +164,7 @@ _ssh_agent_isnt_running ()
     return $?
 }
 
-run_ssh ()
+run_ssh_agent ()
 {
     # check for running ssh-agent with proper $SSH_AGENT_PID
 
@@ -229,7 +229,7 @@ esac
 refreshpath
 set_manpath
 custvars
-run_ssh
+run_ssh_agent
 
 source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
 
