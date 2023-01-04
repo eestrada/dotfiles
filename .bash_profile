@@ -20,3 +20,4 @@ if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
 
+[ -r "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.bash" ] && . "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.bash"

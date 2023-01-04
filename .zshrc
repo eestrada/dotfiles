@@ -79,3 +79,5 @@ autoload -Uz compinit && compinit
 
 # This echos some parse errors to the terminal and might not be worth enabling.
 autoload -U +X bashcompinit && bashcompinit && . "${HOME}/.bash_completion" >/dev/null 2>&1
+
+[ -r "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh" ] && . "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh"

@@ -39,7 +39,7 @@
 /.irb_history
 /.java/
 /.landscape/
-/.lesshst
+/.lesshs?
 /.local/
 /.mgem/
 /.mirb_history
@@ -86,7 +86,7 @@
 /.zshrc-local.sh
 
 # files to ignore at top level
-# General 
+# General
 /bin/
 /Desktop/
 /dev/
