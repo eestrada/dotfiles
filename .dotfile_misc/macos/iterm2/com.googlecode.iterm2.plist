@@ -34,6 +34,8 @@
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
+	<key>Mark Alert Action</key>
+	<string>Post Notification</string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -810,6 +812,7 @@
 	<key>ToolbeltTools</key>
 	<array>
 		<string>Recent Directories</string>
+		<string>Command History</string>
 	</array>
 	<key>UseBorder</key>
 	<false/>

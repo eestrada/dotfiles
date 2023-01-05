@@ -99,15 +99,6 @@ setaliases ()
     alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'";
 }
 
-# Cause tmux to have a "dirty" exit so that we fall back to a bare shell
-# instead of exiting entirely from the terminal, which is the default on a
-# clean tmux exit. Probably don't use this, as it exits not only the current
-# client, but also kills the tmux server as well. :(
-tmux_exit ()
-{
-    kill -s TERM $PPID
-}
-
 set_cc ()
 {
     # Use clang if it exists, otherwise use gcc, otherwise use the system default
@@ -117,7 +108,7 @@ set_cc ()
         export CC=clang;
         export CXXFLAGS="-pedantic -Wall";
         export CFLAGS="-pedantic -Wall";
-    elif `which gcc  >/dev/null 2>&1`;
+    elif `which gcc >/dev/null 2>&1`;
     then
         export CXX=g++;
         export CC=gcc;
@@ -386,6 +377,10 @@ _canonical_home
 
 # Custom terminal prompt
 PS1="[$(whoami)@\h \W]"
+
+if [ -n "$TMUX" ]; then
+    PS1="$PS1 $(_tmux_print_status)"
+fi
 
 # Trailing character of PS1 determined on whether we are currently root or not
 case `id -u` in
