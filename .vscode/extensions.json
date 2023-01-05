@@ -6,6 +6,7 @@
         "hogashi.crontab-syntax-highlight",
         "sonarsource.sonarlint-vscode",
         "tamasfe.even-better-toml",
-        "thinker.sort-json"
+        "thinker.sort-json",
+        "idleberg.applescript"
     ]
 }
