@@ -3,7 +3,7 @@ app.includeStandardAdditions = true;
 
 function disableMicrophone() {
 	app.setVolume(null, { inputVolume: 0 });
-	app.say("Off.", { using: "Alex" });
+	app.say("Microphone off.", { using: "Alex" });
 	app.displayNotification("Microphone OFF", {
 		withTitle: "Sound input",
 		subtitle: "Disabled",
@@ -12,7 +12,7 @@ function disableMicrophone() {
 }
 
 function enableMicrophone() {
-	app.say("On.", { using: "Alex" })
+	app.say("Microphone on.", { using: "Alex" })
 	app.displayNotification("Microphone ON", {
 		withTitle: "Sound input",
 		subtitle: "Enabled",
