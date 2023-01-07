@@ -329,6 +329,7 @@ _tmux_new_session_group ()
 
 _tmux_print_status ()
 {
+    # echo '(tmux:' $(tmux display-message -p "#{session_name}") "pane: ${TMUX_PANE})"
     tmux display-message -p '(tmux: #{session_name} #{window_id})';
 }
 

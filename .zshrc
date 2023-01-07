@@ -45,10 +45,10 @@ setopt PROMPT_SUBST
 # TODO: add color to prompt
 # Custom terminal prompt
 # In zsh, $PROMPT can be used in the place of $PS1
-PROMPT='[%n@%m %~]'
+PROMPT='[%n@%m %F{blue}%3~%f]'
 
 if [ -n "$TMUX" ]; then
-    PROMPT="$PROMPT \$(_tmux_print_status)"
+    PROMPT="$PROMPT %F{yellow}\$(_tmux_print_status)%f"
 fi
 
 # Always add newline
