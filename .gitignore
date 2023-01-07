@@ -125,3 +125,15 @@
 /Saved Games/
 /Searches/
 /VirtualBoxVMs/
+
+# FIXME: Quick and dirty additions from new machine. Organize later.
+/.rvm
+/.yarnrc
+/.android
+/.irb-history
+/.cups
+/.gem
+/.dropbox
+/.pgadmin
+/.terraform.d
+
