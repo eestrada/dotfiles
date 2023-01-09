@@ -42,14 +42,11 @@ setopt PROMPT_SUBST
 #
 # # End of lines added by compinstall
 
-# TODO: add color to prompt
 # Custom terminal prompt
 # In zsh, $PROMPT can be used in the place of $PS1
 PROMPT='[%n@%m %F{blue}%3~%f]'
-
-if [ -n "$TMUX" ]; then
-    PROMPT="$PROMPT %F{yellow}\$(_tmux_print_status)%f"
-fi
+PROMPT="${PROMPT}%F{yellow}\$(_tmux_print_status)%f"
+PROMPT="${PROMPT}%F{green}\$(_git_print_branch)%f"
 
 # Always add newline
 PROMPT="$PROMPT"$'\n'

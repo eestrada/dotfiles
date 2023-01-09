@@ -320,6 +320,13 @@ dotenv_unsrc ()
     unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
 }
 
+_git_print_branch ()
+{
+    if git rev-parse --absolute-git-dir >/dev/null 2>&1; then
+        echo " (git: $(git symbolic-ref --short HEAD))"
+    fi
+}
+
 _tmux_new_session_group ()
 {
     # This is mostly for reference. Something similar is used in VS Code
@@ -329,8 +336,10 @@ _tmux_new_session_group ()
 
 _tmux_print_status ()
 {
-    # echo '(tmux:' $(tmux display-message -p "#{session_name}") "pane: ${TMUX_PANE})"
-    tmux display-message -p '(tmux: #{session_name} #{window_id})';
+    if [ -n "$TMUX" ]; then
+        # echo '(tmux:' $(tmux display-message -p "#{session_name}") "pane: ${TMUX_PANE})"
+        tmux display-message -p ' (tmux: #{session_name} #{window_id})';
+    fi
 }
 
 tmux_iterm2 ()
