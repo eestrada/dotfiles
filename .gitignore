@@ -16,6 +16,7 @@
 /.bashrc-local*
 /.bundle
 /.cache
+/.cdk
 /.CFUserTextEncoding
 /.config
 /.cups

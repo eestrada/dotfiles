@@ -323,7 +323,7 @@ dotenv_unsrc ()
 _git_print_branch ()
 {
     if git rev-parse --absolute-git-dir >/dev/null 2>&1; then
-        echo " (git: $(git symbolic-ref --short HEAD))"
+        echo " (git: $(git symbolic-ref --short HEAD 2>/dev/null || echo 'HEAD detached at' $(git rev-parse --short HEAD)))"
     fi
 }
 
