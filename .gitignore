@@ -1,9 +1,10 @@
-# hidden files to ignore at all levels
+# files to ignore at all levels
 .DS_Store
 .idea
 .pulse-cookie
 .sonarlint/telemetry/vscode/usage
 .sudo_as_admin_successful
+adobeconnectapp.log
 
 # hidden files to ignore at top level
 /.android
@@ -88,6 +89,7 @@
 
 # files to ignore at top level
 # General
+/AdobeConnectAppCache
 /bin
 /Desktop
 /dev
