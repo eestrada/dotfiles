@@ -16,10 +16,8 @@ fi
 # TODO: add color to prompt
 # Custom terminal prompt
 PS1="[\u@\h \W]"
-
-if [ -n "$TMUX" ]; then
-    PS1="$PS1 \$(_tmux_print_status)"
-fi
+PS1="${PS1}\$(_tmux_print_status)"
+PS1="${PS1}\$(_git_print_branch)"
 
 # Always add newline
 PS1="$PS1"$'\n'
