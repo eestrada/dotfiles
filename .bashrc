@@ -28,6 +28,8 @@ case `id -u` in
     *) PS1="${PS1}$ ";;
 esac
 
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+
 source_files "${HOME}/.bash_completion"
 
 # source local shell overrides and additions
