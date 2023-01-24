@@ -5,9 +5,8 @@
 # on. Otherwise we just get the basic default PATH set up by the system.
 . $HOME/.profile
 
-# FIXME: set "XDG_CURRENT_DESKTOP" variable
+# force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
 # https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
-# NOTE: force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
 export XDG_CURRENT_DESKTOP=XFCE
 
 sysresources=/usr/local/etc/X11/xinit/.Xresources
@@ -17,7 +16,7 @@ usermodmap=$HOME/.Xmodmap
 xinitrclocal=$HOME/.xinitrc_local.sh
 
 DEFAULT_SESSION="i3"
-SESSION=${1:-i3}
+SESSION=${1:-${DEFAULT_SESSION}}
 
 # merge in defaults and keymaps
 
@@ -62,19 +61,11 @@ numlockx on &
 # install from sysutils/dunst on FreeBSD
 dunst &
 
-
 # dsbmixer is a mixer for bsd. In situations where keyboard keys for turning
 # up/down/off do not work, having this mixer in the tray is pretty critical.
 # The `-i` flag ensures the mixer does not show a window on startup, only a
 # status tray icon.
 dsbmixer -i &
 
-# TODO: instead of this case statement, use an if statement to set `SESSION`
-#  higher in the file and just return this case statement to a simple call
-#  to exec.
-# start the window manager passed into the script
-case "$SESSION" in
-    default) exec "$DEFAULT_SESSION" ;;
-    *) exec "$SESSION" ;;
-esac
-
+# start the window manager passed into the script or the default window manager if none was passed in.
+exec "$SESSION"
