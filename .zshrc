@@ -63,13 +63,6 @@ then
 fi
 export FPATH
 
-# source local shell overrides and additions
-for _COMPLETION in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
-do
-  [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
-done
-unset _COMPLETION
-
 [ -r "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh" ] && . "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh"
 
 [[ "$TERM_PROGRAM" == "vscode" ]] && type code &>/dev/null && . "$(code --locate-shell-integration-path zsh)"
@@ -79,3 +72,10 @@ autoload -Uz compinit && compinit
 
 # This echos some parse errors to the terminal and might not be worth enabling.
 autoload -U +X bashcompinit && bashcompinit && . "${HOME}/.bash_completion" >/dev/null 2>&1
+
+# source local shell overrides and additions
+for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
+do
+  [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
+done
+unset _LOCAL_OVERRIDES
