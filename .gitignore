@@ -32,6 +32,7 @@ adobeconnectapp.log
 /.git-for-windows-updater
 /.gitconfig-local.ini
 /.gnupg
+/.gradle/
 /.gtk-bookmarks
 /.history
 /.hushlogin
