@@ -67,6 +67,8 @@ export FPATH
 
 [[ "$TERM_PROGRAM" == "vscode" ]] && type code &>/dev/null && . "$(code --locate-shell-integration-path zsh)"
 
+[ -f ~/.config/fzf/setup.zsh ] && source ~/.config/fzf/setup.zsh
+
 # This seems to work best when it is the last thing called.
 autoload -Uz compinit && compinit
 
@@ -79,3 +81,4 @@ do
   [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
 done
 unset _LOCAL_OVERRIDES
+

@@ -30,8 +30,9 @@ esac
 
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
 
+[ -f ~/.config/fzf/setup.bash ] && source ~/.config/fzf/setup.bash
+
 source_files "${HOME}/.bash_completion"
 
 # source local shell overrides and additions
 source_files "${HOME}/.bashrc_local" "${HOME}/.bashrc_local.sh" "${HOME}/.bashrc-local.sh"
-
