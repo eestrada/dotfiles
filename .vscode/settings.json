@@ -19,7 +19,8 @@
     "search.useGlobalIgnoreFiles": true,
     "search.useParentIgnoreFiles": true,
     "todo-tree.filtering.excludeGlobs": [
-        "**/node_modules"
+        "**/node_modules",
+        "**/.Trash"
     ],
     "todo-tree.filtering.ignoreGitSubmodules": true,
     "todo-tree.filtering.includeHiddenFiles": true,
@@ -40,5 +41,7 @@
         "violet"
     ],
     "todo-tree.highlights.useColourScheme": false,
-    "todo-tree.ripgrep.usePatternFile": true
+    "todo-tree.ripgrep.usePatternFile": true,
+    "todo-tree.general.automaticGitRefreshInterval": 30,
+    "todo-tree.general.periodicRefreshInterval": 10
 }
