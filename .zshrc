@@ -22,7 +22,7 @@ setopt HIST_EXPIRE_DUPS_FIRST
 # Do not enter command lines into the history list if they are duplicates of the previous event
 setopt HIST_IGNORE_DUPS
 # remove command lines from the history list when the first character on the line is a space
-#setopt HIST_IGNORE_SPACE
+setopt HIST_IGNORE_SPACE
 # When searching history don't display results already cycled through twice
 setopt HIST_FIND_NO_DUPS
 # remove the history (fc -l) command from the history list when invoked
