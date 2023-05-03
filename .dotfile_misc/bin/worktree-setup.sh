@@ -3,7 +3,7 @@
 # clone repo
 mkdir -p "${HOME}/dev"
 cd "${HOME}/dev"
-git clone git@github.com:eestrada/dotfiles.git
+git clone https://github.com/eestrada/dotfiles.git dotfiles
 cd dotfiles
 
 # create a bogus work tree pointing to master branch because git won't allow us to
@@ -25,6 +25,9 @@ cd "${HOME}" || exit 1 && git restore --staged .
 
 # "restore" the files that are safe to do so (i.e. files that don't already exist)
 git restore $(git ls-files --deleted)
+
+# Clone submodules. Used for base16 theming currently.
+git submodule update --init --recursive
 
 echo 'Running `git status` in your home directory should now work.'
 echo 'Try it to see how much drift there is between your home dir and the repo.'
