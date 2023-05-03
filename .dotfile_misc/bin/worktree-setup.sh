@@ -30,7 +30,7 @@ git restore $(git ls-files --deleted)
 git submodule update --init --recursive
 
 # add sourcing for global shell overrides and additions
-for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc"
+for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"
 do
     printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >> "${HOME}/${_LOCAL_SHELL_RC}"
 done
