@@ -29,6 +29,13 @@ git restore $(git ls-files --deleted)
 # Clone submodules. Used for base16 theming currently.
 git submodule update --init --recursive
 
+# add sourcing for global shell overrides and additions
+for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc"
+do
+    printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >> "${HOME}/${_LOCAL_SHELL_RC}"
+done
+unset _LOCAL_SHELL_RC
+
 echo 'Running `git status` in your home directory should now work.'
 echo 'Try it to see how much drift there is between your home dir and the repo.'
 echo "Be careful with checking out files! You don't want to mess up your pre-existing configurations."

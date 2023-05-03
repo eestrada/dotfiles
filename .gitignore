@@ -13,6 +13,7 @@ adobeconnectapp.log
 /.azure
 /.bash_history
 /.bash_sessions
+/.bashrc
 /.bashrc_local*
 /.bashrc-local*
 /.bundle
@@ -41,11 +42,13 @@ adobeconnectapp.log
 /.irb_history
 /.irb-history
 /.java
+/.kshrc
 /.landscape
 /.lesshs?
 /.local
 /.mgem
 /.mirb_history
+/.mkshrc
 /.motd_shown
 /.mozilla
 /.netrc
@@ -58,6 +61,7 @@ adobeconnectapp.log
 /.python_history
 /.rbenv
 /.rvm
+/.shrc
 /.shrc_local*
 /.shrc-local*
 /.sonarlint
@@ -85,6 +89,7 @@ adobeconnectapp.log
 /.zsh
 /.zsh_history
 /.zsh_sessions
+/.zshrc
 /.zshrc_local*
 /.zshrc-local*
 
