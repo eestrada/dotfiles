@@ -55,12 +55,11 @@ remove_duplicate_paths ()
 
 refreshpath ()
 {
-
     # must be calculated before the PATH is modified.
     _sysname="$(uname -s)"
 
     # Modify PATH now that env vars are set
-    SYSPATH=${PATH}:${SYSPATH}
+    SYSPATH=${PATH}${SYSPATH+:$SYSPATH}
 
     # Vanilla path vars
     PATH=${HOME}/go/bin;
@@ -84,6 +83,7 @@ refreshpath ()
 
     PATH=$(remove_duplicate_paths "$PATH")
     export PATH;
+    unset SYSPATH;
 }
 
 set_manpath ()
@@ -229,14 +229,14 @@ esac
 
 [ -n ${_interactive_shell} ] && [ $(uname -s) = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
-# Add homebrew variables for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew
-# installed elsewhere.
-[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 refreshpath
 set_manpath
 custvars
 run_ssh_agent
+
+# Add homebrew variables for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew
+# installed elsewhere.
+[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
 

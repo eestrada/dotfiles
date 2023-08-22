@@ -406,5 +406,11 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # Load RVM into a shell session *as a function*
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
+# Print if any brew package upgrades are available.
+if type brew &>/dev/null
+then
+  brew outdated
+fi
+
 # source local shell overrides and additions
 source_files "${HOME}/.shrc_local" "${HOME}/.shrc_local.sh" "${HOME}/.shrc-local.sh"

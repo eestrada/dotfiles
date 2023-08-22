@@ -743,7 +743,7 @@
 		</dict>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
-	<true/>
+	<false/>
 	<key>OpenArrangementAtStartup</key>
 	<false/>
 	<key>OpenBookmark</key>
@@ -789,6 +789,8 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>PromptOnQuit</key>
+	<false/>
 	<key>PromptOnQuitEvenIfThereAreNoWindows</key>
 	<false/>
 	<key>QuitWhenAllWindowsClosed</key>
@@ -815,7 +817,6 @@
 	<false/>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Recent Directories</string>
 		<string>Command History</string>
 	</array>
 	<key>UseBorder</key>
