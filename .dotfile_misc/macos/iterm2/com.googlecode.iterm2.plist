@@ -4,8 +4,6 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AlternateMouseScroll</key>
-	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<true/>
 	<key>ClosingTmuxTabKillsTmuxWindows</key>
@@ -638,7 +636,7 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>100000</integer>
+			<integer>10000</integer>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -754,8 +752,6 @@
 	<true/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>2</integer>
-	<key>PasteTabToStringTabStopSize</key>
-	<integer>4</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -817,6 +813,7 @@
 	<false/>
 	<key>ToolbeltTools</key>
 	<array>
+		<string>Recent Directories</string>
 		<string>Command History</string>
 	</array>
 	<key>UseBorder</key>
