@@ -31,7 +31,7 @@ adobeconnectapp.log
 /.fossil
 /.gem
 /.git-for-windows-updater
-/.gitconfig-local.ini
+/.gitconfig
 /.gnupg
 /.gradle/
 /.gtk-bookmarks

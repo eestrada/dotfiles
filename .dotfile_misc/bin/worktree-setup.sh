@@ -36,6 +36,9 @@ do
 done
 unset _LOCAL_SHELL_RC
 
+# add sourcing for global git config additions
+git config --global --add include.path '~/.gitconfig-global.ini'
+
 echo 'Running `git status` in your home directory should now work.'
 echo 'Try it to see how much drift there is between your home dir and the repo.'
 echo "Be careful with checking out files! You don't want to mess up your pre-existing configurations."
