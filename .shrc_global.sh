@@ -297,7 +297,6 @@ dotenv_src ()
         filename=".env"
     fi
 
-    # FIXME: change grep and xargs invocations if on *BSD or Darwin
     # grep removes all blank and commented out lines
     export $(grep -vE '^#|^$' "$filename" | xargs -0)
 }
@@ -314,7 +313,6 @@ dotenv_unsrc ()
         filename=".env"
     fi
 
-    # FIXME: change grep and xargs invocations if on *BSD or Darwin
     # grep removes all blank and commented out lines
     # sed grabs all variable names and ignores variable values
     unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
@@ -385,8 +383,7 @@ EOF
 setaliases
 _canonical_home
 
-# TODO: add color to prompt
-# Custom terminal prompt
+# Custom terminal prompt sans color
 PS1="[\$(whoami)@\h \W]"
 PS1="${PS1}\$(_tmux_print_status)"
 PS1="${PS1}\$(_git_print_branch)"

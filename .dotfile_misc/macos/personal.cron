@@ -10,4 +10,3 @@ CHARSET="UTF-8"
 
 # Clear out the ~/tmp and ~/Downloads/tmp folder at every reboot.
 @reboot						cd ${HOME}/tmp/ && find . -delete
-@reboot						cd ${HOME}/Downloads/tmp/ && find . -delete
