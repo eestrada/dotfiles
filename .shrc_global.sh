@@ -404,7 +404,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
 # Print if any brew package upgrades are available.
-if type brew &>/dev/null
+if type brew &>/dev/null && [ -z "${NO_CHECK_HOMEBREW_OUTDATED}" ]
 then
   brew outdated
 fi
