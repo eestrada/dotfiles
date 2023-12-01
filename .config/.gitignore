@@ -1,3 +1,4 @@
+# files/folders to include under .config
 !/dunst/
 !/fzf/
 !/nvim/
