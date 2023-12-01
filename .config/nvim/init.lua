@@ -8,8 +8,6 @@ vim.cmd('colorscheme desert')
 vim.opt.list = true -- turn on special character highlighting
 vim.opt.listchars = { trail = '·', tab = '»-', eol = '¬' } -- define what special characters look like
 
-vim.opt.autoindent = true -- Copy indent from current line when starting a new line.
-vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent.
 vim.opt.errorbells = false -- Do not ring the bell for error messages.
 vim.opt.visualbell = true -- Use visual bell instead of beeping.
 
@@ -21,24 +19,17 @@ vim.opt.ruler = true -- Show line and column number.
 vim.opt.number = true -- Print the line number in front of each line.
 vim.opt.numberwidth = 4 -- Minimal number of columns to use for the line number.
 
--- Does not work in lua in this form
--- vim.opt.backspace = 2 -- make backspace work like most other apps
-
--- Tab Settings
--- set expandtab -- Use the appropriate number of spaces to insert a	<Tab>.
-vim.opt.expandtab = false -- Messes up Makefiles and stuff. Just hit spacebar a few extra times.
+-- Indentation and Tab Settings
+vim.opt.autoindent = true -- Copy indent from current line when starting a new line.
+vim.opt.smartindent = true -- Use indent rules based on current filetype.
+vim.opt.expandtab = true -- Default to using spaces when hiting <Tab> key.
 vim.opt.softtabstop = 4 -- Number of spaces that a <Tab> counts for while editing.
-vim.opt.tabstop = 4 -- Number of spaces that a <Tab> in the file counts for.
+vim.opt.tabstop = 4 -- Number of spaces that a true <Tab> in the file renders as.
+vim.opt.shiftwidth = 0 -- Number of spaces to use for each step of (auto)indent. Zero means "same as tabstop".
 
--- Will need to be refactored to work in Lua
--- -- System friendly settings
--- -- Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
--- -- Use system clipboard for Yank and Put
--- set clipboard=unnamed
--- if has('unnamedplus')
---     -- Use system AND xterm clipboards for Yank and Put
---     set clipboard=unnamed,unnamedplus
--- endif
+-- Always use the system clipboard for all yank/paste operations. See link below for details.
+-- https://neovim.io/doc/user/provider.html#provider-clipboard
+vim.cmd('set clipboard+=unnamedplus')
 
 -- Will need to be refactored to work in Lua
 -- Delete Trailing whitespace
