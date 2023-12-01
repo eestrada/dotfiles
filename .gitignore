@@ -32,6 +32,7 @@ adobeconnectapp.log
 /.gem
 /.git-for-windows-updater
 /.gitconfig
+/.gitignore_global
 /.gnupg
 /.gradle/
 /.gtk-bookmarks

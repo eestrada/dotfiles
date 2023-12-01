@@ -111,14 +111,20 @@ custvars ()
 
     # Environment variables to declare
     [ -z "${TEMP}" ] && export TEMP="/tmp";
-    if $(which vim >/dev/null 2>&1);
+    if $(which nvim >/dev/null 2>&1);
+    then
+        export EDITOR="nvim";
+    elif $(which vim >/dev/null 2>&1);
     then
         export EDITOR="vim";
     else
         export EDITOR="vi";
     fi
 
-    if $(which vim >/dev/null 2>&1);
+    if $(which nvim >/dev/null 2>&1);
+    then
+        export VISUAL="nvim";
+    elif $(which vim >/dev/null 2>&1);
     then
         export VISUAL="vim";
     else
