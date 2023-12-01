@@ -20,7 +20,7 @@ adobeconnectapp.log
 /.cache
 /.cdk
 /.CFUserTextEncoding
-/.config
+/.config/*
 /.cups
 /.dbus
 /.dlv
