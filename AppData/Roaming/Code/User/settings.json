@@ -135,5 +135,12 @@
         }
     },
     "workbench.colorTheme": "Monokai",
-    "problems.sortOrder": "position"
+    "problems.sortOrder": "position",
+    "todo-tree.general.periodicRefreshInterval": 5,
+    "todo-tree.general.automaticGitRefreshInterval": 30,
+    "todo-tree.filtering.ignoreGitSubmodules": true,
+    "todo-tree.filtering.includeHiddenFiles": true,
+    "todo-tree.tree.showCountsInTree": true,
+    "aws.telemetry": false,
+    "godot_tools.gdscript_lsp_server_port": 6005
 }

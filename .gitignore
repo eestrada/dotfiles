@@ -11,11 +11,11 @@ adobeconnectapp.log
 /.atom
 /.aws
 /.azure
+/.bashrc
+/.bashrc-local*
+/.bashrc_local*
 /.bash_history
 /.bash_sessions
-/.bashrc
-/.bashrc_local*
-/.bashrc-local*
 /.bundle
 /.cache
 /.cdk
@@ -40,8 +40,8 @@ adobeconnectapp.log
 /.hushlogin
 /.ICEauthority
 /.icons
-/.irb_history
 /.irb-history
+/.irb_history
 /.java
 /.kshrc
 /.landscape
@@ -58,14 +58,14 @@ adobeconnectapp.log
 /.pgadmin
 /.pki
 /.profile
-/.profile_local*
 /.profile-local*
+/.profile_local*
 /.python_history
 /.rbenv
 /.rvm
 /.shrc
-/.shrc_local*
 /.shrc-local*
+/.shrc_local*
 /.sonarlint
 /.ssh
 /.steam
@@ -89,11 +89,11 @@ adobeconnectapp.log
 /.zcompcache
 /.zcompdump
 /.zsh
+/.zshrc
+/.zshrc-local*
+/.zshrc_local*
 /.zsh_history
 /.zsh_sessions
-/.zshrc
-/.zshrc_local*
-/.zshrc-local*
 
 # files to ignore at top level
 # General
@@ -121,15 +121,25 @@ adobeconnectapp.log
 
 # MS Windows
 /_netrc
-/3D Objects
+/3D\ Objects
 /AppData
+/Application\ Data
 /Contacts
+/Cookies
 /Favorites
+/Gaming
 /houdini*
 /Links
+/Local\ Settings
+/My\ Documents
+/NetHood
 /Nt
 /NTUSER.*
 /OneDrive
-/Saved Games
+/PrintHood
+/Recent
+/Saved\ Games
 /Searches
+/SendTo
+/Start\ Menu
 /VirtualBoxVMs
