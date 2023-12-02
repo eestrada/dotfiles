@@ -3,9 +3,12 @@
 # clone repo
 mkdir -p "${HOME}/dev"
 cd "${HOME}/dev"
-# git clone --bare git@github.com:eestrada/dotfiles.git dotfiles_git
-git clone --bare https://github.com/eestrada/dotfiles.git dotfiles_git
+# git clone --no-checkout git@github.com:eestrada/dotfiles.git dotfiles_git
+git clone --no-checkout https://github.com/eestrada/dotfiles.git dotfiles_git
 cd dotfiles_git
+
+# Switch to a dummy branch so that we don't conflict with the worktree on master
+git switch -c local_dummy_branch
 
 # create a bogus work tree pointing to master branch because git won't allow us to
 # create a worktree to an existing directory like our home directory. Lock it
@@ -16,7 +19,7 @@ git worktree add --lock --no-checkout --force "${HOME}/homedir-dotfiles" master
 cp -v "${HOME}/homedir-dotfiles/.git" "${HOME}/"
 
 # point repo to home dir
-echo "${HOME}/.git" > "worktrees/homedir-dotfiles/gitdir"
+echo "${HOME}/.git" > ".git/worktrees/homedir-dotfiles/gitdir"
 
 # delete dummy work dir; it no longer serves any purpose
 rm -rf "${HOME}/homedir-dotfiles"
