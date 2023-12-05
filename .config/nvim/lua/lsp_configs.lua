@@ -45,20 +45,18 @@ lspconfig.lua_ls.setup {
   end
 }
 
--- Java Language Server via jdtls
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
-lspconfig.jdtls.setup({})
-
 -- Other lsp configuration suggestions can be found here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md
 
--- Only redefine uppercase K keymap if current LSP supports hover capability
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
+    -- Only redefine uppercase K keymap if current LSP supports hover capability
     if client.server_capabilities.hoverProvider then
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf })
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf, desc = 'Hover Popup' })
     end
+    -- Easier to type than Ctrl-] and works slightly differently too.
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = '[G]oto [D]efinition' })
   end,
 })
 
