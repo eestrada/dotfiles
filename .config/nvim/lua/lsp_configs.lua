@@ -1,6 +1,7 @@
 -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See link below.
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
 local lspconfig = require("lspconfig")
+-- local autocmd = vim.api.nvim_create_autocmd
 
 -- Based on info in link below:
 -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
@@ -55,8 +56,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.server_capabilities.hoverProvider then
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf, desc = 'Hover Popup' })
     end
-    -- Easier to type than Ctrl-] and works slightly differently too.
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+    if client.server_capabilities.definitionProvider then
+        -- Easier to type than Ctrl-] and works slightly differently too.
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+    end
+    -- vim.call('autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()')
+    -- vim.call('autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()')
+    -- vim.call('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
   end,
 })
 
