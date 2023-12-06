@@ -56,9 +56,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.server_capabilities.hoverProvider then
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf, desc = 'Hover Popup' })
     end
+    if client.server_capabilities.signatureHelpProvider then
+      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signatureHelp, { buffer = args.buf, desc = 'Signature help' })
+    end
     if client.server_capabilities.definitionProvider then
         -- Easier to type than Ctrl-] and works slightly differently too.
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+    end
+    if client.server_capabilities.renameProvider then
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.definition, { buffer = args.buf, desc = '[R]e[N]ame' })
+    end
+    if client.server_capabilities.referencesProvider then
+        vim.keymap.set('n', '[I', vim.lsp.buf.references, { buffer = args.buf, desc = 'References' })
     end
     -- vim.call('autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()')
     -- vim.call('autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()')

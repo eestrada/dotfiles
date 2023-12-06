@@ -2,6 +2,8 @@
 -- LSPs, or plugins.
 require('options')
 
+vim.g.mapleader = ","
+
 -- Configure desired plugins
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
