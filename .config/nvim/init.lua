@@ -6,6 +6,8 @@ require('options')
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
 
+Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf#install()') end })
+Plug('https://github.com/junegunn/fzf.vim')
 Plug('https://github.com/mhinz/vim-signify')
 Plug('https://github.com/neovim/nvim-lspconfig')
 
