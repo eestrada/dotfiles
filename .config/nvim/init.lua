@@ -2,7 +2,7 @@
 -- LSPs, or plugins.
 require('options')
 
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 -- Configure desired plugins
 local Plug = vim.fn['plug#']
@@ -36,6 +36,7 @@ end
 
 -- Configure LSPs for all languages I care about
 require('lsp_configs')
+require('keymappings')
 
 vim.g.signify_sign_delete = '-'
 
