@@ -27,6 +27,8 @@ end
 plug.End()
 
 if plug.Bootstrapped then
+    -- Installed all defined plugins. Will leave a pop up window with a report
+    -- of installed plugins.
     plug.Install()
 end
 
@@ -37,13 +39,4 @@ if status then
 else
     print(err)
 end
-
--- Configure LSPs for all languages I care about
-require('myconfigs.lsp_configs')
-
-vim.g.signify_sign_delete = '-'
-
--- I'm still on the fence on whether or not I want to show the count of deleted
--- lines in the gutter.
--- vim.g.signify_sign_show_count = false
 
