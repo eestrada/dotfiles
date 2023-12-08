@@ -12,8 +12,14 @@ plug.Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf
 plug.Plug('https://github.com/junegunn/fzf.vim')
 plug.Plug('https://github.com/mhinz/vim-signify')
 plug.Plug('https://github.com/neovim/nvim-lspconfig')
-plug.Plug('https://github.com/nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+
+-- The `TSUpdate` call tends to throw errors when this is installed. Don't
+-- stress, it works after the first run. Not worth looking into deeper at the
+-- moment.
+plug.Plug('https://github.com/nvim-treesitter/nvim-treesitter', { ['do'] = function() vim.cmd('TSUpdate') end })
 plug.Plug('https://github.com/tpope/vim-fugitive')
+plug.Plug("https://github.com/nvim-lua/plenary.nvim")
+plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
 
 -- Add local additional plugin inclusions, if any. Use error handling code in
 -- case no local configs exist. Error handling patterned after code this link:
