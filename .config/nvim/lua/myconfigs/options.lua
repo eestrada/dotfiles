@@ -41,7 +41,8 @@ vim.opt.expandtab = true
 vim.opt.softtabstop = 4
 -- Number of spaces that a true <Tab> in the file renders as.
 vim.opt.tabstop = 4
--- Number of spaces to use for each step of (auto)indent. Zero means "same as tabstop".
+-- Number of spaces to use for each step of (auto)indent. Zero means "same as
+-- tabstop".
 vim.opt.shiftwidth = 0
 
 -- At least 8 line visible buffer when moving up/down file.
@@ -52,9 +53,10 @@ vim.opt.signcolumn = "yes"
 -- fast update time
 vim.opt.updatetime = 50
 
--- generous visual line column
-vim.opt.colorcolumn = "120"
+-- visual line column(s)
+vim.opt.colorcolumn = {"80"}
 
--- Always use the system clipboard for all yank/paste operations. See link below for details.
+-- Always use the system clipboard for all yank/paste operations. See link
+-- below for details.
 -- https://neovim.io/doc/user/provider.html#provider-clipboard
 vim.cmd('set clipboard+=unnamedplus')

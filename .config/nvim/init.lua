@@ -9,7 +9,10 @@ local plug = require('bootstrap.plug')
 -- Configure desired plugins
 plug.Begin()
 
-plug.Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf#install()') end })
+plug.Plug(
+  'https://github.com/junegunn/fzf',
+  { ['do'] = function() vim.call('fzf#install()') end }
+)
 plug.Plug('https://github.com/junegunn/fzf.vim')
 plug.Plug('https://github.com/mhinz/vim-signify')
 plug.Plug('https://github.com/neovim/nvim-lspconfig')
@@ -17,7 +20,10 @@ plug.Plug('https://github.com/neovim/nvim-lspconfig')
 -- The `TSUpdate` call tends to throw errors when this is installed. Don't
 -- stress, it works after the first run. Not worth looking into deeper at the
 -- moment.
-plug.Plug('https://github.com/nvim-treesitter/nvim-treesitter', { ['do'] = function() vim.cmd('TSUpdate') end })
+plug.Plug(
+  'https://github.com/nvim-treesitter/nvim-treesitter',
+  { ['do'] = function() vim.cmd('TSUpdate') end }
+)
 plug.Plug('https://github.com/tpope/vim-fugitive')
 plug.Plug("https://github.com/nvim-lua/plenary.nvim")
 plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
@@ -40,7 +46,7 @@ else
   local file = io.open(additional_plugins_path, "w")
   if file ~= nil then
     file:close()
-    print('Created placeholder local_config/additional_plugins.lua init to silence this error in future calls to nvim')
+    print('Created placeholder `local_config/additional_plugins.lua`')
   end
 end
 
@@ -64,7 +70,6 @@ else
   local file = io.open(local_configs_init, "w")
   if file ~= nil then
     file:close()
-    print('Created placeholder local_config/init.lua to silence this error in future calls to nvim')
+    print('Created placeholder `local_config/init.lua`')
   end
 end
-
