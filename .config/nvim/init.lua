@@ -24,11 +24,19 @@ plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
 -- Add local additional plugin inclusions, if any. Use error handling code in
 -- case no local configs exist. Error handling patterned after code this link:
 -- https://www.lua.org/pil/8.4.html
+local local_configs_dir = vim.fn.stdpath('config') .. '/lua/local_configs'
 local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
 if pstatus then
     -- print('Loaded local additional plugin inclusions')
 else
     print(perr)
+    vim.fn.mkdir(local_configs_dir, "p")
+    local additional_plugins_path = local_configs_dir .. '/additional_plugins.lua'
+    local file = io.open(additional_plugins_path, "w")
+    if file ~= nil then
+        file:close()
+        print('Created placeholder local_config/additional_plugins.lua init to silence this error in future calls to nvim')
+    end
 end
 
 -- Close plugin loading AFTER we local plugin inclusions (if then exist).
@@ -46,5 +54,12 @@ if status then
     --print('Loaded local configs')
 else
     print(err)
+    vim.fn.mkdir(local_configs_dir, "p")
+    local local_configs_init = local_configs_dir .. '/init.lua'
+    local file = io.open(local_configs_init, "w")
+    if file ~= nil then
+        file:close()
+        print('Created placeholder local_config/init.lua to silence this error in future calls to nvim')
+    end
 end
 
