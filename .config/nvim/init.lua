@@ -20,6 +20,8 @@ plug.Plug('https://github.com/nvim-treesitter/nvim-treesitter', { ['do'] = funct
 plug.Plug('https://github.com/tpope/vim-fugitive')
 plug.Plug("https://github.com/nvim-lua/plenary.nvim")
 plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
+plug.Plug('https://github.com/ray-x/go.nvim')
+plug.Plug('https://github.com/ray-x/guihua.lua') -- recommended if need floating window support
 
 -- Add local additional plugin inclusions, if any. Use error handling code in
 -- case no local configs exist. Error handling patterned after code this link:

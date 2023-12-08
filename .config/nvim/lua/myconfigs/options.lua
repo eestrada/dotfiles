@@ -11,10 +11,10 @@ vim.opt.listchars = { trail = '·', tab = '»-', eol = '¬' } -- define what spe
 vim.opt.errorbells = false -- Do not ring the bell for error messages.
 vim.opt.visualbell = true -- Use visual bell instead of beeping.
 
--- set wrap -- Lines longer than the width of the window will wrap.
 vim.opt.wrap = false -- Never wrap long lines.
 
-vim.opt.hlsearch = true -- When there is a search pattern, highlight all matches.
+vim.opt.hlsearch = false -- When there is a search pattern, do no highlight all matches.
+vim.opt.incsearch = true -- Incremental search highlight. Useful for constructing regexes.
 vim.opt.ruler = true -- Show line and column number.
 vim.opt.number = true -- Print the line number in front of each line.
 vim.opt.numberwidth = 4 -- Minimal number of columns to use for the line number.
@@ -26,6 +26,13 @@ vim.opt.expandtab = true -- Default to using spaces when hiting <Tab> key.
 vim.opt.softtabstop = 4 -- Number of spaces that a <Tab> counts for while editing.
 vim.opt.tabstop = 4 -- Number of spaces that a true <Tab> in the file renders as.
 vim.opt.shiftwidth = 0 -- Number of spaces to use for each step of (auto)indent. Zero means "same as tabstop".
+
+vim.opt.scrolloff = 8 -- At least 8 line visible buffer when moving up/down file.
+vim.opt.signcolumn = "yes" -- show sign column even when empty
+
+vim.opt.updatetime = 50 -- fast update time
+
+vim.opt.colorcolumn = "120" -- generous visual line column
 
 -- Always use the system clipboard for all yank/paste operations. See link below for details.
 -- https://neovim.io/doc/user/provider.html#provider-clipboard
