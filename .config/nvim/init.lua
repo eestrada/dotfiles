@@ -1,30 +1,34 @@
 -- General vi/vim/neovim options to work like I want, regardless of keymaps,
 -- LSPs, or plugins.
-require('options')
+require('myconfigs.options')
+require('myconfigs.keymappings')
 
-vim.g.mapleader = " "
+local plug = require('bootstrap.plug')
 
 -- Configure desired plugins
-local Plug = vim.fn['plug#']
-vim.call('plug#begin')
+plug.Begin()
 
-Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf#install()') end })
-Plug('https://github.com/junegunn/fzf.vim')
-Plug('https://github.com/mhinz/vim-signify')
-Plug('https://github.com/neovim/nvim-lspconfig')
+plug.Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf#install()') end })
+plug.Plug('https://github.com/junegunn/fzf.vim')
+plug.Plug('https://github.com/mhinz/vim-signify')
+plug.Plug('https://github.com/neovim/nvim-lspconfig')
 
 -- Add local additional plugin inclusions, if any. Use error handling code in
 -- case no local configs exist. Error handling patterned after code this link:
 -- https://www.lua.org/pil/8.4.html
-local pstatus, perr = pcall(function() require('local_configs/additional_plugins') end)
+local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
 if pstatus then
     -- print('Loaded local additional plugin inclusions')
 else
     print(perr)
 end
 
--- Close plugin loading AFTER we load plugin inclusions.
-vim.call('plug#end')
+-- Close plugin loading AFTER we local plugin inclusions (if then exist).
+plug.End()
+
+if plug.Bootstrapped then
+    plug.Install()
+end
 
 -- Get local configs after plugins have been defined and hopefully loaded
 local status, err = pcall(function() require('local_configs') end)
@@ -35,8 +39,7 @@ else
 end
 
 -- Configure LSPs for all languages I care about
-require('lsp_configs')
-require('keymappings')
+require('myconfigs.lsp_configs')
 
 vim.g.signify_sign_delete = '-'
 

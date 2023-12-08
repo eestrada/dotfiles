@@ -113,7 +113,7 @@ custvars ()
     [ -z "${TEMP}" ] && export TEMP="/tmp";
     if $(which nvim >/dev/null 2>&1);
     then
-        export EDITOR="nvim";
+        export EDITOR="nvim -c ':SignifyDisableAll'";
     elif $(which vim >/dev/null 2>&1);
     then
         export EDITOR="vim";
@@ -123,7 +123,7 @@ custvars ()
 
     if $(which nvim >/dev/null 2>&1);
     then
-        export VISUAL="nvim";
+        export VISUAL="nvim -c ':SignifyDisableAll'";
     elif $(which vim >/dev/null 2>&1);
     then
         export VISUAL="vim";
