@@ -12,6 +12,8 @@ plug.Plug('https://github.com/junegunn/fzf', { ['do'] = function() vim.call('fzf
 plug.Plug('https://github.com/junegunn/fzf.vim')
 plug.Plug('https://github.com/mhinz/vim-signify')
 plug.Plug('https://github.com/neovim/nvim-lspconfig')
+plug.Plug('https://github.com/nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+plug.Plug('https://github.com/tpope/vim-fugitive')
 
 -- Add local additional plugin inclusions, if any. Use error handling code in
 -- case no local configs exist. Error handling patterned after code this link:
