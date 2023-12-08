@@ -71,13 +71,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
     vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { buffer = args.buf, desc = '[C]ode [A]ction' })
 
-    -- vim.api.nvim_create_autocmd('CursorHold', {
-    -- callback = function(cargs)
-    --     vim.lsp.buf.document_highlight()
-    -- end})
-    vim.cmd('autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()')
-    vim.cmd('autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()')
-    vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        pattern = '<buffer>',
+        callback = function()
+            vim.lsp.buf.document_highlight()
+        end
+    })
+    vim.api.nvim_create_autocmd('CursorMoved', {
+        pattern = '<buffer>',
+        callback = function()
+            vim.lsp.buf.clear_references()
+        end
+    })
   end,
 })
 
