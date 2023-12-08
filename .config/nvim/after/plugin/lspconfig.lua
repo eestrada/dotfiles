@@ -18,7 +18,7 @@ lspconfig.gopls.setup({})
 lspconfig.lua_ls.setup {
   on_init = function(client)
     local path = client.workspace_folders[1].name
-    if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
+    if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
       client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
         Lua = {
           runtime = {
@@ -59,44 +59,55 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
     end
     if client.server_capabilities.definitionProvider then
-        vim.keymap.set('n', '<C-]>', function() vim.lsp.buf.definition() end, { buffer = args.buf, desc = 'Goto Definition' })
-        -- Easier to type than Ctrl-].
-        vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+      vim.keymap.set('n', '<C-]>',
+        function() vim.lsp.buf.definition() end,
+        { buffer = args.buf, desc = 'Goto Definition' }
+      )
+      -- Easier to type than Ctrl-].
+      vim.keymap.set('n', 'gd',
+        function() vim.lsp.buf.definition() end,
+        { buffer = args.buf, desc = '[G]oto [D]efinition' }
+      )
     end
     if client.server_capabilities.referencesProvider then
-        vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
+      vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
     end
-    vim.keymap.set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, { buffer = args.buf, desc = 'Signature help' })
+    vim.keymap.set('n', '<C-k>',
+      function() vim.lsp.buf.signature_help() end,
+      { buffer = args.buf, desc = 'Signature help' }
+    )
     vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, { buffer = args.buf })
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
 
     -- custom keymaps using <leader> key
     if client.server_capabilities.renameProvider then
-        vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[R]e[N]ame' })
+      vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[R]e[N]ame' })
     end
-    vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { buffer = args.buf, desc = '[C]ode [A]ction' })
+    vim.keymap.set('n', '<leader>ca',
+      function() vim.lsp.buf.code_action() end,
+      { buffer = args.buf, desc = '[C]ode [A]ction' }
+    )
 
     vim.api.nvim_buf_create_user_command(
-        args.buf,
-        'FmtBuffer',
-        function() vim.lsp.buf.format({bufnr = args.buf}) end,
-        {
-            desc = 'Format entire buffer'
-        }
+      args.buf,
+      'FmtBuffer',
+      function() vim.lsp.buf.format({ bufnr = args.buf }) end,
+      {
+        desc = 'Format entire buffer'
+      }
     )
 
     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        pattern = '<buffer>',
-        callback = function()
-            vim.lsp.buf.document_highlight()
-        end
+      pattern = '<buffer>',
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end
     })
     vim.api.nvim_create_autocmd('CursorMoved', {
-        pattern = '<buffer>',
-        callback = function()
-            vim.lsp.buf.clear_references()
-        end
+      pattern = '<buffer>',
+      callback = function()
+        vim.lsp.buf.clear_references()
+      end
     })
   end,
 })
-

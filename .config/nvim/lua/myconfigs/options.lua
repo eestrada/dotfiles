@@ -3,47 +3,58 @@ vim.opt.uc = 0
 
 -- Syntax settings
 vim.opt.background = 'dark'
-vim.cmd('syntax enable') -- Make sure syntax highlighting is on for supported file types.
+-- Make sure syntax highlighting is on for supported file types.
+vim.cmd('syntax enable')
 vim.cmd('colorscheme desert')
-vim.opt.list = true -- turn on special character highlighting
-vim.opt.listchars = { trail = '·', tab = '»-', eol = '¬' } -- define what special characters look like
+-- turn on special character highlighting
+vim.opt.list = true
+-- define what special characters look like
+vim.opt.listchars = { trail = '·', tab = '»-', eol = '¬' }
 
-vim.opt.errorbells = false -- Do not ring the bell for error messages.
-vim.opt.visualbell = true -- Use visual bell instead of beeping.
+-- Do not ring the bell for error messages.
+vim.opt.errorbells = false
+-- Use visual bell instead of beeping.
+vim.opt.visualbell = true
 
-vim.opt.wrap = false -- Never wrap long lines.
+-- Never wrap long lines.
+vim.opt.wrap = false
 
-vim.opt.hlsearch = false -- When there is a search pattern, do no highlight all matches.
-vim.opt.incsearch = true -- Incremental search highlight. Useful for constructing regexes.
-vim.opt.ruler = true -- Show line and column number.
-vim.opt.number = true -- Print the line number in front of each line.
-vim.opt.numberwidth = 4 -- Minimal number of columns to use for the line number.
+-- When there is a search pattern, do no highlight all matches.
+vim.opt.hlsearch = false
+-- Incremental search highlight. Useful for constructing regexes.
+vim.opt.incsearch = true
+-- Show line and column number.
+vim.opt.ruler = true
+-- Print the line number in front of each line.
+vim.opt.number = true
+-- Minimal number of columns to use for the line number.
+vim.opt.numberwidth = 4
 
 -- Indentation and Tab Settings
-vim.opt.autoindent = true -- Copy indent from current line when starting a new line.
-vim.opt.smartindent = true -- Use indent rules based on current filetype.
-vim.opt.expandtab = true -- Default to using spaces when hiting <Tab> key.
-vim.opt.softtabstop = 4 -- Number of spaces that a <Tab> counts for while editing.
-vim.opt.tabstop = 4 -- Number of spaces that a true <Tab> in the file renders as.
-vim.opt.shiftwidth = 0 -- Number of spaces to use for each step of (auto)indent. Zero means "same as tabstop".
+-- Copy indent from current line when starting a new line.
+vim.opt.autoindent = true
+-- Use indent rules based on current filetype.
+vim.opt.smartindent = true
+-- Default to using spaces when hiting <Tab> key.
+vim.opt.expandtab = true
+-- Number of spaces that a <Tab> counts for while editing.
+vim.opt.softtabstop = 4
+-- Number of spaces that a true <Tab> in the file renders as.
+vim.opt.tabstop = 4
+-- Number of spaces to use for each step of (auto)indent. Zero means "same as tabstop".
+vim.opt.shiftwidth = 0
 
-vim.opt.scrolloff = 8 -- At least 8 line visible buffer when moving up/down file.
-vim.opt.signcolumn = "yes" -- show sign column even when empty
+-- At least 8 line visible buffer when moving up/down file.
+vim.opt.scrolloff = 8
+-- show sign column even when empty
+vim.opt.signcolumn = "yes"
 
-vim.opt.updatetime = 50 -- fast update time
+-- fast update time
+vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "120" -- generous visual line column
+-- generous visual line column
+vim.opt.colorcolumn = "120"
 
 -- Always use the system clipboard for all yank/paste operations. See link below for details.
 -- https://neovim.io/doc/user/provider.html#provider-clipboard
 vim.cmd('set clipboard+=unnamedplus')
-
--- Will need to be refactored to work in Lua
--- Delete Trailing whitespace
---  Autocmd pulled from:
---  http://vim.wikia.com/wiki/Remove_unwanted_spaces#Automatically_removing_all_trailing_whitespace
--- autocmd BufWritePre * %s/\s\+$//e
-
--- Search in visual mode
--- vnoremap <expr> // 'y/\V'.escape(@",'\').'<CR>'
-

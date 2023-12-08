@@ -6,8 +6,7 @@ vim.g.signify_sign_delete = '-'
 
 -- If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
 -- a git commit message. We should disable signify so that it doesn't
--- accidentally corrupt the git repo unintentionally.
+-- unintentionally corrupt the git repo.
 if os.getenv("GIT_EXEC") ~= nil then
-    vim.cmd(':SignifyDisableAll')
+  vim.cmd(':SignifyDisableAll')
 end
-

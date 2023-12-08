@@ -36,4 +36,3 @@ vim.keymap.set('n', '<leader>fg', ':Rg<CR>', { desc = '[F]uzzy [G]rep files' })
 -- \'command! -bar -bang Maps                                      call fzf#vim#maps("n", <bang>0)',
 -- \'command! -bar -bang Filetypes                                 call fzf#vim#filetypes(<bang>0)',
 -- \'command!      -bang -nargs=* History                          call s:history(<q-args>, fzf#vim#with_preview(), <bang>0)'])
-
