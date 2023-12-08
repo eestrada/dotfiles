@@ -54,21 +54,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     -- Only redefine uppercase K keymap if current LSP supports hover capability
     if client.server_capabilities.hoverProvider then
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf, desc = 'Hover Popup' })
+      vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
     end
-    -- if client.server_capabilities.signatureHelpProvider then
-    --   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signatureHelp, { buffer = args.buf, desc = 'Signature help' })
-    -- end
     if client.server_capabilities.definitionProvider then
         -- Easier to type than Ctrl-] and works slightly differently too.
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+        vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { buffer = args.buf, desc = '[G]oto [D]efinition' })
     end
     if client.server_capabilities.renameProvider then
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = args.buf, desc = '[R]e[N]ame' })
+        vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[R]e[N]ame' })
     end
     if client.server_capabilities.referencesProvider then
-        vim.keymap.set('n', '[I', vim.lsp.buf.references, { buffer = args.buf, desc = 'References' })
+        vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
     end
+    vim.keymap.set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, { buffer = args.buf, desc = 'Signature help' })
+    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, { buffer = args.buf })
+    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
+    vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { buffer = args.buf, desc = '[C]ode [A]ction' })
     -- vim.call('autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()')
     -- vim.call('autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()')
     -- vim.call('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
