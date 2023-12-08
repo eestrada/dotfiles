@@ -76,6 +76,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
     vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, { buffer = args.buf, desc = '[C]ode [A]ction' })
 
+    vim.api.nvim_buf_create_user_command(
+        args.buf,
+        'FmtBuffer',
+        function() vim.lsp.buf.format({bufnr = args.buf}) end,
+        {
+            desc = 'Format entire buffer'
+        }
+    )
+
     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         pattern = '<buffer>',
         callback = function()
