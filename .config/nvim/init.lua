@@ -53,7 +53,7 @@ vim.opt.signcolumn = "yes"
 -- fast update time
 vim.opt.updatetime = 50
 -- visual line column(s)
-vim.opt.colorcolumn = {"80"}
+vim.opt.colorcolumn = { "80" }
 -- Always use the system clipboard for all yank/paste operations. See link
 -- below for details.
 -- https://neovim.io/doc/user/provider.html#provider-clipboard
@@ -62,10 +62,18 @@ vim.cmd('set clipboard+=unnamedplus')
 
 -- Start GLOBAL_VARIABLES
 vim.g.mapleader = " "
+
+-- WSL_INTEROP should only be defined if the nvim process is running under WSL
+-- on Windows. Use the wslview utility to open web pages in a native Windows
+-- web browser. See following URL.
+-- https://neovim.io/doc/user/pi_netrw.html#g%3Anetrw_browsex_viewer
+if os.getenv("WSL_INTEROP") ~= nil then
+  vim.g.netrw_browsex_viewer = 'wslview'
+end
+
 -- End GLOBAL_VARIABLES
 
 -- Start KEYMAPS
--- The leader key isn't truly a keymap, but it's related
 vim.keymap.set('n', '<leader>e', ':Ex<CR>', { desc = '[E]xplore files with netrw' })
 -- End KEYMAPS
 
@@ -107,7 +115,7 @@ if pcall(function() require('bootstrap.plug') end) then
   plug.Plug("https://github.com/nvim-lua/plenary.nvim")
   plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
 
-  -- 'ray-x/go.nvim' depends:
+  -- 'ray-x/go.nvim' depends on:
   --   - 'nvim-treesitter/nvim-treesitter'
   --   - 'neovim/nvim-lspconfig
   plug.Plug('https://github.com/ray-x/go.nvim')
@@ -116,7 +124,7 @@ if pcall(function() require('bootstrap.plug') end) then
   plug.Plug('https://github.com/ray-x/guihua.lua')
 
   -- Add local additional plugin inclusions, if any. Use error handling code in
-  -- case no local configs exist. Error handling patterned after code this link:
+  -- case no local configs exist. Error handling patterned on code in this link:
   -- https://www.lua.org/pil/8.4.html
   local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
   if not pstatus then
@@ -142,6 +150,7 @@ if pcall(function() require('bootstrap.plug') end) then
     plug.Install()
   end
 end
+
 -- Get local configs after plugins have been defined and hopefully loaded
 local status, err = pcall(function() require('local_configs') end)
 if not status then
