@@ -63,13 +63,16 @@ vim.cmd('set clipboard+=unnamedplus')
 -- Start GLOBAL_VARIABLES
 vim.g.mapleader = " "
 
--- WSL_INTEROP should only be defined if the nvim process is running under WSL
--- on Windows. Use the wslview utility to open web pages in a native Windows
--- web browser. See following URL.
--- https://neovim.io/doc/user/pi_netrw.html#g%3Anetrw_browsex_viewer
-if os.getenv("WSL_INTEROP") ~= nil then
-  vim.g.netrw_browsex_viewer = 'wslview'
-end
+-- Neovim will use `xdg-open` by default. WSL2 will set this to something that
+-- can be opened in Windows directly. No special config is necessary here, just
+-- make sure to install xdg-open and neovim will do the right thing.
+-- https://superuser.com/a/1687625/474473
+--
+-- If things are really bad and that doesn't work, set g:netrw_browsex_viewer,
+-- like mentioned below. You can use `sensible-browser` on debian based
+-- systems. Or you can install and use `wslview`. However, all of these things
+-- should not be necessary if `xdg-open` is available.
+-- * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
 
 -- End GLOBAL_VARIABLES
 
