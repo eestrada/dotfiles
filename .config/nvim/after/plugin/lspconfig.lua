@@ -1,3 +1,8 @@
+-- No Neovim LSP stuff should be done when run within VSCode
+if vim.g.vscode then
+  return
+end
+
 -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See link below.
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
 local lspconfig = require("lspconfig")

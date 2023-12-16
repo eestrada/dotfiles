@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return
+end
+
 -- Fuzzy keymaps
 -- Telescope is much, MUCH slower than fzf, so use fzf for nearly everything else.
 vim.keymap.set('n', '<leader>ft', ':Telescope<CR>', { desc = '[F]uzzy search [T]elescope lists' })

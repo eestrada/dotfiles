@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return
+end
+
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",

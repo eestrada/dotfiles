@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return
+end
+
 -- Fuzzy keymaps
 
 -- Keymap search is broken in fzf for some reason. Use telescope instead.

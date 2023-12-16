@@ -91,6 +91,15 @@ vim.api.nvim_create_user_command(
 )
 -- End COMMANDS
 
+-- Start VSCODE config
+
+if vim.g.vscode then
+  local vscode = require('vscode-neovim')
+  vim.notify = vscode.notify
+end
+
+-- End VSCODE config
+
 local local_configs_dir = vim.fn.stdpath('config') .. '/lua/local_configs'
 
 if pcall(function() require('bootstrap.plug') end) then
@@ -99,49 +108,41 @@ if pcall(function() require('bootstrap.plug') end) then
   -- Configure desired plugins
   plug.Begin()
 
-  plug.Plug(
-    'https://github.com/junegunn/fzf',
-    { ['do'] = function() vim.call('fzf#install()') end }
-  )
-  plug.Plug('https://github.com/junegunn/fzf.vim')
-  plug.Plug('https://github.com/mhinz/vim-signify')
-  plug.Plug('https://github.com/neovim/nvim-lspconfig')
+  if not vim.g.vscode then
+    plug.Plug(
+      'https://github.com/junegunn/fzf',
+      { ['do'] = function() vim.call('fzf#install()') end }
+    )
+    plug.Plug('https://github.com/junegunn/fzf.vim')
+    plug.Plug('https://github.com/mhinz/vim-signify')
+    plug.Plug('https://github.com/neovim/nvim-lspconfig')
 
-  -- The `TSUpdate` call tends to throw errors when this is installed. Don't
-  -- stress, it works on Unix/Linux after the first run. Not worth looking into
-  -- deeper at the moment.
-  plug.Plug(
-    'https://github.com/nvim-treesitter/nvim-treesitter',
-    { ['do'] = function() vim.cmd('TSUpdate') end }
-  )
-  plug.Plug('https://github.com/tpope/vim-fugitive')
-  plug.Plug("https://github.com/nvim-lua/plenary.nvim")
-  plug.Plug("https://github.com/nvim-telescope/telescope.nvim")
+    -- The `TSUpdate` call tends to throw errors when this is installed. Don't
+    -- stress, it works on Unix/Linux after the first run. Not worth looking into
+    -- deeper at the moment.
+    plug.Plug(
+      'https://github.com/nvim-treesitter/nvim-treesitter',
+      { ['do'] = function() vim.cmd('TSUpdate') end }
+    )
+    plug.Plug('https://github.com/tpope/vim-fugitive')
+    plug.Plug('https://github.com/nvim-lua/plenary.nvim')
+    plug.Plug('https://github.com/nvim-telescope/telescope.nvim')
 
-  -- 'ray-x/go.nvim' depends on:
-  --   - 'nvim-treesitter/nvim-treesitter'
-  --   - 'neovim/nvim-lspconfig
-  plug.Plug('https://github.com/ray-x/go.nvim')
+    -- 'ray-x/go.nvim' depends on:
+    --   - 'nvim-treesitter/nvim-treesitter'
+    --   - 'neovim/nvim-lspconfig
+    plug.Plug('https://github.com/ray-x/go.nvim')
 
-  -- recommended for floating window support for the go plugin above
-  plug.Plug('https://github.com/ray-x/guihua.lua')
+    -- recommended for floating window support for the go plugin above
+    plug.Plug('https://github.com/ray-x/guihua.lua')
+  end
 
   -- Add local additional plugin inclusions, if any. Use error handling code in
   -- case no local configs exist. Error handling patterned on code in this link:
   -- https://www.lua.org/pil/8.4.html
   local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
   if not pstatus then
-    vim.notify(string(perr), vim.log.levels.ERROR)
-    vim.fn.mkdir(local_configs_dir, "p")
-    local additional_plugins_path = local_configs_dir .. '/additional_plugins.lua'
-    local file = io.open(additional_plugins_path, "w")
-    if file ~= nil then
-      file:close()
-      vim.notify(
-        'Created placeholder `local_config/additional_plugins.lua`',
-        vim.log.levels.INFO
-      )
-    end
+    -- vim.notify(string.format('%s', perr), vim.log.levels.ERROR)
   end
 
   -- Close plugin loading AFTER we local plugin inclusions (if then exist).
@@ -157,15 +158,5 @@ end
 -- Get local configs after plugins have been defined and hopefully loaded
 local status, err = pcall(function() require('local_configs') end)
 if not status then
-  vim.notify(string(err), vim.log.levels.ERROR)
-  vim.fn.mkdir(local_configs_dir, "p")
-  local local_configs_init = local_configs_dir .. '/init.lua'
-  local file = io.open(local_configs_init, "w")
-  if file ~= nil then
-    file:close()
-    vim.notify(
-      'Created placeholder `local_config/init.lua`',
-      vim.log.levels.INFO
-    )
-  end
+  -- vim.notify(string.format('%s', err), vim.log.levels.ERROR)
 end

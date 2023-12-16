@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return
+end
+
 vim.g.signify_sign_delete = '-'
 
 -- I'm still on the fence on whether or not I want to show the count of deleted
