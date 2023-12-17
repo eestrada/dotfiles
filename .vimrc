@@ -4,30 +4,58 @@ set nocompatible "Kind of pointless, but better safe than sorry.
 set uc=0
 
 "Syntax settings
-let base16colorspace=256  " Access colors present in 256 colorspace
-syntax on "Make sure syntax highlighting is on for supported file types.
+"Dark background
 set background=dark
-colorscheme slate
-set list "turn on special character highlighting
-set listchars=trail:·,tab:»-,eol:¬ "define what special characters look like
+"Make sure syntax highlighting is on for supported file types.
+syntax on
+"Set colorscheme
+colorscheme desert
+"turn on special character highlighting
+set list
+"define what special characters look like
+set listchars=trail:~,tab:>-,eol:$
 
-set autoindent "Copy indent from current line when starting a new line.
-set shiftwidth=4 "Number of spaces to use for each step of (auto)indent.
-set noerrorbells "Do not ring the bell for error messages.
-set visualbell "Use visual bell instead of beeping.
-"set wrap "Lines longer than the width of the window will wrap.
-set nowrap "Never wrap long lines.
-set hlsearch "When there is a search pattern, highlight all matches.
-set ruler "Show line and column number.
-set number "Print the line number in front of each line.
-set numberwidth=4 "Minimal number of columns to use for the line number.
-set backspace=2 "make backspace work line most other apps
+"Do not ring the bell for error messages.
+set noerrorbells
+"Use visual bell instead of beeping.
+set visualbell
+"Never wrap long lines.
+set nowrap
+"When there is a search pattern, do no highlight all matches.
+set nohlsearch
+"Incremental search highlight. Useful for constructing regexes.
+set incsearch
+"Show line and column number.
+set ruler
+"Print the line number in front of each line.
+set number
+"Minimal number of columns to use for the line number.
+set numberwidth=4
+"make backspace work line most other apps
+set backspace=2
 
 "Tab Settings
-"set expandtab "Use the appropriate number of spaces to insert a	<Tab>.
-set noexpandtab "Messes up Makefiles and stuff. Just hit spacebar a few extra times.
-set softtabstop=4 "Number of spaces that a <Tab> counts for while editing.
-set tabstop=4 "Number of spaces that a <Tab> in the file counts for.
+"Copy indent from current line when starting a new line.
+set autoindent
+"Use indent rules based on current filetype.
+set smartindent
+"Default to using spaces when hiting <Tab> key.
+set expandtab
+"Number of spaces that a <Tab> counts for while editing.
+set softtabstop=4
+"Number of spaces that a <Tab> in the file counts for.
+set tabstop=4
+"same as tabstop".
+set shiftwidth=0 "Number of spaces to use for each step of (auto)indent. Zero means
+
+"At least 8 line visible buffer when moving up/down file.
+set scrolloff=8
+"show sign column even when empty
+set signcolumn=auto
+"fast update time
+set updatetime=50
+"visual line column(s)
+set colorcolumn=80
 
 "System friendly settings
 "Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
@@ -37,6 +65,10 @@ if has('unnamedplus')
     "Use system AND xterm clipboards for Yank and Put
     set clipboard=unnamed,unnamedplus
 endif
+
+let g:mapleader=' '
+
+nmap <leader>e :Ex<CR>
 
 "Delete Trailing whitespace
 " Autocmd pulled from:

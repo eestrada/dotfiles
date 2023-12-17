@@ -4,7 +4,9 @@
 -- Start OPTIONS
 -- Don't create swapfiles by default
 vim.opt.uc = 0
+
 -- Syntax settings
+-- Dark background
 vim.opt.background = 'dark'
 -- Make sure syntax highlighting is on for supported file types.
 vim.cmd('syntax enable')
@@ -13,7 +15,7 @@ vim.cmd('colorscheme desert')
 -- turn on special character highlighting
 vim.opt.list = true
 -- define what special characters look like
-vim.opt.listchars = { trail = '·', tab = '»-', eol = '¬' }
+vim.opt.listchars = { trail = '~', tab = '>-', eol = '$' }
 -- Do not ring the bell for error messages.
 vim.opt.errorbells = false
 -- Use visual bell instead of beeping.
