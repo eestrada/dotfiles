@@ -92,7 +92,7 @@ vim.api.nvim_create_user_command(
 -- End COMMANDS
 
 -- Start VSCODE config
-
+-- See docs here: https://github.com/vscode-neovim/vscode-neovim
 if vim.g.vscode then
   local vscode = require('vscode-neovim')
   vim.notify = vscode.notify
@@ -135,6 +135,9 @@ if pcall(function() require('bootstrap.plug') end) then
 
     -- recommended for floating window support for the go plugin above
     plug.Plug('https://github.com/ray-x/guihua.lua')
+
+    -- For comment/uncomment support
+    plug.Plug('https://github.com/tpope/vim-commentary')
   end
 
   -- Add local additional plugin inclusions, if any. Use error handling code in
@@ -142,7 +145,7 @@ if pcall(function() require('bootstrap.plug') end) then
   -- https://www.lua.org/pil/8.4.html
   local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
   if not pstatus then
-    -- vim.notify(string.format('%s', perr), vim.log.levels.ERROR)
+    vim.notify(string.format('%s', perr), vim.log.levels.ERROR)
   end
 
   -- Close plugin loading AFTER we local plugin inclusions (if then exist).
@@ -158,5 +161,5 @@ end
 -- Get local configs after plugins have been defined and hopefully loaded
 local status, err = pcall(function() require('local_configs') end)
 if not status then
-  -- vim.notify(string.format('%s', err), vim.log.levels.ERROR)
+   vim.notify(string.format('%s', err), vim.log.levels.ERROR)
 end
