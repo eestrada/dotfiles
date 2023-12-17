@@ -161,5 +161,5 @@ end
 -- Get local configs after plugins have been defined and hopefully loaded
 local status, err = pcall(function() require('local_configs') end)
 if not status then
-   vim.notify(string.format('%s', err), vim.log.levels.ERROR)
+  vim.notify(string.format('%s', err), vim.log.levels.ERROR)
 end
