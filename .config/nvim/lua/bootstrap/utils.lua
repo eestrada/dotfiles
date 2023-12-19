@@ -10,4 +10,8 @@ M.download_file = function(install_path, download_url)
   end
 end
 
+M.gettempdir = function()
+  return os.getenv("TMPDIR") or os.getenv("TEMP") or os.getenv("TMP") or "/tmp"
+end
+
 return M
