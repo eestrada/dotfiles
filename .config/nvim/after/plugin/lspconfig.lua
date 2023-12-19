@@ -68,15 +68,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
         function() vim.lsp.buf.definition() end,
         { buffer = args.buf, desc = 'Goto Definition' }
       )
+
       -- Easier to type than Ctrl-].
+      -- Also, I'm pretty sure this is defined for ctags, etc. So it is common.
       vim.keymap.set('n', 'gd',
         function() vim.lsp.buf.definition() end,
-        { buffer = args.buf, desc = '[G]oto [D]efinition' }
+        { buffer = args.buf, desc = '[g]oto [d]efinition' }
       )
     end
+
     if client.server_capabilities.referencesProvider then
+      vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end,
+        { buffer = args.buf, desc = '[g]oto [r]eferences' })
       vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
     end
+
     vim.keymap.set('n', '<C-k>',
       function() vim.lsp.buf.signature_help() end,
       { buffer = args.buf, desc = 'Signature help' }
@@ -86,11 +92,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- custom keymaps using <leader> key
     if client.server_capabilities.renameProvider then
-      vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[R]e[N]ame' })
+      vim.keymap.set('n', 'gR', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[g]lobally [R]ename' })
+      vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
     end
+
+    -- custom keymaps using <leader> key
     vim.keymap.set('n', '<leader>ca',
       function() vim.lsp.buf.code_action() end,
-      { buffer = args.buf, desc = '[C]ode [A]ction' }
+      { buffer = args.buf, desc = '[c]ode [a]ction' }
     )
 
     vim.api.nvim_buf_create_user_command(
@@ -101,18 +110,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
         desc = 'Format entire buffer'
       }
     )
-
-    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-      pattern = '<buffer>',
-      callback = function()
-        vim.lsp.buf.document_highlight()
-      end
-    })
-    vim.api.nvim_create_autocmd('CursorMoved', {
-      pattern = '<buffer>',
-      callback = function()
-        vim.lsp.buf.clear_references()
-      end
-    })
+    -- foldingRangeProvider
+    if client.server_capabilities.documentHighlightProvider then
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        pattern = '<buffer>',
+        callback = function()
+          vim.lsp.buf.document_highlight()
+        end
+      })
+      vim.api.nvim_create_autocmd('CursorMoved', {
+        pattern = '<buffer>',
+        callback = function()
+          vim.lsp.buf.clear_references()
+        end
+      })
+    end
   end,
 })
