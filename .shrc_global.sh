@@ -350,6 +350,11 @@ ssh_tmux_iterm2 ()
     ssh -t "$1" "tmux -CC new -A -s '$1'"
 }
 
+ssh_tmux ()
+{
+    ssh -t "$1" "tmux new -A -s '$1'"
+}
+
 display_notification ()
 {
     message=$1
