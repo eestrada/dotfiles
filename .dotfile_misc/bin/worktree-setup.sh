@@ -30,7 +30,7 @@ cd "${HOME}" || exit 1 && git restore --staged .
 # "restore" the files that are safe to do so (i.e. files that don't already exist)
 git restore $(git ls-files --deleted)
 
-# Clone submodules. Used for base16 theming currently.
+# Clone submodules.
 git submodule update --init --recursive
 
 # add sourcing for global shell overrides and additions

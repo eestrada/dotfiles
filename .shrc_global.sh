@@ -16,23 +16,18 @@ source_files ()
   _file_path=;
 }
 
-# Use Base16 syntax highlighting, if available
-BASE16_SHELL=$HOME/.base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)" && sleep 0.1
-export BASE16_THEME="base16-monokai"
-
-if [ "${TERM_PROGRAM}" '!=' "iTerm.app" ] && [ -n "${AUTO_RUN_TMUX_ARGS}" ]; then
 # Automatically start TMUX for interactive terminals
-if which tmux >/dev/null 2>&1; then
-    # See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
-    if [ -z "$TMUX" ] ; then
-        # see answer here: https://unix.stackexchange.com/a/26827/28898
-        case $- in
-          *i*) tmux ${AUTO_RUN_TMUX_ARGS} && exit;;
-          *) ;;
-        esac
+if [ "${TERM_PROGRAM}" '!=' "iTerm.app" ] && [ -n "${AUTO_RUN_TMUX_ARGS}" ]; then
+    if which tmux >/dev/null 2>&1; then
+        # See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+        if [ -z "$TMUX" ] ; then
+            # see answer here: https://unix.stackexchange.com/a/26827/28898
+            case $- in
+              *i*) tmux ${AUTO_RUN_TMUX_ARGS} && exit;;
+              *) ;;
+            esac
+        fi
     fi
-fi
 fi
 
 # User specific aliases and functions

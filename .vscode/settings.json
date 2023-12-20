@@ -10,10 +10,6 @@
     "git.autofetch": "all",
     "git.autofetchPeriod": 300,
     "search.exclude": {
-        ".base16-shell": true,
-        ".dotfile_misc/color-themes/base16-i3": true,
-        ".dotfile_misc/color-themes/base16-xfce4-terminal": true,
-        ".vim/pack/eestrada/start/base16-vim": true,
         ".vscode/extensions": true
     },
     "search.useGlobalIgnoreFiles": true,
