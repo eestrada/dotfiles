@@ -1,5 +1,4 @@
--- Utility functions and code
-
+-- Utility functions
 local download_file = function(install_path, download_url)
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.fn.system({ 'curl', '-fLo', install_path, '--create-dirs', download_url })
@@ -48,6 +47,7 @@ local load_vim_plug = function()
     return nil
   end
 end
+
 -- General vi/vim/neovim options to work like I want, regardless of LSPs,
 -- plugins, or  keymaps for LSPs/plugins.
 
@@ -152,11 +152,8 @@ end
 
 -- End VSCODE config
 
-local local_configs_dir = vim.fn.stdpath('config') .. '/lua/local_configs'
 local plug = load_vim_plug()
-
 if plug then
-
   -- Configure desired plugins
   plug.Begin()
 
