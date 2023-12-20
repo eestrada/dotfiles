@@ -6,13 +6,13 @@ end
 
 -- Keymap search is broken in fzf for some reason. Use telescope instead.
 -- vim.keymap.set('n', '<leader>fk', ':Maps<CR>', { desc = '[F]uzzy search [K]eymaps' })
-vim.keymap.set('n', '<leader>fp', ':Files<CR>', { desc = '[F]uzzy search project [P]aths' })
-vim.keymap.set('n', '<leader>fv', ':GitFiles<CR>', { desc = '[F]uzzy search [V]ersion controlled file paths' })
-vim.keymap.set('n', '<leader>fc', ':Commands<CR>', { desc = '[F]uzzy search [C]ommands' })
-vim.keymap.set('n', '<leader>fs', ':Snippets<CR>', { desc = '[F]uzzy search [S]nippets' })
+-- vim.keymap.set('n', '<leader>fp', ':Files<CR>', { desc = '[F]uzzy search project [P]aths' })
+-- vim.keymap.set('n', '<leader>fv', ':GitFiles<CR>', { desc = '[F]uzzy search [V]ersion controlled file paths' })
+-- vim.keymap.set('n', '<leader>fc', ':Commands<CR>', { desc = '[F]uzzy search [C]ommands' })
+-- vim.keymap.set('n', '<leader>fs', ':Snippets<CR>', { desc = '[F]uzzy search [S]nippets' })
 -- vim.keymap.set('n', '<leader>fb', ':Buffers<CR>', { desc = '[F]uzzy search [B]uffers' })
-vim.keymap.set('n', '<leader>fh', ':Helptags<CR>', { desc = '[F]uzzy search [H]elp tags' })
-vim.keymap.set('n', '<leader>fg', ':Rg<CR>', { desc = '[F]uzzy [G]rep files' })
+-- vim.keymap.set('n', '<leader>fh', ':Helptags<CR>', { desc = '[F]uzzy search [H]elp tags' })
+-- vim.keymap.set('n', '<leader>fg', ':Rg<CR>', { desc = '[F]uzzy [G]rep files' })
 
 -- All defined commands from the zfz plugin module as of the writing of this comment.
 -- \'command!      -bang -nargs=? -complete=dir Files              call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',

@@ -176,6 +176,7 @@ if plug then
     plug.Plug('https://github.com/tpope/vim-fugitive')
     plug.Plug('https://github.com/nvim-lua/plenary.nvim')
     plug.Plug('https://github.com/nvim-telescope/telescope.nvim')
+    plug.Plug('https://github.com/nvim-telescope/telescope-ui-select.nvim')
 
     -- 'ray-x/go.nvim' depends on:
     --   - 'nvim-treesitter/nvim-treesitter'
