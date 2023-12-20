@@ -87,8 +87,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       function() vim.lsp.buf.signature_help() end,
       { buffer = args.buf, desc = 'Signature help' }
     )
-    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, { buffer = args.buf })
-    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
+    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, { buffer = args.buf })
+    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
 
     -- custom keymaps using <leader> key
     if client.server_capabilities.renameProvider then

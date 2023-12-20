@@ -1,3 +1,53 @@
+-- Utility functions and code
+
+local download_file = function(install_path, download_url)
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    vim.fn.system({ 'curl', '-fLo', install_path, '--create-dirs', download_url })
+    return true
+  else
+    return false
+  end
+end
+
+local ensure_vim_plug = function()
+  local fn = vim.fn
+
+  local install_path = fn.stdpath('data') .. '/site/autoload/plug.vim'
+  local vim_plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  local bootstrapped = download_file(install_path, vim_plug_url)
+  if bootstrapped then
+    -- Source it explicitly this first time. Will be autoloaded by neovim on
+    -- future startups.
+    vim.cmd('source ' .. install_path)
+    return true
+  else
+    return false
+  end
+end
+
+local load_vim_plug = function()
+  local no_error, bootstrapped = pcall(ensure_vim_plug)
+  if no_error then
+    local plug = {}
+    plug.Bootstrapped = bootstrapped
+
+    plug.Plug = vim.fn['plug#']
+    plug.Begin = vim.fn['plug#begin']
+    plug.End = vim.fn['plug#end']
+
+    -- Mostly interactive commands that *can* be useful in scripting
+    plug.Clean = function() vim.cmd(':PlugClean') end
+    plug.Diff = function() vim.cmd(':PlugDiff') end
+    plug.Install = function() vim.cmd(':PlugInstall') end
+    plug.Snapshot = function() vim.cmd(':PlugSnapshot') end
+    plug.Status = function() vim.cmd(':PlugStatus') end
+    plug.Update = function() vim.cmd(':PlugUpdate') end
+    plug.Upgrade = function() vim.cmd(':PlugUpgrade') end
+    return plug
+  else
+    return nil
+  end
+end
 -- General vi/vim/neovim options to work like I want, regardless of LSPs,
 -- plugins, or  keymaps for LSPs/plugins.
 
@@ -103,9 +153,9 @@ end
 -- End VSCODE config
 
 local local_configs_dir = vim.fn.stdpath('config') .. '/lua/local_configs'
+local plug = load_vim_plug()
 
-if pcall(function() require('bootstrap.plug') end) then
-  local plug = require('bootstrap.plug')
+if plug then
 
   -- Configure desired plugins
   plug.Begin()
