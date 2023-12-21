@@ -9,4 +9,8 @@ CHARSET="UTF-8"
 # minute	hour	mday	month	wday	command
 
 # Clear out the ~/tmp and ~/Downloads/tmp folder at every reboot.
-@reboot						cd ${HOME}/tmp/ && find . -delete
+@reboot				cd ${HOME}/tmp/ && find . -delete
+
+# On complex Exchange setups, syncing can break. Periodically terminate the
+# Exchange sync daemon to force a restart of syncing.
+0	*	*	*	*	pkill -x exchangesyncd

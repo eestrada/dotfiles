@@ -152,6 +152,18 @@ end
 
 -- End VSCODE config
 
+-- Start FILETYPE detection
+
+-- See docs here: https://neovim.io/doc/user/lua.html#vim.filetype.add%28%29
+vim.filetype.add({
+  extension = {
+    cron = "crontab",
+    crontab = "crontab",
+  }
+})
+
+-- End FILETYPE detection
+
 local plug = load_vim_plug()
 if plug then
   -- Configure desired plugins
