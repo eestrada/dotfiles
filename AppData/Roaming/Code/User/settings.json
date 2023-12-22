@@ -142,5 +142,8 @@
     "todo-tree.filtering.includeHiddenFiles": true,
     "todo-tree.tree.showCountsInTree": true,
     "aws.telemetry": false,
-    "godot_tools.gdscript_lsp_server_port": 6005
+    "godot_tools.gdscript_lsp_server_port": 6005,
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    }
 }
