@@ -18,11 +18,15 @@ lspconfig.gopls.setup({})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
-lspconfig.ruby_ls.setup{}
+lspconfig.ruby_ls.setup({})
+
+-- Default values in link below
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
+lspconfig.solargraph.setup({})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
-lspconfig.rubocop.setup{}
+lspconfig.rubocop.setup({})
 
 -- Mainly used for neovim configs, so using the suggested config from link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls

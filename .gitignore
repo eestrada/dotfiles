@@ -7,19 +7,23 @@
 adobeconnectapp.log
 
 # hidden files to ignore at top level
+/.CFUserTextEncoding
+/.ICEauthority
+/.VirtualBox
+/.Xauthority
+/.Xclients
 /.android
 /.atom
 /.aws
 /.azure
+/.bash_history
+/.bash_sessions
 /.bashrc
 /.bashrc-local*
 /.bashrc_local*
-/.bash_history
-/.bash_sessions
 /.bundle
 /.cache
 /.cdk
-/.CFUserTextEncoding
 /.config/*
 /.cups
 /.dbus
@@ -28,6 +32,7 @@ adobeconnectapp.log
 /.dropbox
 /.eclipse
 /.esd_auth
+/.fly
 /.fossil
 /.gem
 /.git-for-windows-updater
@@ -38,7 +43,6 @@ adobeconnectapp.log
 /.gtk-bookmarks
 /.history
 /.hushlogin
-/.ICEauthority
 /.icons
 /.irb-history
 /.irb_history
@@ -78,23 +82,20 @@ adobeconnectapp.log
 /.vagrant.d
 /.vim/.netrwhist
 /.viminfo
-/.VirtualBox
 /.vscode-oss
 /.vscode-server
 /.wget-hsts
 /.wine
-/.Xauthority
-/.Xclients
 /.xsession-errors*
 /.yarnrc
 /.zcompcache
 /.zcompdump
 /.zsh
+/.zsh_history
+/.zsh_sessions
 /.zshrc
 /.zshrc-local*
 /.zshrc_local*
-/.zsh_history
-/.zsh_sessions
 
 # files to ignore at top level
 # General
