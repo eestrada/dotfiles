@@ -18,15 +18,17 @@ lspconfig.gopls.setup({})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
-lspconfig.ruby_ls.setup({})
+lspconfig.ruby_ls.setup({cmd = {'bundle', 'exec', 'ruby-lsp'}})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
-lspconfig.solargraph.setup({})
+-- More documentation on using with bundler:
+-- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
+lspconfig.solargraph.setup({cmd = {'bundle', 'exec', 'solargraph', 'stdio'}})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
-lspconfig.rubocop.setup({})
+-- lspconfig.rubocop.setup({})
 
 -- Mainly used for neovim configs, so using the suggested config from link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
