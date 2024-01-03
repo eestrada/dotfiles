@@ -1,4 +1,21 @@
 -- Utility functions
+
+-- Shallow copy table contents. nested cloning does not work.
+-- Implementation from here: http://lua-users.org/wiki/CopyTable
+function table.shallowcopy(orig)
+  local orig_type = type(orig)
+  local copy
+  if orig_type == 'table' then
+    copy = {}
+    for orig_key, orig_value in pairs(orig) do
+      copy[orig_key] = orig_value
+    end
+  else -- number, string, boolean, etc
+    copy = orig
+  end
+  return copy
+end
+
 local download_file = function(install_path, download_url)
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.fn.system({ 'curl', '-fLo', install_path, '--create-dirs', download_url })

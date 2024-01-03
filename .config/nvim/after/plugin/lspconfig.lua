@@ -3,24 +3,24 @@ if vim.g.vscode then
   return
 end
 -- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
+-- before setting up the mason_managed_servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
 
-local servers = {
-  -- clangd = {},
-  gopls = {},
-  ruby_ls = {},
-  solargraph = {},
-  jdtls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
+local mason_managed_servers = {
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
+      runtime = {
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT'
+      },
+      workspace = {
+        checkThirdParty = false,
+
+        -- pull in all of 'runtimepath'. NOTE: this is slower
+        library = vim.api.nvim_get_runtime_file("", true)
+      },
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
       -- diagnostics = { disable = { 'missing-fields' } },
@@ -35,49 +35,65 @@ require('neodev').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Ensure the servers above are installed
+-- Ensure the mason_managed_servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.tbl_keys(mason_managed_servers),
 }
 
 mason_lspconfig.setup_handlers {
   function(server_name)
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
+      settings = mason_managed_servers[server_name],
+      filetypes = (mason_managed_servers[server_name] or {}).filetypes,
     }
   end,
 }
 
--- -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See link below.
--- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
--- local lspconfig = require("lspconfig")
--- -- local autocmd = vim.api.nvim_create_autocmd
+-- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
 
--- -- Based on info in link below:
--- -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
+-- Servers not managed or auto-installed by mason. These language servers will
+-- need to be manually installed, either thru `:Mason` nvim modal, or manually
+-- using system tools.
+local unmanaged_servers = {
+  -- clangd = {},
 
--- -- Default values in link below
--- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
--- -- Should work so long as `gopls` command is on $PATH
--- lspconfig.gopls.setup({})
+  -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
+  -- Should work so long as `gopls` command is on $PATH
+  gopls = {},
 
--- -- Default values in link below
--- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
--- lspconfig.ruby_ls.setup({ cmd = { 'bundle', 'exec', 'ruby-lsp' } })
 
--- -- Default values in link below
--- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
--- -- More documentation on using with bundler:
--- -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
--- lspconfig.solargraph.setup({ cmd = { 'bundle', 'exec', 'solargraph', 'stdio' } })
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
+  ruby_ls = {
+    cmd = { 'bundle', 'exec', 'ruby-lsp' },
+  },
 
--- -- Default values in link below
--- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
--- -- lspconfig.rubocop.setup({})
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
+  -- More documentation on using solargraph with bundler:
+  -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
+  solargraph = {
+    cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
+  },
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
+  -- rubocop = {},
+
+  -- pyright = {},
+  -- rust_analyzer = {},
+  -- tsserver = {},
+  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+}
+
+local lspconfig = require("lspconfig")
+
+for server_name, opts in pairs(unmanaged_servers) do
+  local lopts = table.shallowcopy(opts)
+  lopts.capabilities = capabilities
+  lspconfig[server_name].setup(lopts)
+end
 
 -- -- Mainly used for neovim configs, so using the suggested config from link below
 -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
@@ -118,6 +134,7 @@ mason_lspconfig.setup_handlers {
 -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
 
 vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
@@ -130,20 +147,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Start of keymaps that shadow existing keymaps
     -- Only redefine uppercase K keymap if current LSP supports hover capability
-    if client.server_capabilities.hoverProvider then
-      vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
-    end
+    vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
 
+    -- telescope builtins
     vim.keymap.set('n', '<C-]>', function() require('telescope.builtin').lsp_definitions() end,
       { buffer = args.buf, desc = 'Goto Definition' })
     vim.keymap.set('n', 'gd', function() require('telescope.builtin').lsp_definitions() end,
       { buffer = args.buf, desc = '[G]oto [D]efinition' })
-    vim.keymap.set('n', 'gH', function() require('telescope.builtin').lsp_references() end,
-      { buffer = args.buf, desc = '[G]oto [R]eferences' })
-    vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end,
-      { buffer = args.buf, desc = '[G]oto [R]eferences' })
-    vim.keymap.set('n', '[I', function() require('telescope.builtin').lsp_references() end,
-      { buffer = args.buf, desc = 'References' })
+
+    -- References
+    local telescope_references = function()
+      require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({ include_current_line = true }))
+    end
+    vim.keymap.set('n', 'gH', telescope_references, { buffer = args.buf, desc = '[G]oto [R]eferences' })
+    vim.keymap.set('n', 'gr', telescope_references, { buffer = args.buf, desc = '[G]oto [R]eferences' })
+    vim.keymap.set('n', '[I', telescope_references, { buffer = args.buf, desc = 'References' })
+
     vim.keymap.set('n', 'gi', function() require('telescope.builtin').lsp_implementations() end,
       { buffer = args.buf, desc = '[G]oto [I]mplementation' })
     vim.keymap.set('n', '<leader>D', function() require('telescope.builtin').lsp_type_definitions() end,
@@ -158,22 +177,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end,
     --   { buffer = args.buf, desc = 'Goto implementation' })
 
-    -- if client.server_capabilities.definitionProvider then
-    --   vim.keymap.set('n', '<C-]>',
-    --     function() vim.lsp.buf.definition() end,
-    --     { buffer = args.buf, desc = 'Goto Definition' }
-    --   )
+    -- vim.keymap.set('n', '<C-]>',
+    --   function() vim.lsp.buf.definition() end,
+    --   { buffer = args.buf, desc = 'Goto Definition' }
+    -- )
 
-    --   -- Easier to type than Ctrl-].
-    --   -- Also, I'm pretty sure this is defined for ctags, etc. So it is common.
-    --   vim.keymap.set('n', 'gd',
-    --     function() vim.lsp.buf.definition() end,
-    --     { buffer = args.buf, desc = '[g]oto [d]efinition' }
-    --   )
+    -- -- Easier to type than Ctrl-].
+    -- -- Also, I'm pretty sure this is defined for ctags, etc. So it is common.
+    -- vim.keymap.set('n', 'gd',
+    --   function() vim.lsp.buf.definition() end,
+    --   { buffer = args.buf, desc = '[g]oto [d]efinition' }
+    -- )
 
-    --   vim.keymap.set('n', '<space>D', function() vim.lsp.buf.type_definition() end,
-    --     { buffer = args.buf, desc = 'Goto type definition' })
-    -- end
+    -- vim.keymap.set('n', '<space>D', function() vim.lsp.buf.type_definition() end,
+    --   { buffer = args.buf, desc = 'Goto type definition' })
 
     -- if client.server_capabilities.referencesProvider then
     --   vim.keymap.set('n', 'gH', function() vim.lsp.buf.references() end,
@@ -189,11 +206,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     )
 
     -- custom keymaps using <leader> key
-    if client.server_capabilities.renameProvider then
-      vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
-    end
+    vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
 
-    -- custom keymaps using <leader> key
     vim.keymap.set({ 'n', 'v' }, '<leader>ca',
       function() vim.lsp.buf.code_action() end,
       { buffer = args.buf, desc = '[c]ode [a]ction' }
@@ -205,14 +219,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { buffer = args.buf, desc = 'Quick fix (i.e. Code Action)' }
     )
 
-    vim.api.nvim_buf_create_user_command(
-      args.buf,
-      'FmtBuffer',
-      function() vim.lsp.buf.format({ bufnr = args.buf }) end,
-      {
-        desc = 'Format entire buffer'
-      }
+    vim.keymap.set({ 'n', 'v' }, '<leader>fb',
+      function() vim.lsp.buf.format() end,
+      { buffer = args.buf, desc = '[f]ormat [b]uffer' }
     )
+
     -- foldingRangeProvider
     if client.server_capabilities.documentHighlightProvider then
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
