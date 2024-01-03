@@ -72,6 +72,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
+    vim.keymap.set('n', '<space>wa', function() vim.lsp.buf.add_workspace_folder() end,
+      { buffer = args.buf, desc = 'add workspace folder' })
+    vim.keymap.set('n', '<space>wr', function() vim.lsp.buf.remove_workspace_folder() end,
+      { buffer = args.buf, desc = 'remove workspace folder' })
+    vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+      { buffer = args.buf, desc = 'list workspace folders' })
+
     -- Start of keymaps that shadow existing keymaps
     -- Only redefine uppercase K keymap if current LSP supports hover capability
     if client.server_capabilities.hoverProvider then
