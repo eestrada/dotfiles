@@ -18,13 +18,13 @@ lspconfig.gopls.setup({})
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
-lspconfig.ruby_ls.setup({cmd = {'bundle', 'exec', 'ruby-lsp'}})
+lspconfig.ruby_ls.setup({ cmd = { 'bundle', 'exec', 'ruby-lsp' } })
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
 -- More documentation on using with bundler:
 -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
-lspconfig.solargraph.setup({cmd = {'bundle', 'exec', 'solargraph', 'stdio'}})
+lspconfig.solargraph.setup({ cmd = { 'bundle', 'exec', 'solargraph', 'stdio' } })
 
 -- Default values in link below
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
@@ -66,7 +66,7 @@ lspconfig.lua_ls.setup {
 }
 
 -- Other lsp configuration suggestions can be found here:
--- https://github.com/neovim/nvim-lspconfig/blob/master/README.md
+-- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -77,6 +77,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.server_capabilities.hoverProvider then
       vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
     end
+
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, { buffer = args.buf, desc = 'Goto declaration' })
+    vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end,
+      { buffer = args.buf, desc = 'Goto implementation' })
+
     if client.server_capabilities.definitionProvider then
       vim.keymap.set('n', '<C-]>',
         function() vim.lsp.buf.definition() end,
@@ -89,11 +94,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
         function() vim.lsp.buf.definition() end,
         { buffer = args.buf, desc = '[g]oto [d]efinition' }
       )
+
+      vim.keymap.set('n', '<space>D', function() vim.lsp.buf.type_definition() end,
+        { buffer = args.buf, desc = 'Goto type definition' })
     end
 
     if client.server_capabilities.referencesProvider then
+      vim.keymap.set('n', 'gH', function() vim.lsp.buf.references() end,
+        { buffer = args.buf, desc = 'Goto references' })
       vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end,
-        { buffer = args.buf, desc = '[g]oto [r]eferences' })
+        { buffer = args.buf, desc = 'Goto references' })
       vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
     end
 
@@ -101,19 +111,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
       function() vim.lsp.buf.signature_help() end,
       { buffer = args.buf, desc = 'Signature help' }
     )
-    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, { buffer = args.buf })
-    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, { buffer = args.buf })
 
     -- custom keymaps using <leader> key
     if client.server_capabilities.renameProvider then
-      vim.keymap.set('n', 'gR', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[g]lobally [R]ename' })
       vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
     end
 
     -- custom keymaps using <leader> key
-    vim.keymap.set('n', '<leader>ca',
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca',
       function() vim.lsp.buf.code_action() end,
       { buffer = args.buf, desc = '[c]ode [a]ction' }
+    )
+
+    -- This is something different in vscode, but we duplicate it here so that it actually points to something
+    vim.keymap.set({ 'n', 'v' }, '<leader>qf',
+      function() vim.lsp.buf.code_action() end,
+      { buffer = args.buf, desc = 'Quick fix (i.e. Code Action)' }
     )
 
     vim.api.nvim_buf_create_user_command(

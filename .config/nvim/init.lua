@@ -130,6 +130,15 @@ vim.g.mapleader = " "
 
 -- Start KEYMAPS
 vim.keymap.set('n', '<leader>e', ':Ex<CR>', { desc = '[E]xplore files with netrw' })
+
+vim.keymap.set('n', '<leader>df', function() vim.diagnostic.open_float() end,
+  { desc = 'Open diagnostic float' })
+vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
+  { desc = 'Goto next diagnostic message' })
+vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
+  { desc = 'Goto previous diagnostic message' })
+vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
+  { desc = 'Open diagnostic location list' })
 -- End KEYMAPS
 
 -- Start COMMANDS

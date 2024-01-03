@@ -34,12 +34,12 @@ require("telescope").load_extension("ui-select")
 
 -- Fuzzy keymaps
 -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-vim.keymap.set('n', '<leader>ft', ':Telescope<CR>', { desc = '[f]uzzy search [t]elescope lists' })
-
-vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', { desc = '[f]uzzy search [b]uffers' })
-vim.keymap.set('n', '<leader>fc', ':Telescope commands<CR>', { desc = '[f]uzzy search [c]ommands' })
-vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { desc = '[f]uzzy [g]rep' })
-vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', { desc = '[f]uzzy search [h]elp tags' })
-vim.keymap.set('n', '<leader>fk', ':Telescope keymaps<CR>', { desc = '[F]uzzy search [K]eymaps' })
-vim.keymap.set('n', '<leader>fp', ':Telescope find_files<CR>', { desc = '[f]uzzy search project [p]aths' })
-vim.keymap.set('n', '<leader>fv', ':Telescope git_files<CR>', { desc = '[f]uzzy search [v]ersion controlled file paths' })
+vim.keymap.set('n', '<leader>st', ':Telescope<CR>', { desc = '[s]earch [t]elescope lists' })
+vim.keymap.set('n', '<leader>sb', ':Telescope buffers<CR>', { desc = '[s]earch [b]uffers' })
+vim.keymap.set('n', '<leader>sc', ':Telescope commands<CR>', { desc = '[s]earch [c]ommands' })
+vim.keymap.set('n', '<leader>sg', ':Telescope live_grep<CR>', { desc = '[s]earch by [g]repping file contents' })
+vim.keymap.set('n', '<leader>sh', ':Telescope help_tags<CR>', { desc = '[s]earch [h]elp tags' })
+vim.keymap.set('n', '<leader>sk', ':Telescope keymaps<CR>', { desc = '[s]earch [k]eymaps' })
+vim.keymap.set('n', '<leader>sp', ':Telescope find_files<CR>', { desc = '[s]earch project [p]aths' })
+vim.keymap.set('n', '<leader>so', ':Telescope oldfiles<CR>', { desc = '[s]earch [o]ld files opened previously' })
+vim.keymap.set('n', '<leader>sv', ':Telescope git_files<CR>', { desc = '[s]earch [v]ersion controlled file paths' })
