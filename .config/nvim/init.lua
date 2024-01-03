@@ -51,6 +51,22 @@ end
 -- General vi/vim/neovim options to work like I want, regardless of LSPs,
 -- plugins, or  keymaps for LSPs/plugins.
 
+-- Start GLOBAL_VARIABLES
+vim.g.mapleader = " "
+
+-- Neovim will use `xdg-open` by default. WSL2 will set this to something that
+-- can be opened in Windows directly. No special config is necessary here, just
+-- make sure to install xdg-open and neovim will do the right thing.
+-- https://superuser.com/a/1687625/474473
+--
+-- If things are really bad and that doesn't work, set g:netrw_browsex_viewer,
+-- like mentioned below. You can use `sensible-browser` on debian based
+-- systems. Or you can install and use `wslview`. However, all of these things
+-- should not be necessary if `xdg-open` is available.
+-- * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
+
+-- End GLOBAL_VARIABLES
+
 -- Start OPTIONS
 -- Don't create swapfiles by default
 vim.opt.uc = 0
@@ -112,22 +128,6 @@ vim.opt.colorcolumn = { "80" }
 vim.cmd('set clipboard+=unnamedplus')
 -- End OPTIONS
 
--- Start GLOBAL_VARIABLES
-vim.g.mapleader = " "
-
--- Neovim will use `xdg-open` by default. WSL2 will set this to something that
--- can be opened in Windows directly. No special config is necessary here, just
--- make sure to install xdg-open and neovim will do the right thing.
--- https://superuser.com/a/1687625/474473
---
--- If things are really bad and that doesn't work, set g:netrw_browsex_viewer,
--- like mentioned below. You can use `sensible-browser` on debian based
--- systems. Or you can install and use `wslview`. However, all of these things
--- should not be necessary if `xdg-open` is available.
--- * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
-
--- End GLOBAL_VARIABLES
-
 -- Start KEYMAPS
 vim.keymap.set('n', '<leader>e', ':Ex<CR>', { desc = '[E]xplore files with netrw' })
 
@@ -184,8 +184,37 @@ if plug then
       { ['do'] = function() vim.call('fzf#install()') end }
     )
     plug.Plug('https://github.com/junegunn/fzf.vim')
+
+    -- Get diff symbols in gutter for code tracked in a VCS
     plug.Plug('https://github.com/mhinz/vim-signify')
+
+    -- LSP Configuration & Plugins
     plug.Plug('https://github.com/neovim/nvim-lspconfig')
+
+    -- Automatically install LSPs to stdpath for neovim
+    plug.Plug('https://github.com/williamboman/mason.nvim')
+    plug.Plug('https://github.com/williamboman/mason-lspconfig.nvim')
+
+    -- Useful status updates for LSP
+    plug.Plug('https://github.com/j-hui/fidget.nvim')
+
+    -- Additional lua configuration, makes nvim stuff amazing!
+    plug.Plug('https://github.com/folke/neodev.nvim')
+
+    -- Start Autocompletion plugins
+    plug.Plug('https://github.com/hrsh7th/nvim-cmp')
+
+    -- Snippet Engine & its associated nvim-cmp source
+    plug.Plug('https://github.com/L3MON4D3/LuaSnip')
+    plug.Plug('https://github.com/saadparwaiz1/cmp_luasnip')
+
+    -- Adds LSP completion capabilities
+    plug.Plug('https://github.com/hrsh7th/cmp-nvim-lsp')
+    plug.Plug('https://github.com/hrsh7th/cmp-path')
+
+    -- Adds a number of user-friendly snippets
+    plug.Plug('https://github.com/rafamadriz/friendly-snippets')
+    -- End Autocompletion plugins
 
     -- The `TSUpdate` call tends to throw errors when this is installed. Don't
     -- stress, it works on Unix/Linux after the first run. Not worth looking into
@@ -194,7 +223,18 @@ if plug then
       'https://github.com/nvim-treesitter/nvim-treesitter',
       { ['do'] = function() vim.cmd('TSUpdate') end }
     )
+
+    -- Git related plugins
     plug.Plug('https://github.com/tpope/vim-fugitive')
+    plug.Plug('https://github.com/tpope/vim-rhubarb')
+
+    -- Detect tabstop and shiftwidth automatically
+    plug.Plug('https://github.com/tpope/vim-sleuth')
+
+    -- For comment/uncomment support
+    plug.Plug('https://github.com/tpope/vim-commentary')
+
+    -- Fuzzy finding stuff
     plug.Plug('https://github.com/nvim-lua/plenary.nvim')
     plug.Plug('https://github.com/nvim-telescope/telescope.nvim')
     plug.Plug('https://github.com/nvim-telescope/telescope-ui-select.nvim')
@@ -206,9 +246,6 @@ if plug then
 
     -- recommended for floating window support for the go plugin above
     plug.Plug('https://github.com/ray-x/guihua.lua')
-
-    -- For comment/uncomment support
-    plug.Plug('https://github.com/tpope/vim-commentary')
   end
 
   -- Add local additional plugin inclusions, if any. Use error handling code in

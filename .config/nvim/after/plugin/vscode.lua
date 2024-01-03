@@ -21,6 +21,14 @@ vim.keymap.set('n', '[d', function() vscode.call('editor.action.marker.prev') en
 vim.keymap.set('n', '<leader>dl', function() vscode.call('workbench.actions.view.problems') end,
   { desc = 'Open diagnostic location list' })
 
+-- Act like vim signify and jump between diff changes in editor
+vim.keymap.set('n', ']c', function() vscode.call('workbench.action.editor.nextChange') end,
+  { desc = 'Goto next diff change' })
+
+vim.keymap.set('n', '[c', function() vscode.call('workbench.action.editor.previousChange') end,
+  { desc = 'Goto previous diff change' })
+
+-- Keymaps used by lsp buffers
 vim.keymap.set('n', 'gi', function() vscode.call('editor.action.goToImplementation') end,
   { desc = 'Goto implementation' })
 
