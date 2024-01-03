@@ -47,5 +47,5 @@ parser_config.gotmpl = {
     files = { "src/parser.c" }
   },
   filetype = "gotmpl",
-  used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml" }
+  used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl" }
 }

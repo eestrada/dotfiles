@@ -81,10 +81,36 @@ local unmanaged_servers = {
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
   -- rubocop = {},
 
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+  pyright = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#html
+  html = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jsonls
+  jsonls = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#cssls
+  cssls = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#eslint
+  eslint = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
+  yamlls = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lemminx
+  lemminx = {
+    filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "ant" },
+  },
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
+  marksman = {},
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
+  bashls = {
+    filetypes = { "sh", "zsh", "bash" },
+  },
 }
 
 local lspconfig = require("lspconfig")
