@@ -98,7 +98,7 @@ local unmanaged_servers = {
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#eslint
   eslint = {
     root_dir = function()
-      vim.fs.dirname(
+      return vim.fs.dirname(
         vim.fs.find(
           { '.eslintrc.js', '.eslintrc.cjs', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', 'package.json' },
           { upward = true }
@@ -106,6 +106,9 @@ local unmanaged_servers = {
       )
     end,
   },
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
+  tsserver = {},
 
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
   yamlls = {},
