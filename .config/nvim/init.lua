@@ -1,4 +1,4 @@
--- Utility functions
+-- [[ Utility functions ]]
 
 -- Shallow copy table contents. nested cloning does not work.
 -- Implementation from here: http://lua-users.org/wiki/CopyTable
@@ -65,10 +65,13 @@ local function load_vim_plug()
   end
 end
 
+-- [[ Utility Variables ]]
+local user_home = os.getenv("HOME")
+
 -- General vi/vim/neovim options to work like I want, regardless of LSPs,
 -- plugins, or  keymaps for LSPs/plugins.
 
--- Start GLOBAL_VARIABLES
+-- Start [[ Global Variables ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -85,8 +88,6 @@ vim.g.maplocalleader = ' '
 -- systems. Or you can install and use `wslview`. However, all of these things
 -- should not be necessary if `xdg-open` is available.
 -- * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
-
--- End GLOBAL_VARIABLES
 
 -- [[ Setting options ]]
 -- Don't create swapfiles by default
@@ -376,11 +377,26 @@ local function lsp_config_setup()
 
   -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
 
+  local lombok_path = user_home .. "/dev/jdtls/lombok.jar"
+  local lombok_dl_url = "https://projectlombok.org/downloads/lombok.jar"
+  download_file(lombok_path, lombok_dl_url)
+
+  -- Attempt to download lombok every time before even attaching, otherwise jdtls
+  -- won't even start in the first place.
   -- Servers not managed or auto-installed by mason. These language servers will
   -- need to be manually installed, either thru `:Mason` nvim modal, or manually
   -- using system tools.
   local unmanaged_servers = {
-    -- clangd = {},
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
+    jdtls = {
+      cmd = {
+        "jdtls",
+        -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
+        "--jvm-arg=-javaagent:" .. lombok_path,
+        "-configuration", user_home .. "/.cache/jdtls/config",
+        "-data", user_home .. "/.cache/jdtls/workspace"
+      },
+    },
 
     -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
@@ -482,7 +498,7 @@ local function lsp_config_setup()
   -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
 
   vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
 
