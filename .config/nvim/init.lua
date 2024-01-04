@@ -193,6 +193,11 @@ vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
 vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
   { desc = 'Open [d]iagnostic [l]ocation list' })
 
+-- Jump betwen buffers easily
+vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Goto [b]uffer ([n]ext)' })
+vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = 'Goto [b]uffer ([p]revious)' })
+vim.keymap.set('n', '<leader>bl', ':ls<CR>:b<Space>', { desc = 'Goto [b]uffer [l]ist' })
+
 -- [[ Define Commands ]]
 -- My custom defined commands
 vim.api.nvim_create_user_command(
