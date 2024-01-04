@@ -196,12 +196,6 @@ if plug then
   plug.Begin()
 
   if not vim.g.vscode then
-    plug.Plug(
-      'https://github.com/junegunn/fzf',
-      { ['do'] = function() vim.call('fzf#install()') end }
-    )
-    plug.Plug('https://github.com/junegunn/fzf.vim')
-
     -- Get diff symbols in gutter for code tracked in a VCS
     plug.Plug('https://github.com/mhinz/vim-signify')
 
