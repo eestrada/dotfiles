@@ -182,7 +182,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
     vim.keymap.set('n', '<leader>wr', function() vim.lsp.buf.remove_workspace_folder() end,
       { buffer = args.buf, desc = '[w]orkspace [r]emove folder' })
-    vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+    vim.keymap.set('n', '<leader>wl', function() vim.print(vim.lsp.buf.list_workspace_folders()) end,
       { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
 
     -- Start of keymaps that shadow existing keymaps
@@ -190,55 +190,43 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
 
     -- telescope builtins
-    vim.keymap.set('n', '<C-]>', function() require('telescope.builtin').lsp_definitions() end,
-      { buffer = args.buf, desc = 'Goto Definition' })
-    vim.keymap.set('n', 'gd', function() require('telescope.builtin').lsp_definitions() end,
-      { buffer = args.buf, desc = '[G]oto [D]efinition' })
+    local definition_func = function()
+      vim.lsp.buf.definition()
+      -- require('telescope.builtin').lsp_definitions()(require('telescope.themes').get_ivy({ include_current_line = true }))
+    end
+    vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
+    vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
 
     -- References
-    local telescope_references = function()
-      require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({ include_current_line = true }))
+    local references_func = function()
+      vim.lsp.buf.references()
+      -- require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({ include_current_line = true }))
     end
-    vim.keymap.set('n', 'gH', telescope_references, { buffer = args.buf, desc = '[G]oto [R]eferences' })
-    vim.keymap.set('n', 'gr', telescope_references, { buffer = args.buf, desc = '[G]oto [R]eferences' })
-    vim.keymap.set('n', '[I', telescope_references, { buffer = args.buf, desc = 'References' })
+    vim.keymap.set('n', 'gH', references_func, { buffer = args.buf, desc = '[G]oto [R]eferences' })
+    vim.keymap.set('n', 'gr', references_func, { buffer = args.buf, desc = '[G]oto [R]eferences' })
+    vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
-    vim.keymap.set('n', 'gi', function() require('telescope.builtin').lsp_implementations() end,
-      { buffer = args.buf, desc = '[G]oto [I]mplementation' })
-    vim.keymap.set('n', '<leader>D', function() require('telescope.builtin').lsp_type_definitions() end,
-      { buffer = args.buf, desc = 'Type [D]efinition' })
-    vim.keymap.set('n', '<leader>ds', function() require('telescope.builtin').lsp_document_symbols() end,
-      { buffer = args.buf, desc = '[D]ocument [S]ymbols' })
+    local implementation_func = function()
+      vim.lsp.buf.implementation()
+      -- require('telescope.builtin').lsp_implementations(require('telescope.themes').get_ivy({}))
+    end
+    vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[G]oto [I]mplementation' })
+
+    local type_definition_func = function()
+      vim.lsp.buf.type_definition()
+      -- require('telescope.builtin').lsp_type_definitions(require('telescope.themes').get_ivy({}))
+    end
+    vim.keymap.set('n', '<leader>D', type_definition_func, { buffer = args.buf, desc = 'Type [D]efinition' })
+
+    local document_symbols_func = function()
+      -- vim.lsp.buf.document_symbol()
+      require('telescope.builtin').lsp_document_symbols()
+    end
+    vim.keymap.set('n', '<leader>ds', document_symbols_func, { buffer = args.buf, desc = '[D]ocument [S]ymbols' })
+
     vim.keymap.set('n', '<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end,
       { buffer = args.buf, desc = '[W]orkspace [S]ymbols' })
     vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, { buffer = args.buf, desc = 'Goto declaration' })
-
-    -- Same key bindings as above without telescope support
-    -- vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end,
-    --   { buffer = args.buf, desc = 'Goto implementation' })
-
-    -- vim.keymap.set('n', '<C-]>',
-    --   function() vim.lsp.buf.definition() end,
-    --   { buffer = args.buf, desc = 'Goto Definition' }
-    -- )
-
-    -- -- Easier to type than Ctrl-].
-    -- -- Also, I'm pretty sure this is defined for ctags, etc. So it is common.
-    -- vim.keymap.set('n', 'gd',
-    --   function() vim.lsp.buf.definition() end,
-    --   { buffer = args.buf, desc = '[g]oto [d]efinition' }
-    -- )
-
-    -- vim.keymap.set('n', '<space>D', function() vim.lsp.buf.type_definition() end,
-    --   { buffer = args.buf, desc = 'Goto type definition' })
-
-    -- if client.server_capabilities.referencesProvider then
-    --   vim.keymap.set('n', 'gH', function() vim.lsp.buf.references() end,
-    --     { buffer = args.buf, desc = 'Goto references' })
-    --   vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end,
-    --     { buffer = args.buf, desc = 'Goto references' })
-    --   vim.keymap.set('n', '[I', function() vim.lsp.buf.references() end, { buffer = args.buf, desc = 'References' })
-    -- end
 
     vim.keymap.set('n', '<C-k>',
       function() vim.lsp.buf.signature_help() end,
@@ -256,7 +244,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- This is something different in vscode, but we duplicate it here so that it actually points to something
     vim.keymap.set({ 'n', 'v' }, '<leader>qf',
       function() vim.lsp.buf.code_action() end,
-      { buffer = args.buf, desc = 'Quick fix (i.e. Code Action)' }
+      { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' }
     )
 
     vim.keymap.set({ 'n', 'v' }, '<leader>fb',
