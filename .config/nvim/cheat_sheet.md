@@ -22,3 +22,8 @@ am still learning.
     - `0` - move cursor to start of line
     - `$` - move cursor to end of line
 
+## Advanced VIM features
+* Folding
+    - See `:help folding`
+    - Does nvim LSP or treesitter support folding on methods/classes, or is
+      must all folding be done manually via the oldschool VIM motions?
