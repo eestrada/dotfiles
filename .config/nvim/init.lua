@@ -71,7 +71,7 @@ local user_home = os.getenv("HOME")
 -- General vi/vim/neovim options to work like I want, regardless of LSPs,
 -- plugins, or  keymaps for LSPs/plugins.
 
--- Start [[ Global Variables ]]
+-- [[ Global Variables ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -391,6 +391,7 @@ local function lsp_config_setup()
   -- need to be manually installed, either thru `:Mason` nvim modal, or manually
   -- using system tools.
   local unmanaged_servers = {
+    -- for java
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
     jdtls = {
       cmd = {
@@ -413,6 +414,7 @@ local function lsp_config_setup()
       cmd = { 'bundle', 'exec', 'ruby-lsp' },
     },
 
+    -- for ruby
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
     -- More documentation on using solargraph with bundler:
     -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
@@ -423,6 +425,7 @@ local function lsp_config_setup()
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
     -- rubocop = {},
 
+    -- for python
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
     pyright = {},
 
@@ -435,6 +438,7 @@ local function lsp_config_setup()
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#cssls
     cssls = {},
 
+    -- for typescript/javascript
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
     tsserver = {},
 
@@ -446,13 +450,13 @@ local function lsp_config_setup()
       filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "ant" },
     },
 
+    -- for markdown
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
     marksman = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
-    bashls = {
-      filetypes = { "sh", "zsh", "bash" },
-    },
+    -- for toml
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#taplo
+    taplo = {},
   }
 
   local lspconfig = require("lspconfig")

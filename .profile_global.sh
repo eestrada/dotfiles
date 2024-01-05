@@ -137,6 +137,10 @@ custvars ()
 
     # Used to set up ssh environment
     SSH_ENV="${HOME}/.ssh/environment";
+
+    xdg_config_home_default="${HOME}/.config"
+    export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$xdg_config_home_default}"
+    unset xdg_config_home_default
 }
 
 _start_ssh_agent ()
