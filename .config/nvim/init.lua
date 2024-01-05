@@ -234,7 +234,11 @@ if plug then
   plug.Begin()
 
   if not vim.g.vscode then
-    -- Get diff symbols in gutter for code tracked in a VCS
+    -- Show marks in gutter, add some commands to ease jumping between marks
+    plug.Plug('https://github.com/kshenoy/vim-signature')
+
+    -- Get diff symbols in gutter for code tracked in a VCS (supports more than
+    -- just git and can easily be extended to support others)
     plug.Plug('https://github.com/mhinz/vim-signify')
 
     -- LSP Configuration & Plugins
@@ -712,7 +716,7 @@ local function telescope_setup()
 
   -- Fuzzy keymaps
   -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-  vim.keymap.set('n', '<leader>st', ':Telescope<CR>', { desc = '[s]earch [t]elescope lists' })
+  vim.keymap.set('n', '<leader>st', ':Telescope<CR>', { desc = '[s]earch [t]elescope builtin commands lists' })
   vim.keymap.set('n', '<leader>sb', ':Telescope buffers<CR>', { desc = '[s]earch [b]uffers' })
   vim.keymap.set('n', '<leader>sc', ':Telescope commands<CR>', { desc = '[s]earch [c]ommands' })
   vim.keymap.set('n', '<leader>sg', ':Telescope live_grep<CR>', { desc = '[s]earch with [g]rep' })
@@ -839,19 +843,39 @@ if vim.g.vscode then
 else
   -- [[ Configure outside VSCode ]]
 
-  -- [[ Configure vim-signify ]]
-  vim.g.signify_sign_delete = '-'
+  -- By running `vim.defer_fn`, we wait until after plugins are loaded,
+  -- ensuring that the logic for `vim.fn.exists()` works below as expected.
+  vim.defer_fn(function()
+      -- [[ Configure vim-signature ]]
+      -- Use Signature commands if present, otherwise fallback to foolproof default
+      if vim.fn.exists(':SignatureListGlobalMarks') > 0 then
+        vim.keymap.set('n', '<space>mg', ':SignatureListGlobalMarks<CR>',
+          { desc = 'List [m]arks that are defined [g]lobally' })
+        vim.keymap.set('n', '<space>mb', ':SignatureListBufferMarks<CR>',
+          { desc = 'List [m]arks that are defined in current [b]uffer' })
+      else
+        vim.keymap.set('n', '<space>mg', ':marks ABCDEFGHIJKLMNOPQRSTUVWXYZ<CR>:\'',
+          { desc = 'List [m]arks that are defined [g]lobally' })
+        vim.keymap.set('n', '<space>mb', ':marks abcdefghijklmnopqrstuvwxyz<CR>:\'',
+          { desc = 'List [m]arks that are defined in current [b]uffer' })
+      end
 
-  -- I'm still on the fence on whether or not I want to show the count of deleted
-  -- lines in the gutter.
-  -- vim.g.signify_sign_show_count = false
+      -- [[ Configure vim-signify ]]
+      vim.g.signify_sign_delete = '-'
 
-  -- If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
-  -- a git commit message. We should disable signify so that it doesn't
-  -- unintentionally corrupt the git repo.
-  if os.getenv("GIT_EXEC") ~= nil and vim.fn.exists(':SignifyDisableAll') > 0 then
-    vim.cmd(':SignifyDisableAll')
-  end
+      -- I'm still on the fence on whether or not I want to show the count of deleted
+      -- lines in the gutter.
+      -- vim.g.signify_sign_show_count = false
+
+      -- If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
+      -- a git commit message. We should disable signify so that it doesn't
+      -- unintentionally corrupt the git repo.
+      if os.getenv("GIT_EXEC") ~= nil and vim.fn.exists(':SignifyDisableAll') > 0 then
+        vim.cmd(':SignifyDisableAll')
+      end
+    end,
+    0
+  )
 
   -- [[ configurations in functions ]]
   local msg = '%s load/setup failed. Try installing plugins and reloading nvim'
