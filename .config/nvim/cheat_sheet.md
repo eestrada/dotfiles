@@ -33,6 +33,8 @@ am still learning.
   * Does nvim LSP or treesitter support folding on methods/classes, or must
       all folding be done manually via the oldschool VIM motions?
 ### Quickfix (Global to Vim session)
+  * See link below for a good overview of both quickfix and loclist:
+    - https://freshman.tech/vim-quickfix-and-location-list/
   * `:copen` - Open the quickfix list window.
   * `:ccl` or :cclose - Close the quickfix list window.
   * `:cnext` or :cn - Go to the next item on the list.
