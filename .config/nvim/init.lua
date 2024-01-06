@@ -51,14 +51,9 @@ local function load_vim_plug()
     plug.Begin = vim.fn['plug#begin']
     plug.End = vim.fn['plug#end']
 
-    -- Mostly interactive commands that *can* be useful in scripting
-    plug.Clean = function() vim.cmd(':PlugClean') end
-    plug.Diff = function() vim.cmd(':PlugDiff') end
-    plug.Install = function() vim.cmd(':PlugInstall') end
-    plug.Snapshot = function() vim.cmd(':PlugSnapshot') end
-    plug.Status = function() vim.cmd(':PlugStatus') end
-    plug.Update = function() vim.cmd(':PlugUpdate') end
-    plug.Upgrade = function() vim.cmd(':PlugUpgrade') end
+    -- Mostly interactive command(s) that *can* be useful in scripting
+    function plug.Install() vim.cmd(':PlugInstall') end
+
     return plug
   else
     return nil
@@ -308,6 +303,9 @@ if plug then
         ['for'] = { 'markdown', 'vim-plug' },
       }
     )
+
+    -- Personal fork of a plugin to highlight and modify todo.txt files
+    plug.Plug('https://github.com/eestrada/todo.txt-vim')
   end
 
   -- Add local additional plugin inclusions, if any. Use error handling code in
@@ -317,8 +315,10 @@ if plug then
   if not pstatus then
     vim.notify(string.format('%s', perr), vim.log.levels.ERROR)
   end
+  -- Any plugin configuration for local plugins should be done in
+  -- $NVIM_CONFIG/after/plugin/local_config.lua
 
-  -- Close plugin loading AFTER we local plugin inclusions (if then exist).
+  -- Close plugin loading AFTER we load local plugin inclusions (if then exist).
   plug.End()
 
   if plug.Bootstrapped then
@@ -326,12 +326,6 @@ if plug then
     -- window with a report of installed plugins.
     plug.Install()
   end
-end
-
--- Get local configs after plugins have been defined and hopefully loaded
-local status, err = pcall(function() require('local_configs') end)
-if not status then
-  vim.notify(string.format('%s', err), vim.log.levels.ERROR)
 end
 
 -- [[ Define functions for plugin setup ]]
