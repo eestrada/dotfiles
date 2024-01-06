@@ -27,6 +27,7 @@ am still learning.
 ### Marks?
   * I think global marks (uppercase A-Z) are a Vim feature
   * Global marks persist across sessions, by default
+  * See `:help marks`
 ### Folding
   * See `:help folding`
   * Does nvim LSP or treesitter support folding on methods/classes, or must

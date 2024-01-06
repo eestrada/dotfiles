@@ -299,6 +299,15 @@ if plug then
 
     -- recommended for floating window support for the go plugin above
     plug.Plug('https://github.com/ray-x/guihua.lua')
+
+    -- Live preview of markdown file in default browser
+    plug.Plug('https://github.com/iamcco/markdown-preview.nvim',
+      {
+        -- FIXME: `do` option doesn't seem to work. Need to run it manually.
+        ['do'] = vim.fn['mkdp#util#install'],
+        ['for'] = { 'markdown', 'vim-plug' },
+      }
+    )
   end
 
   -- Add local additional plugin inclusions, if any. Use error handling code in
