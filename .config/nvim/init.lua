@@ -44,14 +44,25 @@ end
 local function load_vim_plug()
   local no_error, bootstrapped = pcall(ensure_vim_plug)
   if no_error then
+    -- Module for the [vim-plug plugin manager](https://github.com/junegunn/vim-plug)
     local plug = {}
+
+    -- Indicate whether plug was bootstrapped on this run. i.e. was it
+    -- downloaded and sourced on this run of the config.
     plug.Bootstrapped = bootstrapped
 
+    -- Define an individual plugin
     plug.Plug = vim.fn['plug#']
+
+    -- Begin plugin definitions
     plug.Begin = vim.fn['plug#begin']
+
+    -- End plugin definitions
     plug.End = vim.fn['plug#end']
 
-    -- Mostly interactive command(s) that *can* be useful in scripting
+    -- Interactive command(s) that *can* be useful in scripting
+
+    -- Install defined plugins
     function plug.Install() vim.cmd(':PlugInstall') end
 
     return plug
@@ -192,7 +203,17 @@ vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
 -- Jump betwen buffers easily
 vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Goto [b]uffer ([n]ext)' })
 vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = 'Goto [b]uffer ([p]revious)' })
-vim.keymap.set('n', '<leader>bl', ':ls<CR>:b<Space>', { desc = 'Goto [b]uffer [l]ist' })
+
+-- Simple fallback not requiring the quickfix buffer
+-- vim.keymap.set('n', '<leader>bl', ':ls<CR>:b<Space>', { desc = 'Goto [b]uffer [l]ist' })
+
+-- FIXME: the cclose/setqflist/copen sequence below causes flashing. Filtering
+-- out the quickfix buffer to begin with will mean closing it to begin with
+-- won't be necessary, which should fix the flashing.
+-- Original implementation found here: https://vi.stackexchange.com/a/2127/15953
+vim.keymap.set('n', '<leader>bl',
+  [[:cclose<CR>:call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr": v:val}'))<CR>:copen<CR>]],
+  { desc = 'Goto [b]uffer [l]ist' })
 
 -- [[ Define Commands ]]
 -- My custom defined commands
@@ -232,6 +253,7 @@ if plug then
     -- Show marks in gutter, add some commands to ease jumping between marks
     plug.Plug('https://github.com/kshenoy/vim-signature')
 
+    -- XXX: signify adds a significant (~800 ms) amount of start up time to nvim
     -- Get diff symbols in gutter for code tracked in a VCS (supports more than
     -- just git and can easily be extended to support others)
     plug.Plug('https://github.com/mhinz/vim-signify')
@@ -332,6 +354,11 @@ end
 
 -- [[ Configure lsp ]]
 local function lsp_config_setup()
+  -- Setup neovim lua configuration
+  -- IMPORTANT: make sure to setup neodev BEFORE lspconfig. See here:
+  -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
+  require('neodev').setup()
+
   -- mason-lspconfig requires that these setup functions are called in this order
   -- before setting up the mason_managed_servers.
   require('mason').setup()
@@ -357,9 +384,6 @@ local function lsp_config_setup()
       },
     },
   }
-
-  -- Setup neovim lua configuration
-  require('neodev').setup()
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -460,6 +484,10 @@ local function lsp_config_setup()
     -- for toml
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#taplo
     taplo = {},
+
+    -- for vimscript
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#vimls
+    vimls = {},
   }
 
   local lspconfig = require("lspconfig")
