@@ -219,9 +219,21 @@ vim.keymap.set('n', '<leader>bl',
 -- My custom defined commands
 vim.api.nvim_create_user_command(
   'StripTrailingWS',
-  [[%s/\s\+$//e]],
+  [[<line1>,<line2>s/\s\+$//e]],
   {
-    desc = 'Strip all trailing whitespace on lines of current document'
+    desc = 'Strip trailing whitespace on range of lines, or entire document if no range is given',
+    range = '%',
+  }
+)
+
+-- Original defintion found here:
+-- https://vim.fandom.com/wiki/Reverse_order_of_lines
+vim.api.nvim_create_user_command(
+  'ReverseLines',
+  [[<line1>,<line2>g/^/m<line1>-1|nohl]],
+  {
+    desc = 'Reverse range of lines in place',
+    range = true,
   }
 )
 
