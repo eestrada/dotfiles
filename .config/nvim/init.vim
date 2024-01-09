@@ -20,6 +20,10 @@ let g:maplocalleader=' '
 " should not be necessary if `xdg-open` is available.
 " * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
 
+" [[ Utility variables ]]
+let s:data_dir = has('nvim') ? stdpath('data') : '~/.vim'
+let s:state_dir = has('nvim') ? stdpath('state') : '~/.vim/state'
+
 " [[ Setting options ]]
 " Don't create swapfiles by default
 set updatecount=0
@@ -29,13 +33,20 @@ set mouse=a
 
 " Save undo history
 set undofile
+if !has('nvim')
+  " The Vim default is the current directory `.` This ends up causing lots of
+  " junk being scattered around. Use data dir or /tmp
+  let s:undo_dir = s:state_dir . '/undo'
+  let &undodir=s:undo_dir
+endif
+set undodir+=~/tmp/
 
 " Case-insensitive searching UNLESS \C or capital in search
 set ignorecase
 set smartcase
 
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 
 " Syntax settings
 " NOTE: make sure current terminal supports this
