@@ -213,7 +213,43 @@ vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = 'Goto [b]uffer ([p]
 -- Original implementation found here: https://vi.stackexchange.com/a/2127/15953
 vim.keymap.set('n', '<leader>bl',
   [[:cclose<CR>:call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr": v:val}'))<CR>:copen<CR>]],
-  { desc = 'Goto [b]uffer [l]ist' })
+  { desc = 'Populate quickfix with [b]uffer [l]ist and open quickfix buffer with :copen' })
+
+vim.keymap.set('n', '<leader>bq',
+  [[:call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr": v:val}'))<CR>]],
+  { desc = 'Set [b]uffer list as [q]uickfix list' })
+
+vim.keymap.set('n', '<leader>co', [[:copen<CR>]], { desc = 'Open quickfix list buffer window.' })
+vim.keymap.set('n', '<leader>cc', [[:cclose<CR>]], { desc = 'Close quickfix list buffer window.' })
+vim.keymap.set('n', '<leader>cn', [[:cnext<CR>]], { desc = 'Jump to next item in quickfix list.' })
+vim.keymap.set('n', '<leader>cp', [[:cprevious<CR>]], { desc = 'Jump to previous item in quickfix list.' })
+vim.keymap.set('n', '<leader>cf', [[:cfirst<CR>]], { desc = 'Jump to first item in quickfix list.' })
+vim.keymap.set('n', '<leader>cl', [[:clast<CR>]], { desc = 'Jump to last item in quickfix list.' })
+
+vim.keymap.set('n', '<leader>lo', [[:lopen<CR>]], { desc = 'Open location list buffer window.' })
+vim.keymap.set('n', '<leader>lc', [[:lclose<CR>]], { desc = 'Close location list buffer window.' })
+vim.keymap.set('n', '<leader>ln', [[:lnext<CR>]], { desc = 'Jump to next item in location list.' })
+vim.keymap.set('n', '<leader>lp', [[:lprevious<CR>]], { desc = 'Jump to previous item in location list.' })
+vim.keymap.set('n', '<leader>lf', [[:lfirst<CR>]], { desc = 'Jump to first item in location list.' })
+vim.keymap.set('n', '<leader>ll', [[:llast<CR>]], { desc = 'Jump to last item in location list.' })
+
+-- Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
+-- buffer. Only override keymap locally in the quicklist type buffers. Original
+-- keymapping from here:
+-- https://www.reddit.com/r/vim/comments/hfovi6/comment/fvyxvwd/
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+  group = vim.api.nvim_create_augroup('UserQuickfixKeymappings', { clear = true }),
+  callback = function(args)
+    if vim.bo[args.buf].filetype == 'qf' then
+      vim.api.nvim_buf_set_keymap(args.buf, 'n', 'o', '<CR><C-w>p',
+        {
+          desc = 'Open selected item in separate window while keeping cursor in Quickfix window',
+          noremap = true,
+        }
+      )
+    end
+  end
+})
 
 -- [[ Define Commands ]]
 -- My custom defined commands
