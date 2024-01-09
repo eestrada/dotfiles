@@ -1,4 +1,5 @@
 # files to ignore at all levels
+*.un~
 .DS_Store
 .idea
 .pulse-cookie
