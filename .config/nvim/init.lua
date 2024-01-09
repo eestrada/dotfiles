@@ -219,19 +219,19 @@ vim.keymap.set('n', '<leader>bq',
   [[:call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr": v:val}'))<CR>]],
   { desc = 'Set [b]uffer list as [q]uickfix list' })
 
-vim.keymap.set('n', '<leader>co', [[:copen<CR>]], { desc = 'Open quickfix list buffer window.' })
-vim.keymap.set('n', '<leader>cc', [[:cclose<CR>]], { desc = 'Close quickfix list buffer window.' })
-vim.keymap.set('n', '<leader>cn', [[:cnext<CR>]], { desc = 'Jump to next item in quickfix list.' })
-vim.keymap.set('n', '<leader>cp', [[:cprevious<CR>]], { desc = 'Jump to previous item in quickfix list.' })
-vim.keymap.set('n', '<leader>cf', [[:cfirst<CR>]], { desc = 'Jump to first item in quickfix list.' })
-vim.keymap.set('n', '<leader>cl', [[:clast<CR>]], { desc = 'Jump to last item in quickfix list.' })
+vim.keymap.set('n', '<leader>co', [[:copen<CR>]], { desc = 'Qui[c]kfix [o]pen.' })
+vim.keymap.set('n', '<leader>cc', [[:cclose<CR>]], { desc = 'Qui[c]kfix [c]lose.' })
+vim.keymap.set('n', '<leader>cn', [[:cnext<CR>]], { desc = 'Jump to Qui[c]kfix [n]ext item.' })
+vim.keymap.set('n', '<leader>cp', [[:cprevious<CR>]], { desc = 'Jump to Qui[c]kfix [p]revious item.' })
+vim.keymap.set('n', '<leader>cf', [[:cfirst<CR>]], { desc = 'Jump to Qui[c]kfix [f]irst item.' })
+vim.keymap.set('n', '<leader>cl', [[:clast<CR>]], { desc = 'Jump to Qui[c]kfix [l]ast item.' })
 
-vim.keymap.set('n', '<leader>lo', [[:lopen<CR>]], { desc = 'Open location list buffer window.' })
-vim.keymap.set('n', '<leader>lc', [[:lclose<CR>]], { desc = 'Close location list buffer window.' })
-vim.keymap.set('n', '<leader>ln', [[:lnext<CR>]], { desc = 'Jump to next item in location list.' })
-vim.keymap.set('n', '<leader>lp', [[:lprevious<CR>]], { desc = 'Jump to previous item in location list.' })
-vim.keymap.set('n', '<leader>lf', [[:lfirst<CR>]], { desc = 'Jump to first item in location list.' })
-vim.keymap.set('n', '<leader>ll', [[:llast<CR>]], { desc = 'Jump to last item in location list.' })
+vim.keymap.set('n', '<leader>lo', [[:lopen<CR>]], { desc = '[l]ocation list [o]pen.' })
+vim.keymap.set('n', '<leader>lc', [[:lclose<CR>]], { desc = '[l]ocation list [c]lose.' })
+vim.keymap.set('n', '<leader>ln', [[:lnext<CR>]], { desc = 'Jump to [l]ocation list [n]ext item.' })
+vim.keymap.set('n', '<leader>lp', [[:lprevious<CR>]], { desc = 'Jump to [l]ocation list [p]revious item.' })
+vim.keymap.set('n', '<leader>lf', [[:lfirst<CR>]], { desc = 'Jump to [l]ocation list [f]irst item.' })
+vim.keymap.set('n', '<leader>ll', [[:llast<CR>]], { desc = 'Jump to [l]ocation list [l]ast item.' })
 
 -- Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 -- buffer. Only override keymap locally in the quicklist type buffers. Original
