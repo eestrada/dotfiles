@@ -209,6 +209,9 @@ call plug#begin()
 
 " Most plugins will either break vscode or are redundant
 if !exists('g:vscode')
+  " [[ Universal Plugins ]]
+  " We start with plugins that can be used in both Vim and Neovim
+
   " Show marks in gutter, add some commands to ease jumping between marks
   Plug 'https://github.com/kshenoy/vim-signature'
 
@@ -216,39 +219,6 @@ if !exists('g:vscode')
   " Get diff symbols in gutter for code tracked in a VCS (supports more than
   " just git and can easily be extended to support others)
   Plug 'https://github.com/mhinz/vim-signify'
-
-  " LSP Configuration & Plugins
-  Plug 'https://github.com/neovim/nvim-lspconfig'
-
-  " Automatically install LSPs to stdpath for neovim
-  Plug 'https://github.com/williamboman/mason.nvim'
-  Plug 'https://github.com/williamboman/mason-lspconfig.nvim'
-
-  " Useful status updates for LSP
-  Plug 'https://github.com/j-hui/fidget.nvim'
-
-  " Additional lua configuration, makes nvim stuff amazing!
-  Plug 'https://github.com/folke/neodev.nvim'
-
-  " Start Autocompletion plugins
-  Plug 'https://github.com/hrsh7th/nvim-cmp'
-
-  " Snippet Engine & its associated nvim-cmp source
-  Plug 'https://github.com/L3MON4D3/LuaSnip'
-  Plug 'https://github.com/saadparwaiz1/cmp_luasnip'
-
-  " Adds LSP completion capabilities
-  Plug 'https://github.com/hrsh7th/cmp-nvim-lsp'
-  Plug 'https://github.com/hrsh7th/cmp-path'
-
-  " Adds a number of user-friendly snippets
-  Plug 'https://github.com/rafamadriz/friendly-snippets'
-  " End Autocompletion plugins
-
-  " The `TSUpdate` call tends to throw errors when this is installed. Don't
-  " stress, it works on Unix/Linux after the first run. Not worth looking into
-  " deeper at the moment.
-  Plug 'https://github.com/nvim-treesitter/nvim-treesitter', has('nvim') ? { 'do': ':TSUpdate' } : { 'on': [] }
 
   " Git related plugins
   Plug 'https://github.com/tpope/vim-fugitive'
@@ -260,24 +230,66 @@ if !exists('g:vscode')
   " For comment/uncomment support
   Plug 'https://github.com/tpope/vim-commentary'
 
-  " Fuzzy finding stuff
-  Plug 'https://github.com/nvim-lua/plenary.nvim'
-  Plug 'https://github.com/nvim-telescope/telescope.nvim'
-  Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim'
-
-  " 'ray-x/go.nvim' depends on:
-  "   - 'nvim-treesitter/nvim-treesitter'
-  "   - 'neovim/nvim-lspconfig
-  Plug 'https://github.com/ray-x/go.nvim'
-
-  " recommended for floating window support for the go plugin above
-  Plug 'https://github.com/ray-x/guihua.lua'
+  " Telescope is specified below and is a much nicer fuzzy finder, but is only
+  " available for Neovim. fzf is a good fallback for vanilla Vim.
+  Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'https://github.com/junegunn/fzf.vim'
 
   " Live preview of markdown file in default browser
   Plug 'https://github.com/iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
   " Personal fork of a plugin to highlight and modify todo.txt files
   Plug 'https://github.com/eestrada/todo.txt-vim'
+
+  " [[ Neovim specific Plugins ]]
+
+  " LSP Configuration & Plugins
+  Plug 'https://github.com/neovim/nvim-lspconfig', has('nvim') ? {} : { 'on': [] }
+
+  " Automatically install LSPs to stdpath for neovim
+  Plug 'https://github.com/williamboman/mason.nvim', has('nvim') ? {} : { 'on': [] }
+  Plug 'https://github.com/williamboman/mason-lspconfig.nvim', has('nvim') ? {} : { 'on': [] }
+
+  " Useful status updates for LSP
+  Plug 'https://github.com/j-hui/fidget.nvim', has('nvim') ? {} : { 'on': [] }
+
+  " Additional lua configuration, makes nvim stuff amazing!
+  Plug 'https://github.com/folke/neodev.nvim', has('nvim') ? {} : { 'on': [] }
+
+  " Start Autocompletion plugins
+  Plug 'https://github.com/hrsh7th/nvim-cmp', has('nvim') ? {} : { 'on': [] }
+
+  " Snippet Engine & its associated nvim-cmp source
+  Plug 'https://github.com/L3MON4D3/LuaSnip', has('nvim') ? {} : { 'on': [] }
+  Plug 'https://github.com/saadparwaiz1/cmp_luasnip', has('nvim') ? {} : { 'on': [] }
+
+  " Adds LSP completion capabilities
+  Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', has('nvim') ? {} : { 'on': [] }
+  Plug 'https://github.com/hrsh7th/cmp-path', has('nvim') ? {} : { 'on': [] }
+
+  " Adds a number of user-friendly snippets
+  " This plugin *can* be used outside Neovim, but currently is not. Only cmp
+  " is used for autocompletion, which is Neovim specific.
+  Plug 'https://github.com/rafamadriz/friendly-snippets', has('nvim') ? {} : { 'on': [] }
+  " End Autocompletion plugins
+
+  " The `TSUpdate` call tends to throw errors when this is installed. Don't
+  " stress, it works on Unix/Linux after the first run. Not worth looking into
+  " deeper at the moment.
+  Plug 'https://github.com/nvim-treesitter/nvim-treesitter', has('nvim') ? { 'do': ':TSUpdate' } : { 'on': [] }
+
+  " Fuzzy finding stuff
+  Plug 'https://github.com/nvim-lua/plenary.nvim', has('nvim') ? {} : { 'on': [] }
+  Plug 'https://github.com/nvim-telescope/telescope.nvim', has('nvim') ? {} : { 'on': [] }
+  Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim', has('nvim') ? {} : { 'on': [] }
+
+  " 'ray-x/go.nvim' depends on:
+  "   - 'nvim-treesitter/nvim-treesitter'
+  "   - 'neovim/nvim-lspconfig
+  Plug 'https://github.com/ray-x/go.nvim', has('nvim') ? {} : { 'on': [] }
+
+  " recommended for floating window support for the go plugin above
+  Plug 'https://github.com/ray-x/guihua.lua', has('nvim') ? {} : { 'on': [] }
 endif
 
 " Add local additional plugin inclusions, if any. Use error handling code in
@@ -348,7 +360,7 @@ if has('nvim') && exists('g:vscode')
         { desc = '[s]earch [c]ommands' })
 
       vim.keymap.set('n', '<space>sg', function() vscode.call('workbench.action.findInFiles') end,
-        { desc = '[s]earch by [g]repping file contents' })
+        { desc = '[s]earch file contents with [g]rep' })
 
       vim.keymap.set('n', '<space>sp', function() vscode.call('workbench.action.quickOpenNavigateNextInFilePicker') end,
         { desc = '[s]earch project [p]aths' })
@@ -367,34 +379,61 @@ else
   " Only run once Vim has actually loaded
   " Should be safe in both Vim and Neovim, so long as we aren't in vscode
   function s:init() abort
-        " [[ Configure vim-signature ]]
-        " Use Signature commands if present, otherwise fallback to foolproof default
-        if exists(':SignatureListGlobalMarks') > 0
-          " List [m]arks that are defined [g]lobally
-          nmap <space>mg :SignatureListGlobalMarks<CR>
-          " List [m]arks that are defined in current [b]uffer
-          nmap <space>mb :SignatureListBufferMarks<CR>
-        else
-          " List [m]arks that are defined [g]lobally
-          nmap <space>mg :marks ABCDEFGHIJKLMNOPQRSTUVWXYZ<CR>:\'
-          " List [m]arks that are defined in current [b]uffer
-          nmap <space>mb :marks abcdefghijklmnopqrstuvwxyz<CR>:\'
-        endif
+    " [[ Configure vim-signature ]]
+    " Use Signature commands if present, otherwise fallback to foolproof default
+    if exists(':SignatureListGlobalMarks') > 0
+      " List [m]arks that are defined [g]lobally
+      nmap <leader>mg :SignatureListGlobalMarks<CR>
+      " List [m]arks that are defined in current [b]uffer
+      nmap <leader>mb :SignatureListBufferMarks<CR>
+    else
+      " List [m]arks that are defined [g]lobally
+      nmap <leader>mg :marks ABCDEFGHIJKLMNOPQRSTUVWXYZ<CR>:\'
+      " List [m]arks that are defined in current [b]uffer
+      nmap <leader>mb :marks abcdefghijklmnopqrstuvwxyz<CR>:\'
+    endif
 
-        " [[ Configure vim-signify ]]
-        let g:signify_sign_delete='-'
+    " [[ Configure vim-signify ]]
+    let g:signify_sign_delete='-'
 
-        " I'm still on the fence on whether or not I want to show the count of deleted
-        " lines in the gutter.
-        " vim.g.signify_sign_show_count = false
+    " I'm still on the fence on whether or not I want to show the count of deleted
+    " lines in the gutter.
+    " vim.g.signify_sign_show_count = false
 
-        " If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
-        " a git commit message. We should disable signify so that it doesn't
-        " unintentionally corrupt the git repo.
-        "has_key(environ(), 'GIT_EXEC')
-        if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
-          execute SignifyDisableAll
-        end
+    " If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
+    " a git commit message. We should disable signify so that it doesn't
+    " unintentionally corrupt the git repo.
+    "has_key(environ(), 'GIT_EXEC')
+    if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
+      execute SignifyDisableAll
+    end
+
+    if !has('nvim')
+      " [[ Configure fzf keybindings ]]
+      " [s]earch [b]uffers
+      nmap <leader>sb :Buffers<CR>
+
+      " [s]earch [c]ommands
+      nmap <leader>sc :Commands<CR>
+
+      " [s]earch file contents with [g]rep
+      nmap <leader>sg :Rg<CR>
+
+      " [s]earch [h]elp tags
+      nmap <leader>sh :Helptags<CR>
+
+      " [s]earch [k]eymaps
+      nmap <leader>sk :Maps<CR>
+
+      " [s]earch project [p]aths
+      nmap <leader>sp :Files<CR>
+
+      " [s]earch [v]ersion controlled file paths
+      nmap <leader>sv :GitFiles<CR>
+
+      " [s]earch [s]nippets
+      nmap <leader>ss :Snippets<CR>
+    endif
   endfunction
 
   autocmd VimEnter * call s:init()
@@ -881,7 +920,7 @@ else
         vim.keymap.set('n', '<leader>st', ':Telescope<CR>', { desc = '[s]earch [t]elescope builtin commands lists' })
         vim.keymap.set('n', '<leader>sb', ':Telescope buffers<CR>', { desc = '[s]earch [b]uffers' })
         vim.keymap.set('n', '<leader>sc', ':Telescope commands<CR>', { desc = '[s]earch [c]ommands' })
-        vim.keymap.set('n', '<leader>sg', ':Telescope live_grep<CR>', { desc = '[s]earch with [g]rep' })
+        vim.keymap.set('n', '<leader>sg', ':Telescope live_grep<CR>', { desc = '[s]earch file contents with [g]rep' })
         vim.keymap.set('n', '<leader>sh', ':Telescope help_tags<CR>', { desc = '[s]earch [h]elp tags' })
         vim.keymap.set('n', '<leader>sk', ':Telescope keymaps<CR>', { desc = '[s]earch [k]eymaps' })
         vim.keymap.set('n', '<leader>sp', ':Telescope find_files<CR>', { desc = '[s]earch project [p]aths' })
