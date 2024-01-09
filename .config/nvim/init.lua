@@ -113,7 +113,6 @@ vim.opt.smartcase = true
 vim.opt.completeopt = 'menuone,noselect'
 
 -- Syntax settings
-
 -- NOTE: make sure current terminal supports this
 vim.opt.termguicolors = true
 
@@ -388,7 +387,7 @@ if plug then
   -- Any plugin configuration for local plugins should be done in
   -- $NVIM_CONFIG/after/plugin/local_config.lua
 
-  -- Close plugin loading AFTER we load local plugin inclusions (if then exist).
+  -- Close plugin loading AFTER we load local plugin inclusions (if any exist).
   plug.End()
 
   if plug.Bootstrapped then

@@ -80,7 +80,7 @@ adobeconnectapp.log
 /.tox
 /.usr/*
 /.vagrant.d
-/.vim/.netrwhist
+/.vim/*
 /.viminfo
 /.vscode-oss
 /.vscode-server
