@@ -181,6 +181,19 @@ nmap <leader>lf :lfirst<CR>
 " Jump to [l]ocation list [l]ast item.
 nmap <leader>ll :llast<CR>
 
+" [t]ab [o]pen (i.e. new).
+nmap <leader>to :tabnew<CR>
+" [t]ab [c]lose.
+nmap <leader>tc :tabclose<CR>
+" goto [t]ab [n]ext.
+nmap <leader>tn :tabnext<CR>
+" goto [t]ab [p]revious.
+nmap <leader>tp :tabprevious<CR>
+" goto [t]ab [f]irst.
+nmap <leader>tf :tabfirst<CR>
+" goto [t]ab [l]ast.
+nmap <leader>tl :tablast<CR>
+
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
 " keymapping from here:

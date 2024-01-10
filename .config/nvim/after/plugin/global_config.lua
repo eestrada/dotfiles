@@ -601,6 +601,16 @@ else
     }
   end
 
+  -- [[ Keymaps for nvim only ]]
+  -- See `:help vim.keymap.set()`
+  vim.keymap.set('n', '<leader>df', function() vim.diagnostic.open_float() end,
+    { desc = 'Open [d]iagnostic [f]loat' })
+  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
+    { desc = 'Goto next diagnostic message' })
+  vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
+    { desc = 'Goto previous diagnostic message' })
+  vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
+    { desc = 'Open [d]iagnostic [l]ocation list' })
 
   -- [[ configurations in functions ]]
   local msg = '%s load/setup failed. Try installing plugins and reloading nvim'
