@@ -613,48 +613,22 @@ else
     { desc = 'Open [d]iagnostic [l]ocation list' })
 
   -- [[ configurations in functions ]]
-  local msg = '%s load/setup failed. Try installing plugins and reloading nvim'
+  local init_funcs = {
+    fidget = fidget_setup,
+    golang = go_setup,
+    ['lsp config'] = lsp_config_setup,
+    ['cmp and luasnip'] = cmp_setup,
+    telescope = telescope_setup,
+    treesitter = treesitter_setup,
+  }
 
-  -- local init_funcs = {
-  --   fidget = fidget_setup,
-  --   golang = go_setup,
-  --   ['lsp config'] = lsp_config_setup,
-  --   ['cmp and luasnip'] = cmp_setup,
-  --   telescope = telescope_setup,
-  --   treesitter = treesitter_setup,
-  -- }
-
-  -- for setup_name, setup_func in pairs(init_funcs) do
-  --   local setup_succeed, setup_err = pcall(setup_func)
-  --   if not setup_succeed then
-  --     vim.notify(
-  --       string.format('%s setup failed. Check nvim config based on errors: %s', setup_name, setup_err),
-  --       vim.log.levels.ERROR
-  --     )
-  --   end
-  -- end
-
-  if not pcall(fidget_setup) then
-    vim.notify(string.format(msg, 'fidget'), vim.log.levels.ERROR)
-  end
-
-  if not pcall(go_setup) then
-    vim.notify(string.format(msg, 'golang'), vim.log.levels.ERROR)
-  end
-
-  if not pcall(lsp_config_setup) then
-    vim.notify(string.format(msg, 'lsp config'), vim.log.levels.ERROR)
-  end
-
-  if not pcall(cmp_setup) then
-    vim.notify(string.format(msg, 'cmp and luasnip'), vim.log.levels.ERROR)
-  end
-
-  if not pcall(telescope_setup) then
-    vim.notify(string.format(msg, 'telescope'), vim.log.levels.ERROR)
-  end
-
-  if not pcall(treesitter_setup) then
-    vim.notify(string.format(msg, 'treesitter'), vim.log.levels.ERROR)
+  for setup_name, setup_func in pairs(init_funcs) do
+    local setup_succeed, setup_err = pcall(setup_func)
+    if not setup_succeed then
+      vim.notify(
+        string.format('%s setup failed. Check nvim config based on errors: %s', setup_name, setup_err),
+        vim.log.levels.ERROR
+      )
+    end
   end
 end
