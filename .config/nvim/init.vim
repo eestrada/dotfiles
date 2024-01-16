@@ -124,6 +124,8 @@ if has('unnamedplus')
     set clipboard+=unnamedplus
 endif
 
+" [[ Keymaps  ]]
+
 " Keymaps for better default experience
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
@@ -193,6 +195,23 @@ nmap <leader>tp :tabprevious<CR>
 nmap <leader>tf :tabfirst<CR>
 " goto [t]ab [l]ast.
 nmap <leader>tl :tablast<CR>
+
+" Wrap selected text in parens or quotes
+" Ideas originated from links below:
+" * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
+" * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
+" [w]rap in [p]arentheses.
+vnoremap <leader>wp di()<Esc>P
+" [w]rap in [s]quare brackets.
+vnoremap <leader>ws di[]<Esc>P
+" [w]rap in [b]rackets.
+vnoremap <leader>wb di{}<Esc>P
+" [w]rap in a[n]gle brackets.
+vnoremap <leader>wn di<><Esc>P
+" [w]rap in single [q]uotes.
+vnoremap <leader>wq di''<Esc>P
+" [w]rap in [d]ouble quotes.
+vnoremap <leader>wd di""<Esc>P
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original

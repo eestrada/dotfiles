@@ -361,14 +361,12 @@ local function lsp_config_setup()
       end
       vim.keymap.set('n', '<leader>D', type_definition_func, { buffer = args.buf, desc = 'Type [D]efinition' })
 
-      local function document_symbols_func()
-        -- vim.lsp.buf.document_symbol()
-        require('telescope.builtin').lsp_document_symbols()
-      end
-      vim.keymap.set('n', '<leader>ds', document_symbols_func, { buffer = args.buf, desc = '[D]ocument [S]ymbols' })
+      vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').lsp_document_symbols() end,
+        { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
 
-      vim.keymap.set('n', '<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end,
-        { buffer = args.buf, desc = '[W]orkspace [S]ymbols' })
+      vim.keymap.set('n', '<leader>sw', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end,
+        { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
+
       vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end,
         { buffer = args.buf, desc = 'Goto declaration' })
 
