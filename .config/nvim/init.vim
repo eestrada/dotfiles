@@ -202,16 +202,16 @@ nmap <leader>tl :tablast<CR>
 " * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
 " [w]rap in [p]arentheses.
 vnoremap <leader>wp di()<Esc>P
-" [w]rap in [s]quare brackets.
-vnoremap <leader>ws di[]<Esc>P
+" [w]rap in square brackets.
+vnoremap <leader>w[ di[]<Esc>P
 " [w]rap in [b]rackets.
 vnoremap <leader>wb di{}<Esc>P
 " [w]rap in a[n]gle brackets.
 vnoremap <leader>wn di<><Esc>P
-" [w]rap in single [q]uotes.
-vnoremap <leader>wq di''<Esc>P
-" [w]rap in [d]ouble quotes.
-vnoremap <leader>wd di""<Esc>P
+" [w]rap in single quotes.
+vnoremap <leader>w' di''<Esc>P
+" [w]rap in double [q]uotes.
+vnoremap <leader>wq di""<Esc>P
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
