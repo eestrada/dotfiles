@@ -201,17 +201,17 @@ nmap <leader>tl :tablast<CR>
 " * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
 " * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
 " [w]rap in [p]arentheses.
-vnoremap <leader>wp di()<Esc>P
+vnoremap <leader>wp c()<Esc>P
 " [w]rap in square brackets.
-vnoremap <leader>w[ di[]<Esc>P
+vnoremap <leader>w[ c[]<Esc>P
 " [w]rap in [b]rackets.
-vnoremap <leader>wb di{}<Esc>P
+vnoremap <leader>wb c{}<Esc>P
 " [w]rap in a[n]gle brackets.
-vnoremap <leader>wn di<><Esc>P
+vnoremap <leader>wn c<><Esc>P
 " [w]rap in single quotes.
-vnoremap <leader>w' di''<Esc>P
+vnoremap <leader>w' c''<Esc>P
 " [w]rap in double [q]uotes.
-vnoremap <leader>wq di""<Esc>P
+vnoremap <leader>wq c""<Esc>P
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
@@ -373,6 +373,9 @@ function s:vimrc_init() abort
 
   " [[ Configure vim-signify ]]
   let g:signify_sign_delete='-'
+
+  nmap <leader>hu :SignifyHunkUndo<CR>
+  nmap <leader>hd :SignifyHunkDiff<CR>
 
   " I'm still on the fence on whether or not I want to show the count of deleted
   " lines in the gutter.
