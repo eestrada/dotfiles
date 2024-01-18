@@ -17,17 +17,13 @@ source_files ()
 }
 
 # Automatically start TMUX for interactive terminals
-if [ "${TERM_PROGRAM}" '!=' "iTerm.app" ] && [ -n "${AUTO_RUN_TMUX_ARGS}" ]; then
-    if which tmux >/dev/null 2>&1; then
-        # See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
-        if [ -z "$TMUX" ] ; then
-            # see answer here: https://unix.stackexchange.com/a/26827/28898
-            case $- in
-              *i*) tmux ${AUTO_RUN_TMUX_ARGS} && exit;;
-              *) ;;
-            esac
-        fi
-    fi
+# See info here: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
+if [ -z "$TMUX" ] && [ -n "${AUTO_RUN_TMUX_ARGS}" ] && type tmux >/dev/null 2>&1; then
+    # see answer here: https://unix.stackexchange.com/a/26827/28898
+    case $- in
+      *i*) tmux ${AUTO_RUN_TMUX_ARGS};;
+      *) ;;
+    esac
 fi
 
 # User specific aliases and functions
@@ -404,7 +400,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
 # Print if any brew package upgrades are available.
-if [ -n "${CHECK_HOMEBREW_OUTDATED}" ] && type brew &>/dev/null
+if [ -n "${CHECK_HOMEBREW_OUTDATED}" ] && type brew >/dev/null 2>&1
 then
   brew outdated
 fi
