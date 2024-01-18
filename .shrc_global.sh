@@ -21,7 +21,7 @@ source_files ()
 if [ -z "$TMUX" ] && [ -n "${AUTO_RUN_TMUX_ARGS}" ] && type tmux >/dev/null 2>&1; then
     # see answer here: https://unix.stackexchange.com/a/26827/28898
     case $- in
-      *i*) tmux ${AUTO_RUN_TMUX_ARGS};;
+      *i*) exec tmux ${AUTO_RUN_TMUX_ARGS};;
       *) ;;
     esac
 fi
