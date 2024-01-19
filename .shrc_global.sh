@@ -338,12 +338,12 @@ tmux_iterm2 ()
 
 ssh_tmux_iterm2 ()
 {
-    ssh -t "$1" "tmux -CC new -A -s '$1'"
+    ssh -t "$1" "tmux -CC new-session -t '$1'"
 }
 
 ssh_tmux ()
 {
-    ssh -t "$1" "tmux new -A -s '$1'"
+    ssh -t "$1" "tmux new-session -t '$1'"
 }
 
 display_notification ()
