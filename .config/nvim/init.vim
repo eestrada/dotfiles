@@ -275,6 +275,9 @@ if !exists('g:vscode')
   " For comment/uncomment support
   Plug 'https://github.com/tpope/vim-commentary'
 
+  " Basic Unix commands inside Vim
+  Plug 'https://github.com/tpope/vim-eunuch'
+
   " Telescope is specified below and is a much nicer fuzzy finder, but is only
   " available for Neovim. fzf is a good fallback for vanilla Vim.
   Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -285,6 +288,9 @@ if !exists('g:vscode')
 
   " Personal fork of a plugin to highlight and modify todo.txt files
   Plug 'https://github.com/eestrada/todo.txt-vim'
+
+  " Faster alternative to Netrw
+  Plug 'https://github.com/justinmk/vim-dirvish'
 
   " [[ Neovim specific Plugins ]]
 
