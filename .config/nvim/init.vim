@@ -23,6 +23,7 @@ let g:maplocalleader=' '
 " [[ Utility variables ]]
 let s:data_dir = has('nvim') ? stdpath('data') : '~/.vim'
 let s:state_dir = has('nvim') ? stdpath('state') : '~/.vim/state'
+let s:config_dir = has('nvim') ? stdpath('config') : '~/.vim'
 
 " [[ Setting options ]]
 " Don't create swapfiles by default
@@ -243,9 +244,9 @@ au BufRead,BufNewFile *.crontab setfiletype crontab
 
 " Plugin bootstrapping
 " https://github.com/junegunn/vim-plug
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let s:autoload_data_dir_parent = has('nvim') ? s:data_dir . '/site' : s:data_dir
+if empty(glob(s:autoload_data_dir_parent . '/autoload/plug.vim'))
+  silent execute '!curl -fLo ' . s:autoload_data_dir_parent . '/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -336,16 +337,10 @@ if !exists('g:vscode')
   Plug 'https://github.com/ray-x/guihua.lua', has('nvim') ? {} : { 'on': [] }
 endif
 
-" Add local additional plugin inclusions, if any. Use error handling code in
-" case no local configs exist. Error handling patterned on code in this link:
-" https://www.lua.org/pil/8.4.html
-if has('nvim')
-  lua << EOF
-    local pstatus, perr = pcall(function() require('local_configs.additional_plugins') end)
-    if not pstatus then
-      vim.notify(string.format('%s', perr), vim.log.levels.ERROR)
-    end
-EOF
+" Add local additional plugin inclusions, if any.
+let s:additional_plugin_defs = s:config_dir . '/local_configs/additional_plugins.vim'
+if filereadable(s:additional_plugin_defs)
+  execute 'source ' . s:additional_plugin_defs
 endif
 
 " Any plugin configuration for local plugins should be done in
