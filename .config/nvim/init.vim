@@ -132,7 +132,7 @@ nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
 " Easily explore filesystem
-nmap <leader>e :Ex<CR>
+nmap <leader>e :Dirvish<CR>
 
 " Jump betwen buffers easily
 
