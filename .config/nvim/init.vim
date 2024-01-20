@@ -132,70 +132,65 @@ nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
 " Easily explore filesystem
-nmap <leader>e :Dirvish<CR>
+" NOTE: if Dirvish has been loaded, it will overload `:Explore`. See below.
+nmap <leader>e :Explore<CR>
 
-" Jump betwen buffers easily
+" Buffers/windows/tabs
+" see :help windows
 
-" Goto [b]uffer ([n]ext)
-nmap <leader>bn :bnext<CR>
+" Jump between buffers
+" Goto previous buffer
+nmap [b :bprevious<CR>
+" Goto next buffer
+nmap ]b :bnext<CR>
+" Goto first buffer
+nmap ]B :bfirst<CR>
+" Goto next buffer
+nmap ]B :blast<CR>
 
-" Goto [b]uffer ([p]revious)
-nmap <leader>bp :bprevious<CR>
+" Jump between windows
+" Jump to previous (i.e. above/left) window.
+nmap [w :wincmd W<CR>
+" Jump to next (i.e. below/right) window.
+nmap ]w :wincmd w<CR>
+" Jump to first (i.e. top-left) window.
+nmap [W :wincmd t<CR>
+" Jump to last (i.e. bottom-right) window.
+nmap ]W :wincmd t<CR>
 
-" Simple fallback not requiring the quickfix buffer
-" Goto [b]uffer [l]ist
-" nmap <leader>bl :ls<CR>:b<Space>
+" Jump between tabs
+" Jump to previous tab.
+nmap [t :tabprevious<CR>
+" Jump to next tab.
+nmap ]t :tabnext<CR>
+" Jump to first tab.
+nmap [T :tabfirst<CR>
+" Jump to last tab.
+nmap ]T :tablast<CR>
 
-" FIXME: the cclose/Qbuffers/copen sequence below causes flashing. Filtering
-" out the quickfix buffer to begin with will mean closing it to begin with
-" won't be necessary, which should fix the flashing.
-" Original implementation found here: https://vi.stackexchange.com/a/2127/15953
+" " Original implementation found here: https://vi.stackexchange.com/a/2127/15953
 command! Qbuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
-" Populate quickfix with [b]uffer [l]ist and open quickfix buffer with :copen
-nmap <leader>bl :cclose<CR>:Qbuffers<CR>:copen<CR>
+" FIXME: figure out how to indicate the current window for command below. <window> isn't it, obviously.
+command! Lbuffers call setloclist(<window>, map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
-" Set [b]uffer list as [q]uickfix list
-nmap <leader>bq :Qbuffers<CR>
+" Jump to previous Quickfix item.
+nmap [q :cprevious<CR>
+" Jump to next Quickfix item.
+nmap ]q :cnext<CR>
+" Jump to first Quickfix item.
+nmap [Q :cfirst<CR>
+" Jump to last Quickfix item.
+nmap ]Q :clast<CR>
 
-" Qui[c]kfix [o]pen.
-nmap <leader>co :copen<CR>
-" Qui[c]kfix [c]lose.
-nmap <leader>cc :cclose<CR>
-" Jump to Qui[c]kfix [n]ext item.
-nmap <leader>cn :cnext<CR>
-" Jump to Qui[c]kfix [p]revious item.
-nmap <leader>cp :cprevious<CR>
-" Jump to Qui[c]kfix [f]irst item.
-nmap <leader>cf :cfirst<CR>
-" Jump to Qui[c]kfix [l]ast item.
-nmap <leader>cl :clast<CR>
-
-" [l]ocation list [o]pen.
-nmap <leader>lo :lopen<CR>
-" [l]ocation list [c]lose.
-nmap <leader>lc :lclose<CR>
-" Jump to [l]ocation list [n]ext item.
-nmap <leader>ln :lnext<CR>
-" Jump to [l]ocation list [p]revious item.
-nmap <leader>lp :lprevious<CR>
-" Jump to [l]ocation list [f]irst item.
-nmap <leader>lf :lfirst<CR>
-" Jump to [l]ocation list [l]ast item.
-nmap <leader>ll :llast<CR>
-
-" [t]ab [o]pen (i.e. new).
-nmap <leader>to :tabnew<CR>
-" [t]ab [c]lose.
-nmap <leader>tc :tabclose<CR>
-" goto [t]ab [n]ext.
-nmap <leader>tn :tabnext<CR>
-" goto [t]ab [p]revious.
-nmap <leader>tp :tabprevious<CR>
-" goto [t]ab [f]irst.
-nmap <leader>tf :tabfirst<CR>
-" goto [t]ab [l]ast.
-nmap <leader>tl :tablast<CR>
+" Jump to previous location list item.
+nmap [l :lprevious<CR>
+" Jump to next location list item.
+nmap ]l :lnext<CR>
+" Jump to first location list item.
+nmap [L :lfirst<CR>
+" Jump to last location list item.
+nmap ]L :llast<CR>
 
 " Wrap selected text in parens or quotes
 " Ideas originated from links below:
@@ -390,6 +385,16 @@ function s:vimrc_init() abort
   if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
     execute SignifyDisableAll
   end
+
+  " Make Netrw commands use Dirvish instead
+  " see :help dirvish
+  if exists(':Dirvish')
+    let g:loaded_netrwPlugin = 1
+
+    command! -nargs=? -complete=dir Explore Dirvish <args>
+    command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+    command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+  endif
 
   if !has('nvim')
     " [[ Configure fzf keybindings ]]
