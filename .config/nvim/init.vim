@@ -21,9 +21,13 @@ let g:maplocalleader=' '
 " * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
 
 " [[ Utility variables ]]
-let s:data_dir = has('nvim') ? stdpath('data') : '~/.vim'
-let s:state_dir = has('nvim') ? stdpath('state') : '~/.vim/state'
-let s:config_dir = has('nvim') ? stdpath('config') : '~/.vim'
+let s:is_win = has('win32')
+let s:vim_dir = $HOME . (s:is_win ? '/vimfiles' : '/.vim')
+let s:plugins_dir = s:vim_dir . '/plugged'
+
+let s:data_dir = has('nvim') ? stdpath('data') : s:vim_dir
+let s:state_dir = has('nvim') ? stdpath('state') : s:vim_dir . '/state'
+let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
 
 " [[ Setting options ]]
 " Don't create swapfiles by default
@@ -40,7 +44,7 @@ if !has('nvim')
   let s:undo_dir = s:state_dir . '/undo'
   let &undodir=s:undo_dir
 endif
-set undodir+=~/tmp/
+set undodir+=/tmp/
 
 " Case-insensitive searching UNLESS \C or capital in search
 set ignorecase
@@ -245,7 +249,7 @@ if empty(glob(s:autoload_data_dir_parent . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin()
+call plug#begin(s:plugins_dir)
 
 " Most plugins will either break vscode or are redundant
 if !exists('g:vscode')
