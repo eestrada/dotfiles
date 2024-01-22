@@ -282,6 +282,9 @@ if !exists('g:vscode')
   Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'https://github.com/junegunn/fzf.vim'
 
+  " Align fields (like Markdown tables)
+  Plug 'https://github.com/junegunn/vim-easy-align'
+
   " Live preview of markdown file in default browser
   Plug 'https://github.com/iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
