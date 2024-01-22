@@ -160,7 +160,7 @@ nmap ]w :wincmd w<CR>
 " Jump to first (i.e. top-left) window.
 nmap [W :wincmd t<CR>
 " Jump to last (i.e. bottom-right) window.
-nmap ]W :wincmd t<CR>
+nmap ]W :wincmd b<CR>
 
 " Jump between tabs
 " Jump to previous tab.
@@ -196,6 +196,20 @@ nmap [L :lfirst<CR>
 " Jump to last location list item.
 nmap ]L :llast<CR>
 
+" The keymap [I is always defined to reveal references. I'm fairly certain
+" this is based on references found in a ctags file. Depending on
+" configuration, it may not do anything, but the keymap should always be
+" defined. Just force `gr` to point to that. This should work in Vim, Neovim,
+" and Neovim embedded in VSCode.
+nmap gr [I
+
+" The keymap <C-]> is always defined to go to a function/variable definition
+" in a ctags file. Depending on configuration, it may not do anything, but the
+" keymap should always be defined. Just force `gd` to point to that. This
+" should work in Vim, Neovim, and Neovim embedded in VSCode. See link here:
+" https://hea-www.harvard.edu/~fine/Tech/vi.html
+nmap gd <C-]>
+
 " Wrap selected text in parens or quotes
 " Ideas originated from links below:
 " * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
@@ -217,7 +231,7 @@ vnoremap <leader>wq c""<Esc>P
 " buffer. Only override keymap locally in the quicklist type buffers. Original
 " keymapping from here:
 " https://www.reddit.com/r/vim/comments/hfovi6/comment/fvyxvwd/
-au BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> o <CR><C-w>p | endif
+au BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> p <CR><C-w>p | endif
 
 " [[ Define Commands ]]
 " My custom defined commands
@@ -226,14 +240,6 @@ command! -range=% StripTrailingWS <line1>,<line2>s/\s\+$//e
 " Original defintion found here:
 " https://vim.fandom.com/wiki/Reverse_order_of_lines
 command! -range ReverseLines <line1>,<line2>g/^/m<line1>-1|nohl
-
-" [[ VSCode notify config ]]
-" Define vscode notify early so that we receive notificationsin in the right
-" place when calling notify later in config and possible plugin loading.
-" See docs here: https://github.com/vscode-neovim/vscode-neovim?tab=readme-ov-file#vscodenotifymsg
-if has('nvim') && exists('g:vscode')
-  lua 'vim.notify = require("vscode-neovim").notify'
-endif
 
 " [[ Filetype Detection ]]
 au BufRead,BufNewFile *.cron setfiletype crontab
@@ -343,16 +349,16 @@ if !exists('g:vscode')
 
   " recommended for floating window support for the go plugin above
   Plug 'https://github.com/ray-x/guihua.lua', has('nvim') ? {} : { 'on': [] }
-endif
 
-" Add local additional plugin inclusions, if any.
-let s:additional_plugin_defs = s:config_dir . '/local_configs/additional_plugins.vim'
-if filereadable(s:additional_plugin_defs)
-  execute 'source ' . s:additional_plugin_defs
-endif
+  " Add local additional plugin inclusions, if any.
+  let s:additional_plugin_defs = s:config_dir . '/local_configs/additional_plugins.vim'
+  if filereadable(s:additional_plugin_defs)
+    execute 'source ' . s:additional_plugin_defs
+  endif
 
-" Any plugin configuration for local plugins should be done in
-" $NVIM_CONFIG/after/plugin/local_config.lua
+  " Any plugin configuration for local plugins should be done in
+  " $NVIM_CONFIG/after/plugin/local_config.lua
+endif
 
 " Close plugin loading AFTER we load local plugin inclusions (if any exist).
 call plug#end()

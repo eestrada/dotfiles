@@ -10,7 +10,7 @@ function table.shallowcopy(orig)
     for orig_key, orig_value in pairs(orig) do
       copy[orig_key] = orig_value
     end
-  else   -- number, string, boolean, etc
+  else -- number, string, boolean, etc
     copy = orig
   end
   return copy
@@ -80,14 +80,19 @@ local user_home = os.getenv("HOME")
 local function vscode_setup()
   local vscode = require('vscode-neovim')
 
+  -- Set vscode.notify as default notify function. See docs here:
+  -- https://github.com/vscode-neovim/vscode-neovim?tab=readme-ov-file#vscodenotifymsg
+  vim.notify = vscode.notify
+
   -- It doesn't seem like the commentary code linked below is necessary anymore
   -- https://github.com/vscode-neovim/vscode-neovim/wiki/Plugins#vim-commentary
 
   -- Use common keybindings
   vim.keymap.set('n', '[I', function() vscode.call('editor.action.referenceSearch.trigger') end,
     { desc = 'References' })
-  vim.keymap.set('n', 'gr', function() vscode.call('editor.action.referenceSearch.trigger') end,
-    { desc = 'Goto references' })
+
+  vim.keymap.set('n', '<C-]>', function() vscode.call('editor.action.revealDefinition') end,
+    { desc = 'Goto definition' })
 
   vim.keymap.set('n', ']d', function() vscode.call('editor.action.marker.next') end,
     { desc = 'Goto next diagnostic message' })
@@ -108,6 +113,9 @@ local function vscode_setup()
   -- Keymaps used by lsp buffers
   vim.keymap.set('n', 'gi', function() vscode.call('editor.action.goToImplementation') end,
     { desc = 'Goto implementation' })
+
+  vim.keymap.set('n', 'gD', function() vscode.call('editor.action.revealDeclaration') end,
+    { desc = 'Goto declaration' })
 
   vim.keymap.set('n', '<space>D', function() vscode.call('editor.action.goToTypeDefinition') end,
     { desc = 'Goto type definition' })
@@ -338,22 +346,40 @@ local function lsp_config_setup()
         -- require('telescope.builtin').lsp_definitions()(require('telescope.themes').get_ivy({ include_current_line = true }))
       end
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
-      vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
+      -- vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
 
       -- References
+      -- Use the following link for reference on how to override the default
+      -- references behavior. Can use this to deduplicate the Quickfix list
+      -- that always seems to have duplicate items for some reason.
+      -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
       local function references_func()
         vim.lsp.buf.references()
+        vim.cmd.copen()
+
+        -- TODO: Some LSP implementations duplicate reference items. Dedupe those items for all LSPs.
+        -- vim.lsp.buf.references(nil, {
+        --   on_list = function(options)
+        --     vim.fn.setqflist({}, ' ', options)
+        --   end
+        -- })
         -- require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({ include_current_line = true }))
       end
-      vim.keymap.set('n', 'gH', references_func, { buffer = args.buf, desc = '[G]oto [R]eferences' })
-      vim.keymap.set('n', 'gr', references_func, { buffer = args.buf, desc = '[G]oto [R]eferences' })
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
       local function implementation_func()
         vim.lsp.buf.implementation()
         -- require('telescope.builtin').lsp_implementations(require('telescope.themes').get_ivy({}))
       end
-      vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[G]oto [I]mplementation' })
+      vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
+
+      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end,
+        { buffer = args.buf, desc = '[g]oto [D]eclaration' })
+
+      vim.keymap.set('n', '<C-k>',
+        function() vim.lsp.buf.signature_help() end,
+        { buffer = args.buf, desc = 'Signature help' }
+      )
 
       local function type_definition_func()
         vim.lsp.buf.type_definition()
@@ -366,14 +392,6 @@ local function lsp_config_setup()
 
       vim.keymap.set('n', '<leader>sw', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end,
         { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
-
-      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end,
-        { buffer = args.buf, desc = 'Goto declaration' })
-
-      vim.keymap.set('n', '<C-k>',
-        function() vim.lsp.buf.signature_help() end,
-        { buffer = args.buf, desc = 'Signature help' }
-      )
 
       -- custom keymaps using <leader> key
       vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
@@ -489,7 +507,7 @@ local function fidget_setup()
     progress = {
       -- Options related to how LSP progress messages are displayed as notifications
       display = {
-        skip_history = false,   -- Whether progress notifications should be omitted from history
+        skip_history = false, -- Whether progress notifications should be omitted from history
       },
     },
   })
@@ -542,8 +560,8 @@ end
 
 local function treesitter_setup()
   require 'nvim-treesitter.configs'.setup {
-    modules = {},          -- Added to silence linter
-    ignore_install = {},   -- Added to silence linter
+    modules = {},        -- Added to silence linter
+    ignore_install = {}, -- Added to silence linter
 
     -- A list of parser names, or "all" (the five listed parsers should always be installed)
     ensure_installed = { "lua", "vim", "vimdoc", "query" },
@@ -563,7 +581,7 @@ local function treesitter_setup()
 
       -- use a function to disable slow treesitter highlight for large files
       disable = function(lang, buf)
-        local max_filesize = 100 * 1024   -- 100 KB
+        local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
           return true
@@ -604,12 +622,14 @@ else
   -- See `:help vim.keymap.set()`
   vim.keymap.set('n', '<leader>df', function() vim.diagnostic.open_float() end,
     { desc = 'Open [d]iagnostic [f]loat' })
-  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
-    { desc = 'Goto next diagnostic message' })
   vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
     { desc = 'Goto previous diagnostic message' })
+  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
+    { desc = 'Goto next diagnostic message' })
   vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
-    { desc = 'Open [d]iagnostic [l]ocation list' })
+    { desc = 'Open [d]iagnostics in [l]ocation list' })
+  vim.keymap.set('n', '<leader>dq', function() vim.diagnostic.setqflist() end,
+    { desc = 'Open [d]iagnostics in [q]uickfix list' })
 
   -- [[ configurations in functions ]]
   local init_funcs = {
