@@ -412,6 +412,13 @@ local function lsp_config_setup()
         { buffer = args.buf, desc = '[f]ormat [b]uffer' }
       )
 
+      -- Get capabilities of current LSP server
+      vim.api.nvim_create_user_command('LspCapabilities',
+        function()
+          vim.print(vim.lsp.get_active_clients()[1].server_capabilities)
+        end, {desc = 'Print capabilities of current LSP server implementation.'}
+      )
+
       -- foldingRangeProvider
       if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
