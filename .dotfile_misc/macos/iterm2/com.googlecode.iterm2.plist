@@ -637,6 +637,10 @@
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
 			<integer>10000</integer>
+			<key>Scrollback With Status Bar</key>
+			<false/>
+			<key>Scrollback in Alternate Screen</key>
+			<false/>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
