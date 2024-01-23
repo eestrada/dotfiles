@@ -6,6 +6,12 @@ basic motion keys and never learned the more advanced motions of even the basic
 vi key set. So, here is a reminder to myself of keys beyond the basics that I
 am still learning.
 
+## Reference links:
+  * `:help quickref`
+    - https://neovim.io/doc/user/quickref.html
+    - https://vimhelp.org/quickref.txt.html
+  * `:help vimtutor`
+
 ## vi features (i.e. "basic" features)
 ### Window Motions
   * `<ctrl> + d` - move cursor and screen view 1/2 page down (think `d` for down)
