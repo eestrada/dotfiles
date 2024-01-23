@@ -276,6 +276,10 @@ local function lsp_config_setup()
     -- for vimscript
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#vimls
     vimls = {},
+
+    -- for zig
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#zls
+    zls = {},
   }
 
   local lspconfig = require("lspconfig")
