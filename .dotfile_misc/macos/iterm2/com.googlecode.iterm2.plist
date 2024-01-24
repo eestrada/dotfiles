@@ -292,7 +292,7 @@
 			<key>Enable Triggers in Interactive Apps</key>
 			<false/>
 			<key>Flashing Bell</key>
-			<false/>
+			<true/>
 			<key>Foreground Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -659,6 +659,8 @@
 				<key>Red Component</key>
 				<string>0.7098</string>
 			</dict>
+			<key>Send Bell Alert</key>
+			<false/>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Shortcut</key>
@@ -822,6 +824,8 @@
 		<string>Recent Directories</string>
 		<string>Command History</string>
 	</array>
+	<key>TraditionalVisualBell</key>
+	<true/>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseTmuxStatusBar</key>
