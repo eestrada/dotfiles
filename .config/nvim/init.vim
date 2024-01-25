@@ -346,6 +346,9 @@ if !exists('g:vscode')
   Plug 'https://github.com/nvim-telescope/telescope.nvim', has('nvim') ? {} : { 'on': [] }
   Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim', has('nvim') ? {} : { 'on': [] }
 
+  " Add more pickers using `vim.ui.select`. Nice for spelling suggestions.
+  Plug 'https://github.com/mfussenegger/nvim-qwahl', has('nvim') ? {} : { 'on': [] }
+
   " 'ray-x/go.nvim' depends on:
   "   - 'nvim-treesitter/nvim-treesitter'
   "   - 'neovim/nvim-lspconfig
