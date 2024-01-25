@@ -347,7 +347,7 @@ local function lsp_config_setup()
       -- telescope builtins
       local function definition_func()
         vim.lsp.buf.definition()
-        -- require('telescope.builtin').lsp_definitions()(require('telescope.themes').get_ivy({ include_current_line = true }))
+        -- require('telescope.builtin').lsp_definitions(require('telescope.themes').get_ivy({ include_current_line = true }))
       end
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
       -- vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
@@ -419,8 +419,8 @@ local function lsp_config_setup()
       -- Get capabilities of current LSP server
       vim.api.nvim_create_user_command('LspCapabilities',
         function()
-          vim.print(vim.lsp.get_active_clients()[1].server_capabilities)
-        end, {desc = 'Print capabilities of current LSP server implementation.'}
+          vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
+        end, { desc = 'Print capabilities of current LSP server implementation.' }
       )
 
       -- foldingRangeProvider

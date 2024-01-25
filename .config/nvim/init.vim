@@ -262,6 +262,10 @@ if !exists('g:vscode')
   " [[ Universal Plugins ]]
   " We start with plugins that can be used in both Vim and Neovim
 
+  " Smooth scrolling with <C-d>, <C-u>, and cousins
+  " I lose sense of where I am in the file otherwise.
+  Plug 'https://github.com/psliwka/vim-smoothie'
+
   " Show marks in gutter, add some commands to ease jumping between marks
   Plug 'https://github.com/kshenoy/vim-signature'
 
