@@ -228,7 +228,7 @@ vnoremap <leader>w' c''<Esc>P
 vnoremap <leader>wq c""<Esc>P
 
 " Toggle spellcheck
-nmap <leader>ts :set spell! spelllang=en_us<CR>
+nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
