@@ -6,8 +6,8 @@ set nocompatible
 " Set <space> as the leader key
 " See `:help mapleader`
 "  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-let g:mapleader=' '
-let g:maplocalleader=' '
+let g:mapleader = ' '
+let g:maplocalleader = ' '
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
@@ -42,7 +42,7 @@ if !has('nvim')
   " The Vim default is the current directory `.` This ends up causing lots of
   " junk being scattered around. Use data dir or /tmp
   let s:undo_dir = s:state_dir . '/undo'
-  let &undodir=s:undo_dir
+  let &undodir = s:undo_dir
 endif
 set undodir+=/tmp/
 
@@ -386,7 +386,7 @@ function s:vimrc_init() abort
   endif
 
   " [[ Configure vim-signify ]]
-  let g:signify_sign_delete='-'
+  let g:signify_sign_delete = '-'
 
   nmap <leader>hu :SignifyHunkUndo<CR>
   nmap <leader>hd :SignifyHunkDiff<CR>
