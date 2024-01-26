@@ -265,6 +265,9 @@ if !exists('g:vscode')
   " [[ Universal Plugins ]]
   " We start with plugins that can be used in both Vim and Neovim
 
+  " Tools to manipulate CSV files
+  Plug 'https://github.com/chrisbra/csv.vim'
+
   " Smooth scrolling with <C-d>, <C-u>, and cousins
   " I lose sense of where I am in the file otherwise.
   Plug 'https://github.com/psliwka/vim-smoothie'
