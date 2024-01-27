@@ -276,11 +276,16 @@ Plug 'https://github.com/tpope/vim-eunuch'
 " Align fields (like Markdown tables)
 Plug 'https://github.com/junegunn/vim-easy-align'
 
-" Personal fork of a plugin to highlight and modify todo.txt files
+" Highlight and modify todo.txt files
+" Use personal fork of a plugin
 Plug 'https://github.com/eestrada/todo.txt-vim'
 
 " Faster alternative to Netrw
 Plug 'https://github.com/justinmk/vim-dirvish'
+
+" Git related plugins
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/tpope/vim-rhubarb'
 
 " [[ Neovim anywhere ]]
 
@@ -290,7 +295,6 @@ Plug 'https://github.com/eestrada/nvim-qwahl', Cond(has('nvim'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]]
 
-
 " Show marks in gutter, add some commands to ease jumping between marks
 Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 
@@ -298,10 +302,6 @@ Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 " Get diff symbols in gutter for code tracked in a VCS (supports more than
 " just git and can easily be extended to support others)
 Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
-
-" Git related plugins
-Plug 'https://github.com/tpope/vim-fugitive', Cond(!exists('g:vscode'))
-Plug 'https://github.com/tpope/vim-rhubarb', Cond(!exists('g:vscode'))
 
 " Detect tabstop and shiftwidth automatically
 Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
