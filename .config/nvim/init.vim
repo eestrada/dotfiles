@@ -250,8 +250,12 @@ au BufRead,BufNewFile *.crontab setfiletype crontab
 
 " [[ Plugin loading ]]
 
-" Plugin bootstrapping
-" https://github.com/junegunn/vim-plug
+" Based off formula here: https://github.com/junegunn/vim-plug/wiki/tips#conditional-activation
+function! Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
 let s:autoload_data_dir_parent = has('nvim') ? s:data_dir . '/site' : s:data_dir
 if empty(glob(s:autoload_data_dir_parent . '/autoload/plug.vim'))
   silent execute '!curl -fLo ' . s:autoload_data_dir_parent . '/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -260,119 +264,123 @@ endif
 
 call plug#begin(s:plugins_dir)
 
-" Most plugins will either break vscode or are redundant
-if !exists('g:vscode')
-  " [[ Universal Plugins ]]
-  " We start with plugins that can be used in both Vim and Neovim
+" [[ Vim and Neovim anywhere ]]
+" We start with plugins that can be used in both Vim and Neovim
 
-  " Tools to manipulate CSV files
-  Plug 'https://github.com/chrisbra/csv.vim'
+" Tools to manipulate CSV files
+Plug 'https://github.com/chrisbra/csv.vim'
 
-  " Smooth scrolling with <C-d>, <C-u>, and cousins
-  " I lose sense of where I am in the file otherwise.
-  Plug 'https://github.com/psliwka/vim-smoothie'
+" Basic Unix commands inside Vim
+Plug 'https://github.com/tpope/vim-eunuch'
 
-  " Show marks in gutter, add some commands to ease jumping between marks
-  Plug 'https://github.com/kshenoy/vim-signature'
+" Align fields (like Markdown tables)
+Plug 'https://github.com/junegunn/vim-easy-align'
 
-  " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
-  " Get diff symbols in gutter for code tracked in a VCS (supports more than
-  " just git and can easily be extended to support others)
-  Plug 'https://github.com/mhinz/vim-signify'
+" Personal fork of a plugin to highlight and modify todo.txt files
+Plug 'https://github.com/eestrada/todo.txt-vim'
 
-  " Git related plugins
-  Plug 'https://github.com/tpope/vim-fugitive'
-  Plug 'https://github.com/tpope/vim-rhubarb'
+" Faster alternative to Netrw
+Plug 'https://github.com/justinmk/vim-dirvish'
 
-  " Detect tabstop and shiftwidth automatically
-  Plug 'https://github.com/tpope/vim-sleuth'
+" [[ Neovim anywhere ]]
 
-  " For comment/uncomment support
-  Plug 'https://github.com/tpope/vim-commentary'
+" Add more pickers using `vim.ui.select`. Nice for spelling suggestions.
+" Use personal fork with extra fixes and features.
+Plug 'https://github.com/eestrada/nvim-qwahl', Cond(has('nvim'))
 
-  " Basic Unix commands inside Vim
-  Plug 'https://github.com/tpope/vim-eunuch'
+" [[ Vim and Neovim native (e.g. not embedded in vscode) ]]
 
-  " Telescope is specified below and is a much nicer fuzzy finder, but is only
-  " available for Neovim. fzf is a good fallback for vanilla Vim.
-  Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'https://github.com/junegunn/fzf.vim'
 
-  " Align fields (like Markdown tables)
-  Plug 'https://github.com/junegunn/vim-easy-align'
+" Show marks in gutter, add some commands to ease jumping between marks
+Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 
-  " Live preview of markdown file in default browser
-  Plug 'https://github.com/iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" XXX: signify can add a significant (~800 ms) amount of start up time to nvim
+" Get diff symbols in gutter for code tracked in a VCS (supports more than
+" just git and can easily be extended to support others)
+Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
 
-  " Personal fork of a plugin to highlight and modify todo.txt files
-  Plug 'https://github.com/eestrada/todo.txt-vim'
+" Git related plugins
+Plug 'https://github.com/tpope/vim-fugitive', Cond(!exists('g:vscode'))
+Plug 'https://github.com/tpope/vim-rhubarb', Cond(!exists('g:vscode'))
 
-  " Faster alternative to Netrw
-  Plug 'https://github.com/justinmk/vim-dirvish'
+" Detect tabstop and shiftwidth automatically
+Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
 
-  " [[ Neovim specific Plugins ]]
+" For comment/uncomment support
+Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
 
-  " LSP Configuration & Plugins
-  Plug 'https://github.com/neovim/nvim-lspconfig', has('nvim') ? {} : { 'on': [] }
+" Telescope is specified below and is a much nicer fuzzy finder, but is only
+" available for Neovim. fzf is a good fallback for vanilla Vim.
+Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
+Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
 
-  " Automatically install LSPs to stdpath for neovim
-  Plug 'https://github.com/williamboman/mason.nvim', has('nvim') ? {} : { 'on': [] }
-  Plug 'https://github.com/williamboman/mason-lspconfig.nvim', has('nvim') ? {} : { 'on': [] }
+" Live preview of markdown file in default browser
+" Despite name, works in Vim 8.1+, not just Neovim
+Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
-  " Useful status updates for LSP
-  Plug 'https://github.com/j-hui/fidget.nvim', has('nvim') ? {} : { 'on': [] }
+" [[ Neovim native (e.g. not embedded in vscode) ]]
 
-  " Additional lua configuration, makes nvim stuff amazing!
-  Plug 'https://github.com/folke/neodev.nvim', has('nvim') ? {} : { 'on': [] }
+" Smooth scrolling with <C-d>, <C-u>, and cousins
+" I lose sense of where I am in the file otherwise.
+Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Start Autocompletion plugins
-  Plug 'https://github.com/hrsh7th/nvim-cmp', has('nvim') ? {} : { 'on': [] }
+" LSP Configuration & Plugins
+Plug 'https://github.com/neovim/nvim-lspconfig', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Snippet Engine & its associated nvim-cmp source
-  Plug 'https://github.com/L3MON4D3/LuaSnip', has('nvim') ? {} : { 'on': [] }
-  Plug 'https://github.com/saadparwaiz1/cmp_luasnip', has('nvim') ? {} : { 'on': [] }
+" Automatically install LSPs to stdpath for neovim
+Plug 'https://github.com/williamboman/mason.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/williamboman/mason-lspconfig.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Adds LSP completion capabilities
-  Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', has('nvim') ? {} : { 'on': [] }
-  Plug 'https://github.com/hrsh7th/cmp-path', has('nvim') ? {} : { 'on': [] }
+" Useful status updates for LSP
+Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Adds a number of user-friendly snippets
-  " This plugin *can* be used outside Neovim, but currently is not. Only cmp
-  " is used for autocompletion, which is Neovim specific.
-  Plug 'https://github.com/rafamadriz/friendly-snippets', has('nvim') ? {} : { 'on': [] }
-  " End Autocompletion plugins
+" Additional lua configuration, makes nvim stuff amazing!
+Plug 'https://github.com/folke/neodev.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-  " The `TSUpdate` call tends to throw errors when this is installed. Don't
-  " stress, it works on Unix/Linux after the first run. Not worth looking into
-  " deeper at the moment.
-  Plug 'https://github.com/nvim-treesitter/nvim-treesitter', has('nvim') ? { 'do': ':TSUpdate' } : { 'on': [] }
+" Start Autocompletion plugins
+Plug 'https://github.com/hrsh7th/nvim-cmp', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Fuzzy finding stuff
-  Plug 'https://github.com/nvim-lua/plenary.nvim', has('nvim') ? {} : { 'on': [] }
-  Plug 'https://github.com/nvim-telescope/telescope.nvim', has('nvim') ? {} : { 'on': [] }
-  Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim', has('nvim') ? {} : { 'on': [] }
+" Snippet Engine & its associated nvim-cmp source
+Plug 'https://github.com/L3MON4D3/LuaSnip', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/saadparwaiz1/cmp_luasnip', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Add more pickers using `vim.ui.select`. Nice for spelling suggestions.
-  " Use personal fork with extra fixes and features.
-  Plug 'https://github.com/eestrada/nvim-qwahl', has('nvim') ? {} : { 'on': [] }
+" Adds LSP completion capabilities
+Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/hrsh7th/cmp-path', Cond(has('nvim') && !exists('g:vscode'))
 
-  " 'ray-x/go.nvim' depends on:
-  "   - 'nvim-treesitter/nvim-treesitter'
-  "   - 'neovim/nvim-lspconfig
-  Plug 'https://github.com/ray-x/go.nvim', has('nvim') ? {} : { 'on': [] }
+" Adds a number of user-friendly snippets
+" This plugin *can* be used outside Neovim, but currently is not. Only cmp
+" is used for autocompletion, which is Neovim specific.
+Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(has('nvim') && !exists('g:vscode'))
+" End Autocompletion plugins
 
-  " recommended for floating window support for the go plugin above
-  Plug 'https://github.com/ray-x/guihua.lua', has('nvim') ? {} : { 'on': [] }
+" The `TSUpdate` call tends to throw errors when this is installed. Don't
+" stress, it works on Unix/Linux after the first run. Not worth looking into
+" deeper at the moment.
+Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
 
-  " Add local additional plugin inclusions, if any.
-  let s:additional_plugin_defs = s:config_dir . '/local_configs/additional_plugins.vim'
-  if filereadable(s:additional_plugin_defs)
-    execute 'source ' . s:additional_plugin_defs
-  endif
+" Fuzzy finding stuff
+Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-  " Any plugin configuration for local plugins should be done in
-  " $NVIM_CONFIG/after/plugin/local_config.lua
+" 'ray-x/go.nvim' depends on:
+"   - 'nvim-treesitter/nvim-treesitter'
+"   - 'neovim/nvim-lspconfig
+Plug 'https://github.com/ray-x/go.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" recommended for floating window support for the go plugin above
+Plug 'https://github.com/ray-x/guihua.lua', Cond(has('nvim') && !exists('g:vscode'))
+
+" Add local additional plugin inclusions, if any.
+" Local plugins must configure include guards independently
+let s:additional_plugin_defs = s:config_dir . '/local_configs/additional_plugins.vim'
+if filereadable(s:additional_plugin_defs)
+  execute 'source ' . s:additional_plugin_defs
 endif
+
+" Any plugin configuration for local plugins should be done in
+" $NVIM_CONFIG/after/plugin/local_config.lua
 
 " Close plugin loading AFTER we load local plugin inclusions (if any exist).
 call plug#end()
