@@ -406,8 +406,10 @@ function s:vimrc_init() abort
   " [[ Configure vim-signify ]]
   let g:signify_sign_delete = '-'
 
-  nmap <leader>hu :SignifyHunkUndo<CR>
-  nmap <leader>hd :SignifyHunkDiff<CR>
+  if exists(':SignifyHunkUndo') > 0
+    nmap <leader>hu :SignifyHunkUndo<CR>
+    nmap <leader>hd :SignifyHunkDiff<CR>
+  endif
 
   " I'm still on the fence on whether or not I want to show the count of deleted
   " lines in the gutter.
@@ -460,7 +462,4 @@ function s:vimrc_init() abort
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
-" Should be safe in both Vim and Neovim, so long as we aren't in vscode
-if !exists('g:vscode')
-  autocmd VimEnter * call s:vimrc_init()
-endif
+autocmd VimEnter * call s:vimrc_init()
