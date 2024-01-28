@@ -30,7 +30,7 @@ let s:state_dir = has('nvim') ? stdpath('state') : s:vim_dir . '/state'
 let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
 
 " [[ Setting options ]]
-" Don't create swapfiles by default
+" Don't create swap files by default
 set updatecount=0
 
 " Enable mouse mode
@@ -40,7 +40,7 @@ set mouse=a
 set undofile
 if !has('nvim')
   " The Vim default is the current directory `.` This ends up causing lots of
-  " junk being scattered around. Use data dir or /tmp
+  " junk being scattered around. Use data directory or /tmp
   let s:undo_dir = s:state_dir . '/undo'
   let &undodir = s:undo_dir
 endif
@@ -100,7 +100,7 @@ set smartindent
 " Enable break indent
 set breakindent
 
-" Default to using spaces when hiting <Tab> key.
+" Default to using spaces when hitting <Tab> key.
 set expandtab
 " Number of spaces that a <Tab> counts for while editing.
 set softtabstop=4
@@ -135,7 +135,7 @@ endif
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
-" Easily explore filesystem
+" Easily explore file system
 " NOTE: if Dirvish has been loaded, it will overload `:Explore`. See below.
 nmap <leader>e :Explore<CR>
 
@@ -143,13 +143,13 @@ nmap <leader>e :Explore<CR>
 " see :help windows
 
 " Jump between buffers
-" Goto previous buffer
+" Go to previous buffer
 nmap [b :bprevious<CR>
-" Goto next buffer
+" Go to next buffer
 nmap ]b :bnext<CR>
-" Goto first buffer
+" Go to first buffer
 nmap ]B :bfirst<CR>
-" Goto next buffer
+" Go to next buffer
 nmap ]B :blast<CR>
 
 " Jump between windows
@@ -418,7 +418,6 @@ function s:vimrc_init() abort
   " If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
   " a git commit message. We should disable signify so that it doesn't
   " unintentionally corrupt the git repo.
-  "has_key(environ(), 'GIT_EXEC')
   if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
     execute SignifyDisableAll
   end

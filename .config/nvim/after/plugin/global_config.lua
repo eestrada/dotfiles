@@ -524,6 +524,11 @@ local function fidget_setup()
   })
 end
 
+-- [[ Configure fidget ]]
+local function periscope_setup(opts)
+  require("periscope").setup(opts)
+end
+
 -- [[ Configure telescope ]]
 local function telescope_setup()
   -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
@@ -650,6 +655,7 @@ else
     ['cmp and luasnip'] = cmp_setup,
     telescope = telescope_setup,
     treesitter = treesitter_setup,
+    periscope = periscope_setup,
   }
 
   for setup_name, setup_func in pairs(init_funcs) do
