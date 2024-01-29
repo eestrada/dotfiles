@@ -85,12 +85,17 @@ set incsearch
 
 " Show line and column number.
 set ruler
-" Print the line number in front of each line.
+" Print the line number in front of cursor line.
 set number
+" Print the relative line number in front of each line other than cursor line.
+set relativenumber
 " Minimal number of columns to use for the line number.
 set numberwidth=4
 " make backspace work line most other apps
 set backspace=2
+
+" Highlight cursor line
+set cursorline
 
 " Tab Settings
 " Copy indent from current line when starting a new line.
