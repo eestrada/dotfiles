@@ -558,15 +558,24 @@ local function telescope_setup()
 
   -- Fuzzy keymaps
   -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-  vim.keymap.set('n', '<leader>st', function() require('telescope.builtin').builtin() end, { desc = '[s]earch [t]elescope builtin commands lists' })
-  vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end, { desc = '[s]earch [b]uffers' })
-  vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end, { desc = '[s]earch [c]ommands' })
-  vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end, { desc = '[s]earch file contents with [g]rep' })
-  vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = '[s]earch [h]elp tags' })
-  vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end, { desc = '[s]earch [k]eymaps' })
-  vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end, { desc = '[s]earch project [p]aths' })
-  vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end, { desc = '[s]earch [o]ld files opened previously' })
-  vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end, { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', '<leader>st', function() require('telescope.builtin').builtin() end,
+    { desc = '[s]earch [t]elescope builtin commands lists' })
+  vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end,
+    { desc = '[s]earch [b]uffers' })
+  vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end,
+    { desc = '[s]earch [c]ommands' })
+  vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end,
+    { desc = '[s]earch file contents with [g]rep' })
+  vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end,
+    { desc = '[s]earch [h]elp tags' })
+  vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end,
+    { desc = '[s]earch [k]eymaps' })
+  vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end,
+    { desc = '[s]earch project [p]aths' })
+  vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end,
+    { desc = '[s]earch [o]ld files opened previously' })
+  vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end,
+    { desc = '[s]earch [v]ersion controlled file paths' })
   vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
@@ -642,6 +651,22 @@ else
     { desc = 'Open [d]iagnostics in [l]ocation list' })
   vim.keymap.set('n', '<leader>dq', function() vim.diagnostic.setqflist() end,
     { desc = 'Open [d]iagnostics in [q]uickfix list' })
+
+  -- Ideas originated from links below:
+  -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
+  -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
+  vim.keymap.set('v', '<leader>wv',
+    function()
+      vim.ui.input({ prompt = 'Wrap text: ' }, function(input)
+        if input then
+          vim.cmd('normal! d')
+          vim.cmd("normal! i" .. input)
+          vim.cmd "stopinsert"
+          vim.cmd("normal! P")
+        end
+      end)
+    end,
+    { desc = '[w]rap [v]isible selection in input text' })
 
   -- [[ configurations in functions ]]
   local init_funcs = {

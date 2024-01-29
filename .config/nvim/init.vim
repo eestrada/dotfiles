@@ -11,11 +11,11 @@ let g:maplocalleader = ' '
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
-" make sure to install xdg-open and neovim will do the right thing.
+" make sure to install xdg-open and Neovim will do the right thing.
 " https://superuser.com/a/1687625/474473
 "
 " If things are really bad and that doesn't work, set g:netrw_browsex_viewer,
-" like mentioned below. You can use `sensible-browser` on debian based
+" like mentioned below. You can use `sensible-browser` on Debian based
 " systems. Or you can install and use `wslview`. However, all of these things
 " should not be necessary if `xdg-open` is available.
 " * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
@@ -209,23 +209,6 @@ nmap gr [I
 " should work in Vim, Neovim, and Neovim embedded in VSCode. See link here:
 " https://hea-www.harvard.edu/~fine/Tech/vi.html
 nmap gd <C-]>
-
-" Wrap selected text in parens or quotes
-" Ideas originated from links below:
-" * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
-" * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
-" [w]rap in [p]arentheses.
-vnoremap <leader>wp c()<Esc>P
-" [w]rap in square brackets.
-vnoremap <leader>w[ c[]<Esc>P
-" [w]rap in [b]rackets.
-vnoremap <leader>wb c{}<Esc>P
-" [w]rap in a[n]gle brackets.
-vnoremap <leader>wn c<><Esc>P
-" [w]rap in single quotes.
-vnoremap <leader>w' c''<Esc>P
-" [w]rap in double [q]uotes.
-vnoremap <leader>wq c""<Esc>P
 
 " Toggle spellcheck
 nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
