@@ -524,11 +524,6 @@ local function fidget_setup()
   })
 end
 
--- [[ Configure fidget ]]
-local function periscope_setup(opts)
-  require("periscope").setup(opts)
-end
-
 -- [[ Configure telescope ]]
 local function telescope_setup()
   -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
@@ -563,15 +558,16 @@ local function telescope_setup()
 
   -- Fuzzy keymaps
   -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-  vim.keymap.set('n', '<leader>st', ':Telescope<CR>', { desc = '[s]earch [t]elescope builtin commands lists' })
-  vim.keymap.set('n', '<leader>sb', ':Telescope buffers<CR>', { desc = '[s]earch [b]uffers' })
-  vim.keymap.set('n', '<leader>sc', ':Telescope commands<CR>', { desc = '[s]earch [c]ommands' })
-  vim.keymap.set('n', '<leader>sg', ':Telescope live_grep<CR>', { desc = '[s]earch file contents with [g]rep' })
-  vim.keymap.set('n', '<leader>sh', ':Telescope help_tags<CR>', { desc = '[s]earch [h]elp tags' })
-  vim.keymap.set('n', '<leader>sk', ':Telescope keymaps<CR>', { desc = '[s]earch [k]eymaps' })
-  vim.keymap.set('n', '<leader>sp', ':Telescope find_files<CR>', { desc = '[s]earch project [p]aths' })
-  vim.keymap.set('n', '<leader>so', ':Telescope oldfiles<CR>', { desc = '[s]earch [o]ld files opened previously' })
-  vim.keymap.set('n', '<leader>sv', ':Telescope git_files<CR>', { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', '<leader>st', function() require('telescope.builtin').builtin() end, { desc = '[s]earch [t]elescope builtin commands lists' })
+  vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end, { desc = '[s]earch [b]uffers' })
+  vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end, { desc = '[s]earch [c]ommands' })
+  vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end, { desc = '[s]earch file contents with [g]rep' })
+  vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = '[s]earch [h]elp tags' })
+  vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end, { desc = '[s]earch [k]eymaps' })
+  vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end, { desc = '[s]earch project [p]aths' })
+  vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end, { desc = '[s]earch [o]ld files opened previously' })
+  vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end, { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
 local function treesitter_setup()
@@ -655,7 +651,6 @@ else
     ['cmp and luasnip'] = cmp_setup,
     telescope = telescope_setup,
     treesitter = treesitter_setup,
-    periscope = periscope_setup,
   }
 
   for setup_name, setup_func in pairs(init_funcs) do

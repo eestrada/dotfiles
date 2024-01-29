@@ -289,9 +289,7 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 
 " [[ Neovim anywhere ]]
 
-" Add more pickers using `vim.ui.select`. Nice for spelling suggestions.
-" Use personal fork with extra fixes and features.
-Plug 'https://github.com/eestrada/nvim-qwahl', Cond(has('nvim'))
+" Nothing here for now
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]]
 
