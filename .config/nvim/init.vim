@@ -277,6 +277,9 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 
 " [[ Neovim anywhere ]]
 
+" Periscope for local development
+" Plug '~/dev/periscope.nvim'
+
 " Nothing here for now
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]]
