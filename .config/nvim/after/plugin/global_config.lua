@@ -532,7 +532,7 @@ local function telescope_setup()
   require("telescope").setup {
     extensions = {
       ["ui-select"] = {
-        require("telescope.themes").get_dropdown {
+        require("telescope.themes").get_ivy {
           -- even more opts
         }
 
