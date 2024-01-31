@@ -1,4 +1,5 @@
--- [[ Utility functions ]]
+-- vim: set foldmethod=marker:
+-- [[ Utility functions ]] {{{1
 
 -- Shallow copy table contents. nested cloning does not work.
 -- Implementation from here: http://lua-users.org/wiki/CopyTable
@@ -71,12 +72,12 @@ local function load_vim_plug()
   end
 end
 
--- [[ Utility Variables ]]
+-- [[ Utility Variables ]] {{{1
 local user_home = os.getenv("HOME")
 
--- [[ Define functions for plugin setup ]]
+-- [[ Define functions for plugin setup ]] {{{1
 
--- [[ Configure VSCode ]]
+-- [[ Configure VSCode ]] {{{2
 local function vscode_setup()
   local vscode = require('vscode-neovim')
 
@@ -140,7 +141,7 @@ local function vscode_setup()
     { desc = '[s]earch project [p]aths' })
 end
 
--- [[ Configure lsp ]]
+-- [[ Configure lsp ]] {{{2
 local function lsp_config_setup()
   -- Setup neovim lua configuration
   -- IMPORTANT: make sure to setup neodev BEFORE lspconfig. See here:
@@ -264,6 +265,10 @@ local function lsp_config_setup()
     lemminx = {
       filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "ant" },
     },
+
+    -- for markdown
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#remark_ls
+    remark_ls = {},
 
     -- for markdown
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
@@ -442,7 +447,7 @@ local function lsp_config_setup()
   })
 end
 
--- [[ Configure go ]]
+-- [[ Configure go ]] {{{2
 local function go_setup()
   local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
   vim.api.nvim_create_autocmd("BufWritePre", {
@@ -456,7 +461,7 @@ local function go_setup()
   require("go").setup()
 end
 
--- [[ Configure nvim-cmp ]]
+-- [[ Configure nvim-cmp ]] {{{2
 -- See `:help cmp`
 local function cmp_setup()
   local cmp = require 'cmp'
@@ -511,7 +516,7 @@ local function cmp_setup()
   }
 end
 
--- [[ Configure fidget ]]
+-- [[ Configure fidget ]] {{{2
 local function fidget_setup()
   require("fidget").setup({
     -- Options related to LSP progress subsystem
@@ -524,7 +529,7 @@ local function fidget_setup()
   })
 end
 
--- [[ Configure telescope ]]
+-- [[ Configure telescope ]] {{{2
 local function telescope_setup()
   -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
   -- See config here: https://github.com/nvim-telescope/telescope-ui-select.nvim?tab=readme-ov-file#telescope-setup-and-configuration
@@ -592,7 +597,7 @@ local function treesitter_setup()
 
     -- Automatically install missing parsers when entering buffer
     -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = true,
+    auto_install = false,
 
     ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
     -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
@@ -629,8 +634,8 @@ local function treesitter_setup()
   }
 end
 
+-- [[ Configure inside VSCode ]] {{{1
 if vim.g.vscode then
-  -- [[ Configure inside VSCode ]]
   local vscode_setup_succeed, vscode_err = pcall(vscode_setup)
   if not vscode_setup_succeed then
     vim.notify(
@@ -639,7 +644,8 @@ if vim.g.vscode then
     )
   end
 else
-  -- [[ Keymaps for nvim only ]]
+  -- [[ Configure standalone Neovim ]] {{{1
+  -- [[ Keymaps for nvim only ]] {{{2
   -- See `:help vim.keymap.set()`
   vim.keymap.set('n', '<leader>df', function() vim.diagnostic.open_float() end,
     { desc = 'Open [d]iagnostic [f]loat' })
@@ -668,7 +674,7 @@ else
     end,
     { desc = '[w]rap [v]isible selection in input text' })
 
-  -- [[ configurations in functions ]]
+  -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
     fidget = fidget_setup,
     golang = go_setup,
