@@ -1,7 +1,8 @@
+" vim: set foldmethod=marker:
 " Kind of pointless, but better safe than sorry.
 set nocompatible
 
-" [[ Global Variables ]]
+" [[ Global Variables ]] {{{1
 
 " Set <space> as the leader key
 " See `:help mapleader`
@@ -20,7 +21,7 @@ let g:maplocalleader = ' '
 " should not be necessary if `xdg-open` is available.
 " * https://neovim.io/doc/user/pi_netrw.html#netrw_filehandler
 
-" [[ Utility variables ]]
+" [[ Utility variables ]] {{{1
 let s:is_win = has('win32')
 let s:vim_dir = $HOME . (s:is_win ? '/vimfiles' : '/.vim')
 let s:plugins_dir = s:vim_dir . '/plugged'
@@ -29,7 +30,7 @@ let s:data_dir = has('nvim') ? stdpath('data') : s:vim_dir
 let s:state_dir = has('nvim') ? stdpath('state') : s:vim_dir . '/state'
 let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
 
-" [[ Setting options ]]
+" [[ Options ]] {{{1
 " Don't create swap files by default
 set updatecount=0
 
@@ -134,7 +135,7 @@ if has('unnamedplus')
     set clipboard+=unnamedplus
 endif
 
-" [[ Keymaps  ]]
+" [[ Keymaps  ]] {{{1
 
 " Keymaps for better default experience
 nmap <silent> <space> <Nop>
@@ -217,6 +218,8 @@ nmap gd <C-]>
 
 " Toggle spellcheck
 nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
+" Toggle relative line numbers
+nmap <leader>tr :set relativenumber! relativenumber?<CR>
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
@@ -224,7 +227,7 @@ nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
 " https://www.reddit.com/r/vim/comments/hfovi6/comment/fvyxvwd/
 au BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> p <CR><C-w>p | endif
 
-" [[ Define Commands ]]
+" [[ User Commands ]] {{{1
 " My custom defined commands
 command! -range=% StripTrailingWS <line1>,<line2>s/\s\+$//e
 
@@ -232,11 +235,11 @@ command! -range=% StripTrailingWS <line1>,<line2>s/\s\+$//e
 " https://vim.fandom.com/wiki/Reverse_order_of_lines
 command! -range ReverseLines <line1>,<line2>g/^/m<line1>-1|nohl
 
-" [[ Filetype Detection ]]
+" [[ Filetype Detection ]] {{{1
 au BufRead,BufNewFile *.cron setfiletype crontab
 au BufRead,BufNewFile *.crontab setfiletype crontab
 
-" [[ Plugin loading ]]
+" [[ Plugins ]] {{{1
 
 " Based off formula here: https://github.com/junegunn/vim-plug/wiki/tips#conditional-activation
 function! Cond(cond, ...)
@@ -252,7 +255,7 @@ endif
 
 call plug#begin(s:plugins_dir)
 
-" [[ Vim and Neovim anywhere ]]
+" [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
 
 " Tools to manipulate CSV files
@@ -275,14 +278,14 @@ Plug 'https://github.com/justinmk/vim-dirvish'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'https://github.com/tpope/vim-rhubarb'
 
-" [[ Neovim anywhere ]]
+" [[ Neovim anywhere ]] {{{2
 
 " Periscope for local development
 " Plug '~/dev/periscope.nvim'
 
 " Nothing here for now
 
-" [[ Vim and Neovim native (e.g. not embedded in vscode) ]]
+" [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Show marks in gutter, add some commands to ease jumping between marks
 Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
@@ -307,7 +310,7 @@ Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
 " Despite name, works in Vim 8.1+, not just Neovim
 Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
-" [[ Neovim native (e.g. not embedded in vscode) ]]
+" [[ Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Smooth scrolling with <C-d>, <C-u>, and cousins
 " I lose sense of where I am in the file otherwise.
@@ -374,11 +377,11 @@ endif
 " Close plugin loading AFTER we load local plugin inclusions (if any exist).
 call plug#end()
 
-" [[ init after plugin load]]
+" [[ init after plugin load]] {{{1
 
 " Code that should run *after* plugins are loaded
 function s:vimrc_init() abort
-  " [[ Configure vim-signature ]]
+  " [[ Configure vim-signature ]] {{{2
   " Use Signature commands if present, otherwise fallback to foolproof default
   if exists(':SignatureListGlobalMarks') > 0
     " List [m]arks that are defined [g]lobally
@@ -392,7 +395,7 @@ function s:vimrc_init() abort
     nmap <leader>mb :marks abcdefghijklmnopqrstuvwxyz<CR>:\'
   endif
 
-  " [[ Configure vim-signify ]]
+  " [[ Configure vim-signify ]] {{{2
   let g:signify_sign_delete = '-'
 
   if exists(':SignifyHunkUndo') > 0
@@ -421,8 +424,8 @@ function s:vimrc_init() abort
     command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
   endif
 
+  " [[ Configure fzf keybindings ]] {{{2
   if !has('nvim')
-    " [[ Configure fzf keybindings ]]
     " [s]earch [b]uffers
     nmap <leader>sb :Buffers<CR>
 
