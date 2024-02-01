@@ -148,12 +148,7 @@ local function lsp_config_setup()
   -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
   require('neodev').setup()
 
-  -- mason-lspconfig requires that these setup functions are called in this order
-  -- before setting up the mason_managed_servers.
-  require('mason').setup()
-  require('mason-lspconfig').setup()
-
-  local mason_managed_servers = {
+  local mason_ensure_installed = {
     lua_ls = {
       Lua = {
         runtime = {
@@ -178,27 +173,17 @@ local function lsp_config_setup()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-  -- Ensure the mason_managed_servers above are installed
-  local mason_lspconfig = require 'mason-lspconfig'
+  -- mason-lspconfig requires that mason be setup before setting up the
+  -- mason_ensure_installed LSP servers.
+  require('mason').setup()
 
-  mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(mason_managed_servers),
-  }
-
-  mason_lspconfig.setup_handlers {
-    function(server_name)
-      require('lspconfig')[server_name].setup {
-        capabilities = capabilities,
-        settings = mason_managed_servers[server_name],
-        filetypes = (mason_managed_servers[server_name] or {}).filetypes,
-      }
-    end,
+  -- Ensure the mason_ensure_installed LSP servers above are installed.
+  require('mason-lspconfig').setup {
+    ensure_installed = vim.tbl_keys(mason_ensure_installed),
   }
 
   -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
 
-  -- Attempt to download lombok every time before even attaching, otherwise jdtls
-  -- won't even start in the first place.
   -- Servers not managed or auto-installed by mason. These language servers will
   -- need to be manually installed, either thru `:Mason` nvim modal, or manually
   -- using system tools.
@@ -271,12 +256,19 @@ local function lsp_config_setup()
     zls = {},
   }
 
+  for key, value in pairs(mason_ensure_installed) do
+    unmanaged_servers[key] = value
+  end
+
   local lspconfig = require("lspconfig")
 
   for server_name, opts in pairs(unmanaged_servers) do
     local lopts = table.shallowcopy(opts)
     lopts.capabilities = capabilities
-    lspconfig[server_name].setup(lopts)
+    local single_config = lspconfig[server_name]
+    if single_config then
+      single_config.setup(lopts)
+    end
   end
 
   -- -- Mainly used for neovim configs, so using the suggested config from link below
@@ -321,6 +313,8 @@ local function lsp_config_setup()
     pattern = 'java',
     group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
     callback = function()
+      -- Attempt to download lombok every time before even attaching, otherwise jdtls
+      -- won't even start in the first place.
       local lombok_path = user_home .. "/dev/jdtls/lombok.jar"
       local lombok_dl_url = "https://projectlombok.org/downloads/lombok.jar"
       download_file(lombok_path, lombok_dl_url)
@@ -469,8 +463,8 @@ end
 -- [[ Configure nvim-cmp ]] {{{2
 -- See `:help cmp`
 local function cmp_setup()
-  local cmp = require 'cmp'
-  local luasnip = require 'luasnip'
+  local cmp = require('cmp')
+  local luasnip = require('luasnip')
   require('luasnip.loaders.from_vscode').lazy_load()
   require('luasnip.loaders.from_vscode').lazy_load()
   luasnip.config.setup {}
@@ -594,7 +588,7 @@ end
 
 -- [[ Configure Treesitter ]] {{{2
 local function treesitter_setup()
-  require 'nvim-treesitter.configs'.setup {
+  require('nvim-treesitter.configs').setup {
     modules = {},        -- Added to silence linter
     ignore_install = {}, -- Added to silence linter
 
