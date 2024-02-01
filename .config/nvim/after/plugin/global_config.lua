@@ -317,6 +317,27 @@ local function lsp_config_setup()
   -- Other lsp configuration suggestions can be found here:
   -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
 
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'java',
+    group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
+    callback = function()
+      local lombok_path = user_home .. "/dev/jdtls/lombok.jar"
+      local lombok_dl_url = "https://projectlombok.org/downloads/lombok.jar"
+      download_file(lombok_path, lombok_dl_url)
+
+      require('jdtls').start_or_attach({
+        cmd = {
+          -- table.concat({ vim.fn.stdpath("data"), "mason", "bin", "jdtls" }, "/"),
+          "jdtls",
+          -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
+          "--jvm-arg=-javaagent:" .. lombok_path,
+          "-configuration", user_home .. "/.cache/jdtls/config",
+          "-data", user_home .. "/.cache/jdtls/workspace"
+        },
+      })
+    end,
+  })
+
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
     callback = function(args)
@@ -511,6 +532,9 @@ local function fidget_setup()
       },
     },
   })
+
+  -- Use fidget for notifications instead of the builtin notify function.
+  vim.notify = require('fidget.notification').notify
 end
 
 -- [[ Configure telescope ]] {{{2
