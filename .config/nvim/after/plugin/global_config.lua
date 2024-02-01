@@ -197,28 +197,12 @@ local function lsp_config_setup()
 
   -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
 
-  local lombok_path = user_home .. "/dev/jdtls/lombok.jar"
-  local lombok_dl_url = "https://projectlombok.org/downloads/lombok.jar"
-  download_file(lombok_path, lombok_dl_url)
-
   -- Attempt to download lombok every time before even attaching, otherwise jdtls
   -- won't even start in the first place.
   -- Servers not managed or auto-installed by mason. These language servers will
   -- need to be manually installed, either thru `:Mason` nvim modal, or manually
   -- using system tools.
   local unmanaged_servers = {
-    -- for java
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
-    jdtls = {
-      cmd = {
-        "jdtls",
-        -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
-        "--jvm-arg=-javaagent:" .. lombok_path,
-        "-configuration", user_home .. "/.cache/jdtls/config",
-        "-data", user_home .. "/.cache/jdtls/workspace"
-      },
-    },
-
     -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
     -- Should work so long as `gopls` command is on $PATH
@@ -584,6 +568,7 @@ local function telescope_setup()
   vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
+-- [[ Configure Treesitter ]] {{{2
 local function treesitter_setup()
   require 'nvim-treesitter.configs'.setup {
     modules = {},        -- Added to silence linter
