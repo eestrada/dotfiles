@@ -281,7 +281,7 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 " [[ Neovim anywhere ]] {{{2
 
 " Periscope for local development
-" Plug '~/dev/periscope.nvim'
+" Plug '~/dev/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " Nothing here for now
 

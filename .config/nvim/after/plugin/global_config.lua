@@ -531,6 +531,15 @@ local function fidget_setup()
   vim.notify = require('fidget.notification').notify
 end
 
+-- [[ Configure periscope ]] {{{2
+local function periscope_setup(opts)
+  require("periscope").setup(opts)
+  vim.keymap.set('n', 'z=', function() require("periscope.builtin").spell_suggest() end,
+    { desc = 'Fix spelling with periscope' })
+  vim.keymap.set('n', '<leader>sc', function() require("periscope.builtin").commands() end,
+    { desc = '[s]earch [c]ommands' })
+end
+
 -- [[ Configure telescope ]] {{{2
 local function telescope_setup()
   -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
@@ -685,6 +694,7 @@ else
     ['cmp and luasnip'] = cmp_setup,
     telescope = telescope_setup,
     treesitter = treesitter_setup,
+    -- periscope = periscope_setup,
   }
 
   for setup_name, setup_func in pairs(init_funcs) do
