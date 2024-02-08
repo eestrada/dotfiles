@@ -1,6 +1,22 @@
 -- vim: set foldmethod=marker:
 -- [[ Utility functions ]] {{{1
 
+
+-- Dump a table to a readable string. See original implementation here:
+-- https://stackoverflow.com/a/27028488/1733321
+function table.dump(orig)
+  if type(orig) == 'table' then
+    local s = '{ '
+    for k, v in pairs(orig) do
+      if type(k) ~= 'number' then k = '"' .. k .. '"' end
+      s = s .. '[' .. k .. '] = ' .. table.dump(v) .. ','
+    end
+    return s .. '} '
+  else
+    return tostring(orig)
+  end
+end
+
 -- Shallow copy table contents. nested cloning does not work.
 -- Implementation from here: http://lua-users.org/wiki/CopyTable
 function table.shallowcopy(orig)
@@ -15,6 +31,10 @@ function table.shallowcopy(orig)
     copy = orig
   end
   return copy
+end
+
+local function format_setqflist_what(item)
+  return string.format('%s|%s col %s| %s', item.filename, item.lnum, item.col, string.gsub(item.text, '^%s+', ''))
 end
 
 local function download_file(install_path, download_url)
@@ -337,6 +357,36 @@ local function lsp_config_setup()
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
 
+      local function references_on_list(options)
+        vim.fn.setqflist({}, ' ', options)
+        vim.api.nvim_command('botright copen')
+
+        -- Most references I want to see are in the same window that the cursor
+        -- is already in, so return to that window from the Quickfix window.
+        vim.api.nvim_command('wincmd p')
+      end
+
+      local function definitions_on_list(options)
+        vim.fn.setqflist({}, ' ', options)
+
+        -- Generally with definitions/implementations, I want to see where I
+        -- will be jumping to before jumping here. Thus, open the Quickfix
+        -- window, place the cursor in the Quickfix window, but don't jump to
+        -- the first entry yet. If I decide to back out, I can just close the
+        -- Quickfix window without losing my place in the buffer I was just in.
+        -- vim.api.nvim_command('botright copen')
+        -- vim.api.nvim_command('topleft copen')
+
+        require('telescope.builtin').quickfix(require('telescope.themes').get_ivy({ include_current_line = true }))
+        -- vim.ui.select(options.items, { prompt = options.title, format_item = format_setqflist_what }, function(item, idx)
+        --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
+        --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
+        -- end)
+      end
+
+      local references_lsp_options = { on_list = references_on_list }
+      local definitions_lsp_options = { on_list = definitions_on_list }
+
       vim.keymap.set('n', '<leader>wa', function() vim.lsp.buf.add_workspace_folder() end,
         { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
       vim.keymap.set('n', '<leader>wr', function() vim.lsp.buf.remove_workspace_folder() end,
@@ -350,8 +400,7 @@ local function lsp_config_setup()
 
       -- telescope builtins
       local function definition_func()
-        vim.lsp.buf.definition()
-        -- require('telescope.builtin').lsp_definitions(require('telescope.themes').get_ivy({ include_current_line = true }))
+        vim.lsp.buf.definition(definitions_lsp_options)
       end
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
       -- vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
@@ -362,8 +411,7 @@ local function lsp_config_setup()
       -- that always seems to have duplicate items for some reason.
       -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
       local function references_func()
-        vim.lsp.buf.references()
-        vim.cmd.copen()
+        vim.lsp.buf.references(nil, references_lsp_options)
 
         -- TODO: Some LSP implementations duplicate reference items. Dedupe those items for all LSPs.
         -- vim.lsp.buf.references(nil, {
@@ -376,12 +424,11 @@ local function lsp_config_setup()
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
       local function implementation_func()
-        vim.lsp.buf.implementation()
-        -- require('telescope.builtin').lsp_implementations(require('telescope.themes').get_ivy({}))
+        vim.lsp.buf.implementation(definitions_lsp_options)
       end
       vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
 
-      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end,
+      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration(definitions_lsp_options) end,
         { buffer = args.buf, desc = '[g]oto [D]eclaration' })
 
       vim.keymap.set('n', '<C-k>',
@@ -390,10 +437,9 @@ local function lsp_config_setup()
       )
 
       local function type_definition_func()
-        vim.lsp.buf.type_definition()
-        -- require('telescope.builtin').lsp_type_definitions(require('telescope.themes').get_ivy({}))
+        vim.lsp.buf.type_definition(definitions_lsp_options)
       end
-      vim.keymap.set('n', '<leader>D', type_definition_func, { buffer = args.buf, desc = 'Type [D]efinition' })
+      vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
 
       vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').lsp_document_symbols() end,
         { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
