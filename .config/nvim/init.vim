@@ -358,7 +358,9 @@ Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !
 " Fuzzy finding stuff
 Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/nvim-telescope/telescope-ui-select.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" UI stuff
+Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " 'ray-x/go.nvim' depends on:
 "   - 'nvim-treesitter/nvim-treesitter'

@@ -603,40 +603,54 @@ local function periscope_setup(opts)
   vim.keymap.set('n', 'z=', function() require('periscope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
+-- [[ Configure Dressing ]] {{{2
+local function dressing_setup()
+  -- https://github.com/stevearc/dressing.nvim?tab=readme-ov-file#configuration
+  require("dressing").setup({
+    select = {
+      -- Options for telescope selector
+      -- These are passed into the telescope picker directly. Can be used like:
+      -- telescope = require('telescope.themes').get_ivy({...})
+      telescope = require('telescope.themes').get_ivy({ include_current_line = true }),
+    },
+  })
+end
+
 -- [[ Configure telescope ]] {{{2
 local function telescope_setup()
   -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
   -- See config here: https://github.com/nvim-telescope/telescope-ui-select.nvim?tab=readme-ov-file#telescope-setup-and-configuration
   -- This is your opts table
-  require("telescope").setup {
-    extensions = {
-      ["ui-select"] = {
-        require("telescope.themes").get_ivy {
-          -- even more opts
-        }
+  require("telescope").setup({})
+  -- require("telescope").setup {
+  --   extensions = {
+  --     ["ui-select"] = {
+  --       require("telescope.themes").get_ivy {
+  --         -- even more opts
+  --       }
 
-        -- pseudo code / specification for writing custom displays, like the one
-        -- for "codeactions"
-        -- specific_opts = {
-        --   [kind] = {
-        --     make_indexed = function(items) -> indexed_items, width,
-        --     make_displayer = function(widths) -> displayer
-        --     make_display = function(displayer) -> function(e)
-        --     make_ordinal = function(e) -> string
-        --   },
-        --   -- for example to disable the custom builtin "codeactions" display
-        --      do the following
-        --   codeactions = false,
-        -- }
-      }
-    }
-  }
-  -- To get ui-select loaded and working with telescope, you need to call
-  -- load_extension, somewhere after setup function:
-  require("telescope").load_extension("ui-select")
+  --       -- pseudo code / specification for writing custom displays, like the one
+  --       -- for "codeactions"
+  --       -- specific_opts = {
+  --       --   [kind] = {
+  --       --     make_indexed = function(items) -> indexed_items, width,
+  --       --     make_displayer = function(widths) -> displayer
+  --       --     make_display = function(displayer) -> function(e)
+  --       --     make_ordinal = function(e) -> string
+  --       --   },
+  --       --   -- for example to disable the custom builtin "codeactions" display
+  --       --      do the following
+  --       --   codeactions = false,
+  --       -- }
+  --     }
+  --   }
+  -- }
+  -- -- To get ui-select loaded and working with telescope, you need to call
+  -- -- load_extension, somewhere after setup function:
+  -- require("telescope").load_extension("ui-select")
 
   -- Fuzzy keymaps
-  -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
+  -- Although Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
   -- vim.keymap.set('n', '<leader>ss', function() require('telescope.builtin').builtin() end,
   --   { desc = '[s]earch telescope [s]electors' })
   -- vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end,
@@ -758,6 +772,7 @@ else
     telescope = telescope_setup,
     treesitter = treesitter_setup,
     periscope = periscope_setup,
+    dressing = dressing_setup,
   }
 
   for setup_name, setup_func in pairs(init_funcs) do
