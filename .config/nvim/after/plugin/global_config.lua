@@ -366,7 +366,7 @@ local function lsp_config_setup()
         vim.api.nvim_command('wincmd p')
       end
 
-      local function definitions_on_list(options)
+      local function location_on_list(options)
         vim.fn.setqflist({}, ' ', options)
 
         -- Generally with definitions/implementations, I want to see where I
@@ -385,7 +385,7 @@ local function lsp_config_setup()
       end
 
       local references_lsp_options = { on_list = references_on_list }
-      local definitions_lsp_options = { on_list = definitions_on_list }
+      local location_lsp_options = { on_list = location_on_list }
 
       vim.keymap.set('n', '<leader>wa', function() vim.lsp.buf.add_workspace_folder() end,
         { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
@@ -400,7 +400,7 @@ local function lsp_config_setup()
 
       -- telescope builtins
       local function definition_func()
-        vim.lsp.buf.definition(definitions_lsp_options)
+        vim.lsp.buf.definition(location_lsp_options)
       end
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
       -- vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
@@ -424,11 +424,11 @@ local function lsp_config_setup()
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
       local function implementation_func()
-        vim.lsp.buf.implementation(definitions_lsp_options)
+        vim.lsp.buf.implementation(location_lsp_options)
       end
       vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
 
-      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration(definitions_lsp_options) end,
+      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration(location_lsp_options) end,
         { buffer = args.buf, desc = '[g]oto [D]eclaration' })
 
       vim.keymap.set('n', '<C-k>',
@@ -437,7 +437,7 @@ local function lsp_config_setup()
       )
 
       local function type_definition_func()
-        vim.lsp.buf.type_definition(definitions_lsp_options)
+        vim.lsp.buf.type_definition(location_lsp_options)
       end
       vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
 
@@ -580,10 +580,27 @@ end
 -- [[ Configure periscope ]] {{{2
 local function periscope_setup(opts)
   require("periscope").setup(opts)
-  vim.keymap.set('n', 'z=', function() require("periscope.builtin").spell_suggest() end,
-    { desc = 'Fix spelling with periscope' })
-  vim.keymap.set('n', '<leader>sc', function() require("periscope.builtin").commands() end,
+
+  -- Fuzzy keymaps
+  vim.keymap.set('n', '<leader>ss', function() require('periscope.builtin').builtin() end,
+    { desc = '[s]earch periscope [s]electors' })
+  vim.keymap.set('n', '<leader>sb', function() require('periscope.builtin').buffers() end,
+    { desc = '[s]earch [b]uffers' })
+  vim.keymap.set('n', '<leader>sc', function() require('periscope.builtin').commands() end,
     { desc = '[s]earch [c]ommands' })
+  vim.keymap.set('n', '<leader>sg', function() require('periscope.builtin').live_grep() end,
+    { desc = '[s]earch file contents with [g]rep' })
+  vim.keymap.set('n', '<leader>sh', function() require('periscope.builtin').help_tags() end,
+    { desc = '[s]earch [h]elp tags' })
+  vim.keymap.set('n', '<leader>sk', function() require('periscope.builtin').keymaps() end,
+    { desc = '[s]earch [k]eymaps' })
+  vim.keymap.set('n', '<leader>sp', function() require('periscope.builtin').find_files() end,
+    { desc = '[s]earch project [p]aths' })
+  vim.keymap.set('n', '<leader>so', function() require('periscope.builtin').oldfiles() end,
+    { desc = '[s]earch [o]ld files opened previously' })
+  vim.keymap.set('n', '<leader>sv', function() require('periscope.builtin').git_files() end,
+    { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', 'z=', function() require('periscope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
 -- [[ Configure telescope ]] {{{2
@@ -620,25 +637,25 @@ local function telescope_setup()
 
   -- Fuzzy keymaps
   -- Also Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-  vim.keymap.set('n', '<leader>st', function() require('telescope.builtin').builtin() end,
-    { desc = '[s]earch [t]elescope builtin commands lists' })
-  vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end,
-    { desc = '[s]earch [b]uffers' })
-  vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end,
-    { desc = '[s]earch [c]ommands' })
-  vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end,
-    { desc = '[s]earch file contents with [g]rep' })
-  vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end,
-    { desc = '[s]earch [h]elp tags' })
-  vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end,
-    { desc = '[s]earch [k]eymaps' })
-  vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end,
-    { desc = '[s]earch project [p]aths' })
-  vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end,
-    { desc = '[s]earch [o]ld files opened previously' })
-  vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end,
-    { desc = '[s]earch [v]ersion controlled file paths' })
-  vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
+  -- vim.keymap.set('n', '<leader>ss', function() require('telescope.builtin').builtin() end,
+  --   { desc = '[s]earch telescope [s]electors' })
+  -- vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end,
+  --   { desc = '[s]earch [b]uffers' })
+  -- vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end,
+  --   { desc = '[s]earch [c]ommands' })
+  -- vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end,
+  --   { desc = '[s]earch file contents with [g]rep' })
+  -- vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end,
+  --   { desc = '[s]earch [h]elp tags' })
+  -- vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end,
+  --   { desc = '[s]earch [k]eymaps' })
+  -- vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end,
+  --   { desc = '[s]earch project [p]aths' })
+  -- vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end,
+  --   { desc = '[s]earch [o]ld files opened previously' })
+  -- vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end,
+  --   { desc = '[s]earch [v]ersion controlled file paths' })
+  -- vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
 -- [[ Configure Treesitter ]] {{{2
@@ -740,7 +757,7 @@ else
     ['cmp and luasnip'] = cmp_setup,
     telescope = telescope_setup,
     treesitter = treesitter_setup,
-    -- periscope = periscope_setup,
+    periscope = periscope_setup,
   }
 
   for setup_name, setup_func in pairs(init_funcs) do
