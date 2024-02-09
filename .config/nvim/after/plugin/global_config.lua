@@ -377,7 +377,7 @@ local function lsp_config_setup()
         -- vim.api.nvim_command('botright copen')
         -- vim.api.nvim_command('topleft copen')
 
-        require('telescope.builtin').quickfix(require('telescope.themes').get_ivy({ include_current_line = true }))
+        require('periscope.builtin').quickfix()
         -- vim.ui.select(options.items, { prompt = options.title, format_item = format_setqflist_what }, function(item, idx)
         --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
         --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
