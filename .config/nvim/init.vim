@@ -220,6 +220,8 @@ nmap gd <C-]>
 nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
 " Toggle relative line numbers
 nmap <leader>tr :set relativenumber! relativenumber?<CR>
+" Toggle search highlight
+nmap <leader>th :set hlsearch! hlsearch?<CR>
 
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
