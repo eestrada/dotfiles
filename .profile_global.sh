@@ -248,6 +248,7 @@ run_ssh_agent
 # installed elsewhere.
 [ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
-source_files "${HOME}/.profile_local.sh" "${HOME}/.profile-local.sh" "${HOME}/.profile_local"
+# Run again after adding homebrew so that we can pick up nvim as the defaul editor.
+custvars
 
 type rbenv >/dev/null 2>&1 && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"

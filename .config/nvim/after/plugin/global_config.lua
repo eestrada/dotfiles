@@ -291,41 +291,6 @@ local function lsp_config_setup()
     end
   end
 
-  -- -- Mainly used for neovim configs, so using the suggested config from link below
-  -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-  -- -- Should work so long as `lua-language-server` is available on path. See install instruction at link below
-  -- -- https://luals.github.io/#neovim-install
-  -- lspconfig.lua_ls.setup {
-  --   on_init = function(client)
-  --     local path = client.workspace_folders[1].name
-  --     if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-  --       client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-  --         Lua = {
-  --           runtime = {
-  --             -- Tell the language server which version of Lua you're using
-  --             -- (most likely LuaJIT in the case of Neovim)
-  --             version = 'LuaJIT'
-  --           },
-  --           -- Make the server aware of Neovim runtime files
-  --           workspace = {
-  --             checkThirdParty = false,
-  --             -- library = {
-  --             --   vim.env.VIMRUNTIME
-  --             --   -- "${3rd}/luv/library"
-  --             --   -- "${3rd}/busted/library",
-  --             -- }
-  --             -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-  --             library = vim.api.nvim_get_runtime_file("", true)
-  --           }
-  --         }
-  --       })
-
-  --       client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-  --     end
-  --     return true
-  --   end
-  -- }
-
   -- Other lsp configuration suggestions can be found here:
   -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
 
@@ -369,19 +334,15 @@ local function lsp_config_setup()
       local function location_on_list(options)
         vim.fn.setqflist({}, ' ', options)
 
-        -- Generally with definitions/implementations, I want to see where I
-        -- will be jumping to before jumping here. Thus, open the Quickfix
-        -- window, place the cursor in the Quickfix window, but don't jump to
-        -- the first entry yet. If I decide to back out, I can just close the
-        -- Quickfix window without losing my place in the buffer I was just in.
-        -- vim.api.nvim_command('botright copen')
-        -- vim.api.nvim_command('topleft copen')
-
-        require('periscope.builtin').quickfix()
-        -- vim.ui.select(options.items, { prompt = options.title, format_item = format_setqflist_what }, function(item, idx)
-        --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
-        --   vim.notify(string.format('Selected item at index %q with value %q\n', idx, item))
-        -- end)
+        if #options.items == 0 then
+          vim.notify("No " .. options.title .. " to jump to.", vim.log.levels.WARN)
+        elseif #options.items == 1 then
+          vim.api.nvim_command('cfirst')
+        else
+          vim.api.nvim_command('botright copen')
+          vim.api.nvim_command('wincmd p')
+          require('periscope.builtin').quickfix()
+        end
       end
 
       local references_lsp_options = { on_list = references_on_list }
@@ -618,58 +579,7 @@ end
 
 -- [[ Configure telescope ]] {{{2
 local function telescope_setup()
-  -- use 'nvim-telescope/telescope-ui-select.nvim' for ui selection picker
-  -- See config here: https://github.com/nvim-telescope/telescope-ui-select.nvim?tab=readme-ov-file#telescope-setup-and-configuration
-  -- This is your opts table
   require("telescope").setup({})
-  -- require("telescope").setup {
-  --   extensions = {
-  --     ["ui-select"] = {
-  --       require("telescope.themes").get_ivy {
-  --         -- even more opts
-  --       }
-
-  --       -- pseudo code / specification for writing custom displays, like the one
-  --       -- for "codeactions"
-  --       -- specific_opts = {
-  --       --   [kind] = {
-  --       --     make_indexed = function(items) -> indexed_items, width,
-  --       --     make_displayer = function(widths) -> displayer
-  --       --     make_display = function(displayer) -> function(e)
-  --       --     make_ordinal = function(e) -> string
-  --       --   },
-  --       --   -- for example to disable the custom builtin "codeactions" display
-  --       --      do the following
-  --       --   codeactions = false,
-  --       -- }
-  --     }
-  --   }
-  -- }
-  -- -- To get ui-select loaded and working with telescope, you need to call
-  -- -- load_extension, somewhere after setup function:
-  -- require("telescope").load_extension("ui-select")
-
-  -- Fuzzy keymaps
-  -- Although Telescope is much, MUCH slower than fzf, fzf is uglier and requires an external binary.
-  -- vim.keymap.set('n', '<leader>ss', function() require('telescope.builtin').builtin() end,
-  --   { desc = '[s]earch telescope [s]electors' })
-  -- vim.keymap.set('n', '<leader>sb', function() require('telescope.builtin').buffers() end,
-  --   { desc = '[s]earch [b]uffers' })
-  -- vim.keymap.set('n', '<leader>sc', function() require('telescope.builtin').commands() end,
-  --   { desc = '[s]earch [c]ommands' })
-  -- vim.keymap.set('n', '<leader>sg', function() require('telescope.builtin').live_grep() end,
-  --   { desc = '[s]earch file contents with [g]rep' })
-  -- vim.keymap.set('n', '<leader>sh', function() require('telescope.builtin').help_tags() end,
-  --   { desc = '[s]earch [h]elp tags' })
-  -- vim.keymap.set('n', '<leader>sk', function() require('telescope.builtin').keymaps() end,
-  --   { desc = '[s]earch [k]eymaps' })
-  -- vim.keymap.set('n', '<leader>sp', function() require('telescope.builtin').find_files() end,
-  --   { desc = '[s]earch project [p]aths' })
-  -- vim.keymap.set('n', '<leader>so', function() require('telescope.builtin').oldfiles() end,
-  --   { desc = '[s]earch [o]ld files opened previously' })
-  -- vim.keymap.set('n', '<leader>sv', function() require('telescope.builtin').git_files() end,
-  --   { desc = '[s]earch [v]ersion controlled file paths' })
-  -- vim.keymap.set('n', 'z=', function() require('telescope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
 -- [[ Configure Treesitter ]] {{{2
