@@ -122,7 +122,7 @@ set scrolloff=4
 set signcolumn=yes
 " Decrease update time
 set updatetime=250
-set timeoutlen=300
+set timeoutlen=600
 " visual line column(s)
 set colorcolumn=80
 
