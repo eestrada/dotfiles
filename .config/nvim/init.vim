@@ -10,6 +10,11 @@ set nocompatible
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
+" For vim-test
+if has('nvim')
+  let g:test#strategy = 'neovim_sticky'
+endif
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
@@ -216,6 +221,7 @@ nmap gr [I
 " https://hea-www.harvard.edu/~fine/Tech/vi.html
 nmap gd <C-]>
 
+" [[ Toggling keymaps ]]
 " Toggle spellcheck
 nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
 " Toggle relative line numbers
@@ -223,6 +229,10 @@ nmap <leader>tr :set relativenumber! relativenumber?<CR>
 " Toggle search highlight
 nmap <leader>th :set hlsearch! hlsearch?<CR>
 
+" Search for most recently yanked text
+nmap <leader>sy :execute '/' . @0<CR>
+
+" [[ Autocommands ]] {{{1
 " Open buffer pointed to by quickfix buffer while keeping cursor in quickfix
 " buffer. Only override keymap locally in the quicklist type buffers. Original
 " keymapping from here:
@@ -304,14 +314,17 @@ Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
 " For comment/uncomment support
 Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
 
+" For easier test running support
+Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
+
+" Live preview of markdown file in default browser
+" Despite name, works in Vim 8.1+ as well, not just Neovim
+Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
+
 " Telescope is specified below and is a much nicer fuzzy finder, but is only
 " available for Neovim. fzf is a good fallback for vanilla Vim.
 Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
 Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
-
-" Live preview of markdown file in default browser
-" Despite name, works in Vim 8.1+, not just Neovim
-Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
 " [[ Neovim native (e.g. not embedded in vscode) ]] {{{2
 
