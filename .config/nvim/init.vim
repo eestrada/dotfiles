@@ -293,10 +293,12 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 " [[ Neovim anywhere ]] {{{2
 
 " Periscope
-Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
-" Periscope for local development
-" Plug '~/dev/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+" FIXME: currently still ignored in VSCode since a lot of Telescope
+" functionality remains after fork. Once everything uses `vim.ui.select`, then
+" it should be safe to run everywhere, including VSCode.
+" XXX: Use an ssh URL while still actively developing plugin.
+Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
+" Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
@@ -443,6 +445,13 @@ function s:vimrc_init() abort
     command! -nargs=? -complete=dir Explore Dirvish <args>
     command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
     command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+  endif
+
+  " Use Fugitive `:Gclog` to grep git history for word under cursor and place
+  " results into Quicklist. Only shows lines that changed between commits.
+  if exists(':Gclog')
+    nnoremap <leader>vg :Gclog "-G<cword>" --<CR>
+    vnoremap <leader>vg y:Gclog "-G<C-R>0" --<CR>
   endif
 
   " [[ Configure fzf keybindings ]] {{{2
