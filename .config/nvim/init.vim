@@ -454,6 +454,11 @@ function s:vimrc_init() abort
     vnoremap <leader>vg y:Gclog "-G<C-R>0" --<CR>
   endif
 
+  " " Bind cursor in all windows when entering fugitiveblame buffer
+  " if exists(':Git')
+  "   autocmd BufEnter fugitiveblame :windo setlocal cursorbind<CR>
+  " endif
+
   " [[ Configure fzf keybindings ]] {{{2
   if !has('nvim')
     " [s]earch [b]uffers
