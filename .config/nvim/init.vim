@@ -316,6 +316,9 @@ Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
 " For comment/uncomment support
 Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
 
+" For interacting with databases
+Plug 'https://github.com/tpope/vim-dadbod', Cond(!exists('g:vscode'))
+
 " For easier test running support
 Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
 
