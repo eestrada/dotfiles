@@ -12,7 +12,7 @@ let g:maplocalleader = ' '
 
 " For vim-test
 if has('nvim')
-  let g:test#strategy = 'neovim_sticky'
+  let g:test#strategy = 'neovim'
 endif
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
