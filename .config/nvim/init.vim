@@ -159,7 +159,7 @@ nmap [b :bprevious<CR>
 " Go to next buffer
 nmap ]b :bnext<CR>
 " Go to first buffer
-nmap ]B :bfirst<CR>
+nmap [B :bfirst<CR>
 " Go to next buffer
 nmap ]B :blast<CR>
 
