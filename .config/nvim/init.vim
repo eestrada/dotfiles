@@ -267,6 +267,10 @@ endif
 
 call plug#begin(s:plugins_dir)
 
+" [[ Vim only ]] {{{2
+" Neovim already bundles this in its distributions. Only Vim needs it.
+Plug 'https://github.com/ziglang/zig.vim', Cond(!has('nvim'))
+
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
 
