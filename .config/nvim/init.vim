@@ -247,6 +247,17 @@ command! -range=% StripTrailingWS <line1>,<line2>s/\s\+$//e
 " https://vim.fandom.com/wiki/Reverse_order_of_lines
 command! -range ReverseLines <line1>,<line2>g/^/m<line1>-1|nohl
 
+" Requires `jq` CLI be installed.
+" Original based on link below :
+" * https://gist.github.com/angelo-v/e0208a18d455e2e6ea3c40ad637aac53?permalink_comment_id=3439919#gistcomment-3439919
+command! UnpackJWTPayload .!jq --compact-output --raw-input 'gsub("-";"+") | gsub("_";"/") | split(".") | .[1] | @base64d | fromjson'
+
+" Requires `jq` CLI be installed.
+command! -range=% FmtJSON <line1>,<line2>!jq .
+
+" Requires `jq` CLI be installed.
+command! -range=% CompactJSON <line1>,<line2>!jq --compact-output .
+
 " [[ Filetype Detection ]] {{{1
 au BufRead,BufNewFile *.cron setfiletype crontab
 au BufRead,BufNewFile *.crontab setfiletype crontab
