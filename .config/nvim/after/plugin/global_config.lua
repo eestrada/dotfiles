@@ -561,6 +561,8 @@ local function periscope_setup(opts)
     { desc = '[s]earch [o]ld files opened previously' })
   vim.keymap.set('n', '<leader>sv', function() require('periscope.builtin').git_files() end,
     { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', '<leader>sj', function() require('periscope.builtin').jumplist() end,
+    { desc = '[s]earch periscope [j]umplist' })
   vim.keymap.set('n', 'z=', function() require('periscope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
