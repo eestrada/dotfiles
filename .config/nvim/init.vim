@@ -207,6 +207,11 @@ nmap [L :lfirst<CR>
 " Jump to last location list item.
 nmap ]L :llast<CR>
 
+" Jump to previous location in jump list.
+nmap [j <C-O>
+" Jump to next location in jump list.
+nmap ]j  <C-i>
+
 " The keymap [I is always defined to reveal references. I'm fairly certain
 " this is based on references found in a ctags file. Depending on
 " configuration, it may not do anything, but the keymap should always be
