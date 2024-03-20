@@ -263,6 +263,11 @@ command! -range=% FmtJSON <line1>,<line2>!jq .
 " Requires `jq` CLI be installed.
 command! -range=% CompactJSON <line1>,<line2>!jq --compact-output .
 
+" Requires that python3 be installed
+" Original based on link:
+" https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3781583#gistcomment-3781583
+command! -range UrlEncode <line1>,<line2>!python3 -c 'import sys; from urllib import parse; print(parse.quote_plus(sys.stdin.read().strip()))'<cr>
+
 " [[ Filetype Detection ]] {{{1
 au BufRead,BufNewFile *.cron setfiletype crontab
 au BufRead,BufNewFile *.crontab setfiletype crontab

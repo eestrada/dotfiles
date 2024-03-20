@@ -675,6 +675,18 @@ else
     end,
     { desc = '[w]rap [v]isible selection in input text' })
 
+  -- [[ User commands for nvim only ]] {{{2
+  -- Originally ideas found here: https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
+  -- vim.api.nvim_create_user_command('UrlEncode',
+  --   function(opts)
+  --     -- vim.fn.getpos()
+  --     local start_pos = vim.fn.getpos("'<")
+  --     local end_pos = vim.fn.getpos("'>")
+  --     local region = vim.region(0, start_pos, end_pos, "v", true)
+  --     print(region)
+  --   end, { desc = 'Url encode selection.' }
+  -- )
+
   -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
     fidget = fidget_setup,
