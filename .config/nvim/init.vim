@@ -268,6 +268,10 @@ command! -range=% CompactJSON <line1>,<line2>!jq --compact-output .
 " https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3781583#gistcomment-3781583
 command! -range UrlEncode <line1>,<line2>!python3 -c 'import sys; from urllib import parse; print(parse.quote_plus(sys.stdin.read().strip()))'<cr>
 
+" Delete all buffers other than the current one. Originally found here:
+" https://www.reddit.com/r/neovim/comments/s7m0xg/comment/htbfaav/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+command! BuffDeleteOthers :%bdelete|edit #|normal`"<cr>
+
 " [[ Filetype Detection ]] {{{1
 au BufRead,BufNewFile *.cron setfiletype crontab
 au BufRead,BufNewFile *.crontab setfiletype crontab
