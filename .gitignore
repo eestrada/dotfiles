@@ -102,20 +102,21 @@ adobeconnectapp.log
 # files to ignore at top level
 # General
 /AdobeConnectAppCache
-/bin
 /Desktop
-/dev
 /Documents
-/dotfiles
 /Downloads
-/go
 /Music
 /Pictures
 /Public
 /Sync
 /Templates
-/tmp
 /Videos
+/bin
+/dev
+/dotfiles
+/go
+/mbox
+/tmp
 
 # Apple macOS
 /.Trash
@@ -124,7 +125,6 @@ adobeconnectapp.log
 /Movies
 
 # MS Windows
-/_netrc
 /3D\ Objects
 /AppData
 /Application\ Data
@@ -132,13 +132,12 @@ adobeconnectapp.log
 /Cookies
 /Favorites
 /Gaming
-/houdini*
 /Links
 /Local\ Settings
 /My\ Documents
+/NTUSER.*
 /NetHood
 /Nt
-/NTUSER.*
 /OneDrive
 /PrintHood
 /Recent
@@ -147,3 +146,6 @@ adobeconnectapp.log
 /SendTo
 /Start\ Menu
 /VirtualBoxVMs
+/_netrc
+/houdini*
+
