@@ -298,20 +298,24 @@ local function lsp_config_setup()
     pattern = 'java',
     group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
     callback = function()
-      -- Attempt to download lombok every time before even attaching, otherwise jdtls
-      -- won't even start in the first place.
-      local lombok_path = user_home .. "/dev/jdtls/lombok.jar"
-      local lombok_dl_url = "https://projectlombok.org/downloads/lombok.jar"
-      download_file(lombok_path, lombok_dl_url)
+      local cache_dir = vim.fn.stdpath("cache")
+
+      -- Assume `jdtls` has been installed by mason already
+      local mason_registry = require('mason-registry')
+      local jdtls_install = mason_registry
+          .get_package('jdtls')
+          :get_install_path()
+      local jdtls_path = jdtls_install .. '/bin/jdtls'
+      local lombok_path = jdtls_install .. '/lombok.jar'
 
       require('jdtls').start_or_attach({
         cmd = {
           -- table.concat({ vim.fn.stdpath("data"), "mason", "bin", "jdtls" }, "/"),
-          "jdtls",
+          jdtls_path,
           -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
           "--jvm-arg=-javaagent:" .. lombok_path,
-          "-configuration", user_home .. "/.cache/jdtls/config",
-          "-data", user_home .. "/.cache/jdtls/workspace"
+          "-configuration", cache_dir .. "/jdtls/configuration",
+          "-data", cache_dir .. "/jdtls/data"
         },
       })
     end,
