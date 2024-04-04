@@ -310,7 +310,6 @@ local function lsp_config_setup()
 
       require('jdtls').start_or_attach({
         cmd = {
-          -- table.concat({ vim.fn.stdpath("data"), "mason", "bin", "jdtls" }, "/"),
           jdtls_path,
           -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
           "--jvm-arg=-javaagent:" .. lombok_path,
@@ -368,23 +367,13 @@ local function lsp_config_setup()
         vim.lsp.buf.definition(location_lsp_options)
       end
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
-      -- vim.keymap.set('n', 'gd', definition_func, { buffer = args.buf, desc = '[G]oto [D]efinition' })
 
       -- References
       -- Use the following link for reference on how to override the default
-      -- references behavior. Can use this to deduplicate the Quickfix list
-      -- that always seems to have duplicate items for some reason.
+      -- references behavior.
       -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
       local function references_func()
         vim.lsp.buf.references(nil, references_lsp_options)
-
-        -- TODO: Some LSP implementations duplicate reference items. Dedupe those items for all LSPs.
-        -- vim.lsp.buf.references(nil, {
-        --   on_list = function(options)
-        --     vim.fn.setqflist({}, ' ', options)
-        --   end
-        -- })
-        -- require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({ include_current_line = true }))
       end
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
