@@ -379,7 +379,12 @@ Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vsco
 " Additional lua configuration, makes nvim stuff amazing!
 Plug 'https://github.com/folke/neodev.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-" " Specialized LSP for extra Java jdtls
+" General DAP plugins
+Plug 'https://github.com/mfussenegger/nvim-dap'
+Plug 'https://github.com/nvim-neotest/nvim-nio'
+Plug 'https://github.com/rcarriga/nvim-dap-ui'
+
+" Specialized LSP for extra Java jdtls
 Plug 'https://github.com/mfussenegger/nvim-jdtls', Cond(has('nvim') && !exists('g:vscode'))
 
 " Start Autocompletion plugins

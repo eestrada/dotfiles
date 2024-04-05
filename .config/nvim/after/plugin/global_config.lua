@@ -308,6 +308,13 @@ local function lsp_config_setup()
       local jdtls_path = jdtls_install .. '/bin/jdtls'
       local lombok_path = jdtls_install .. '/lombok.jar'
 
+      local java_debug_install = mason_registry
+          .get_package('java-debug-adapter')
+          :get_install_path()
+      local java_debug_server_jar = vim.fn.glob(
+        java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'
+      )
+
       require('jdtls').start_or_attach({
         cmd = {
           jdtls_path,
@@ -315,6 +322,17 @@ local function lsp_config_setup()
           "--jvm-arg=-javaagent:" .. lombok_path,
           "-configuration", cache_dir .. "/jdtls/configuration",
           "-data", cache_dir .. "/jdtls/data"
+        },
+
+        -- Language server `initializationOptions`
+        -- You need to extend the `bundles` with paths to jar files
+        -- if you want to use additional eclipse.jdt.ls plugins.
+        --
+        -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
+        --
+        -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+        init_options = {
+          bundles = { java_debug_server_jar }
         },
       })
     end,
@@ -561,6 +579,48 @@ local function periscope_setup(opts)
   vim.keymap.set('n', 'z=', function() require('periscope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
 end
 
+-- [[ Configure DAP ]] {{{2
+local function dap_setup()
+  vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+  vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end)
+  vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint() end)
+  vim.keymap.set('n', '<leader>dm',
+    function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
+  vim.keymap.set('n', '<leader>dr', function() require('dap').repl.open() end)
+  vim.keymap.set('n', '<leader>dl', function() require('dap').run_last() end)
+  vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
+    require('dap.ui.widgets').hover()
+  end)
+  vim.keymap.set({ 'n', 'v' }, '<leader>dp', function()
+    require('dap.ui.widgets').preview()
+  end)
+  vim.keymap.set('n', '<leader>df', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.frames)
+  end)
+  vim.keymap.set('n', '<leader>ds', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.scopes)
+  end)
+
+  local dap, dapui = require("dap"), require("dapui")
+  dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+  end
+end
+
 -- [[ Configure Dressing ]] {{{2
 local function dressing_setup()
   -- https://github.com/stevearc/dressing.nvim?tab=readme-ov-file#configuration
@@ -643,16 +703,16 @@ else
   -- [[ Configure standalone Neovim ]] {{{1
   -- [[ Keymaps for nvim only ]] {{{2
   -- See `:help vim.keymap.set()`
-  vim.keymap.set('n', '<leader>df', function() vim.diagnostic.open_float() end,
-    { desc = 'Open [d]iagnostic [f]loat' })
+  vim.keymap.set('n', '<leader>nf', function() vim.diagnostic.open_float() end,
+    { desc = 'Open diag[n]ostic [f]loat' })
   vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
     { desc = 'Goto previous diagnostic message' })
   vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
     { desc = 'Goto next diagnostic message' })
-  vim.keymap.set('n', '<leader>dl', function() vim.diagnostic.setloclist() end,
-    { desc = 'Open [d]iagnostics in [l]ocation list' })
-  vim.keymap.set('n', '<leader>dq', function() vim.diagnostic.setqflist() end,
-    { desc = 'Open [d]iagnostics in [q]uickfix list' })
+  vim.keymap.set('n', '<leader>nl', function() vim.diagnostic.setloclist() end,
+    { desc = 'Open diag[n]ostics in [l]ocation list' })
+  vim.keymap.set('n', '<leader>nq', function() vim.diagnostic.setqflist() end,
+    { desc = 'Open diag[n]ostics in [q]uickfix list' })
 
   -- Ideas originated from links below:
   -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
@@ -685,6 +745,7 @@ else
   -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
     fidget = fidget_setup,
+    dap = dap_setup,
     golang = go_setup,
     ['lsp config'] = lsp_config_setup,
     ['cmp and luasnip'] = cmp_setup,
