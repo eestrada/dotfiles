@@ -366,6 +366,7 @@ local function lsp_config_setup()
       local function definition_func()
         vim.lsp.buf.definition(location_lsp_options)
       end
+      -- We bind `gd` to `<C-]>` in `init.vim`
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
 
       -- References
@@ -375,6 +376,7 @@ local function lsp_config_setup()
       local function references_func()
         vim.lsp.buf.references(nil, references_lsp_options)
       end
+      -- We bind `gr` to `[I` in `init.vim`
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
       local function implementation_func()
