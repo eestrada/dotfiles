@@ -581,44 +581,101 @@ end
 
 -- [[ Configure DAP ]] {{{2
 local function dap_setup()
-  vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-  vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end)
-  vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint() end)
+  vim.keymap.set('n', '<F1>', function() require('dap').step_out() end, { desc = 'DAP step out' })
+  vim.keymap.set('n', '<F2>', function() require('dap').step_into() end, { desc = 'DAP step into' })
+  vim.keymap.set('n', '<F3>', function() require('dap').step_over() end, { desc = 'DAP step over' })
+  vim.keymap.set('n', '<F4>', function() require('dap').continue() end, { desc = 'DAP continue' })
+  vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end, { desc = 'DAP toggle breakpoint' })
+  vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint() end, { desc = 'DAP set breakpoint' })
   vim.keymap.set('n', '<leader>dm',
-    function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
-  vim.keymap.set('n', '<leader>dr', function() require('dap').repl.open() end)
-  vim.keymap.set('n', '<leader>dl', function() require('dap').run_last() end)
-  vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
-    require('dap.ui.widgets').hover()
-  end)
-  vim.keymap.set({ 'n', 'v' }, '<leader>dp', function()
-    require('dap.ui.widgets').preview()
-  end)
-  vim.keymap.set('n', '<leader>df', function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.frames)
-  end)
-  vim.keymap.set('n', '<leader>ds', function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.scopes)
-  end)
+    function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+    { desc = 'DAP Log point message' })
+  vim.keymap.set('n', '<leader>dr', function() require('dap').repl.open() end, { desc = 'DAP REPL open' })
+  vim.keymap.set('n', '<leader>dl', function() require('dap').run_last() end, { desc = 'DAP run last' })
 
-  local dap, dapui = require("dap"), require("dapui")
-  dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated.dapui_config = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited.dapui_config = function()
-    dapui.close()
-  end
+  vim.keymap.set({ 'n', 'v' }, '<leader>dh',
+    function()
+      require('dap.ui.widgets').hover()
+    end,
+    { desc = 'DAP UI hover' }
+  )
+  vim.keymap.set({ 'n', 'v' }, '<leader>dp',
+    function()
+      require('dap.ui.widgets').preview()
+    end,
+    { desc = 'DAP UI preview' }
+  )
+  vim.keymap.set('n', '<leader>df',
+    function()
+      local widgets = require('dap.ui.widgets')
+      widgets.centered_float(widgets.frames)
+    end,
+    { desc = 'DAP UI centered float frames' }
+  )
+  vim.keymap.set('n', '<leader>ds',
+    function()
+      local widgets = require('dap.ui.widgets')
+      widgets.centered_float(widgets.scopes)
+    end,
+    { desc = 'DAP UI centered float scopes' }
+  )
+
+  local dap = require("dap")
+  -- local dapui = require("dapui")
+  -- dap.listeners.before.attach.dapui_config = function()
+  --   dapui.open()
+  -- end
+  -- dap.listeners.before.launch.dapui_config = function()
+  --   dapui.open()
+  -- end
+  -- dap.listeners.before.event_terminated.dapui_config = function()
+  --   dapui.close()
+  -- end
+  -- dap.listeners.before.event_exited.dapui_config = function()
+  --   dapui.close()
+  -- end
+
+  -- Configuration originally from:
+  -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
+  local mason_registry = require('mason-registry')
+  local codelldb_install = mason_registry
+      .get_package('codelldb')
+      :get_install_path()
+  local codelldb_path = codelldb_install .. '/codelldb'
+
+  -- codelldb can be used for most natively compiled code with debugging symbols present.
+  dap.adapters.codelldb = {
+    type = 'server',
+    port = "${port}",
+    executable = {
+      command = codelldb_path,
+      args = { "--port", "${port}" },
+
+      -- On windows you may have to uncomment this:
+      -- detached = false,
+    }
+  }
+
+  dap.configurations.cpp = {
+    {
+      name = "Launch file",
+      type = "codelldb",
+      request = "launch",
+      program = function()
+        return vim.fn.input({
+          prompt = 'Path to executable: ',
+          default = vim.fn.getcwd() .. '/',
+          completion = 'file',
+        })
+      end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+    },
+  }
+
+  dap.configurations.c = dap.configurations.cpp
+  dap.configurations.rust = dap.configurations.cpp
+  dap.configurations.zig = dap.configurations.cpp
 end
 
 -- [[ Configure Dressing ]] {{{2
