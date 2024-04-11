@@ -298,10 +298,23 @@ local function lsp_config_setup()
     pattern = 'java',
     group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
     callback = function()
+      vim.api.nvim_buf_create_user_command(0, 'JdtTestClass',
+        function()
+          require('jdtls').test_class()
+        end, { desc = 'Test current class using Java JDT with DAP debugging capabilities enabled.' }
+      )
+
+      vim.api.nvim_buf_create_user_command(0, 'JdtTestNearestMethod',
+        function()
+          require('jdtls').test_nearest_method()
+        end, { desc = 'Test nearest method using Java JDT with DAP debugging capabilities enabled.' }
+      )
+
       local cache_dir = vim.fn.stdpath("cache")
 
-      -- Assume `jdtls` has been installed by mason already
+      -- Assume `jdtls` and friends have been installed by mason already
       local mason_registry = require('mason-registry')
+
       local jdtls_install = mason_registry
           .get_package('jdtls')
           :get_install_path()
@@ -311,9 +324,24 @@ local function lsp_config_setup()
       local java_debug_install = mason_registry
           .get_package('java-debug-adapter')
           :get_install_path()
-      local java_debug_server_jar = vim.fn.glob(
-        java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'
+      local java_debug_server_jars = vim.fn.glob(
+        java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar',
+        false,
+        true
       )
+
+      local java_test_install = mason_registry
+          .get_package('java-test')
+          :get_install_path()
+      local java_test_jars = vim.fn.glob(
+        java_test_install .. '/extension/server/*.jar',
+        false,
+        true
+      )
+
+      local bundles = {}
+      vim.list_extend(bundles, java_debug_server_jars)
+      vim.list_extend(bundles, java_test_jars)
 
       require('jdtls').start_or_attach({
         cmd = {
@@ -332,7 +360,7 @@ local function lsp_config_setup()
         --
         -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
         init_options = {
-          bundles = { java_debug_server_jar }
+          bundles = bundles,
         },
       })
     end,
