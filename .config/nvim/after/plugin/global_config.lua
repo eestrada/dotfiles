@@ -665,47 +665,67 @@ local function dap_setup()
     dapui.close()
   end
 
-  -- Configuration originally from:
-  -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
-  local mason_registry = require('mason-registry')
-  local codelldb_install = mason_registry
-      .get_package('codelldb')
-      :get_install_path()
-  local codelldb_path = codelldb_install .. '/codelldb'
+  local function codelldb_setup(filetype)
+    if not dap.adapters.codelldb then
+      -- Configuration originally from:
+      -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
+      local mason_registry = require('mason-registry')
+      local codelldb_install = mason_registry
+          .get_package('codelldb')
+          :get_install_path()
+      local codelldb_path = codelldb_install .. '/codelldb'
 
-  -- codelldb can be used for most natively compiled code with debugging symbols present.
-  dap.adapters.codelldb = {
-    type = 'server',
-    port = "${port}",
-    executable = {
-      command = codelldb_path,
-      args = { "--port", "${port}" },
+      -- codelldb can be used for most natively compiled code with debugging symbols present.
+      dap.adapters.codelldb = {
+        type = 'server',
+        port = "${port}",
+        executable = {
+          command = codelldb_path,
+          args = { "--port", "${port}" },
 
-      -- On windows you may have to uncomment this:
-      -- detached = false,
-    }
+          -- On windows you may have to uncomment this:
+          -- detached = false,
+        }
+      }
+    end
+
+    if not dap.configurations[filetype] then
+      dap.configurations[filetype] = {
+        {
+          name = "Launch file",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input({
+              prompt = 'Path to executable: ',
+              default = vim.fn.getcwd() .. '/',
+              completion = 'file',
+            })
+          end,
+          cwd = '${workspaceFolder}',
+          stopOnEntry = false,
+        },
+      }
+    end
+  end
+
+  local codelldb_filetypes = {
+    'c',
+    'cpp',
+    'rust',
+    'zig',
   }
 
-  dap.configurations.cpp = {
-    {
-      name = "Launch file",
-      type = "codelldb",
-      request = "launch",
-      program = function()
-        return vim.fn.input({
-          prompt = 'Path to executable: ',
-          default = vim.fn.getcwd() .. '/',
-          completion = 'file',
-        })
+  -- Lazily setup codelldb for dap when we encounter supported filetypes.
+  for _, ft in ipairs(codelldb_filetypes) do
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = ft,
+      group = vim.api.nvim_create_augroup('DapCodelldbConfig_' .. ft, { clear = true }),
+      callback = function()
+        codelldb_setup(ft)
       end,
-      cwd = '${workspaceFolder}',
-      stopOnEntry = false,
-    },
-  }
-
-  dap.configurations.c = dap.configurations.cpp
-  dap.configurations.rust = dap.configurations.cpp
-  dap.configurations.zig = dap.configurations.cpp
+    })
+  end
 end
 
 -- [[ Configure Dressing ]] {{{2
