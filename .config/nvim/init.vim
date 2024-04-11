@@ -2,6 +2,10 @@
 " Kind of pointless, but better safe than sorry.
 set nocompatible
 
+" TODO: move all Vim compatible config back to Vim rc and add Vim runtime
+" paths as appropriate. See link:
+" https://neovim.io/doc/user/nvim.html#nvim-from-vim
+
 " [[ Global Variables ]] {{{1
 
 " Set <space> as the leader key
