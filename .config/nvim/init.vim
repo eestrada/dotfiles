@@ -19,6 +19,9 @@ if has('nvim')
   let g:test#strategy = 'neovim'
 endif
 
+" for shfmt
+let g:shfmt_extra_args = '--indent 4'
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
@@ -322,6 +325,10 @@ Plug 'https://github.com/justinmk/vim-dirvish'
 " Git related plugins
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'https://github.com/tpope/vim-rhubarb'
+
+" Shell formatting based on `shfmt`. Requires `shfmt` is on path (via Mason or
+" otherwise)
+Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
 
 " [[ Neovim anywhere ]] {{{2
 
