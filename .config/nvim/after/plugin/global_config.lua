@@ -214,10 +214,10 @@ local function lsp_config_setup()
     gopls = {},
 
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
-    ruby_ls = {
-      cmd = { 'bundle', 'exec', 'ruby-lsp' },
-    },
+    -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
+    -- ruby_ls = {
+    --   cmd = { 'bundle', 'exec', 'ruby-lsp' },
+    -- },
 
     -- for ruby
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
