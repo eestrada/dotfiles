@@ -240,6 +240,8 @@ nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
 nmap <leader>tr :set relativenumber! relativenumber?<CR>
 " Toggle search highlight
 nmap <leader>th :set hlsearch! hlsearch?<CR>
+" Toggle cursor line highlight
+nmap <leader>tc :set cursorline! cursorline?<CR>
 
 " Search for most recently yanked text
 nmap <leader>sy :execute '/' . @0<CR>
