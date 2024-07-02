@@ -82,6 +82,12 @@ setaliases ()
     # Do not create gvim swap files.
     alias gvimn="gvim -n -p";
 
+    # To make sure my muscle memory is the same everywhere, just use `vim`, but
+    # have it default to using `nvim` whenever it is available.
+    if type nvim >/dev/null 2>&1; then
+        alias vim='nvim';
+    fi
+
     # Make diff print in an easier to read format by default
     alias diff='diff --unified=3';
 
