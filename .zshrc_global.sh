@@ -81,6 +81,13 @@ autoload -Uz compinit && compinit
 # This echos some parse errors to the terminal and might not be worth enabling.
 autoload -U +X bashcompinit && bashcompinit && . "${HOME}/.bash_completion" >/dev/null 2>&1
 
+# Allow using the editor defined in `$EDITOR` envar as command line editor in
+# zsh. This is the same as the default in oh-my-zsh, apparently. See here:
+# https://unix.stackexchange.com/a/717967
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'vv' edit-command-line
+
 # source local shell overrides and additions
 for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
 do
