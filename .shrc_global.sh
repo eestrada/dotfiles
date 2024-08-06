@@ -411,5 +411,7 @@ then
   brew outdated
 fi
 
+[ -s '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # source local shell overrides and additions
 source_files "${HOME}/.shrc_local" "${HOME}/.shrc_local.sh" "${HOME}/.shrc-local.sh"

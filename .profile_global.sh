@@ -71,6 +71,9 @@ refreshpath ()
     PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
     PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
 
+    # Add linux homebrew after home directories, but before system directories.
+    PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin;
+
     PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
     PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
     PATH=${PATH}:/bin:/sbin;
