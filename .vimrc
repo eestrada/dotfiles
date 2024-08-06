@@ -339,8 +339,8 @@ Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
 " functionality remains after fork. Once everything uses `vim.ui.select`, then
 " it should be safe to run everywhere, including VSCode.
 " XXX: Use an ssh URL while still actively developing plugin.
-Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
-" Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+"Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 

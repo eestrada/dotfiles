@@ -62,6 +62,7 @@ refreshpath ()
     SYSPATH=${PATH}${SYSPATH+:$SYSPATH}
 
     # Vanilla path vars
+    # Home dirs
     PATH=${HOME}/go/bin;
     PATH=${PATH}:${HOME}/.rbenv/bin:${HOME}/bin:${HOME}/sbin:${HOME}/games;
     PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games;
@@ -71,9 +72,7 @@ refreshpath ()
     PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games;
     PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games;
 
-    # Add linux homebrew after home directories, but before system directories.
-    PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin;
-
+    # System dirs
     PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games;
     PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games;
     PATH=${PATH}:/bin:/sbin;
