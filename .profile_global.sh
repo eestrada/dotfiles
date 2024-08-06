@@ -246,10 +246,6 @@ set_manpath
 custvars
 run_ssh_agent
 
-# Add homebrew variables for Apple Silicon CPUs. 64-bit Intel CPUs have homebrew
-# installed elsewhere.
-[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # Run again after adding homebrew so that we can pick up nvim as the defaul editor.
 custvars
 

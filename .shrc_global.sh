@@ -405,13 +405,20 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # Load RVM into a shell session *as a function*
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
+# Add homebrew variables
+
+# For Apple Silicon CPUs. Apple 64-bit Intel CPUs have homebrew installed
+# elsewhere.
+[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# For linux homebrew
+[ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # Print if any brew package upgrades are available.
 if [ -n "${CHECK_HOMEBREW_OUTDATED}" ] && type brew >/dev/null 2>&1
 then
   brew outdated
 fi
-
-[ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # source local shell overrides and additions
 source_files "${HOME}/.shrc_local" "${HOME}/.shrc_local.sh" "${HOME}/.shrc-local.sh"
