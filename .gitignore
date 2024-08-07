@@ -115,6 +115,9 @@ adobeconnectapp.log
 /dotfiles
 /go
 /mbox
+/node_modules/
+/package-lock.json
+/package.json
 /tmp
 
 # Apple macOS
