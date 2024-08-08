@@ -349,6 +349,9 @@ Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(has('nvim') && !exi
 " deeper at the moment.
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
 
+" LLM stuff
+Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
 " Fuzzy finding stuff
 Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
