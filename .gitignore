@@ -61,6 +61,7 @@ adobeconnectapp.log
 /.netrc
 /.npm
 /.nvm*
+/.ollama
 /.pgadmin
 /.pki
 /.profile
