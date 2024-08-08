@@ -806,9 +806,6 @@ local function llm_setup()
           top_p = 0.95,
         }
       },
-      lsp = {
-        bin_path = vim.api.nvim_call_function("stdpath", { "data" }) .. "/mason/bin/llm-ls",
-      },
       tokens_to_clear = { "<EOT>" },
       fim = {
         enabled = true,
