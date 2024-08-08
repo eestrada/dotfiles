@@ -301,85 +301,10 @@ endif
 
 call plug#begin(s:plugins_dir)
 
-" [[ Vim only ]] {{{2
-" Neovim already bundles this in its distributions. Only Vim needs it.
-Plug 'https://github.com/ziglang/zig.vim', Cond(!has('nvim'))
-
-" [[ Vim and Neovim anywhere ]] {{{2
-" We start with plugins that can be used in both Vim and Neovim
-
-" Tools to manipulate CSV files
-Plug 'https://github.com/chrisbra/csv.vim'
-
-" Basic Unix commands inside Vim
-Plug 'https://github.com/tpope/vim-eunuch'
-
-" Align fields (like Markdown tables)
-Plug 'https://github.com/junegunn/vim-easy-align'
-
-" Highlight and modify todo.txt files
-" Use personal fork of a plugin
-Plug 'https://github.com/eestrada/todo.txt-vim'
-
-" Faster alternative to Netrw
-Plug 'https://github.com/justinmk/vim-dirvish'
-
-" Git related plugins
-Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/tpope/vim-rhubarb'
-
-" Shell formatting based on `shfmt`. Requires `shfmt` is on path (via Mason or
-" otherwise)
-Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
-
-" [[ Neovim anywhere ]] {{{2
-
-" Periscope
-" FIXME: currently still ignored in VSCode since a lot of Telescope
-" functionality remains after fork. Once everything uses `vim.ui.select`, then
-" it should be safe to run everywhere, including VSCode.
-" XXX: Use an ssh URL while still actively developing plugin.
-"Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
-" [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
-
-" Show marks in gutter, add some commands to ease jumping between marks
-Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
-
-" XXX: signify can add a significant (~800 ms) amount of start up time to nvim
-" Get diff symbols in gutter for code tracked in a VCS (supports more than
-" just git and can easily be extended to support others)
-Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
-
-" Detect tabstop and shiftwidth automatically
-Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
-
-" For comment/uncomment support
-Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
-
-" For interacting with databases
-Plug 'https://github.com/tpope/vim-dadbod', Cond(!exists('g:vscode'))
-Plug 'https://github.com/kristijanhusak/vim-dadbod-ui', Cond(!exists('g:vscode'))
-Plug 'https://github.com/kristijanhusak/vim-dadbod-completion', Cond(!exists('g:vscode'))
-
-" For easier test running support
-Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
-
-" Live preview of markdown file in default browser
-" Despite name, works in Vim 8.1+ as well, not just Neovim
-Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
-
-" Telescope is specified below and is a much nicer fuzzy finder, but is only
-" available for Neovim. fzf is a good fallback for vanilla Vim.
-Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
-Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
-
 " [[ Neovim native (e.g. not embedded in vscode) ]] {{{2
 
-" Smooth scrolling with <C-d>, <C-u>, and cousins
-" I lose sense of where I am in the file otherwise.
-Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:vscode'))
+" WARNING: load LSP plugins before anything else, otherwise LSPs will not
+" autostart properly.
 
 " LSP Configuration & Plugins
 Plug 'https://github.com/neovim/nvim-lspconfig', Cond(has('nvim') && !exists('g:vscode'))
@@ -438,6 +363,84 @@ Plug 'https://github.com/ray-x/go.nvim', Cond(has('nvim') && !exists('g:vscode')
 
 " recommended for floating window support for the go plugin above
 Plug 'https://github.com/ray-x/guihua.lua', Cond(has('nvim') && !exists('g:vscode'))
+
+" Smooth scrolling with <C-d>, <C-u>, and cousins
+" I lose sense of where I am in the file otherwise.
+Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:vscode'))
+
+" [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
+
+" Show marks in gutter, add some commands to ease jumping between marks
+Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
+
+" XXX: signify can add a significant (~800 ms) amount of start up time to nvim
+" Get diff symbols in gutter for code tracked in a VCS (supports more than
+" just git and can easily be extended to support others)
+Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
+
+" Detect tabstop and shiftwidth automatically
+Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
+
+" For comment/uncomment support
+Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
+
+" For interacting with databases
+Plug 'https://github.com/tpope/vim-dadbod', Cond(!exists('g:vscode'))
+Plug 'https://github.com/kristijanhusak/vim-dadbod-ui', Cond(!exists('g:vscode'))
+Plug 'https://github.com/kristijanhusak/vim-dadbod-completion', Cond(!exists('g:vscode'))
+
+" For easier test running support
+Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
+
+" Live preview of markdown file in default browser
+" Despite name, works in Vim 8.1+ as well, not just Neovim
+Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
+
+" Telescope is specified below and is a much nicer fuzzy finder, but is only
+" available for Neovim. fzf is a good fallback for vanilla Vim.
+Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
+Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
+
+" [[ Vim and Neovim anywhere ]] {{{2
+" We start with plugins that can be used in both Vim and Neovim
+
+" Tools to manipulate CSV files
+Plug 'https://github.com/chrisbra/csv.vim'
+
+" Basic Unix commands inside Vim
+Plug 'https://github.com/tpope/vim-eunuch'
+
+" Align fields (like Markdown tables)
+Plug 'https://github.com/junegunn/vim-easy-align'
+
+" Highlight and modify todo.txt files
+" Use personal fork of a plugin
+Plug 'https://github.com/eestrada/todo.txt-vim'
+
+" Faster, simpler, cleaner alternative to Netrw
+Plug 'https://github.com/justinmk/vim-dirvish'
+
+" Git related plugins
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/tpope/vim-rhubarb'
+
+" Shell formatting based on `shfmt`. Requires `shfmt` is on path (via Mason or
+" otherwise)
+Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
+
+" [[ Neovim anywhere ]] {{{2
+
+" Periscope
+" FIXME: currently still ignored in VSCode since a lot of Telescope
+" functionality remains after fork. Once everything uses `vim.ui.select`, then
+" it should be safe to run everywhere, including VSCode.
+" XXX: Use an ssh URL while still actively developing plugin.
+"Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" [[ Vim only ]] {{{2
+" Neovim already bundles this in its distributions. Only Vim needs it.
+Plug 'https://github.com/ziglang/zig.vim', Cond(!has('nvim'))
 
 " Add local additional plugin inclusions, if any.
 " Local plugins must configure include guards independently

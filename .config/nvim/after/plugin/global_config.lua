@@ -901,12 +901,12 @@ else
   -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
     fidget = fidget_setup,
-    dap = dap_setup,
-    golang = go_setup,
     ['lsp config'] = lsp_config_setup,
     ['cmp and luasnip'] = cmp_setup,
-    telescope = telescope_setup,
     treesitter = treesitter_setup,
+    dap = dap_setup,
+    golang = go_setup,
+    telescope = telescope_setup,
     periscope = periscope_setup,
     dressing = dressing_setup,
   }
