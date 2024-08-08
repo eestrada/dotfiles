@@ -920,4 +920,9 @@ else
       )
     end
   end
+
+  -- Force lspconfig to work properly with filetype detection. See this link:
+  -- https://www.reddit.com/r/neovim/comments/14cikep/comment/jokw2j6/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  vim.api.nvim_exec_autocmds("FileType", {})
 end
+
