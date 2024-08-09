@@ -93,7 +93,7 @@ local function load_vim_plug()
 end
 
 -- [[ Utility Variables ]] {{{1
-local user_home = os.getenv("HOME")
+local user_home = vim.fn.expand("~")
 
 -- [[ Define functions for plugin setup ]] {{{1
 
@@ -350,7 +350,7 @@ local function lsp_config_setup()
 
       -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
       local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-      local workspace_dir = cache_dir .. "/jdtls/data/" .. project_name
+      local workspace_dir = user_home .. "/tmp/jdtls/data/" .. project_name
 
       require('jdtls').start_or_attach({
         cmd = {
