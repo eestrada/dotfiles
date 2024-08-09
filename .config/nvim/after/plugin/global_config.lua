@@ -343,13 +343,22 @@ local function lsp_config_setup()
       vim.list_extend(bundles, java_debug_server_jars)
       vim.list_extend(bundles, java_test_jars)
 
+      -- Using a unique workspace_dir avoids clashes that can mess up jdtls
+      -- See docs here:
+      -- * master branch: https://github.com/mfussenegger/nvim-jdtls/blob/master/README.md#data-directory-configuration
+      -- * permalink: https://github.com/mfussenegger/nvim-jdtls/blob/99e4b2081de1d9162666cc7b563cbeb01c26b66b/README.md#data-directory-configuration
+
+      -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
+      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+      local workspace_dir = cache_dir .. "/jdtls/data/" .. project_name
+
       require('jdtls').start_or_attach({
         cmd = {
           jdtls_path,
           -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
           "--jvm-arg=-javaagent:" .. lombok_path,
           "-configuration", cache_dir .. "/jdtls/configuration",
-          "-data", cache_dir .. "/jdtls/data"
+          "-data", workspace_dir,
         },
 
         -- Language server `initializationOptions`
