@@ -381,10 +381,6 @@ EOF
     fi
 }
 
-# Functions to run
-setaliases
-_canonical_home
-
 # Custom terminal prompt sans color
 PS1="[\$(whoami)@\h \W]"
 PS1="${PS1}\$(_tmux_print_status)"
@@ -413,6 +409,10 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # For linux homebrew
 [ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Functions to run
+setaliases
+_canonical_home
 
 # Print if any brew package upgrades are available.
 if [ -n "${CHECK_HOMEBREW_OUTDATED}" ] && type brew >/dev/null 2>&1
