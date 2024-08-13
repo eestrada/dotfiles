@@ -2,6 +2,11 @@
 " Kind of pointless, but better safe than sorry.
 set nocompatible
 
+" TODO: seek some inspiration from the configuration(s) generated from
+" https://vim-bootstrap.com/ . It seems to have some good ideas and points to
+" lots of plugins that should help with language editing that do not require
+" LSP to be setup correctly.
+
 " [[ Global Variables ]] {{{1
 
 " Set <space> as the leader key
