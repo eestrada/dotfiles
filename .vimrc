@@ -458,6 +458,11 @@ Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
 " lisp
 Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 
+" markdown
+" The tabular plugin *must* come before vim-markdown
+Plug 'https://github.com/godlygeek/tabular', Cond(!exists('g:vscode'))
+Plug 'https://github.com/preservim/vim-markdown', Cond(!exists('g:vscode'))
+
 " python
 Plug 'https://github.com/davidhalter/jedi-vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})

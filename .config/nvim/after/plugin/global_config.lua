@@ -257,7 +257,7 @@ local function lsp_config_setup()
 
     -- for markdown
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
-    marksman = {},
+    -- marksman = {},
 
     -- for toml
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#taplo
