@@ -462,10 +462,6 @@ Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/davidhalter/jedi-vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
 
-" lua
-Plug 'https://github.com/xolox/vim-lua-ftplugin', Cond(!exists('g:vscode'))
-Plug 'https://github.com/xolox/vim-lua-inspect', Cond(!exists('g:vscode'))
-
 " ruby
 Plug 'https://github.com/tpope/vim-rails', Cond(!exists('g:vscode'))
 Plug 'https://github.com/tpope/vim-rake', Cond(!exists('g:vscode'))
