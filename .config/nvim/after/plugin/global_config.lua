@@ -256,10 +256,6 @@ local function lsp_config_setup()
     },
 
     -- for markdown
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#remark_ls
-    remark_ls = {},
-
-    -- for markdown
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
     marksman = {},
 
