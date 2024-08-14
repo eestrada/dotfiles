@@ -15,3 +15,7 @@ allowlist
 CN
 animatic
 versioning
+DynamoDB
+dev
+boolean
+nullable

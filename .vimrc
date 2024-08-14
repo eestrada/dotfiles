@@ -374,6 +374,13 @@ Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:v
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
+" Nicer status line
+Plug 'https://github.com/vim-airline/vim-airline', Cond(!exists('g:vscode'))
+Plug 'https://github.com/vim-airline/vim-airline-themes', Cond(!exists('g:vscode'))
+
+" display the indention levels with thin vertical lines
+Plug 'https://github.com/Yggdroot/indentLine', Cond(!exists('g:vscode'))
+
 " Show marks in gutter, add some commands to ease jumping between marks
 Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 
@@ -402,8 +409,45 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 
 " Telescope is specified below and is a much nicer fuzzy finder, but is only
 " available for Neovim. fzf is a good fallback for vanilla Vim.
-Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf', Cond(!exists('g:vscode'))
+else
+  Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
+endif
 Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
+
+" [[ Language plugins ]] {{{3
+
+" c
+Plug 'https://github.com/vim-scripts/c.vim', Cond(!exists('g:vscode'), {'for': ['c', 'cpp']})
+Plug 'https://github.com/ludwig/split-manpage.vim', Cond(!exists('g:vscode'))
+
+" go
+Plug 'https://github.com/fatih/vim-go', Cond(!exists('g:vscode'), {'do': ':GoInstallBinaries'})
+
+" html
+Plug 'https://github.com/hail2u/vim-css3-syntax', Cond(!exists('g:vscode'))
+Plug 'https://github.com/gko/vim-coloresque', Cond(!exists('g:vscode'))
+Plug 'https://github.com/tpope/vim-haml', Cond(!exists('g:vscode'))
+Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
+
+" lisp
+Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
+
+" python
+Plug 'https://github.com/davidhalter/jedi-vim', Cond(!exists('g:vscode'))
+Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
+
+" lua
+Plug 'https://github.com/xolox/vim-lua-ftplugin', Cond(!exists('g:vscode'))
+Plug 'https://github.com/xolox/vim-lua-inspect', Cond(!exists('g:vscode'))
+
+" ruby
+Plug 'https://github.com/tpope/vim-rails', Cond(!exists('g:vscode'))
+Plug 'https://github.com/tpope/vim-rake', Cond(!exists('g:vscode'))
+Plug 'https://github.com/tpope/vim-projectionist', Cond(!exists('g:vscode'))
+Plug 'https://github.com/thoughtbot/vim-rspec', Cond(!exists('g:vscode'))
+Plug 'https://github.com/ecomba/vim-ruby-refactoring', Cond(!exists('g:vscode'), {'tag': 'main'})
 
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
@@ -544,6 +588,65 @@ function s:vimrc_init() abort
     " [s]earch [s]nippets
     nmap <leader>ss :Snippets<CR>
   endif
+
+  " Set *after* loading airline
+
+  " vim-airline
+  let g:airline_theme = 'powerlineish'
+  let g:airline#extensions#branch#enabled = 1
+  let g:airline#extensions#ale#enabled = 1
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tagbar#enabled = 1
+  let g:airline_skip_empty_sections = 1
+
+  " vim-airline
+  let g:airline#extensions#virtualenv#enabled = 1
+
+  "*****************************************************************************
+  "" Convenience variables
+  "*****************************************************************************
+
+  " vim-airline
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  if !exists('g:airline_powerline_fonts')
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline_left_sep          = '▶'
+    let g:airline_left_alt_sep      = '»'
+    let g:airline_right_sep         = '◀'
+    let g:airline_right_alt_sep     = '«'
+    let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+    let g:airline#extensions#readonly#symbol   = '⊘'
+    let g:airline#extensions#linecolumn#prefix = '¶'
+    let g:airline#extensions#paste#symbol      = 'ρ'
+    let g:airline_symbols.linenr    = '␊'
+    let g:airline_symbols.branch    = '⎇'
+    let g:airline_symbols.paste     = 'ρ'
+    let g:airline_symbols.paste     = 'Þ'
+    let g:airline_symbols.paste     = '∥'
+    let g:airline_symbols.whitespace = 'Ξ'
+  else
+    let g:airline#extensions#tabline#left_sep = ''
+    let g:airline#extensions#tabline#left_alt_sep = ''
+
+    " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = ''
+  endif
+
+  " IndentLine
+  let g:indentLine_enabled = 1
+  let g:indentLine_concealcursor = ''
+  let g:indentLine_char = '┆'
+  let g:indentLine_faster = 1
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
