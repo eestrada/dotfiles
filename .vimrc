@@ -44,6 +44,13 @@ let s:state_dir = has('nvim') ? stdpath('state') : s:vim_dir . '/state'
 let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
 
 " [[ Options ]] {{{1
+
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+set ttyfast
+
 " Don't create swap files by default
 set updatecount=0
 
@@ -63,6 +70,14 @@ set undodir+=/tmp/
 " Case-insensitive searching UNLESS \C or capital in search
 set ignorecase
 set smartcase
+
+" When there is a search pattern, do no highlight all matches.
+set nohlsearch
+" Incremental search highlight. Useful for constructing regexes.
+set incsearch
+
+" how to save newlines
+set fileformats=unix,dos,mac
 
 " Set completeopt to have a better completion experience
 set completeopt=menu,menuone,noselect
@@ -91,11 +106,6 @@ set visualbell
 
 " Never wrap long lines.
 set nowrap
-
-" When there is a search pattern, do no highlight all matches.
-set nohlsearch
-" Incremental search highlight. Useful for constructing regexes.
-set incsearch
 
 " Show line and column number.
 set ruler
@@ -138,6 +148,20 @@ set updatetime=250
 set timeoutlen=600
 " visual line column(s)
 set colorcolumn=80
+
+"" Status bar
+set laststatus=2
+
+"" Use modeline overrides
+set modeline
+set modelines=10
+
+set title
+set titleold="Terminal"
+set titlestring=%F
+
+" Add more info to status line. Only used if `airline` isn't loaded.
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (%p%%,line\ %l\/%L,\ col\ %c)
 
 " System friendly settings
 " Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
