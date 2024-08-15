@@ -636,6 +636,13 @@ function s:vimrc_init() abort
     vnoremap <leader>vg y:Gclog "-G<C-R>0" --<CR>
   endif
 
+  " Add command for formatting markdown tables using easy align. The command
+  " should be `gaip*|`. See:
+  " https://www.reddit.com/r/vim/comments/fsqwu7/comment/fm3ill7/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  if exists(':EasyAlign')
+    command! -nargs=0 FormatMarkdownTable EasyAlign *<Bar>
+  endif
+
   " " Bind cursor in all windows when entering fugitiveblame buffer
   " if exists(':Git')
   "   autocmd BufEnter fugitiveblame :windo setlocal cursorbind<CR>
