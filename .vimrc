@@ -23,9 +23,6 @@ endif
 " for shfmt
 let g:shfmt_extra_args = '--indent 4'
 
-" vim-markdown
-let g:vim_markdown_no_default_key_mappings = 1
-
 " vim-airline
 let g:airline_theme = 'powerlineish'
 let g:airline#extensions#branch#enabled = 1
@@ -517,11 +514,6 @@ Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
 
 " lisp
 Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
-
-" markdown
-" The tabular plugin *must* come before vim-markdown
-Plug 'https://github.com/godlygeek/tabular', Cond(!exists('g:vscode'))
-Plug 'https://github.com/preservim/vim-markdown', Cond(!exists('g:vscode'))
 
 " python
 Plug 'https://github.com/davidhalter/jedi-vim', Cond(!exists('g:vscode'))
