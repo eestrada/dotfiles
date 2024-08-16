@@ -347,13 +347,13 @@ command! -range ReverseLines <line1>,<line2>g/^/m<line1>-1|nohl
 " Requires `jq` CLI be installed.
 " Original based on link below :
 " * https://gist.github.com/angelo-v/e0208a18d455e2e6ea3c40ad637aac53?permalink_comment_id=3439919#gistcomment-3439919
-command! UnpackJWTPayload .!jq --compact-output --raw-input 'gsub("-";"+") | gsub("_";"/") | split(".") | .[1] | @base64d | fromjson'
+command! JWTUnpackPayload .!jq --compact-output --raw-input 'gsub("-";"+") | gsub("_";"/") | split(".") | .[1] | @base64d | fromjson'
 
 " Requires `jq` CLI be installed.
-command! -range=% FmtJSON <line1>,<line2>!jq .
+command! -range=% JSONFormat <line1>,<line2>!jq .
 
 " Requires `jq` CLI be installed.
-command! -range=% CompactJSON <line1>,<line2>!jq --compact-output .
+command! -range=% JSONCompact <line1>,<line2>!jq --compact-output .
 
 " Requires that python3 be installed
 " Original based on link:
@@ -641,10 +641,9 @@ function s:vimrc_init() abort
   endif
 
   " Add command for formatting markdown tables using easy align. The command
-  " should be `gaip*|`. See:
-  " https://www.reddit.com/r/vim/comments/fsqwu7/comment/fm3ill7/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
   if exists(':EasyAlign')
-    command! -nargs=0 FormatMarkdownTable EasyAlign *<Bar>
+    " By default this will only format the current line
+    command! -range -nargs=0 MarkdownFormatTable <line1>,<line2>EasyAlign *<Bar>
   endif
 
   " " Bind cursor in all windows when entering fugitiveblame buffer
