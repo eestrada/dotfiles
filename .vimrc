@@ -188,13 +188,14 @@ set breakindent
 
 " Default to using spaces when hitting <Tab> key.
 set expandtab
-" Number of spaces that a <Tab> counts for while editing.
-set softtabstop=4
 " Number of spaces that a <Tab> in the file counts for.
 set tabstop=4
 " Number of spaces to use for each step of (auto)indent. Zero means "same as
 " tabstop".
 set shiftwidth=0
+" Number of spaces that a <Tab> counts for while editing. Negative means "same
+" as shiftwidth."
+set softtabstop=-1
 
 " At least 8 line visible buffer when moving up/down file.
 set scrolloff=4
@@ -471,7 +472,9 @@ Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
 
 " Detect tabstop and shiftwidth automatically
-Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
+" WARNING: sleuth breaks more than it fixes. Is there any way to invoke it's
+" functionality on demand instead of all the time?
+" Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
 
 " For comment/uncomment support
 Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
