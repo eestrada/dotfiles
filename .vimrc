@@ -516,6 +516,8 @@ Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 
 " python
+" Depending on the version of Vim/Neovim you are using, the syntax
+" highlighting feature of this requirements plugin may be bundled.
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
 
 " ruby
