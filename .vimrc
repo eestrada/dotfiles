@@ -516,7 +516,6 @@ Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 
 " python
-Plug 'https://github.com/davidhalter/jedi-vim', Cond(!exists('g:vscode'))
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
 
 " ruby
