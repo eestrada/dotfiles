@@ -270,6 +270,10 @@ local function lsp_config_setup()
     -- for zig
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#zls
     zls = {},
+
+    -- Graphviz dot files
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#dotls
+    dotls = {},
   }
 
   for key, value in pairs(mason_ensure_installed) do
@@ -481,7 +485,7 @@ local function lsp_config_setup()
       )
 
       -- foldingRangeProvider
-      if client.server_capabilities.documentHighlightProvider then
+      if client ~= nil and client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
           pattern = '<buffer>',
           callback = function()

@@ -557,6 +557,10 @@ Plug 'https://github.com/tpope/vim-rhubarb'
 " otherwise)
 Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
 
+" Compile and preview Graphviz files using `dot` utility, which must be
+" installed separately.
+Plug 'https://github.com/liuchengxu/graphviz.vim'
+
 " [[ Neovim anywhere ]] {{{2
 
 " Periscope
