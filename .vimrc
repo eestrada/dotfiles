@@ -80,6 +80,13 @@ let g:indentLine_concealcursor = ''
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
+" MarkdownPreview settings
+
+" set to 1, the nvim will auto close current preview window when changing
+" from Markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 0
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
