@@ -8,4 +8,5 @@ augroup DotAutocompile
 
     autocmd BufWritePost *.dot,*.gv :GraphvizCompile
     autocmd BufWritePost *.dot,*.gv :GraphvizCompile svg
+    autocmd BufWritePost *.dot,*.gv :GraphvizCompile png
 augroup END

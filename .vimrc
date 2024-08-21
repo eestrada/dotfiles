@@ -491,6 +491,9 @@ Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
 " Despite name, works in Vim 8.1+ as well, not just Neovim
 Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
+" Use system color picker to populate color values in code
+Plug 'https://github.com/KabbAmine/vCoolor.vim', Cond(!exists('g:vscode'))
+
 " Telescope is specified below and is a much nicer fuzzy finder, but is only
 " available for Neovim. fzf is a good fallback for vanilla Vim.
 if isdirectory('/usr/local/opt/fzf')
