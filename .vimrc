@@ -87,6 +87,12 @@ let g:indentLine_faster = 1
 " default: 1
 let g:mkdp_auto_close = 0
 
+" set to 1, Vim will refresh Markdown when saving the buffer or
+" when leaving insert mode. Default 0 is auto-refresh Markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 1
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
