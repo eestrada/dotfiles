@@ -21,3 +21,4 @@ boolean
 nullable
 ETL
 PySpark
+CIDR
