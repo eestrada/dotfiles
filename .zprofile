@@ -1,5 +1,5 @@
 # .zprofile
-# vim: set syntax=sh:
+# vim: set filetype=sh.bash.zsh:
 # Emacs stuff
 # Local Variables:
 # mode: sh

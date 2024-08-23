@@ -566,10 +566,6 @@ Plug 'https://github.com/justinmk/vim-dirvish'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'https://github.com/tpope/vim-rhubarb'
 
-" Shell formatting based on `shfmt`. Requires `shfmt` is on path (via Mason or
-" otherwise)
-Plug 'https://github.com/z0mbix/vim-shfmt', { 'for': 'sh' }
-
 " Compile and preview Graphviz files using `dot` utility, which must be
 " installed separately.
 Plug 'https://github.com/liuchengxu/graphviz.vim'

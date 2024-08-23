@@ -1,5 +1,5 @@
 # .shrc
-# vim: set syntax=sh:
+# vim: set filetype=sh:
 # Emacs stuff
 # Local Variables:
 # mode: sh

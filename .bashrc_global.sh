@@ -1,5 +1,5 @@
 # .bashrc
-# vim: set syntax=sh:
+# vim: set filetype=sh.bash:
 # Emacs stuff
 # Local Variables:
 # mode: sh
@@ -23,12 +23,12 @@ PS1="${PS1}\$(_git_print_branch)"
 PS1="$PS1"$'\n'
 
 # Trailing character of PS1 determined on whether we are currently root or not
-case `id -u` in
-    0) PS1="${PS1}# ";;
-    *) PS1="${PS1}$ ";;
+case $(id -u) in
+    0) PS1="${PS1}# " ;;
+    *) PS1="${PS1}$ " ;;
 esac
 
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+[[ $TERM_PROGRAM == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
 
 [ -f ~/.config/fzf/setup.bash ] && source ~/.config/fzf/setup.bash
 

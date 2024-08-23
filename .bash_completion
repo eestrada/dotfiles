@@ -1,5 +1,5 @@
 # .bash_completion
-# vim: set syntax=sh:
+# vim: set filetype=sh.bash:
 # Emacs stuff
 # Local Variables:
 # mode: sh

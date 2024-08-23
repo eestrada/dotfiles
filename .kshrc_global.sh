@@ -1,5 +1,5 @@
 # .kshrc
-# vim: set syntax=sh:
+# vim: set filetype=sh.ksh:
 # Emacs stuff
 # Local Variables:
 # mode: sh
@@ -7,7 +7,7 @@
 
 # Source global definitions
 if [ -f /etc/kshrc ]; then
-	. /etc/kshrc
+    . /etc/kshrc
 fi
 
 # Source general shrc definitions
