@@ -38,42 +38,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 "" Convenience variables
 "*****************************************************************************
 
-" vim-airline
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
-
 " IndentLine
 let g:indentLine_enabled = 1
 let g:indentLine_concealcursor = ''
@@ -220,9 +184,6 @@ set timeoutlen=600
 " visual line column(s)
 set colorcolumn=80
 
-"" Status bar
-set laststatus=2
-
 "" Use modeline overrides
 set modeline
 set modelines=10
@@ -231,8 +192,60 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 
-" Add more info to status line. Only used if `airline` isn't loaded.
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (%p%%,line\ %l\/%L,\ col\ %c)
+" Status bar
+set laststatus=2
+" set statusline=%1*\ %{StatuslineMode()}\ %2*\ %{b:gitbranch}\ %4*\ %f%=%y\ %2*\ %{strlen(&fenc)?&fenc:'none'}<%{&ff}>\ %1*\ {%p%%,\ line\ %l/%L,\ col\ %c}\ 
+set statusline=\ %{StatuslineMode()}\ \ %{b:gitbranch}\ \ %f%=%y\ \ %{strlen(&fenc)?&fenc:'none'}<%{&ff}>\ \ {%p%%,\ line\ %l/%L,\ col\ %c}\ 
+
+" hi User1 ctermbg=DarkYellow ctermfg=lightgreen guibg=DarkYellow guifg=lightgreen
+hi User1 ctermfg=LightBlue ctermbg=DarkBlue guifg=LightBlue guibg=DarkBlue
+hi User2 ctermbg=DarkCyan ctermfg=lightcyan guibg=DarkCyan guifg=lightcyan
+hi User4 ctermbg=black ctermfg=white guibg=black guifg=white
+
+function! StatuslineMode()
+  let l:mode=mode()
+  if l:mode==#"n"
+    return "NORMAL"
+  elseif l:mode==?"v"
+    return "VISUAL"
+  elseif l:mode==#"i"
+    return "INSERT"
+  elseif l:mode==#"R"
+    return "REPLACE"
+  elseif l:mode==?"s"
+    return "SELECT"
+  elseif l:mode==#"t"
+    return "TERMINAL"
+  elseif l:mode==#"c"
+    return "COMMAND"
+  elseif l:mode==#"!"
+    return "SHELL"
+  else
+    return "Mode:".l:mode
+  endif
+endfunction
+
+function! StatuslineGitBranch()
+  let b:gitbranch_l_paren="("
+  let b:gitbranch_r_paren=")"
+  let b:gitbranch_no_repo = "-_-"
+  let b:gitbranch=b:gitbranch_l_paren.b:gitbranch_no_repo.b:gitbranch_r_paren
+  if &modifiable
+    try
+      let l:dir=expand('%:p:h')
+      let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
+      if !v:shell_error
+        let b:gitbranch=b:gitbranch_l_paren.substitute(l:gitrevparse, '\n', '', 'g').b:gitbranch_r_paren
+      endif
+    catch
+    endtry
+  endif
+endfunction
+
+augroup GetGitBranch
+  autocmd!
+  autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
+augroup END
 
 " System friendly settings
 " Using system clipboard pulled from: http://vimcasts.org/episodes/accessing-the-system-clipboard-from-vim/
@@ -469,9 +482,8 @@ Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:v
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
-" Nicer status line
-Plug 'https://github.com/vim-airline/vim-airline', Cond(!exists('g:vscode'))
-Plug 'https://github.com/vim-airline/vim-airline-themes', Cond(!exists('g:vscode'))
+" Show buffers as tabs
+Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
 
 " display the indention levels with thin vertical lines
 Plug 'https://github.com/Yggdroot/indentLine', Cond(!exists('g:vscode'))
@@ -541,7 +553,7 @@ Plug 'https://github.com/tpope/vim-rails', Cond(!exists('g:vscode'))
 Plug 'https://github.com/tpope/vim-rake', Cond(!exists('g:vscode'))
 Plug 'https://github.com/tpope/vim-projectionist', Cond(!exists('g:vscode'))
 Plug 'https://github.com/thoughtbot/vim-rspec', Cond(!exists('g:vscode'))
-Plug 'https://github.com/ecomba/vim-ruby-refactoring', Cond(!exists('g:vscode'), {'tag': 'main'})
+Plug 'https://github.com/ecomba/vim-ruby-refactoring', Cond(!exists('g:vscode'))
 
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
