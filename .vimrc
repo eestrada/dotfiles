@@ -20,20 +20,6 @@ if has('nvim')
   let g:test#strategy = 'neovim'
 endif
 
-" for shfmt
-let g:shfmt_extra_args = '--indent 4'
-
-" vim-airline
-let g:airline_theme = 'powerlineish'
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
-
-" vim-airline
-let g:airline#extensions#virtualenv#enabled = 1
-
 "*****************************************************************************
 "" Convenience variables
 "*****************************************************************************
@@ -194,13 +180,24 @@ set titlestring=%F
 
 " Status bar
 set laststatus=2
-" set statusline=%1*\ %{StatuslineMode()}\ %2*\ %{b:gitbranch}\ %4*\ %f%=%y\ %2*\ %{strlen(&fenc)?&fenc:'none'}<%{&ff}>\ %1*\ {%p%%,\ line\ %l/%L,\ col\ %c}\ 
-set statusline=\ %{StatuslineMode()}\ \ %{b:gitbranch}\ \ %f%=%y\ \ %{strlen(&fenc)?&fenc:'none'}<%{&ff}>\ \ {%p%%,\ line\ %l/%L,\ col\ %c}\ 
 
-" hi User1 ctermbg=DarkYellow ctermfg=lightgreen guibg=DarkYellow guifg=lightgreen
-hi User1 ctermfg=LightBlue ctermbg=DarkBlue guifg=LightBlue guibg=DarkBlue
-hi User2 ctermbg=DarkCyan ctermfg=lightcyan guibg=DarkCyan guifg=lightcyan
-hi User4 ctermbg=black ctermfg=white guibg=black guifg=white
+" How to figure out the names of available statusline colors:
+" https://shapeshed.com/vim-statuslines/#colour
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=\ %{StatuslineMode()}
+set statusline+=\ %{b:gitbranch}
+set statusline+=\ %#Question#
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=%#CursorLineNr#
+set statusline+=\ %y
+set statusline+=%#MoreMsg#
+set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
+set statusline+=%#LineNr#
+set statusline+=[%{&ff}]
+set statusline+=%#ModeMsg#
+set statusline+=\ {%p%%,\ line\ %l/%L,\ col\ %c}
 
 function! StatuslineMode()
   let l:mode=mode()
