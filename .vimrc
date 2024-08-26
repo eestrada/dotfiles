@@ -190,14 +190,14 @@ set statusline+=\ %{b:gitbranch}
 set statusline+=\ %#Question#
 set statusline+=\ %f
 set statusline+=%=
-set statusline+=%#CursorLineNr#
-set statusline+=\ %y
+set statusline+=\ %#CursorLineNr#
+set statusline+=%y
 set statusline+=%#MoreMsg#
 set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
 set statusline+=%#LineNr#
 set statusline+=[%{&ff}]
-set statusline+=%#ModeMsg#
-set statusline+=\ {%p%%,\ line\ %l/%L,\ col\ %c}
+set statusline+=\ %#ModeMsg#
+set statusline+={%p%%,\ line\ %l/%L,\ col\ %c}
 
 function! StatuslineMode()
   let l:mode=mode()
