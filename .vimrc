@@ -24,12 +24,6 @@ endif
 "" Convenience variables
 "*****************************************************************************
 
-" IndentLine
-let g:indentLine_enabled = 1
-let g:indentLine_concealcursor = ''
-let g:indentLine_char = '┆'
-let g:indentLine_faster = 1
-
 " MarkdownPreview settings
 
 " set to 1, the nvim will auto close current preview window when changing
@@ -163,7 +157,7 @@ set softtabstop=-1
 " At least 8 line visible buffer when moving up/down file.
 set scrolloff=4
 " show sign column even when empty
-set signcolumn=yes
+set signcolumn=auto
 " Decrease update time
 set updatetime=250
 set timeoutlen=600
@@ -327,7 +321,7 @@ nmap ]L :llast<CR>
 " Jump to previous location in jump list.
 nmap [j <C-O>
 " Jump to next location in jump list.
-nmap ]j  <C-i>
+nmap ]j <C-i>
 
 " The keymap [I is always defined to reveal references. I'm fairly certain
 " this is based on references found in a ctags file. Depending on
@@ -413,7 +407,7 @@ call plug#begin(s:plugins_dir)
 
 " [[ Neovim native (e.g. not embedded in vscode) ]] {{{2
 
-" WARNING: load LSP plugins before anything else, otherwise LSPs will not
+" WARNING: load LSP plugins before anything else, otherwise LSPs may not
 " autostart properly.
 
 " LSP Configuration & Plugins
@@ -472,36 +466,10 @@ Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !ex
 " UI stuff
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-" TODO: Consider deleting. Not actively doing any golang work right now.
-
-" 'ray-x/go.nvim' depends on:
-"   - 'nvim-treesitter/nvim-treesitter'
-"   - 'neovim/nvim-lspconfig
-Plug 'https://github.com/ray-x/go.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
-" recommended for floating window support for the go plugin above
-Plug 'https://github.com/ray-x/guihua.lua', Cond(has('nvim') && !exists('g:vscode'))
-
-" TODO: Consider deleting. This is just visually nice to have.
-
-" Smooth scrolling with <C-d>, <C-u>, and cousins
-" I lose sense of where I am in the file otherwise.
-Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:vscode'))
-
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Show buffers as tabs
 Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
-
-" TODO: Consider deleting. This is just visually nice to have.
-
-" display the indention levels with thin vertical lines
-Plug 'https://github.com/Yggdroot/indentLine', Cond(!exists('g:vscode'))
-
-" TODO: Consider deleting. This is just visually nice to have.
-
-" Show marks in gutter, add some commands to ease jumping between marks
-Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
 
 " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
 " Get diff symbols in gutter for code tracked in a VCS (supports more than
@@ -515,14 +483,9 @@ Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
 
 " TODO: Consider deleting. This is built into Neovim, and can be pretty much
 " done just as easily via Visual block mode.
+
 " For comment/uncomment support
 Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
-
-" TODO: Consider deleting. Rarely, if ever, used.
-" For interacting with databases
-Plug 'https://github.com/tpope/vim-dadbod', Cond(!exists('g:vscode'))
-Plug 'https://github.com/kristijanhusak/vim-dadbod-ui', Cond(!exists('g:vscode'))
-Plug 'https://github.com/kristijanhusak/vim-dadbod-completion', Cond(!exists('g:vscode'))
 
 " For easier test running support
 Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
@@ -531,57 +494,12 @@ Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
 " Despite name, works in Vim 8.1+ as well, not just Neovim
 Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
-" TODO: Consider deleting. Can do most of this with native Vim abilities.
-
-" Telescope is specified elsewhere and is a much nicer fuzzy finder, but is
-" only available for Neovim. fzf is a good fallback for vanilla Vim.
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf', Cond(!exists('g:vscode'))
-else
-  Plug 'https://github.com/junegunn/fzf', Cond(!exists('g:vscode'), { 'do': { -> fzf#install() } })
-endif
-Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
-
 " [[ Language plugins ]] {{{3
-
-" TODO: Consider deleting. Never used.
-
-" c
-Plug 'https://github.com/vim-scripts/c.vim', Cond(!exists('g:vscode'), {'for': ['c', 'cpp']})
-Plug 'https://github.com/ludwig/split-manpage.vim', Cond(!exists('g:vscode'))
-
-" TODO: Consider deleting. Seems to break things. LSP does most everything
-" needed already.
-
-" go
-Plug 'https://github.com/fatih/vim-go', Cond(!exists('g:vscode'), {'do': ':GoInstallBinaries'})
-
-" TODO: Consider deleting. Never used.
-
-" html
-Plug 'https://github.com/hail2u/vim-css3-syntax', Cond(!exists('g:vscode'))
-Plug 'https://github.com/gko/vim-coloresque', Cond(!exists('g:vscode'))
-Plug 'https://github.com/tpope/vim-haml', Cond(!exists('g:vscode'))
-Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
-
-" TODO: Consider deleting. Never used.
-
-" lisp
-Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 
 " python
 " Depending on the version of Vim/Neovim you are using, the syntax
 " highlighting feature of this requirements plugin may be bundled.
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
-
-" TODO: Consider deleting. Never used.
-
-" ruby
-Plug 'https://github.com/tpope/vim-rails', Cond(!exists('g:vscode'))
-Plug 'https://github.com/tpope/vim-rake', Cond(!exists('g:vscode'))
-Plug 'https://github.com/tpope/vim-projectionist', Cond(!exists('g:vscode'))
-Plug 'https://github.com/thoughtbot/vim-rspec', Cond(!exists('g:vscode'))
-Plug 'https://github.com/ecomba/vim-ruby-refactoring', Cond(!exists('g:vscode'))
 
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
@@ -628,11 +546,7 @@ Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('
 
 " [[ Vim only ]] {{{2
 
-" TODO: Consider deleting. I cannot recall ever having dealt with Zig files in
-" vanilla Vim.
-
-" Neovim already bundles this in its distributions. Only Vim needs it.
-Plug 'https://github.com/ziglang/zig.vim', Cond(!has('nvim'))
+" <shrug>
 
 " Add local additional plugin inclusions, if any.
 " Local plugins must configure include guards independently
@@ -651,20 +565,6 @@ call plug#end()
 
 " Code that should run *after* plugins are loaded
 function s:vimrc_init() abort
-  " [[ Configure vim-signature ]] {{{2
-  " Use Signature commands if present, otherwise fallback to foolproof default
-  if exists(':SignatureListGlobalMarks') > 0
-    " List [m]arks that are defined [g]lobally
-    nmap <leader>mg :SignatureListGlobalMarks<CR>
-    " List [m]arks that are defined in current [b]uffer
-    nmap <leader>mb :SignatureListBufferMarks<CR>
-  else
-    " List [m]arks that are defined [g]lobally
-    nmap <leader>mg :marks ABCDEFGHIJKLMNOPQRSTUVWXYZ<CR>:\'
-    " List [m]arks that are defined in current [b]uffer
-    nmap <leader>mb :marks abcdefghijklmnopqrstuvwxyz<CR>:\'
-  endif
-
   " [[ Configure vim-signify ]] {{{2
   " Although this global variable could be set anywhere, setting near all the
   " other Signify settings keeps things centralized.
@@ -707,38 +607,6 @@ function s:vimrc_init() abort
   if exists(':EasyAlign')
     " By default this will only format the current line
     command! -range -nargs=0 MarkdownFormatTable <line1>,<line2>EasyAlign *<Bar>
-  endif
-
-  " " Bind cursor in all windows when entering fugitiveblame buffer
-  " if exists(':Git')
-  "   autocmd BufEnter fugitiveblame :windo setlocal cursorbind<CR>
-  " endif
-
-  " [[ Configure fzf keybindings ]] {{{2
-  if !has('nvim')
-    " [s]earch [b]uffers
-    nmap <leader>sb :Buffers<CR>
-
-    " [s]earch [c]ommands
-    nmap <leader>sc :Commands<CR>
-
-    " [s]earch file contents with [g]rep
-    nmap <leader>sg :Rg<CR>
-
-    " [s]earch [h]elp tags
-    nmap <leader>sh :Helptags<CR>
-
-    " [s]earch [k]eymaps
-    nmap <leader>sk :Maps<CR>
-
-    " [s]earch project [p]aths
-    nmap <leader>sp :Files<CR>
-
-    " [s]earch [v]ersion controlled file paths
-    nmap <leader>sv :GitFiles<CR>
-
-    " [s]earch [s]nippets
-    nmap <leader>ss :Snippets<CR>
   endif
 endfunction
 

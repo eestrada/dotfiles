@@ -503,20 +503,6 @@ local function lsp_config_setup()
   })
 end
 
--- [[ Configure go ]] {{{2
-local function go_setup()
-  local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.go",
-    callback = function()
-      require('go.format').goimport()
-    end,
-    group = format_sync_grp,
-  })
-
-  require("go").setup()
-end
-
 -- [[ Configure nvim-cmp ]] {{{2
 -- See `:help cmp`
 local function cmp_setup()
@@ -942,7 +928,6 @@ else
     ['cmp and luasnip'] = cmp_setup,
     treesitter = treesitter_setup,
     dap = dap_setup,
-    golang = go_setup,
     telescope = telescope_setup,
     periscope = periscope_setup,
     dressing = dressing_setup,
