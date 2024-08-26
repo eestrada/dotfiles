@@ -462,12 +462,17 @@ Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !
 " LLM stuff
 Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
+" TODO: Consider deleting. Most of this can be done with native Vim features
+" or periscope.
+
 " Fuzzy finding stuff
 Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " UI stuff
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" TODO: Consider deleting. Not actively doing any golang work right now.
 
 " 'ray-x/go.nvim' depends on:
 "   - 'nvim-treesitter/nvim-treesitter'
@@ -476,6 +481,8 @@ Plug 'https://github.com/ray-x/go.nvim', Cond(has('nvim') && !exists('g:vscode')
 
 " recommended for floating window support for the go plugin above
 Plug 'https://github.com/ray-x/guihua.lua', Cond(has('nvim') && !exists('g:vscode'))
+
+" TODO: Consider deleting. This is just visually nice to have.
 
 " Smooth scrolling with <C-d>, <C-u>, and cousins
 " I lose sense of where I am in the file otherwise.
@@ -486,8 +493,12 @@ Plug 'https://github.com/psliwka/vim-smoothie', Cond(has('nvim') && !exists('g:v
 " Show buffers as tabs
 Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
 
+" TODO: Consider deleting. This is just visually nice to have.
+
 " display the indention levels with thin vertical lines
 Plug 'https://github.com/Yggdroot/indentLine', Cond(!exists('g:vscode'))
+
+" TODO: Consider deleting. This is just visually nice to have.
 
 " Show marks in gutter, add some commands to ease jumping between marks
 Plug 'https://github.com/kshenoy/vim-signature', Cond(!exists('g:vscode'))
@@ -502,9 +513,12 @@ Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
 " functionality on demand instead of all the time?
 " Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
 
+" TODO: Consider deleting. This is built into Neovim, and can be pretty much
+" done just as easily via Visual block mode.
 " For comment/uncomment support
 Plug 'https://github.com/tpope/vim-commentary', Cond(!exists('g:vscode'))
 
+" TODO: Consider deleting. Rarely, if ever, used.
 " For interacting with databases
 Plug 'https://github.com/tpope/vim-dadbod', Cond(!exists('g:vscode'))
 Plug 'https://github.com/kristijanhusak/vim-dadbod-ui', Cond(!exists('g:vscode'))
@@ -517,8 +531,10 @@ Plug 'https://github.com/vim-test/vim-test', Cond(!exists('g:vscode'))
 " Despite name, works in Vim 8.1+ as well, not just Neovim
 Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode'), { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']})
 
-" Telescope is specified below and is a much nicer fuzzy finder, but is only
-" available for Neovim. fzf is a good fallback for vanilla Vim.
+" TODO: Consider deleting. Can do most of this with native Vim abilities.
+
+" Telescope is specified elsewhere and is a much nicer fuzzy finder, but is
+" only available for Neovim. fzf is a good fallback for vanilla Vim.
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf', Cond(!exists('g:vscode'))
 else
@@ -528,18 +544,27 @@ Plug 'https://github.com/junegunn/fzf.vim', Cond(!exists('g:vscode'))
 
 " [[ Language plugins ]] {{{3
 
+" TODO: Consider deleting. Never used.
+
 " c
 Plug 'https://github.com/vim-scripts/c.vim', Cond(!exists('g:vscode'), {'for': ['c', 'cpp']})
 Plug 'https://github.com/ludwig/split-manpage.vim', Cond(!exists('g:vscode'))
 
+" TODO: Consider deleting. Seems to break things. LSP does most everything
+" needed already.
+
 " go
 Plug 'https://github.com/fatih/vim-go', Cond(!exists('g:vscode'), {'do': ':GoInstallBinaries'})
+
+" TODO: Consider deleting. Never used.
 
 " html
 Plug 'https://github.com/hail2u/vim-css3-syntax', Cond(!exists('g:vscode'))
 Plug 'https://github.com/gko/vim-coloresque', Cond(!exists('g:vscode'))
 Plug 'https://github.com/tpope/vim-haml', Cond(!exists('g:vscode'))
 Plug 'https://github.com/mattn/emmet-vim', Cond(!exists('g:vscode'))
+
+" TODO: Consider deleting. Never used.
 
 " lisp
 Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
@@ -548,6 +573,8 @@ Plug 'https://github.com/vim-scripts/slimv.vim', Cond(!exists('g:vscode'))
 " Depending on the version of Vim/Neovim you are using, the syntax
 " highlighting feature of this requirements plugin may be bundled.
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
+
+" TODO: Consider deleting. Never used.
 
 " ruby
 Plug 'https://github.com/tpope/vim-rails', Cond(!exists('g:vscode'))
@@ -588,6 +615,9 @@ Plug 'https://github.com/KabbAmine/vCoolor.vim'
 
 " [[ Neovim anywhere ]] {{{2
 
+" TODO: Consider deleting. Native vim abilities can do most of this, or just
+" use telescope. Or finish this and remove telescope.
+
 " Periscope
 " FIXME: currently still ignored in VSCode since a lot of Telescope
 " functionality remains after fork. Once everything uses `vim.ui.select`, then
@@ -597,6 +627,10 @@ Plug 'https://github.com/KabbAmine/vCoolor.vim'
 Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim only ]] {{{2
+
+" TODO: Consider deleting. I cannot recall ever having dealt with Zig files in
+" vanilla Vim.
+
 " Neovim already bundles this in its distributions. Only Vim needs it.
 Plug 'https://github.com/ziglang/zig.vim', Cond(!has('nvim'))
 
