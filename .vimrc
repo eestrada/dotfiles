@@ -471,11 +471,6 @@ Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
 " just git and can easily be extended to support others)
 Plug 'https://github.com/mhinz/vim-signify', Cond(!exists('g:vscode'))
 
-" Detect tabstop and shiftwidth automatically
-" WARNING: sleuth breaks more than it fixes. Is there any way to invoke it's
-" functionality on demand instead of all the time?
-" Plug 'https://github.com/tpope/vim-sleuth', Cond(!exists('g:vscode'))
-
 " TODO: Consider deleting. This is built into Neovim, and can be pretty much
 " done just as easily via Visual block mode.
 
