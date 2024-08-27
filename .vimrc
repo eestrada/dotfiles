@@ -555,7 +555,6 @@ call plug#end()
 
 " Code that should run *after* plugins are loaded
 function s:vimrc_init() abort
-  " [[ Configure vim-signify ]] {{{2
   " Although this global variable could be set anywhere, setting near all the
   " other Signify settings keeps things centralized.
   let g:signify_sign_delete = '-'
