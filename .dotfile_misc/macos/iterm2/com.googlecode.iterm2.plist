@@ -53,6 +53,10 @@
 			<string>~/</string>
 			<key>AWDS Window Option</key>
 			<string>Yes</string>
+			<key>Allow Change Cursor Blink</key>
+			<true/>
+			<key>Allow Title Reporting</key>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -708,7 +712,7 @@
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
-			<string>xterm-256color</string>
+			<string>iterm2</string>
 			<key>Thin Strokes</key>
 			<integer>4</integer>
 			<key>Title Components</key>

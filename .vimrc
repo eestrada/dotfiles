@@ -129,7 +129,7 @@ set backspace=2
 " Highlight cursor line
 set cursorline
 
-" Tab Settings
+" Indent Settings
 " Copy indent from current line when starting a new line.
 set autoindent
 " Use indent rules based on current filetype.
@@ -177,7 +177,10 @@ set statusline+=\ %{StatuslineMode()}
 set statusline+=\ %{b:gitbranch}
 set statusline+=\ %#Question#
 set statusline+=\ %f
-set statusline+=%w%h%r%m
+set statusline+=%w
+set statusline+=%h
+set statusline+=%r
+set statusline+=%m
 set statusline+=%=
 set statusline+=\ %#CursorLineNr#
 set statusline+=%y
