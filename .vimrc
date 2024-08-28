@@ -15,9 +15,8 @@ if has('nvim')
   let g:test#strategy = 'neovim'
 endif
 
-"*****************************************************************************
-"" Convenience variables
-"*****************************************************************************
+" How to split windows when running Plug commands
+let g:plug_window = 'vnew'
 
 " MarkdownPreview settings
 
