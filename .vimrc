@@ -534,6 +534,10 @@ Plug 'https://github.com/KabbAmine/vCoolor.vim'
 "Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
+" Pickers for everywhere nvim is available, including VSCode. Inspiration for
+" periscope.
+Plug 'https://github.com/mfussenegger/nvim-qwahl', Cond(has('nvim'))
+
 " [[ Vim only ]] {{{2
 
 " <shrug>
