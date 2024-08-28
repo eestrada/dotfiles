@@ -78,6 +78,7 @@ adobeconnectapp.log
 /.steam
 /.steampath
 /.steampid
+/.terminfo
 /.terraform.d
 /.themes
 /.tox
