@@ -177,6 +177,7 @@ set statusline+=\ %{StatuslineMode()}
 set statusline+=\ %{b:gitbranch}
 set statusline+=\ %#Question#
 set statusline+=\ %f
+set statusline+=%w%h%r%m
 set statusline+=%=
 set statusline+=\ %#CursorLineNr#
 set statusline+=%y
