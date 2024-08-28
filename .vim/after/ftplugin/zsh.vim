@@ -4,5 +4,7 @@ if executable('shfmt')
     if &l:expandtab
         let s:shiftwidth=&l:tabstop
     endif
-    let &l:formatprg='shfmt -i ' . s:shiftwidth . ' -ln mksh -sr -ci -s'
+
+    " bash syntax seems to work well enough for zsh
+    let &l:formatprg='shfmt -i ' . s:shiftwidth . ' -ln bash -sr -ci -s'
 endif

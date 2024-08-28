@@ -6,4 +6,3 @@ if executable('shfmt')
     endif
     let &l:formatprg='shfmt -i ' . s:shiftwidth . ' -ln bash -sr -ci -s'
 endif
-
