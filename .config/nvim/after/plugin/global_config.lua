@@ -472,6 +472,9 @@ local function lsp_config_setup()
         { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' }
       )
 
+      -- TODO: Instead of setting a custom keymap, set `formatexpr` to call
+      -- `vim.lsp.buf.format()` so that we can use `gq` instead and have it
+      -- work properly.
       vim.keymap.set({ 'n', 'v' }, '<leader>fb',
         function() vim.lsp.buf.format() end,
         { buffer = args.buf, desc = '[f]ormat [b]uffer' }
