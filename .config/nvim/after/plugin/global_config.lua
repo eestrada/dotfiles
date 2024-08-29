@@ -421,7 +421,11 @@ local function lsp_config_setup()
       local function definition_func()
         vim.lsp.buf.definition(location_lsp_options)
       end
-      -- We bind `gd` to `<C-]>` in `init.vim`
+
+      -- We bind `gd` to `<C-]>` in `init.vim`. 
+      --
+      -- See link on how to set `vim.lsp.tagfunc()` as the `tagfunc` instead:
+      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
       vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
 
       -- References
@@ -474,7 +478,8 @@ local function lsp_config_setup()
 
       -- TODO: Instead of setting a custom keymap, set `formatexpr` to call
       -- `vim.lsp.buf.format()` so that we can use `gq` instead and have it
-      -- work properly.
+      -- work properly. See this link for clues:
+      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
       vim.keymap.set({ 'n', 'v' }, '<leader>fb',
         function() vim.lsp.buf.format() end,
         { buffer = args.buf, desc = '[f]ormat [b]uffer' }
