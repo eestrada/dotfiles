@@ -417,16 +417,43 @@ local function lsp_config_setup()
       -- Only redefine uppercase K keymap if current LSP supports hover capability
       vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
 
-      -- telescope builtins
-      local function definition_func()
-        vim.lsp.buf.definition(location_lsp_options)
+      -- Explicitly set `tagfunc` to call `vim.lsp.tagfunc`. This is the lsp
+      -- default anyway, but we make it explicit here.
+      --
+      -- By setting `tagfunc`, the `<C-]>` keybinding should work using the lsp
+      -- server. `gd` is bound to `<C-]>` in `init.vim` as well.
+      --
+      -- Found originally at this link:
+      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
+      --
+      -- See also: `:h lsp-defaults`
+      if client ~= nil and client.server_capabilities.definitionProvider then
+        vim.api.nvim_buf_set_option(args.buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
       end
 
-      -- We bind `gd` to `<C-]>` in `init.vim`. 
+      -- Explicitly set `formatexpr` to call `vim.lsp.formatexpr()`. This is
+      -- the lsp default anyway, but we make it explicit here.
       --
-      -- See link on how to set `vim.lsp.tagfunc()` as the `tagfunc` instead:
+      -- By setting `formatexpr`, the `gq` keybinding should work using the lsp
+      -- server.
+      --
+      -- Found originally at this link:
       -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
-      vim.keymap.set('n', '<C-]>', definition_func, { buffer = args.buf, desc = 'Goto Definition' })
+      --
+      -- See also: `:h lsp-defaults`
+      if client ~= nil and client.server_capabilities.documentRangeFormattingProvider then
+        vim.api.nvim_buf_set_option(args.buf, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+      end
+
+      -- Sometimes an lsp cannot format a range, but can format the entire
+      -- document, so add a keybinding for that.
+      if client ~= nil and client.server_capabilities.documentFormattingProvider then
+        vim.keymap.set({ 'n' }, '<leader>gq',
+          function() vim.lsp.buf.format() end,
+          { buffer = args.buf, desc = 'format entire buffer as if running [gq]' }
+        )
+      end
+
 
       -- References
       -- Use the following link for reference on how to override the default
@@ -435,7 +462,8 @@ local function lsp_config_setup()
       local function references_func()
         vim.lsp.buf.references(nil, references_lsp_options)
       end
-      -- We bind `gr` to `[I` in `init.vim`
+
+      -- `gr` is bound to `[I` in `init.vim`
       vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
 
       local function implementation_func()
@@ -456,6 +484,8 @@ local function lsp_config_setup()
       end
       vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
 
+      -- telescope builtins
+
       vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').lsp_document_symbols() end,
         { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
 
@@ -474,15 +504,6 @@ local function lsp_config_setup()
       vim.keymap.set({ 'n', 'v' }, '<leader>qf',
         function() vim.lsp.buf.code_action() end,
         { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' }
-      )
-
-      -- TODO: Instead of setting a custom keymap, set `formatexpr` to call
-      -- `vim.lsp.buf.format()` so that we can use `gq` instead and have it
-      -- work properly. See this link for clues:
-      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
-      vim.keymap.set({ 'n', 'v' }, '<leader>fb',
-        function() vim.lsp.buf.format() end,
-        { buffer = args.buf, desc = '[f]ormat [b]uffer' }
       )
 
       -- Get capabilities of current LSP server
