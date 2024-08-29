@@ -1,3 +1,3 @@
 if executable('black')
-    setlocal formatprg=black\ -q\ 2>/dev/null\ --stdin-filename\ %\ -
+    setlocal formatprg=black\ --quiet\ --fast\ --stdin-filename\ %\ -\ 2>/dev/null
 endif
