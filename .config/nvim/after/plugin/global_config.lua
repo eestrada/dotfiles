@@ -172,7 +172,7 @@ local function lsp_config_setup()
     lua_ls = {
       Lua = {
         runtime = {
-          -- Tell the language server which version of Lua you're using
+          -- Tell the language server which version of Lua is being used
           -- (most likely LuaJIT in the case of Neovim)
           version = 'LuaJIT'
         },
@@ -348,7 +348,7 @@ local function lsp_config_setup()
       -- * master branch: https://github.com/mfussenegger/nvim-jdtls/blob/master/README.md#data-directory-configuration
       -- * permalink: https://github.com/mfussenegger/nvim-jdtls/blob/99e4b2081de1d9162666cc7b563cbeb01c26b66b/README.md#data-directory-configuration
 
-      -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
+      -- If neovim was started within `~/dev/xy/project-1` this would resolve to `project-1`
       local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
       local workspace_dir = user_home .. "/tmp/jdtls/data/" .. project_name
 
@@ -414,11 +414,14 @@ local function lsp_config_setup()
         { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
 
       -- Start of keymaps that shadow existing keymaps
-      -- Only redefine uppercase K keymap if current LSP supports hover capability
-      vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
+
+      -- Only redefine `K` keymap if current LSP supports hover capability.
+      if client ~= nil and client.server_capabilities.hoverProvider then
+        vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
+      end
 
       -- Explicitly set `tagfunc` to call `vim.lsp.tagfunc`. This is the lsp
-      -- default anyway, but we make it explicit here.
+      -- default anyway, but it's made explicit here.
       --
       -- By setting `tagfunc`, the `<C-]>` keybinding should work using the lsp
       -- server. `gd` is bound to `<C-]>` in `init.vim` as well.
@@ -432,7 +435,7 @@ local function lsp_config_setup()
       end
 
       -- Explicitly set `formatexpr` to call `vim.lsp.formatexpr()`. This is
-      -- the lsp default anyway, but we make it explicit here.
+      -- the lsp default anyway, but it's made explicit here.
       --
       -- By setting `formatexpr`, the `gq` keybinding should work using the lsp
       -- server.
@@ -454,17 +457,20 @@ local function lsp_config_setup()
         )
       end
 
-
       -- References
+      --
       -- Use the following link for reference on how to override the default
       -- references behavior.
+      --
       -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
-      local function references_func()
-        vim.lsp.buf.references(nil, references_lsp_options)
-      end
+      if client ~= nil and client.server_capabilities.referencesProvider then
+        local function references_func()
+          vim.lsp.buf.references(nil, references_lsp_options)
+        end
 
-      -- `gr` is bound to `[I` in `init.vim`
-      vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
+        -- `gr` is bound to `[I` in `init.vim`
+        vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
+      end
 
       local function implementation_func()
         vim.lsp.buf.implementation(location_lsp_options)
@@ -500,7 +506,7 @@ local function lsp_config_setup()
         { buffer = args.buf, desc = '[c]ode [a]ction' }
       )
 
-      -- This is something different in vscode, but we duplicate it here so that it actually points to something
+      -- This is something different in vscode, but it is duplicated here so that it actually points to something
       vim.keymap.set({ 'n', 'v' }, '<leader>qf',
         function() vim.lsp.buf.code_action() end,
         { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' }
@@ -740,7 +746,7 @@ local function dap_setup()
     'zig',
   }
 
-  -- Lazily setup codelldb for dap when we encounter supported filetypes.
+  -- Lazily setup codelldb for dap when encountering supported filetypes.
   for _, ft in ipairs(codelldb_filetypes) do
     vim.api.nvim_create_autocmd('FileType', {
       pattern = ft,
@@ -977,4 +983,3 @@ else
   -- https://www.reddit.com/r/neovim/comments/14cikep/comment/jokw2j6/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
   vim.api.nvim_exec_autocmds("FileType", {})
 end
-
