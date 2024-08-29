@@ -1,6 +1,7 @@
 setlocal tabstop=2
 
 if executable('jq')
+    " Can be installed via :Mason or homebrew
     let s:shiftwidth=&l:shiftwidth
     if &l:expandtab
         let s:shiftwidth=&l:tabstop
