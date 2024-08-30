@@ -53,6 +53,9 @@ let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
 
 " [[ Options ]] {{{1
 
+" Automatically re-read changed files without asking.
+set autoread
+
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
