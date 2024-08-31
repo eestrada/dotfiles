@@ -1,3 +1,9 @@
+" TODO: change this to a `formatexpr` that calls `black` using the `--line-ranges` so that it can properly format ranges.
+" Right now, it just freaks out with snippets passed on stdin
+" and completely breaks when it is in the middle of some sort syntactical construct.
+"
+" Also, it should do *nothing* if black changes anything other than the lines
+" requested.
 if executable('black')
     setlocal formatprg=black\ --quiet\ --fast\ --stdin-filename\ %\ -\ 2>/dev/null
 endif
