@@ -34,8 +34,8 @@ if executable('black')
     setlocal formatexpr=s:black_formatexpr()
 endif
 
-" Assumes common package format where `tests` is next to `src` and this is run
-" in the parent directory.
+" Assumes common package format where `tests` is next to `src`
+" and assumes that this is run in the parent directory.
 setlocal makeprg=python3\ -m\ unittest\ discover\ -s\ tests
 
 " Traceback style error finding.
