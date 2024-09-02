@@ -32,6 +32,22 @@ if executable('black')
     endfunction
 
     setlocal formatexpr=s:black_formatexpr()
+
+    " For a whitespace sensitive language like Python,
+    " reformatting the entire buffer is the safest option to ensure correctness.
+    function BlackFormatOnSave() abort
+        if exists('b:black_fmt_on_save') && b:black_fmt_on_save ==? 1 || exists('g:black_fmt_on_save') && g:black_fmt_on_save ==? 1
+            " silent :!black --skip-string-normalization --safe --quiet %
+            silent :!black --safe --quiet %
+        endif
+    endfunction
+
+    augroup BlackAutoFmt
+        autocmd!
+
+        autocmd BufWritePost *.py call BlackFormatOnSave()
+    augroup END
+
 endif
 
 " Assumes common package format where `tests` is next to `src`
