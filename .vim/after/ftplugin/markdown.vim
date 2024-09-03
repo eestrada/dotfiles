@@ -3,13 +3,14 @@ set conceallevel=2
 
 " Can be installed via :Mason
 "
-" Be sure to install GFM (Github Flavored Markdown) extensions for mdformatn the venv.
-" This allows for autoformatting tables, and more allowed formats for URLs.
+" Be sure to install GFM (Github Flavored Markdown) extensions for `mdformat` in the venv.
+" This allows for autoformatting tables, and along with other common extensions.
 "
-" Instructions for this can be found in the Github repo link below.
+" Instructions for this can be found in the Github repo links below.
 "
 " See links for details:
 " * https://github.com/executablebooks/mdformat
+" * https://github.com/hukkin/mdformat-gfm
 " * https://mdformat.readthedocs.io/en/stable/users/style.html#paragraph-word-wrapping
 if executable('mdformat')
     " See `mdformat --help` for allowed values
