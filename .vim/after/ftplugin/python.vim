@@ -6,10 +6,15 @@
 " Black command string should look similar to this command:
 " let l:black_cmd = 'black --quiet --fast --no-color --diff --stdin-filename=' . expand('%') . '--line-ranges=' . l:ranges . ' - 2>/dev/null'
 if executable('black')
+    " See `black --help` for allowed values
+    if !exists('g:black_flags')
+        let g:black_flags = '--safe --quiet'
+    endif
+
     function s:black_formatexpr() abort
         let l:old_buf_len = line('$')
         let l:ranges = strtrans(v:lnum) . '-' . strtrans(v:lnum + v:count)
-        let l:black_cmd = 'black --quiet --fast --stdin-filename=' . expand('%') . ' --line-ranges=' . l:ranges . ' - 2>/dev/null'
+        let l:black_cmd = 'black ' . g:black_flags . ' --stdin-filename=' . expand('%') . ' --line-ranges=' . l:ranges . ' - 2>/dev/null'
 
         let l:black_output = system(l:black_cmd, bufnr('%'))
         if v:shell_error
@@ -37,8 +42,7 @@ if executable('black')
     " reformatting the entire buffer is the safest option to ensure correctness.
     function BlackFormatOnSave() abort
         if exists('b:black_fmt_on_save') && b:black_fmt_on_save ==? 1 || exists('g:black_fmt_on_save') && g:black_fmt_on_save ==? 1
-            " silent :!black --skip-string-normalization --safe --quiet %
-            silent :!black --safe --quiet %
+            silent :execute '!black ' . g:black_flags . ' %'
         endif
     endfunction
 
