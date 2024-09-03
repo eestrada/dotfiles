@@ -1,4 +1,4 @@
-set tabstop=4
+set tabstop=2
 set conceallevel=2
 
 " Can be installed via :Mason
