@@ -1,4 +1,5 @@
 set tabstop=2
+set shiftwidth=0
 set conceallevel=2
 
 " Can be installed via :Mason
