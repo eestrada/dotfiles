@@ -264,6 +264,11 @@ endif
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
+" Override gx in normal mode to work around timeout issues on wsl
+if has('nvim')
+  nmap gx :lua vim.ui.open(vim.fn.expand("<cfile>"))<CR>
+endif
+
 " Easily explore file system
 " NOTE: if Dirvish has been loaded, it will overload `:Explore`. See below.
 nmap <leader>e :Explore<CR>
