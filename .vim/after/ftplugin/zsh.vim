@@ -8,3 +8,7 @@ if executable('shfmt')
     " bash syntax seems to work well enough for zsh
     let &l:formatprg='shfmt -i ' . s:shiftwidth . ' -ln bash -sr -ci -s'
 endif
+
+if executable('zsh')
+  compiler zsh
+endif

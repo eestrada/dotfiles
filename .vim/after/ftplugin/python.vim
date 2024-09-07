@@ -54,6 +54,10 @@ if executable('black')
 
 endif
 
+" if executable('python3')
+"   compiler pyunit
+" endif
+
 " Assumes common package format where `tests` is next to `src`
 " and assumes that this is run in the parent directory.
 setlocal makeprg=python3\ -m\ unittest\ discover\ -s\ tests
