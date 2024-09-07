@@ -33,3 +33,7 @@ if executable('mdformat')
         autocmd BufWritePost *.md call MdFormatOnSave()
     augroup END
 endif
+
+if executable('pandoc')
+  compiler pandoc
+endif
