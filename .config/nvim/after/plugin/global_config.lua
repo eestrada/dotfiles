@@ -245,7 +245,7 @@ local function lsp_config_setup()
 
     -- for typescript/javascript
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
-    tsserver = {},
+    ts_ls = {},
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
     yamlls = {},
