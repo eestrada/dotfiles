@@ -41,8 +41,14 @@ if executable('black')
     " For a whitespace sensitive language like Python,
     " reformatting the entire buffer is the safest option to ensure correctness.
     function BlackFormatOnSave() abort
-        if exists('b:black_fmt_on_save') && b:black_fmt_on_save ==? 1 || exists('g:black_fmt_on_save') && g:black_fmt_on_save ==? 1
-            silent :execute '!black ' . g:black_flags . ' %'
+        if exists('b:black_fmt_on_save')
+            if b:black_fmt_on_save ==? 1
+                silent :execute '!black ' . g:black_flags . ' %'
+            endif
+        elseif exists('g:black_fmt_on_save')
+            if g:black_fmt_on_save ==? 1
+                silent :execute '!black ' . g:black_flags . ' %'
+            endif
         endif
     endfunction
 

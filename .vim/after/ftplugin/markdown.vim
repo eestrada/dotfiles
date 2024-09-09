@@ -22,8 +22,14 @@ if executable('mdformat')
     let &l:formatprg='mdformat ' . g:mdformat_flags . ' -'
 
     function MdFormatOnSave() abort
-        if exists('b:mdformat_fmt_on_save') && b:mdformat_fmt_on_save ==? 1 || exists('g:mdformat_fmt_on_save') && g:mdformat_fmt_on_save ==? 1
-            silent :execute '!mdformat ' . g:mdformat_flags . ' %'
+        if exists('b:mdformat_fmt_on_save')
+            if b:mdformat_fmt_on_save ==? 1
+                silent :execute '!mdformat ' . g:mdformat_flags . ' %'
+            endif
+        elseif exists('g:mdformat_fmt_on_save')
+            if g:mdformat_fmt_on_save ==? 1
+                silent :execute '!mdformat ' . g:mdformat_flags . ' %'
+            endif
         endif
     endfunction
 
