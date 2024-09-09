@@ -1,12 +1,11 @@
-" TODO: Change this to use the `--diff` output of black to only change the requested lines
-" and to place the cursor exactly where it should be.
+" As it is written now,
+" when formatting a range black sometimes formats more lines than requested.
 "
-" As it is written now, black sometimes formats more lines than requested.
-"
-" Black command string should look similar to this command:
-" let l:black_cmd = 'black --quiet --fast --no-color --diff --stdin-filename=' . expand('%') . '--line-ranges=' . l:ranges . ' - 2>/dev/null'
+" Python's whitesapce sensitivity works best with whole file formatting,
+" so the safest bet is to always format the entire file.
+" This is set up in `BlackFormatOnSave`.
 if executable('black')
-    " See `black --help` for allowed values
+    " See `black --help` for allowed flags
     if !exists('g:black_flags')
         let g:black_flags = '--safe --quiet'
     endif
@@ -27,7 +26,8 @@ if executable('black')
         execute 'normal Gdd'
 
         " Do a best effort to place cursor where it is supposed to be according to `gq` and `formatexpr` docs.
-        " This is imprecise because black sometimes reformats lines that it shouldn't.
+        " This is imprecise and inconsistent
+        " because black sometimes reformats lines that it shouldn't.
         let l:new_buf_len = line('$')
         let l:rear_index = l:old_buf_len - (v:lnum + v:count)
         let l:new_cursor_line = l:new_buf_len - l:rear_index - 1
@@ -57,7 +57,6 @@ if executable('black')
 
         autocmd BufWritePost *.py call BlackFormatOnSave()
     augroup END
-
 endif
 
 if executable('python3')
