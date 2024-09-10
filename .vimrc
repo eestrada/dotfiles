@@ -447,11 +447,6 @@ Plug 'https://github.com/saadparwaiz1/cmp_luasnip', Cond(has('nvim') && !exists(
 " Adds LSP completion capabilities
 Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/hrsh7th/cmp-path', Cond(has('nvim') && !exists('g:vscode'))
-
-" Adds a number of user-friendly snippets
-" This plugin *can* be used outside Neovim, but currently is not. Only cmp
-" is used for autocompletion, which is Neovim specific.
-Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(has('nvim') && !exists('g:vscode'))
 " End Autocompletion plugins
 
 " The `TSUpdate` call tends to throw errors when this is installed. Don't
@@ -473,6 +468,11 @@ Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !ex
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
+
+" Adds a number of user-friendly snippets
+" This plugin *can* be used outside Neovim, but currently is not. Only cmp
+" is used for autocompletion, which is Neovim specific.
+Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(!exists('g:vscode'))
 
 " Show buffers as tabs
 Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
