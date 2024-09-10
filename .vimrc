@@ -160,7 +160,7 @@ set softtabstop=-1
 " At least 8 line visible buffer when moving up/down file.
 set scrolloff=4
 " show sign column even when empty
-set signcolumn=auto
+set signcolumn=yes
 " Decrease update time
 set updatetime=250
 set timeoutlen=600
