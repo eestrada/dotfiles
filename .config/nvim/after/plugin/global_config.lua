@@ -553,9 +553,6 @@ local function cmp_setup()
         luasnip.lsp_expand(args.body)
       end,
     },
-    completion = {
-      completeopt = 'menu,menuone,noinsert',
-    },
     mapping = cmp.mapping.preset.insert {
       ['<C-n>'] = cmp.mapping.select_next_item(),
       ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -564,7 +561,7 @@ local function cmp_setup()
       ['<C-Space>'] = cmp.mapping.complete {},
       ['<CR>'] = cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
+        select = false,
       },
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then

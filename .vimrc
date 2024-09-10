@@ -97,7 +97,7 @@ set incsearch
 set fileformats=unix,dos,mac
 
 " Set completeopt to have a better completion experience
-set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,noselect,noinsert,preview
 
 " Syntax settings
 " NOTE: make sure current terminal supports this
