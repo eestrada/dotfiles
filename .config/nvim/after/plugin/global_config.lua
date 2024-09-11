@@ -1,7 +1,6 @@
 -- vim: set foldmethod=marker:
 -- [[ Utility functions ]] {{{1
 
-
 -- Dump a table to a readable string. See original implementation here:
 -- https://stackoverflow.com/a/27028488/1733321
 function table.dump(orig)
@@ -544,13 +543,17 @@ local function cmp_setup()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
   require('luasnip.loaders.from_vscode').lazy_load()
-  require('luasnip.loaders.from_vscode').lazy_load()
+  require("luasnip.loaders.from_snipmate").lazy_load()
   luasnip.config.setup {}
 
   cmp.setup {
     snippet = {
       expand = function(args)
-        luasnip.lsp_expand(args.body)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        luasnip.lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
       end,
     },
     mapping = cmp.mapping.preset.insert {
@@ -583,14 +586,39 @@ local function cmp_setup()
       end, { 'i', 's' }),
     },
     sources = {
-      { name = 'nvim_lsp' },
+      -- { name = 'vsnip' },
       { name = 'luasnip' },
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
       { name = 'path' },
-    },
-    experimental = {
-      ghost_text = true,
+      {
+        name = "rg",
+        -- Try it when you feel cmp performance is poor
+        -- keyword_length = 3
+      },
+      -- { name = 'cmdline' },
     },
   }
+
+  -- `/` cmdline setup.
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- `:` cmdline setup.
+  -- XXX: I find this a bit noisy. Turn it off for now.
+  -- cmp.setup.cmdline(':', {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = cmp.config.sources({
+  --     { name = 'path' }
+  --   }, {
+  --     { name = 'cmdline' }
+  --   }),
+  --   matching = { disallow_symbol_nonprefix_matching = false }
+  -- })
 end
 
 -- [[ Configure fidget ]] {{{2
@@ -960,7 +988,7 @@ else
   local init_funcs = {
     fidget = fidget_setup,
     ['lsp config'] = lsp_config_setup,
-    ['cmp and luasnip'] = cmp_setup,
+    ['cmp and snippet engine'] = cmp_setup,
     treesitter = treesitter_setup,
     dap = dap_setup,
     telescope = telescope_setup,

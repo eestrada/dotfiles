@@ -440,13 +440,35 @@ Plug 'https://github.com/mfussenegger/nvim-jdtls', Cond(has('nvim') && !exists('
 " Start Autocompletion plugins
 Plug 'https://github.com/hrsh7th/nvim-cmp', Cond(has('nvim') && !exists('g:vscode'))
 
-" Snippet Engine & its associated nvim-cmp source
+" LuaSnip Snippet Engine & its associated nvim-cmp source
 Plug 'https://github.com/L3MON4D3/LuaSnip', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/saadparwaiz1/cmp_luasnip', Cond(has('nvim') && !exists('g:vscode'))
 
-" Adds LSP completion capabilities
+" vim-vsnip Snippet Engine & its associated nvim-cmp source
+"
+" I tried out vim-vsnip since is written in pure vimscript
+" and can technically work in Vanilla vim.
+" I thought "Hey, if I can get this working,
+" maybe I can also get a completion set up that will work for Vanilla vim as well".
+"
+" However, after trying it for a bit, it is slow enough to be painful
+" (at least compared to LuaSnip).
+" It is also slightly less featureful.
+" The lack of features wouldn't be such a big issue, except it is slow.
+" That is pretty much a deal breaker.
+"
+" Leaving this here for reference.
+"
+" Plug 'https://github.com/hrsh7th/vim-vsnip', Cond(has('nvim') && !exists('g:vscode'))
+" Plug 'https://github.com/hrsh7th/cmp-vsnip', Cond(has('nvim') && !exists('g:vscode'))
+
+" Add additional completion sources for nvim-cmp.
 Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/hrsh7th/cmp-path', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/hrsh7th/cmp-buffer', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/hrsh7th/cmp-cmdline', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:vscode'))
+
 " End Autocompletion plugins
 
 " The `TSUpdate` call tends to throw errors when this is installed. Don't
