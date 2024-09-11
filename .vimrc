@@ -410,6 +410,9 @@ if empty(glob(s:autoload_data_dir_parent . '/autoload/plug.vim'))
 endif
 
 call plug#begin(s:plugins_dir)
+" This allows for offline help (e.g. `:help plug-options`),
+" otherwise it isn't necessary to use vim-plug functionality.
+Plug 'https://github.com/junegunn/vim-plug'
 
 " [[ Neovim native (e.g. not embedded in vscode) ]] {{{2
 
