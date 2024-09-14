@@ -723,7 +723,7 @@ local function dap_setup()
     dapui.close()
   end
 
-  local function codelldb_setup(filetype)
+  local function codelldb_setup(filetype, opts)
     if not dap.adapters.codelldb then
       -- Configuration originally from:
       -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
@@ -747,89 +747,90 @@ local function dap_setup()
       }
     end
 
+    opts = opts or {}
+
     if not dap.configurations[filetype] then
       dap.configurations[filetype] = {
         {
-          name = "Launch file",
-          type = "codelldb",
-          request = "launch",
-          program = function()
+          name = opts.name or "Launch file",
+          type = opts.type or "codelldb",
+          request = opts.request or "launch",
+          program = opts.program or function()
             return vim.fn.input({
               prompt = 'Path to executable: ',
               default = vim.fn.getcwd() .. '/',
               completion = 'file',
             })
           end,
-          cwd = '${workspaceFolder}',
-          stopOnEntry = false,
+          cwd = opts.cwd or '${workspaceFolder}',
+          stopOnEntry = opts.stopOnEntry or false,
         },
       }
     end
   end
 
   local codelldb_filetypes = {
-    'c',
-    'cpp',
-    'rust',
-    'zig',
+    c = {},
+    cpp = {},
+    rust = {},
+    zig = {
+      -- zig executables are in well known locations, just list those instead
+      -- of asking for a full path from the user, like is done for c, cpp,
+      -- and rust.
+      program = function()
+        local root = vim.fn.getcwd()
+
+        local execs = vim.fn.glob(
+          root .. '/zig-out/bin/*',
+          false,
+          true
+        )
+        local test_execs = vim.fn.glob(
+          root .. '/.zig-cache/o/*/test',
+          false,
+          true
+        )
+
+        local all_paths = {}
+
+        vim.list_extend(all_paths, execs)
+        vim.list_extend(all_paths, test_execs)
+
+        local for_display = { "Select executable:" }
+
+        for index, value in ipairs(all_paths) do
+          table.insert(for_display, string.format("%d. %s", index, value))
+        end
+
+        -- See here for synchronous picker in dap:
+        -- https://github.com/mfussenegger/nvim-dap/blob/66d33b7585b42b7eac20559f1551524287ded353/lua/dap/ui.lua#L55
+        -- Use this instead of vim.fn.inputlist, which cannot be replaced or themed.
+        --
+        -- local response = dap.ui.pick_one(all_paths, "Select executable", tostring, nil)
+        -- local result = response[1]
+        -- local index = response[2]
+
+        local choice = vim.fn.inputlist(for_display)
+        local final_choice = all_paths[choice]
+
+        vim.print(choice)
+        vim.print(final_choice)
+
+        return final_choice
+      end
+      ,
+
+    },
   }
 
   -- Lazily setup codelldb for dap when encountering supported filetypes.
-  for _, ft in ipairs(codelldb_filetypes) do
+  -- for _, ft in ipairs(codelldb_filetypes) do
+  for ft, ftopts in pairs(codelldb_filetypes) do
     vim.api.nvim_create_autocmd('FileType', {
       pattern = ft,
       group = vim.api.nvim_create_augroup('DapCodelldbConfig_' .. ft, { clear = true }),
       callback = function()
-        codelldb_setup(ft)
-
-        -- zig executables are in well known locations, just list those instead
-        -- of asking for a full path from the user, like is done for c, cpp,
-        -- and rust.
-        if ft == 'zig' then
-          dap.configurations.zig = {
-            {
-              name = "Launch file",
-              type = "codelldb",
-              request = "launch",
-              program = function()
-                local root = vim.fn.getcwd()
-
-                local execs = vim.fn.glob(
-                  root .. '/zig-out/bin/*',
-                  false,
-                  true
-                )
-                local test_execs = vim.fn.glob(
-                  root .. '/zig-cache/o/*/test',
-                  false,
-                  true
-                )
-
-                local all_paths = {}
-
-                vim.list_extend(all_paths, execs)
-                vim.list_extend(all_paths, test_execs)
-
-                local for_display = { "Select executable:" }
-
-                for index, value in ipairs(all_paths) do
-                  table.insert(for_display, string.format("%d. %s", index, value))
-                end
-
-                local choice = vim.fn.inputlist(for_display)
-                local final_choice = all_paths[choice]
-
-                vim.print(choice)
-                vim.print(final_choice)
-
-                return final_choice
-              end
-              ,
-              cwd = '${workspaceFolder}',
-              stopOnEntry = false,
-            },
-          }
-        end
+        codelldb_setup(ft, ftopts)
       end,
     })
   end
