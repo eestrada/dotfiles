@@ -1,4 +1,5 @@
 # .profile - Bourne Shell startup script for login shells
+# shellcheck shell=sh
 # vim: set filetype=sh:
 # Emacs stuff
 # Local Variables:

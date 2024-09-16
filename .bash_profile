@@ -1,5 +1,5 @@
 # .bash_profile
-
+# shellcheck shell=bash
 # Emacs stuff
 # Local Variables:
 # mode: sh

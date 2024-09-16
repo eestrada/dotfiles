@@ -1,5 +1,6 @@
 # .zshrc
 # vim: set filetype=sh.bash.zsh:
+# shellcheck shell=sh
 # Emacs stuff
 # Local Variables:
 # mode: sh

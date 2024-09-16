@@ -1,5 +1,6 @@
 # .bashrc
 # vim: set filetype=sh.bash:
+# shellcheck shell=bash
 # Emacs stuff
 # Local Variables:
 # mode: sh

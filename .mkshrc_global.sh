@@ -1,5 +1,6 @@
 # .mkshrc
-# vim: set filetype=sh.mksh:
+# vim: set filetype=sh.ksh.mksh:
+# shellcheck shell=ksh
 # Emacs stuff
 # Local Variables:
 # mode: sh
