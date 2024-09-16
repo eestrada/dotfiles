@@ -160,6 +160,126 @@ local function vscode_setup()
     { desc = '[s]earch project [p]aths' })
 end
 
+-- [[ Mason tool installer ]] {{{2
+-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+local function mason_tool_installer_setup()
+  -- mason-tool-installer requires that mason be setup first.
+  require('mason').setup()
+
+  require('mason-tool-installer').setup {
+
+    -- a list of all tools you want to ensure are installed upon start
+    ensure_installed = {
+      'bash-language-server',
+      'black',
+      'codelldb',
+      'css-lsp',
+      'dot-language-server',
+      'eslint_d',
+      'gopls',
+      'html-lsp',
+      'java-debug-adapter',
+      'java-test',
+      'jdtls',
+      'jq',
+      'json-lsp',
+      'jsonlint',
+      'lemminx',
+      'lemmy-help',
+      'llm-ls',
+      'lua-language-server',
+      'luacheck', -- needs `luarocks` available to installed
+      'mdformat',
+      'misspell',
+      'prettier',
+      'prettierd',
+      'pyright',
+      'ruby-lsp',
+      'shellcheck',
+      'shfmt',
+      'solargraph',
+      'sqlfluff',
+      'sqlfmt',
+      'stylua',
+      'taplo',
+      'typescript-language-server',
+      'vim-language-server',
+      'vint',
+      'yaml-language-server',
+      'zls',
+    },
+
+    -- if set to true this will check each tool for updates. If updates
+    -- are available the tool will be updated. This setting does not
+    -- affect :MasonToolsUpdate or :MasonToolsInstall.
+    -- Default: false
+    auto_update = false,
+
+    -- automatically install / update on startup. If set to false nothing
+    -- will happen on startup. You can use :MasonToolsInstall or
+    -- :MasonToolsUpdate to install tools and check for updates.
+    -- Default: true
+    run_on_start = true,
+
+    -- set a delay (in ms) before the installation starts. This is only
+    -- effective if run_on_start is set to true.
+    -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
+    -- Default: 0
+    -- start_delay = 3000, -- 3 second delay
+  }
+end
+
+-- [[ Configure nvim-lint ]] {{{2
+local function nvim_lint_setup()
+  local lint = require("lint")
+
+  lint.linters_by_ft = {
+    javascript = { "eslint_d" },
+    javascriptreact = { "eslint_d" },
+    lua = { "luacheck" },
+    sql = { "sqlfluff" },
+    typescript = { "eslint_d" },
+    typescriptreact = { "eslint_d" },
+    vim = { "vint" },
+  }
+
+  local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+    group = lint_augroup,
+    callback = function() lint.try_lint() end,
+  })
+
+  vim.keymap.set("n", "<leader>lf",
+  function() lint.try_lint() end,
+  { desc = "Trigger linting for current file" })
+end
+
+-- [[ Configure conform ]] {{{2
+local function conform_setup()
+  require("conform").setup({
+    formatters_by_ft = {
+      javascript = { "prettierd", "prettier", stop_after_first = true },
+      lua = { "stylua" },
+      markdown = { "mdformat" },
+      python = { "black", lsp_format = "none"  },
+    },
+
+    -- Set this to change the default values when calling conform.format()
+    -- This will also affect the default values for format_on_save/format_after_save
+    default_format_opts = {
+      lsp_format = "fallback",
+    },
+  })
+
+  vim.o.formatexpr = "v:lua.require('conform').format()"
+
+  vim.keymap.set({ 'n' }, '<leader>gq',
+    function() require("conform").format() end,
+    { desc = 'format entire buffer as if running [gggqG]' }
+  )
+end
+
 -- [[ Configure lsp ]] {{{2
 local function lsp_config_setup()
   -- Setup neovim lua configuration
@@ -167,7 +287,14 @@ local function lsp_config_setup()
   -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
   require('neodev').setup()
 
-  local mason_ensure_installed = {
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+  -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
+
+  -- These language servers will need to be installed somehow before being used.
+  local servers = {
     lua_ls = {
       Lua = {
         runtime = {
@@ -186,27 +313,7 @@ local function lsp_config_setup()
         -- diagnostics = { disable = { 'missing-fields' } },
       },
     },
-  }
 
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-  -- mason-lspconfig requires that mason be setup before setting up the
-  -- mason_ensure_installed LSP servers.
-  require('mason').setup()
-
-  -- Ensure the mason_ensure_installed LSP servers above are installed.
-  require('mason-lspconfig').setup {
-    ensure_installed = vim.tbl_keys(mason_ensure_installed),
-  }
-
-  -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
-
-  -- Servers not managed or auto-installed by mason. These language servers will
-  -- need to be manually installed, either thru `:Mason` nvim modal, or manually
-  -- using system tools.
-  local unmanaged_servers = {
     -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
     -- Should work so long as `gopls` command is on $PATH
@@ -275,13 +382,9 @@ local function lsp_config_setup()
     dotls = {},
   }
 
-  for key, value in pairs(mason_ensure_installed) do
-    unmanaged_servers[key] = value
-  end
-
   local lspconfig = require("lspconfig")
 
-  for server_name, opts in pairs(unmanaged_servers) do
+  for server_name, opts in pairs(servers) do
     local lopts = table.shallowcopy(opts)
     lopts.capabilities = capabilities
     local single_config = lspconfig[server_name]
@@ -433,29 +536,6 @@ local function lsp_config_setup()
         vim.api.nvim_buf_set_option(args.buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
       end
 
-      -- Explicitly set `formatexpr` to call `vim.lsp.formatexpr()`. This is
-      -- the lsp default anyway, but it's made explicit here.
-      --
-      -- By setting `formatexpr`, the `gq` keybinding should work using the lsp
-      -- server.
-      --
-      -- Found originally at this link:
-      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
-      --
-      -- See also: `:h lsp-defaults`
-      if client ~= nil and client.server_capabilities.documentRangeFormattingProvider then
-        vim.api.nvim_buf_set_option(args.buf, "formatexpr", "v:lua.vim.lsp.formatexpr()")
-      end
-
-      -- Sometimes an lsp cannot format a range, but can format the entire
-      -- document, so add a keybinding for that.
-      if client ~= nil and client.server_capabilities.documentFormattingProvider then
-        vim.keymap.set({ 'n' }, '<leader>gq',
-          function() vim.lsp.buf.format() end,
-          { buffer = args.buf, desc = 'format entire buffer as if running [gq]' }
-        )
-      end
-
       -- References
       --
       -- Use the following link for reference on how to override the default
@@ -587,35 +667,39 @@ local function cmp_setup()
     },
     sources = {
       -- { name = 'vsnip' },
-      { name = 'luasnip' },
       { name = 'nvim_lsp' },
+      { name = 'luasnip' },
       { name = 'buffer' },
       { name = 'path' },
       {
         name = "rg",
-        -- Try it when you feel cmp performance is poor
-        -- keyword_length = 3
+        keyword_length = 3
       },
       -- { name = 'cmdline' },
     },
   }
 
-  -- `/` cmdline setup.
-  cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
-    }
-  })
+  -- -- `/` cmdline setup.
+  -- cmp.setup.cmdline('/', {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = {
+  --     { name = 'buffer' }
+  --   }
+  -- })
 
-  -- `:` cmdline setup.
-  -- XXX: I find this a bit noisy. Turn it off for now.
+  -- -- `:` cmdline setup.
   -- cmp.setup.cmdline(':', {
   --   mapping = cmp.mapping.preset.cmdline(),
   --   sources = cmp.config.sources({
-  --     { name = 'path' }
+  --     {
+  --       name = 'path',
+  --       keyword_length = 3,
+  --     }
   --   }, {
-  --     { name = 'cmdline' }
+  --     {
+  --       name = 'cmdline',
+  --       keyword_length = 3,
+  --     }
   --   }),
   --   matching = { disallow_symbol_nonprefix_matching = false }
   -- })
@@ -988,6 +1072,7 @@ else
   -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
     fidget = fidget_setup,
+    ['mason tool installer'] = mason_tool_installer_setup,
     ['lsp config'] = lsp_config_setup,
     ['cmp and snippet engine'] = cmp_setup,
     treesitter = treesitter_setup,
@@ -995,6 +1080,8 @@ else
     telescope = telescope_setup,
     periscope = periscope_setup,
     dressing = dressing_setup,
+    lint = nvim_lint_setup,
+    formatting = conform_setup,
     -- llm = llm_setup,
   }
 

@@ -422,9 +422,9 @@ Plug 'https://github.com/junegunn/vim-plug'
 " LSP Configuration & Plugins
 Plug 'https://github.com/neovim/nvim-lspconfig', Cond(has('nvim') && !exists('g:vscode'))
 
-" Automatically install LSPs to stdpath for neovim
+" Automatically install common tools to stdpath for neovim
 Plug 'https://github.com/williamboman/mason.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/williamboman/mason-lspconfig.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " Useful status updates for LSP
 Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vscode'))
@@ -469,7 +469,7 @@ Plug 'https://github.com/saadparwaiz1/cmp_luasnip', Cond(has('nvim') && !exists(
 Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/hrsh7th/cmp-path', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/hrsh7th/cmp-buffer', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/hrsh7th/cmp-cmdline', Cond(has('nvim') && !exists('g:vscode'))
+" Plug 'https://github.com/hrsh7th/cmp-cmdline', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:vscode'))
 
 " End Autocompletion plugins
@@ -491,6 +491,12 @@ Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !ex
 
 " UI stuff
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" linting
+Plug 'https://github.com/mfussenegger/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
+
+" formatting
+Plug 'https://github.com/stevearc/conform.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
