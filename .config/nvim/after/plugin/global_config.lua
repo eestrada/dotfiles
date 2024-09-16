@@ -225,6 +225,7 @@ local function mason_tool_installer_setup()
       'vim-language-server',
       'vint',
       'write-good',
+      'xmlformatter',
       'yaml-language-server',
       'zls',
     },
@@ -290,8 +291,26 @@ end
 
 -- [[ Configure conform ]] {{{2
 local function conform_setup()
+  require('conform').formatters.xmlformat = {
+    prepend_args = {
+      '--eof-newline',
+      '--blanks',
+      '--selfclose',
+      '--indent',
+      '4',
+    },
+  }
+
+  -- TODO: Set the `--language-dialect` dynamically based on filetype.
+  -- require('conform').formatters.shfmt = {
+  --   prepend_args = function (self, ctx)
+  --     ctx.filetype
+  --   end,
+  -- }
+
   require('conform').setup({
     formatters_by_ft = {
+      ant = { 'xmlformat' },
       bash = { 'shfmt' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       ksh = { 'shfmt' },
@@ -299,7 +318,13 @@ local function conform_setup()
       markdown = { 'mdformat' },
       python = { 'black', lsp_format = 'none' },
       sh = { 'shfmt' },
+      svg = { 'xmlformat' },
       typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      xml = { 'xmlformat' },
+      xsd = { 'xmlformat' },
+      xsl = { 'xmlformat' },
+      xslt = { 'xmlformat' },
+      zig = { 'zigfmt' },
       zsh = { 'shfmt' },
     },
 
