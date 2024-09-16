@@ -1,5 +1,6 @@
 # .shrc
 # vim: set filetype=sh:
+# shellcheck shell=sh
 # Emacs stuff
 # Local Variables:
 # mode: sh

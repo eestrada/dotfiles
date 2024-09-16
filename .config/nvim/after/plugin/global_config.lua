@@ -3,14 +3,14 @@
 
 -- Dump a table to a readable string. See original implementation here:
 -- https://stackoverflow.com/a/27028488/1733321
-function table.dump(orig)
+local function table_dump(orig)
   if type(orig) == 'table' then
     local s = '{ '
     for k, v in pairs(orig) do
       if type(k) ~= 'number' then
         k = '"' .. k .. '"'
       end
-      s = s .. '[' .. k .. '] = ' .. table.dump(v) .. ','
+      s = s .. '[' .. k .. '] = ' .. table_dump(v) .. ','
     end
     return s .. '} '
   else
@@ -20,7 +20,7 @@ end
 
 -- Shallow copy table contents. nested cloning does not work.
 -- Implementation from here: http://lua-users.org/wiki/CopyTable
-function table.shallowcopy(orig)
+local function table_shallowcopy(orig)
   local orig_type = type(orig)
   local copy
   if orig_type == 'table' then
@@ -193,10 +193,10 @@ local function mason_tool_installer_setup()
       'bash-language-server',
       'black',
       'codelldb',
+      'codespell',
       'css-lsp',
       'dot-language-server',
       'eslint_d',
-      'gopls',
       'html-lsp',
       'java-debug-adapter',
       'java-test',
@@ -209,15 +209,13 @@ local function mason_tool_installer_setup()
       'llm-ls',
       'lua-language-server',
       'luacheck', -- needs `luarocks` available to installed
+      'markdownlint',
       'mdformat',
-      'misspell',
       'prettier',
       'prettierd',
       'pyright',
-      'ruby-lsp',
       'shellcheck',
       'shfmt',
-      'solargraph',
       'sqlfluff',
       'sqlfmt',
       'stylua',
@@ -225,6 +223,7 @@ local function mason_tool_installer_setup()
       'typescript-language-server',
       'vim-language-server',
       'vint',
+      'write-good',
       'yaml-language-server',
       'zls',
     },
@@ -254,13 +253,19 @@ local function nvim_lint_setup()
   local lint = require('lint')
 
   lint.linters_by_ft = {
+    bash = { 'shellcheck' },
     javascript = { 'eslint_d' },
     javascriptreact = { 'eslint_d' },
+    ksh = { 'shellcheck' },
     lua = { 'luacheck' },
+    markdown = { 'markdownlint', 'write_good' },
+    rst = { 'write_good' },
+    sh = { 'shellcheck' },
     sql = { 'sqlfluff' },
     typescript = { 'eslint_d' },
     typescriptreact = { 'eslint_d' },
     vim = { 'vint' },
+    zsh = { 'zsh' },
   }
 
   local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
@@ -269,6 +274,9 @@ local function nvim_lint_setup()
     group = lint_augroup,
     callback = function()
       lint.try_lint()
+
+      -- Run codespell on all buffers of every filetype
+      lint.try_lint('codespell')
     end,
   })
 
@@ -405,7 +413,7 @@ local function lsp_config_setup()
   local lspconfig = require('lspconfig')
 
   for server_name, opts in pairs(servers) do
-    local lopts = table.shallowcopy(opts)
+    local lopts = table_shallowcopy(opts)
     lopts.capabilities = capabilities
     local single_config = lspconfig[server_name]
     if single_config then
