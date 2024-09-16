@@ -29,9 +29,10 @@ case $(id -u) in
     *) PS1="${PS1}$ " ;;
 esac
 
+# shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
 [[ $TERM_PROGRAM == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
 
-[ -f ~/.config/fzf/setup.bash ] && source ~/.config/fzf/setup.bash
+[ -f "${HOME}/.config/fzf/setup.bash" ] && source "${HOME}/.config/fzf/setup.bash"
 
 source_files "${HOME}/.bash_completion"
 

@@ -11,6 +11,7 @@ source_files ()
 {
   for _file_path in "$@"; do
     if [ -f "${_file_path}" ]; then
+        # shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
         . "${_file_path}"
     fi
   done
@@ -33,7 +34,7 @@ _canonical_home ()
     # NOTE: on FreeBSD, /home is actually just a symlink to /usr/home. Here we
     # detect this and get us back home... which is actually /home.
     if [ "$(pwd)" -ef "${HOME}" ] && [ "$(pwd)" '!=' "${HOME}" ]; then
-        cd "${HOME}" >/dev/null;
+        cd "${HOME}" >/dev/null || return;
     fi
 }
 
@@ -50,7 +51,7 @@ find_dupes_in_cwd ()
 # Set any custom aliases
 setaliases ()
 {
-    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
+    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "Darwin" ]; then
         alias ls="ls -G";
         alias ll="ls -Gslh";
     else
@@ -59,9 +60,9 @@ setaliases ()
     fi
 
     # User specific aliases
-    if [ $(uname -s) = "FreeBSD" ]; then
+    if [ "$(uname -s)" = "FreeBSD" ]; then
         alias rm="rm -I";
-    elif [ $(uname -s) = "Darwin" ]; then
+    elif [ "$(uname -s)" = "Darwin" ]; then
         alias rm="rm -i";
     else
         alias rm="rm -I --preserve-root";
@@ -100,13 +101,13 @@ setaliases ()
 set_cc ()
 {
     # Use clang if it exists, otherwise use gcc, otherwise use the system default
-    if `which clang >/dev/null 2>&1`;
+    if which clang >/dev/null 2>&1;
     then
         export CXX=clang++;
         export CC=clang;
         export CXXFLAGS="-pedantic -Wall";
         export CFLAGS="-pedantic -Wall";
-    elif `which gcc >/dev/null 2>&1`;
+    elif which gcc >/dev/null 2>&1;
     then
         export CXX=g++;
         export CC=gcc;
@@ -127,9 +128,9 @@ set_cc ()
 hfsinit ()
 {
     if [ -d "${HFS}" ]; then
-        cd ${HFS};
+        cd "${HFS}" || return;
         . ./houdini_setup;
-        cd - > /dev/null;
+        cd - >/dev/null || return;
         # Modifying PYTHONPATH causes issues when switching Houdini versions
         #export PYTHONPATH=${PYTHONPATH}:${HH}/python2.6libs;
     fi
@@ -168,7 +169,8 @@ h111init ()
 set_job ()
 {
     echo "Previous JOB was: ${JOB}" 1>&2
-    export JOB=$(pwd);
+    JOB="$(pwd)";
+    export JOB;
     echo "Current JOB is: ${JOB}" 1>&2
 }
 
@@ -252,7 +254,7 @@ wlan_init ()
     # kernel panic or something and the machine fails to boot. :(
 
     # NOTE: after upgrading from FreeBSD 11.1 to 12.0 it now seems that the
-    # proper kernal modules are automatically loaded on init now. However, link
+    # proper kernel modules are automatically loaded on init now. However, link
     # aggregation is broken since the wlan0 device is not created and/or active
     # when link aggregation tries to add it... or something; I'm not 100%
     # certain why  it is failing yet, but that just seems like what it is from
@@ -261,7 +263,7 @@ wlan_init ()
     # seem to be after the upgrade), but other than a few seconds of down time,
     # it doesn't seem to hurt anything.
 
-    # NOTE: now that I dynamically load the correct kernal modules in rc.conf
+    # NOTE: now that I dynamically load the correct kernel modules in rc.conf
     # (via kld_list) everything works. wlan, link aggregation, everything. None
     # of this code is really necessary anymore. I will keep it around for now
     # until I can test using wi-fi away from home just to make sure
@@ -278,8 +280,9 @@ docker_machine_init ()
 {
     docker-machine start
     docker-machine restart # NOTE: in case it was already running before
-    eval $(docker-machine env)
-    export DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
+    eval "$(docker-machine env)";
+    DOCKER_MACHINE_IP_ADDRESS="$(docker-machine ip)"
+    export DOCKER_MACHINE_IP_ADDRESS
 }
 
 # dotenv code originally from: https://stackoverflow.com/a/20909045/1733321
@@ -301,7 +304,7 @@ dotenv_src ()
 
 dotenv_unsrc ()
 {
-    # Unset any variable names found in a given dotenv file wihin the current
+    # Unset any variable names found in a given dotenv file within the current
     # scope. Should work in all bourne compatible shells.
 
     # If no file is given, default to '.env'
@@ -319,7 +322,7 @@ dotenv_unsrc ()
 _git_print_branch ()
 {
     if git rev-parse --absolute-git-dir >/dev/null 2>&1; then
-        echo " (git: $(git symbolic-ref --short HEAD 2>/dev/null || echo 'HEAD detached at' $(git rev-parse --short HEAD)))"
+        echo " (git: $(git symbolic-ref --short HEAD 2>/dev/null || echo 'HEAD detached at' "$(git rev-parse --short HEAD)"))"
     fi
 }
 
@@ -360,7 +363,7 @@ display_notification ()
     subtitle=$3
 
     # Different per system
-    if [ $(uname -s) = "Darwin" ]; then
+    if [ "$(uname -s)" = "Darwin" ]; then
         osascript - "$@" <<EOF
 on run argv
     if length of argv = 1 then
@@ -388,7 +391,7 @@ PS1="${PS1}\$(_tmux_print_status)"
 PS1="${PS1}\$(_git_print_branch)"
 
 # Trailing character of PS1 determined on whether we are currently root or not
-case `id -u` in
+case $(id -u) in
     0) PS1="${PS1}# ";;
     *) PS1="${PS1}$ ";;
 esac

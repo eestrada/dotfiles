@@ -198,6 +198,7 @@ local function mason_tool_installer_setup()
       'dot-language-server',
       'eslint_d',
       'html-lsp',
+      'htmlhint',
       'java-debug-adapter',
       'java-test',
       'jdtls',
@@ -254,6 +255,8 @@ local function nvim_lint_setup()
 
   lint.linters_by_ft = {
     bash = { 'shellcheck' },
+    gitcommit = { 'write_good' },
+    html = { 'htmlhint' },
     javascript = { 'eslint_d' },
     javascriptreact = { 'eslint_d' },
     ksh = { 'shellcheck' },
