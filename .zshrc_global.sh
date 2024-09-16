@@ -1,5 +1,5 @@
 # .zshrc
-# vim: set filetype=sh.bash.zsh:
+# vim: set filetype=sh.ksh.zsh:
 # shellcheck shell=ksh
 # Emacs stuff
 # Local Variables:
@@ -9,7 +9,6 @@
 emulate sh -c ". ${HOME}/.shrc"
 
 # Originally sourced from: https://github.com/voku/dotfiles/blob/397e31eaa57b385bc761a4859d58a65c4f1eb6fd/.redpill/lib/1_options.zsh#L54
-
 
 # ===== History opts
 # Allow multiple terminal sessions to all append to one zsh command history
@@ -60,13 +59,12 @@ PROMPT="$PROMPT"$'\n'
 
 # Trailing character of PROMPT determined on whether we are currently root or not
 case $(id -u) in
-    0) PROMPT="${PROMPT}# ";;
-    *) PROMPT="${PROMPT}$ ";;
+0) PROMPT="${PROMPT}# " ;;
+*) PROMPT="${PROMPT}$ " ;;
 esac
 
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh-completions:${FPATH}"
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh-completions:${FPATH}"
 fi
 export FPATH
 
@@ -91,10 +89,8 @@ zle -N edit-command-line
 bindkey -M vicmd 'vv' edit-command-line
 
 # source local shell overrides and additions
-for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"
-do
-  # shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
-  [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
+for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"; do
+    # shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
+    [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
 done
 unset _LOCAL_OVERRIDES
-

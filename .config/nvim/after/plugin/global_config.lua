@@ -292,10 +292,15 @@ end
 local function conform_setup()
   require('conform').setup({
     formatters_by_ft = {
+      bash = { 'shfmt' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      ksh = { 'shfmt' },
       lua = { 'stylua' },
       markdown = { 'mdformat' },
       python = { 'black', lsp_format = 'none' },
+      sh = { 'shfmt' },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      zsh = { 'shfmt' },
     },
 
     -- Set this to change the default values when calling conform.format()
@@ -407,6 +412,12 @@ local function lsp_config_setup()
     -- for zig
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#zls
     zls = {},
+
+    -- bash shell scripts
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
+    bashls = {
+      filetypes = { 'sh', 'bash' },
+    },
 
     -- Graphviz dot files
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#dotls
