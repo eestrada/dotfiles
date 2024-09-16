@@ -335,7 +335,7 @@ local function conform_setup()
     },
   })
 
-  vim.o.formatexpr = "v:lua.require('conform').format()"
+  vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
   vim.keymap.set({ 'n' }, '<leader>gq', function()
     require('conform').format()
