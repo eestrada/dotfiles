@@ -7,7 +7,9 @@ function table.dump(orig)
   if type(orig) == 'table' then
     local s = '{ '
     for k, v in pairs(orig) do
-      if type(k) ~= 'number' then k = '"' .. k .. '"' end
+      if type(k) ~= 'number' then
+        k = '"' .. k .. '"'
+      end
       s = s .. '[' .. k .. '] = ' .. table.dump(v) .. ','
     end
     return s .. '} '
@@ -83,7 +85,9 @@ local function load_vim_plug()
     -- Interactive command(s) that *can* be useful in scripting
 
     -- Install defined plugins
-    function plug.Install() vim.cmd(':PlugInstall') end
+    function plug.Install()
+      vim.cmd(':PlugInstall')
+    end
 
     return plug
   else
@@ -92,7 +96,7 @@ local function load_vim_plug()
 end
 
 -- [[ Utility Variables ]] {{{1
-local user_home = vim.fn.expand("~")
+local user_home = vim.fn.expand('~')
 
 -- [[ Define functions for plugin setup ]] {{{1
 
@@ -108,56 +112,72 @@ local function vscode_setup()
   -- https://github.com/vscode-neovim/vscode-neovim/wiki/Plugins#vim-commentary
 
   -- Use common keybindings
-  vim.keymap.set('n', '[I', function() vscode.call('editor.action.referenceSearch.trigger') end,
-    { desc = 'References' })
+  vim.keymap.set('n', '[I', function()
+    vscode.call('editor.action.referenceSearch.trigger')
+  end, { desc = 'References' })
 
-  vim.keymap.set('n', '<C-]>', function() vscode.call('editor.action.revealDefinition') end,
-    { desc = 'Goto definition' })
+  vim.keymap.set('n', '<C-]>', function()
+    vscode.call('editor.action.revealDefinition')
+  end, { desc = 'Goto definition' })
 
-  vim.keymap.set('n', ']d', function() vscode.call('editor.action.marker.next') end,
-    { desc = 'Goto next diagnostic message' })
+  vim.keymap.set('n', ']d', function()
+    vscode.call('editor.action.marker.next')
+  end, { desc = 'Goto next diagnostic message' })
 
-  vim.keymap.set('n', '[d', function() vscode.call('editor.action.marker.prev') end,
-    { desc = 'Goto previous diagnostic message' })
+  vim.keymap.set('n', '[d', function()
+    vscode.call('editor.action.marker.prev')
+  end, { desc = 'Goto previous diagnostic message' })
 
-  vim.keymap.set('n', '<leader>dl', function() vscode.call('workbench.actions.view.problems') end,
-    { desc = 'Open diagnostic location list' })
+  vim.keymap.set('n', '<leader>dl', function()
+    vscode.call('workbench.actions.view.problems')
+  end, { desc = 'Open diagnostic location list' })
 
   -- Act like vim signify and jump between diff changes in editor
-  vim.keymap.set('n', ']c', function() vscode.call('workbench.action.editor.nextChange') end,
-    { desc = 'Goto next diff change' })
+  vim.keymap.set('n', ']c', function()
+    vscode.call('workbench.action.editor.nextChange')
+  end, { desc = 'Goto next diff change' })
 
-  vim.keymap.set('n', '[c', function() vscode.call('workbench.action.editor.previousChange') end,
-    { desc = 'Goto previous diff change' })
+  vim.keymap.set('n', '[c', function()
+    vscode.call('workbench.action.editor.previousChange')
+  end, { desc = 'Goto previous diff change' })
 
   -- Keymaps used by lsp buffers
-  vim.keymap.set('n', 'gi', function() vscode.call('editor.action.goToImplementation') end,
-    { desc = 'Goto implementation' })
+  vim.keymap.set('n', 'gi', function()
+    vscode.call('editor.action.goToImplementation')
+  end, { desc = 'Goto implementation' })
 
-  vim.keymap.set('n', 'gD', function() vscode.call('editor.action.revealDeclaration') end,
-    { desc = 'Goto declaration' })
+  vim.keymap.set('n', 'gD', function()
+    vscode.call('editor.action.revealDeclaration')
+  end, { desc = 'Goto declaration' })
 
-  vim.keymap.set('n', '<space>D', function() vscode.call('editor.action.goToTypeDefinition') end,
-    { desc = 'Goto type definition' })
+  vim.keymap.set('n', '<space>D', function()
+    vscode.call('editor.action.goToTypeDefinition')
+  end, { desc = 'Goto type definition' })
 
-  vim.keymap.set('n', '<leader>rn', function() vscode.call('editor.action.rename') end,
-    { desc = '[r]e[n]ame' })
+  vim.keymap.set('n', '<leader>rn', function()
+    vscode.call('editor.action.rename')
+  end, { desc = '[r]e[n]ame' })
 
-  vim.keymap.set('n', '<space>ca', function() vscode.call('editor.action.sourceAction') end,
-    { desc = 'Code action' })
+  vim.keymap.set('n', '<space>ca', function()
+    vscode.call('editor.action.sourceAction')
+  end, { desc = 'Code action' })
 
-  vim.keymap.set('n', '<space>qf', function() vscode.call('editor.action.quickFix') end,
-    { desc = 'Quick fix' })
+  vim.keymap.set('n', '<space>qf', function()
+    vscode.call('editor.action.quickFix')
+  end, { desc = 'Quick fix' })
 
   -- Add keybindings for telescope tools used often
-  vim.keymap.set('n', '<space>sc', function() vscode.call('workbench.action.showCommands') end,
-    { desc = '[s]earch [c]ommands' })
+  vim.keymap.set('n', '<space>sc', function()
+    vscode.call('workbench.action.showCommands')
+  end, { desc = '[s]earch [c]ommands' })
 
-  vim.keymap.set('n', '<space>sg', function() vscode.call('workbench.action.findInFiles') end,
-    { desc = '[s]earch file contents with [g]rep' })
+  vim.keymap.set('n', '<space>sg', function()
+    vscode.call('workbench.action.findInFiles')
+  end, { desc = '[s]earch file contents with [g]rep' })
 
-  vim.keymap.set('n', '<space>sp', function() vscode.call('workbench.action.quickOpenNavigateNextInFilePicker') end,
-    { desc = '[s]earch project [p]aths' })
+  vim.keymap.set('n', '<space>sp', function()
+    vscode.call('workbench.action.quickOpenNavigateNextInFilePicker')
+  end, { desc = '[s]earch project [p]aths' })
 end
 
 -- [[ Mason tool installer ]] {{{2
@@ -166,7 +186,7 @@ local function mason_tool_installer_setup()
   -- mason-tool-installer requires that mason be setup first.
   require('mason').setup()
 
-  require('mason-tool-installer').setup {
+  require('mason-tool-installer').setup({
 
     -- a list of all tools you want to ensure are installed upon start
     ensure_installed = {
@@ -226,58 +246,59 @@ local function mason_tool_installer_setup()
     -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
     -- Default: 0
     -- start_delay = 3000, -- 3 second delay
-  }
+  })
 end
 
 -- [[ Configure nvim-lint ]] {{{2
 local function nvim_lint_setup()
-  local lint = require("lint")
+  local lint = require('lint')
 
   lint.linters_by_ft = {
-    javascript = { "eslint_d" },
-    javascriptreact = { "eslint_d" },
-    lua = { "luacheck" },
-    sql = { "sqlfluff" },
-    typescript = { "eslint_d" },
-    typescriptreact = { "eslint_d" },
-    vim = { "vint" },
+    javascript = { 'eslint_d' },
+    javascriptreact = { 'eslint_d' },
+    lua = { 'luacheck' },
+    sql = { 'sqlfluff' },
+    typescript = { 'eslint_d' },
+    typescriptreact = { 'eslint_d' },
+    vim = { 'vint' },
   }
 
-  local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+  local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
     group = lint_augroup,
-    callback = function() lint.try_lint() end,
+    callback = function()
+      lint.try_lint()
+    end,
   })
 
-  vim.keymap.set("n", "<leader>lf",
-  function() lint.try_lint() end,
-  { desc = "Trigger linting for current file" })
+  vim.keymap.set('n', '<leader>lf', function()
+    lint.try_lint()
+  end, { desc = 'Trigger linting for current file' })
 end
 
 -- [[ Configure conform ]] {{{2
 local function conform_setup()
-  require("conform").setup({
+  require('conform').setup({
     formatters_by_ft = {
-      javascript = { "prettierd", "prettier", stop_after_first = true },
-      lua = { "stylua" },
-      markdown = { "mdformat" },
-      python = { "black", lsp_format = "none"  },
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      lua = { 'stylua' },
+      markdown = { 'mdformat' },
+      python = { 'black', lsp_format = 'none' },
     },
 
     -- Set this to change the default values when calling conform.format()
     -- This will also affect the default values for format_on_save/format_after_save
     default_format_opts = {
-      lsp_format = "fallback",
+      lsp_format = 'fallback',
     },
   })
 
   vim.o.formatexpr = "v:lua.require('conform').format()"
 
-  vim.keymap.set({ 'n' }, '<leader>gq',
-    function() require("conform").format() end,
-    { desc = 'format entire buffer as if running [gggqG]' }
-  )
+  vim.keymap.set({ 'n' }, '<leader>gq', function()
+    require('conform').format()
+  end, { desc = 'format entire buffer as if running [gggqG]' })
 end
 
 -- [[ Configure lsp ]] {{{2
@@ -300,13 +321,13 @@ local function lsp_config_setup()
         runtime = {
           -- Tell the language server which version of Lua is being used
           -- (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT'
+          version = 'LuaJIT',
         },
         workspace = {
           checkThirdParty = false,
 
           -- pull in all of 'runtimepath'. NOTE: this is slower
-          library = vim.api.nvim_get_runtime_file("", true)
+          library = vim.api.nvim_get_runtime_file('', true),
         },
         telemetry = { enable = false },
         -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
@@ -318,7 +339,6 @@ local function lsp_config_setup()
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
     -- Should work so long as `gopls` command is on $PATH
     gopls = {},
-
 
     -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
     -- ruby_ls = {
@@ -358,7 +378,7 @@ local function lsp_config_setup()
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lemminx
     lemminx = {
-      filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "ant" },
+      filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' },
     },
 
     -- for markdown
@@ -382,7 +402,7 @@ local function lsp_config_setup()
     dotls = {},
   }
 
-  local lspconfig = require("lspconfig")
+  local lspconfig = require('lspconfig')
 
   for server_name, opts in pairs(servers) do
     local lopts = table.shallowcopy(opts)
@@ -400,46 +420,29 @@ local function lsp_config_setup()
     pattern = 'java',
     group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
     callback = function()
-      vim.api.nvim_buf_create_user_command(0, 'JdtTestClass',
-        function()
-          require('jdtls').test_class()
-        end, { desc = 'Test current class using Java JDT with DAP debugging capabilities enabled.' }
-      )
+      vim.api.nvim_buf_create_user_command(0, 'JdtTestClass', function()
+        require('jdtls').test_class()
+      end, { desc = 'Test current class using Java JDT with DAP debugging capabilities enabled.' })
 
-      vim.api.nvim_buf_create_user_command(0, 'JdtTestNearestMethod',
-        function()
-          require('jdtls').test_nearest_method()
-        end, { desc = 'Test nearest method using Java JDT with DAP debugging capabilities enabled.' }
-      )
+      vim.api.nvim_buf_create_user_command(0, 'JdtTestNearestMethod', function()
+        require('jdtls').test_nearest_method()
+      end, { desc = 'Test nearest method using Java JDT with DAP debugging capabilities enabled.' })
 
-      local cache_dir = vim.fn.stdpath("cache")
+      local cache_dir = vim.fn.stdpath('cache')
 
       -- Assume `jdtls` and friends have been installed by mason already
       local mason_registry = require('mason-registry')
 
-      local jdtls_install = mason_registry
-          .get_package('jdtls')
-          :get_install_path()
+      local jdtls_install = mason_registry.get_package('jdtls'):get_install_path()
       local jdtls_path = jdtls_install .. '/bin/jdtls'
       local lombok_path = jdtls_install .. '/lombok.jar'
 
-      local java_debug_install = mason_registry
-          .get_package('java-debug-adapter')
-          :get_install_path()
-      local java_debug_server_jars = vim.fn.glob(
-        java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar',
-        false,
-        true
-      )
+      local java_debug_install = mason_registry.get_package('java-debug-adapter'):get_install_path()
+      local java_debug_server_jars =
+        vim.fn.glob(java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)
 
-      local java_test_install = mason_registry
-          .get_package('java-test')
-          :get_install_path()
-      local java_test_jars = vim.fn.glob(
-        java_test_install .. '/extension/server/*.jar',
-        false,
-        true
-      )
+      local java_test_install = mason_registry.get_package('java-test'):get_install_path()
+      local java_test_jars = vim.fn.glob(java_test_install .. '/extension/server/*.jar', false, true)
 
       local bundles = {}
       vim.list_extend(bundles, java_debug_server_jars)
@@ -452,15 +455,17 @@ local function lsp_config_setup()
 
       -- If neovim was started within `~/dev/xy/project-1` this would resolve to `project-1`
       local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-      local workspace_dir = user_home .. "/tmp/jdtls/data/" .. project_name
+      local workspace_dir = user_home .. '/tmp/jdtls/data/' .. project_name
 
       require('jdtls').start_or_attach({
         cmd = {
           jdtls_path,
           -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
-          "--jvm-arg=-javaagent:" .. lombok_path,
-          "-configuration", cache_dir .. "/jdtls/configuration",
-          "-data", workspace_dir,
+          '--jvm-arg=-javaagent:' .. lombok_path,
+          '-configuration',
+          cache_dir .. '/jdtls/configuration',
+          '-data',
+          workspace_dir,
         },
 
         -- Language server `initializationOptions`
@@ -495,7 +500,7 @@ local function lsp_config_setup()
         vim.fn.setqflist({}, ' ', options)
 
         if #options.items == 0 then
-          vim.notify("No " .. options.title .. " to jump to.", vim.log.levels.WARN)
+          vim.notify('No ' .. options.title .. ' to jump to.', vim.log.levels.WARN)
         elseif #options.items == 1 then
           vim.api.nvim_command('cfirst')
         else
@@ -508,18 +513,23 @@ local function lsp_config_setup()
       local references_lsp_options = { on_list = references_on_list }
       local location_lsp_options = { on_list = location_on_list }
 
-      vim.keymap.set('n', '<leader>wa', function() vim.lsp.buf.add_workspace_folder() end,
-        { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
-      vim.keymap.set('n', '<leader>wr', function() vim.lsp.buf.remove_workspace_folder() end,
-        { buffer = args.buf, desc = '[w]orkspace [r]emove folder' })
-      vim.keymap.set('n', '<leader>wl', function() vim.print(vim.lsp.buf.list_workspace_folders()) end,
-        { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
+      vim.keymap.set('n', '<leader>wa', function()
+        vim.lsp.buf.add_workspace_folder()
+      end, { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
+      vim.keymap.set('n', '<leader>wr', function()
+        vim.lsp.buf.remove_workspace_folder()
+      end, { buffer = args.buf, desc = '[w]orkspace [r]emove folder' })
+      vim.keymap.set('n', '<leader>wl', function()
+        vim.print(vim.lsp.buf.list_workspace_folders())
+      end, { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
 
       -- Start of keymaps that shadow existing keymaps
 
       -- Only redefine `K` keymap if current LSP supports hover capability.
       if client ~= nil and client.server_capabilities.hoverProvider then
-        vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { buffer = args.buf, desc = 'Hover Popup' })
+        vim.keymap.set('n', 'K', function()
+          vim.lsp.buf.hover()
+        end, { buffer = args.buf, desc = 'Hover Popup' })
       end
 
       -- Explicitly set `tagfunc` to call `vim.lsp.tagfunc`. This is the lsp
@@ -533,7 +543,7 @@ local function lsp_config_setup()
       --
       -- See also: `:h lsp-defaults`
       if client ~= nil and client.server_capabilities.definitionProvider then
-        vim.api.nvim_buf_set_option(args.buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
+        vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
       end
 
       -- References
@@ -556,13 +566,13 @@ local function lsp_config_setup()
       end
       vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
 
-      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration(location_lsp_options) end,
-        { buffer = args.buf, desc = '[g]oto [D]eclaration' })
+      vim.keymap.set('n', 'gD', function()
+        vim.lsp.buf.declaration(location_lsp_options)
+      end, { buffer = args.buf, desc = '[g]oto [D]eclaration' })
 
-      vim.keymap.set('n', '<C-k>',
-        function() vim.lsp.buf.signature_help() end,
-        { buffer = args.buf, desc = 'Signature help' }
-      )
+      vim.keymap.set('n', '<C-k>', function()
+        vim.lsp.buf.signature_help()
+      end, { buffer = args.buf, desc = 'Signature help' })
 
       local function type_definition_func()
         vim.lsp.buf.type_definition(location_lsp_options)
@@ -571,32 +581,32 @@ local function lsp_config_setup()
 
       -- telescope builtins
 
-      vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').lsp_document_symbols() end,
-        { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
+      vim.keymap.set('n', '<leader>sd', function()
+        require('telescope.builtin').lsp_document_symbols()
+      end, { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
 
-      vim.keymap.set('n', '<leader>sw', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end,
-        { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
+      vim.keymap.set('n', '<leader>sw', function()
+        require('telescope.builtin').lsp_dynamic_workspace_symbols()
+      end, { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
 
       -- custom keymaps using <leader> key
-      vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, { buffer = args.buf, desc = '[r]e[n]ame' })
+      vim.keymap.set('n', '<leader>rn', function()
+        vim.lsp.buf.rename()
+      end, { buffer = args.buf, desc = '[r]e[n]ame' })
 
-      vim.keymap.set({ 'n', 'v' }, '<leader>ca',
-        function() vim.lsp.buf.code_action() end,
-        { buffer = args.buf, desc = '[c]ode [a]ction' }
-      )
+      vim.keymap.set({ 'n', 'v' }, '<leader>ca', function()
+        vim.lsp.buf.code_action()
+      end, { buffer = args.buf, desc = '[c]ode [a]ction' })
 
       -- This is something different in vscode, but it is duplicated here so that it actually points to something
-      vim.keymap.set({ 'n', 'v' }, '<leader>qf',
-        function() vim.lsp.buf.code_action() end,
-        { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' }
-      )
+      vim.keymap.set({ 'n', 'v' }, '<leader>qf', function()
+        vim.lsp.buf.code_action()
+      end, { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' })
 
       -- Get capabilities of current LSP server
-      vim.api.nvim_create_user_command('LspCapabilities',
-        function()
-          vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
-        end, { desc = 'Print capabilities of current LSP server implementation.' }
-      )
+      vim.api.nvim_create_user_command('LspCapabilities', function()
+        vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
+      end, { desc = 'Print capabilities of current LSP server implementation.' })
 
       -- foldingRangeProvider
       if client ~= nil and client.server_capabilities.documentHighlightProvider then
@@ -604,13 +614,13 @@ local function lsp_config_setup()
           pattern = '<buffer>',
           callback = function()
             vim.lsp.buf.document_highlight()
-          end
+          end,
         })
         vim.api.nvim_create_autocmd('CursorMoved', {
           pattern = '<buffer>',
           callback = function()
             vim.lsp.buf.clear_references()
-          end
+          end,
         })
       end
     end,
@@ -623,10 +633,10 @@ local function cmp_setup()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
   require('luasnip.loaders.from_vscode').lazy_load()
-  require("luasnip.loaders.from_snipmate").lazy_load()
-  luasnip.config.setup {}
+  require('luasnip.loaders.from_snipmate').lazy_load()
+  luasnip.config.setup({})
 
-  cmp.setup {
+  cmp.setup({
     snippet = {
       expand = function(args)
         -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
@@ -636,16 +646,16 @@ local function cmp_setup()
         -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
       end,
     },
-    mapping = cmp.mapping.preset.insert {
+    mapping = cmp.mapping.preset.insert({
       ['<C-n>'] = cmp.mapping.select_next_item(),
       ['<C-p>'] = cmp.mapping.select_prev_item(),
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete {},
-      ['<CR>'] = cmp.mapping.confirm {
+      ['<C-Space>'] = cmp.mapping.complete({}),
+      ['<CR>'] = cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
-      },
+      }),
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -664,7 +674,7 @@ local function cmp_setup()
           fallback()
         end
       end, { 'i', 's' }),
-    },
+    }),
     sources = {
       -- { name = 'vsnip' },
       { name = 'nvim_lsp' },
@@ -672,12 +682,12 @@ local function cmp_setup()
       { name = 'buffer' },
       { name = 'path' },
       {
-        name = "rg",
-        keyword_length = 3
+        name = 'rg',
+        keyword_length = 3,
       },
       -- { name = 'cmdline' },
     },
-  }
+  })
 
   -- -- `/` cmdline setup.
   -- cmp.setup.cmdline('/', {
@@ -707,7 +717,7 @@ end
 
 -- [[ Configure fidget ]] {{{2
 local function fidget_setup()
-  require("fidget").setup({
+  require('fidget').setup({
     -- Options related to LSP progress subsystem
     progress = {
       -- Options related to how LSP progress messages are displayed as notifications
@@ -723,75 +733,91 @@ end
 
 -- [[ Configure periscope ]] {{{2
 local function periscope_setup(opts)
-  require("periscope").setup(opts)
+  require('periscope').setup(opts)
 
   -- Fuzzy keymaps
-  vim.keymap.set('n', '<leader>ss', function() require('periscope.builtin').builtin() end,
-    { desc = '[s]earch periscope [s]electors' })
-  vim.keymap.set('n', '<leader>sb', function() require('periscope.builtin').buffers() end,
-    { desc = '[s]earch [b]uffers' })
-  vim.keymap.set('n', '<leader>sc', function() require('periscope.builtin').commands() end,
-    { desc = '[s]earch [c]ommands' })
-  vim.keymap.set('n', '<leader>sg', function() require('periscope.builtin').live_grep() end,
-    { desc = '[s]earch file contents with [g]rep' })
-  vim.keymap.set('n', '<leader>sh', function() require('periscope.builtin').help_tags() end,
-    { desc = '[s]earch [h]elp tags' })
-  vim.keymap.set('n', '<leader>sk', function() require('periscope.builtin').keymaps() end,
-    { desc = '[s]earch [k]eymaps' })
-  vim.keymap.set('n', '<leader>sp', function() require('periscope.builtin').find_files() end,
-    { desc = '[s]earch project [p]aths' })
-  vim.keymap.set('n', '<leader>so', function() require('periscope.builtin').oldfiles() end,
-    { desc = '[s]earch [o]ld files opened previously' })
-  vim.keymap.set('n', '<leader>sv', function() require('periscope.builtin').git_files() end,
-    { desc = '[s]earch [v]ersion controlled file paths' })
-  vim.keymap.set('n', '<leader>sj', function() require('periscope.builtin').jumplist() end,
-    { desc = '[s]earch periscope [j]umplist' })
-  vim.keymap.set('n', 'z=', function() require('periscope.builtin').spell_suggest() end, { desc = 'Spell suggestions' })
+  vim.keymap.set('n', '<leader>ss', function()
+    require('periscope.builtin').builtin()
+  end, { desc = '[s]earch periscope [s]electors' })
+  vim.keymap.set('n', '<leader>sb', function()
+    require('periscope.builtin').buffers()
+  end, { desc = '[s]earch [b]uffers' })
+  vim.keymap.set('n', '<leader>sc', function()
+    require('periscope.builtin').commands()
+  end, { desc = '[s]earch [c]ommands' })
+  vim.keymap.set('n', '<leader>sg', function()
+    require('periscope.builtin').live_grep()
+  end, { desc = '[s]earch file contents with [g]rep' })
+  vim.keymap.set('n', '<leader>sh', function()
+    require('periscope.builtin').help_tags()
+  end, { desc = '[s]earch [h]elp tags' })
+  vim.keymap.set('n', '<leader>sk', function()
+    require('periscope.builtin').keymaps()
+  end, { desc = '[s]earch [k]eymaps' })
+  vim.keymap.set('n', '<leader>sp', function()
+    require('periscope.builtin').find_files()
+  end, { desc = '[s]earch project [p]aths' })
+  vim.keymap.set('n', '<leader>so', function()
+    require('periscope.builtin').oldfiles()
+  end, { desc = '[s]earch [o]ld files opened previously' })
+  vim.keymap.set('n', '<leader>sv', function()
+    require('periscope.builtin').git_files()
+  end, { desc = '[s]earch [v]ersion controlled file paths' })
+  vim.keymap.set('n', '<leader>sj', function()
+    require('periscope.builtin').jumplist()
+  end, { desc = '[s]earch periscope [j]umplist' })
+  vim.keymap.set('n', 'z=', function()
+    require('periscope.builtin').spell_suggest()
+  end, { desc = 'Spell suggestions' })
 end
 
 -- [[ Configure DAP ]] {{{2
 local function dap_setup()
-  vim.keymap.set('n', '<F1>', function() require('dap').step_out() end, { desc = 'DAP step out' })
-  vim.keymap.set('n', '<F2>', function() require('dap').step_into() end, { desc = 'DAP step into' })
-  vim.keymap.set('n', '<F3>', function() require('dap').step_over() end, { desc = 'DAP step over' })
-  vim.keymap.set('n', '<F4>', function() require('dap').continue() end, { desc = 'DAP continue' })
-  vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end, { desc = 'DAP toggle breakpoint' })
-  vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint() end, { desc = 'DAP set breakpoint' })
-  vim.keymap.set('n', '<leader>dm',
-    function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
-    { desc = 'DAP Log point message' })
-  vim.keymap.set('n', '<leader>dr', function() require('dap').repl.open() end, { desc = 'DAP REPL open' })
-  vim.keymap.set('n', '<leader>dl', function() require('dap').run_last() end, { desc = 'DAP run last' })
+  vim.keymap.set('n', '<F1>', function()
+    require('dap').step_out()
+  end, { desc = 'DAP step out' })
+  vim.keymap.set('n', '<F2>', function()
+    require('dap').step_into()
+  end, { desc = 'DAP step into' })
+  vim.keymap.set('n', '<F3>', function()
+    require('dap').step_over()
+  end, { desc = 'DAP step over' })
+  vim.keymap.set('n', '<F4>', function()
+    require('dap').continue()
+  end, { desc = 'DAP continue' })
+  vim.keymap.set('n', '<leader>b', function()
+    require('dap').toggle_breakpoint()
+  end, { desc = 'DAP toggle breakpoint' })
+  vim.keymap.set('n', '<leader>B', function()
+    require('dap').set_breakpoint()
+  end, { desc = 'DAP set breakpoint' })
+  vim.keymap.set('n', '<leader>dm', function()
+    require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+  end, { desc = 'DAP Log point message' })
+  vim.keymap.set('n', '<leader>dr', function()
+    require('dap').repl.open()
+  end, { desc = 'DAP REPL open' })
+  vim.keymap.set('n', '<leader>dl', function()
+    require('dap').run_last()
+  end, { desc = 'DAP run last' })
 
-  vim.keymap.set({ 'n', 'v' }, '<leader>dh',
-    function()
-      require('dap.ui.widgets').hover()
-    end,
-    { desc = 'DAP UI hover' }
-  )
-  vim.keymap.set({ 'n', 'v' }, '<leader>dp',
-    function()
-      require('dap.ui.widgets').preview()
-    end,
-    { desc = 'DAP UI preview' }
-  )
-  vim.keymap.set('n', '<leader>df',
-    function()
-      local widgets = require('dap.ui.widgets')
-      widgets.centered_float(widgets.frames)
-    end,
-    { desc = 'DAP UI centered float frames' }
-  )
-  vim.keymap.set('n', '<leader>ds',
-    function()
-      local widgets = require('dap.ui.widgets')
-      widgets.centered_float(widgets.scopes)
-    end,
-    { desc = 'DAP UI centered float scopes' }
-  )
+  vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
+    require('dap.ui.widgets').hover()
+  end, { desc = 'DAP UI hover' })
+  vim.keymap.set({ 'n', 'v' }, '<leader>dp', function()
+    require('dap.ui.widgets').preview()
+  end, { desc = 'DAP UI preview' })
+  vim.keymap.set('n', '<leader>df', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.frames)
+  end, { desc = 'DAP UI centered float frames' })
+  vim.keymap.set('n', '<leader>ds', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.scopes)
+  end, { desc = 'DAP UI centered float scopes' })
 
-  local dap = require("dap")
-  local dapui = require("dapui")
+  local dap = require('dap')
+  local dapui = require('dapui')
   dapui.setup()
 
   dap.listeners.before.attach.dapui_config = function()
@@ -812,22 +838,20 @@ local function dap_setup()
       -- Configuration originally from:
       -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
       local mason_registry = require('mason-registry')
-      local codelldb_install = mason_registry
-          .get_package('codelldb')
-          :get_install_path()
+      local codelldb_install = mason_registry.get_package('codelldb'):get_install_path()
       local codelldb_path = codelldb_install .. '/codelldb'
 
       -- codelldb can be used for most natively compiled code with debugging symbols present.
       dap.adapters.codelldb = {
         type = 'server',
-        port = "${port}",
+        port = '${port}',
         executable = {
           command = codelldb_path,
-          args = { "--port", "${port}" },
+          args = { '--port', '${port}' },
 
           -- On windows you may have to uncomment this:
           -- detached = false,
-        }
+        },
       }
     end
 
@@ -836,9 +860,9 @@ local function dap_setup()
     if not dap.configurations[filetype] then
       dap.configurations[filetype] = {
         {
-          name = opts.name or "Launch file",
-          type = opts.type or "codelldb",
-          request = opts.request or "launch",
+          name = opts.name or 'Launch file',
+          type = opts.type or 'codelldb',
+          request = opts.request or 'launch',
           program = opts.program or function()
             return vim.fn.input({
               prompt = 'Path to executable: ',
@@ -864,26 +888,18 @@ local function dap_setup()
       program = function()
         local root = vim.fn.getcwd()
 
-        local execs = vim.fn.glob(
-          root .. '/zig-out/bin/*',
-          false,
-          true
-        )
-        local test_execs = vim.fn.glob(
-          root .. '/.zig-cache/o/*/test',
-          false,
-          true
-        )
+        local execs = vim.fn.glob(root .. '/zig-out/bin/*', false, true)
+        local test_execs = vim.fn.glob(root .. '/.zig-cache/o/*/test', false, true)
 
         local all_paths = {}
 
         vim.list_extend(all_paths, execs)
         vim.list_extend(all_paths, test_execs)
 
-        local for_display = { "Select executable:" }
+        local for_display = { 'Select executable:' }
 
         for index, value in ipairs(all_paths) do
-          table.insert(for_display, string.format("%d. %s", index, value))
+          table.insert(for_display, string.format('%d. %s', index, value))
         end
 
         -- See here for synchronous picker in dap:
@@ -901,9 +917,7 @@ local function dap_setup()
         vim.print(final_choice)
 
         return final_choice
-      end
-      ,
-
+      end,
     },
   }
 
@@ -923,7 +937,7 @@ end
 -- [[ Configure Dressing ]] {{{2
 local function dressing_setup()
   -- https://github.com/stevearc/dressing.nvim?tab=readme-ov-file#configuration
-  require("dressing").setup({
+  require('dressing').setup({
     select = {
       -- Options for telescope selector
       -- These are passed into the telescope picker directly. Can be used like:
@@ -938,42 +952,42 @@ local function llm_setup()
   -- https://github.com/huggingface/llm.nvim
   require('llm').setup({
     {
-      backend = "ollama",
-      model = "codellama:7b",
-      url = "http://localhost:11434", -- llm-ls uses "/api/generate"
+      backend = 'ollama',
+      model = 'codellama:7b',
+      url = 'http://localhost:11434', -- llm-ls uses "/api/generate"
       -- cf https://github.com/ollama/ollama/blob/main/docs/api.md#parameters
       request_body = {
         -- Modelfile options for the model you use
         options = {
           temperature = 0.2,
           top_p = 0.95,
-        }
+        },
       },
-      tokens_to_clear = { "<EOT>" },
+      tokens_to_clear = { '<EOT>' },
       fim = {
         enabled = true,
-        prefix = "<PRE> ",
-        middle = " <MID>",
-        suffix = " <SUF>",
+        prefix = '<PRE> ',
+        middle = ' <MID>',
+        suffix = ' <SUF>',
       },
       context_window = 4096,
-    }
+    },
   })
 end
 
 -- [[ Configure telescope ]] {{{2
 local function telescope_setup()
-  require("telescope").setup({})
+  require('telescope').setup({})
 end
 
 -- [[ Configure Treesitter ]] {{{2
 local function treesitter_setup()
-  require('nvim-treesitter.configs').setup {
-    modules = {},        -- Added to silence linter
+  require('nvim-treesitter.configs').setup({
+    modules = {}, -- Added to silence linter
     ignore_install = {}, -- Added to silence linter
 
     -- A list of parser names, or "all" (the five listed parsers should always be installed)
-    ensure_installed = { "lua", "vim", "vimdoc", "query" },
+    ensure_installed = { 'lua', 'vim', 'vimdoc', 'query' },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -1003,17 +1017,17 @@ local function treesitter_setup()
       -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = false,
     },
-  }
+  })
 
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
   parser_config.gotmpl = {
     install_info = {
-      url = "https://github.com/ngalaiko/tree-sitter-go-template",
-      files = { "src/parser.c" }
+      url = 'https://github.com/ngalaiko/tree-sitter-go-template',
+      files = { 'src/parser.c' },
     },
-    filetype = "gotmpl",
-    used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl" }
+    filetype = 'gotmpl',
+    used_by = { 'gohtmltmpl', 'gotexttmpl', 'gotmpl' },
   }
 end
 
@@ -1030,32 +1044,35 @@ else
   -- [[ Configure standalone Neovim ]] {{{1
   -- [[ Keymaps for nvim only ]] {{{2
   -- See `:help vim.keymap.set()`
-  vim.keymap.set('n', '<leader>nf', function() vim.diagnostic.open_float() end,
-    { desc = 'Open diag[n]ostic [f]loat' })
-  vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end,
-    { desc = 'Goto previous diagnostic message' })
-  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end,
-    { desc = 'Goto next diagnostic message' })
-  vim.keymap.set('n', '<leader>nl', function() vim.diagnostic.setloclist() end,
-    { desc = 'Open diag[n]ostics in [l]ocation list' })
-  vim.keymap.set('n', '<leader>nq', function() vim.diagnostic.setqflist() end,
-    { desc = 'Open diag[n]ostics in [q]uickfix list' })
+  vim.keymap.set('n', '<leader>nf', function()
+    vim.diagnostic.open_float()
+  end, { desc = 'Open diag[n]ostic [f]loat' })
+  vim.keymap.set('n', '[d', function()
+    vim.diagnostic.goto_prev()
+  end, { desc = 'Goto previous diagnostic message' })
+  vim.keymap.set('n', ']d', function()
+    vim.diagnostic.goto_next()
+  end, { desc = 'Goto next diagnostic message' })
+  vim.keymap.set('n', '<leader>nl', function()
+    vim.diagnostic.setloclist()
+  end, { desc = 'Open diag[n]ostics in [l]ocation list' })
+  vim.keymap.set('n', '<leader>nq', function()
+    vim.diagnostic.setqflist()
+  end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
 
   -- Ideas originated from links below:
   -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
   -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
-  vim.keymap.set('v', '<leader>wv',
-    function()
-      vim.ui.input({ prompt = 'Wrap text: ' }, function(input)
-        if input then
-          vim.cmd('normal! d')
-          vim.cmd("normal! i" .. input)
-          vim.cmd "stopinsert"
-          vim.cmd("normal! P")
-        end
-      end)
-    end,
-    { desc = '[w]rap [v]isible selection in input text' })
+  vim.keymap.set('v', '<leader>wv', function()
+    vim.ui.input({ prompt = 'Wrap text: ' }, function(input)
+      if input then
+        vim.cmd('normal! d')
+        vim.cmd('normal! i' .. input)
+        vim.cmd('stopinsert')
+        vim.cmd('normal! P')
+      end
+    end)
+  end, { desc = '[w]rap [v]isible selection in input text' })
 
   -- [[ User commands for nvim only ]] {{{2
   -- Originally ideas found here: https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
@@ -1097,5 +1114,5 @@ else
 
   -- Force lspconfig to work properly with filetype detection. See this link:
   -- https://www.reddit.com/r/neovim/comments/14cikep/comment/jokw2j6/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-  vim.api.nvim_exec_autocmds("FileType", {})
+  vim.api.nvim_exec_autocmds('FileType', {})
 end
