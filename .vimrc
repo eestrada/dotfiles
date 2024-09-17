@@ -562,12 +562,12 @@ Plug 'https://github.com/KabbAmine/vCoolor.vim'
 " use telescope. Or finish periscope and remove telescope.
 
 " Periscope
-" FIXME: currently still ignored in VSCode since a lot of Telescope
+" FIXME: currently a lot of Telescope
 " functionality remains after fork. Once everything uses `vim.ui.select`, then
 " it should be safe to run everywhere, including VSCode.
 " XXX: Use an ssh URL while still actively developing plugin.
-"Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+"Plug 'git@github.com:eestrada/periscope.nvim.git', Cond(has('nvim'))
+Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim'))
 
 " Pickers for everywhere nvim is available, including VSCode. Inspiration for
 " periscope.
