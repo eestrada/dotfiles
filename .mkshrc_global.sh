@@ -14,6 +14,6 @@ export HISTFILE="$HOME/.mksh_history" && export HISTSIZE="32767"
 
 # Trailing character of PS1 determined on whether we are currently root or not
 case $(id -u) in
-    0) PS1="${PS1}# " ;;
-    *) PS1="${PS1}$ " ;;
+0) PS1="${PS1}# " ;;
+*) PS1="${PS1}$ " ;;
 esac
