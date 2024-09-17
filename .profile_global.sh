@@ -1,6 +1,6 @@
 # .profile - Bourne Shell startup script for login shells
-# shellcheck shell=sh
 # vim: set filetype=sh:
+# shellcheck shell=sh
 # Emacs stuff
 # Local Variables:
 # mode: sh
@@ -23,6 +23,7 @@ source_files ()
 {
   for _file_path in "$@"; do
     if [ -f "${_file_path}" ]; then
+        # shellcheck disable=SC1090 # Allow sourcing non-constant.
         . "${_file_path}"
     fi
   done
@@ -114,20 +115,20 @@ custvars ()
 
     # Environment variables to declare
     [ -z "${TEMP}" ] && export TEMP="/tmp";
-    if $(which nvim >/dev/null 2>&1);
+    if which nvim >/dev/null 2>&1;
     then
         export EDITOR="nvim";
-    elif $(which vim >/dev/null 2>&1);
+    elif which vim >/dev/null 2>&1;
     then
         export EDITOR="vim";
     else
         export EDITOR="vi";
     fi
 
-    if $(which nvim >/dev/null 2>&1);
+    if which nvim >/dev/null 2>&1;
     then
         export VISUAL="nvim";
-    elif $(which vim >/dev/null 2>&1);
+    elif which vim >/dev/null 2>&1;
     then
         export VISUAL="vim";
     else
@@ -136,7 +137,8 @@ custvars ()
 
     export PAGER="less";
     export LESS='-IMRXF';
-    export GPG_TTY="$(tty)";
+    GPG_TTY="$(tty)";
+    export GPG_TTY;
 
     # Used to set up ssh environment
     SSH_ENV="${HOME}/.ssh/environment";
@@ -150,12 +152,13 @@ _start_ssh_agent ()
 {
     ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}";
     chmod 600 "${SSH_ENV}"
+    # shellcheck disable=SC1090 # Allow sourcing non-constant.
     . "${SSH_ENV}" > /dev/null;
 }
 
 _ps_all ()
 {
-    if [ $(uname -s) = "FreeBSD" ] || [ $(uname -s) = "Darwin" ]; then
+    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "Darwin" ]; then
         ps -avxw;
     else
         ps -ef;
@@ -164,6 +167,7 @@ _ps_all ()
 
 _ssh_agent_isnt_running ()
 {
+    # shellcheck disable=SC2143 # Special grepping.
     if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
       return 0
     else
@@ -178,6 +182,7 @@ run_ssh_agent ()
         # if ${SSH_AGENT_PID} is not properly set, we might be able to load one
         # from ${SSH_ENV} if it is set.
         if [ -f "${SSH_ENV}" ]; then
+            # shellcheck disable=SC1090 # Allow sourcing non-constant.
             . "${SSH_ENV}" > /dev/null;
         else
             # If we can't find SSH_ENV, we can probably assume that we have
@@ -216,13 +221,13 @@ EOF
 }
 
 # Values for EDITOR and PAGER are just defaults since they should be overridden
-# in the call to custvars futher down in this init script.
+# in the call to custvars further down in this init script.
 export EDITOR="vi";
 export PAGER="more";
 
 export ENV="$HOME/.shrc";
 for _shname in "zsh" "bash" "mksh" "ksh"; do
-  if [ "$(basename ${SHELL})" = "${_shname}" ]; then
+  if [ "$(basename "${SHELL}")" = "${_shname}" ]; then
     export ENV="${HOME}/.${_shname}rc";
     break;
   fi
@@ -240,14 +245,14 @@ case $- in
   *) ;;
 esac
 
-[ -n ${_interactive_shell} ] && [ $(uname -s) = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
+[ -n "${_interactive_shell}" ] && [ "$(uname -s)" = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
 refreshpath
 set_manpath
 custvars
 run_ssh_agent
 
-# Run again after adding homebrew so that we can pick up nvim as the defaul editor.
+# Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
 
-type rbenv >/dev/null 2>&1 && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - $(basename "${SHELL}"))"
+type rbenv >/dev/null 2>&1 && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - "$(basename "${SHELL}")")"

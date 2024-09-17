@@ -1,5 +1,5 @@
 # .bashrc
-# vim: set filetype=sh.bash:
+# vim: set filetype=bash:
 # shellcheck shell=bash
 # Emacs stuff
 # Local Variables:
@@ -8,6 +8,7 @@
 
 # Source global bashrc definitions
 if [ -f /etc/bashrc ]; then
+    # shellcheck disable=SC1091
     . /etc/bashrc
 fi
 

@@ -3,7 +3,7 @@
 # Source our environment. For example, this makes sure applications like dmenu
 # see our customized PATH pointing to executables in our home directory, and so
 # on. Otherwise we just get the basic default PATH set up by the system.
-. $HOME/.profile
+. "$HOME/.profile"
 
 # force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
 # https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
@@ -37,6 +37,7 @@ if [ -f "$usermodmap" ]; then
 fi
 
 if [ -f "$xinitrclocal" ]; then
+    # shellcheck disable=SC1090 # Allow sourcing non-constant.
     . "$xinitrclocal"
 fi
 
