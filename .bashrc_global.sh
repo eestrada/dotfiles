@@ -8,8 +8,8 @@
 
 # Source global bashrc definitions
 if [ -f /etc/bashrc ]; then
-    # shellcheck disable=SC1091
-    . /etc/bashrc
+  # shellcheck disable=SC1091
+  . /etc/bashrc
 fi
 
 # Source general shrc definitions
@@ -26,11 +26,11 @@ PS1="$PS1"$'\n'
 
 # Trailing character of PS1 determined on whether we are currently root or not
 case $(id -u) in
-    0) PS1="${PS1}# " ;;
-    *) PS1="${PS1}$ " ;;
+0) PS1="${PS1}# " ;;
+*) PS1="${PS1}$ " ;;
 esac
 
-# shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
+# shellcheck disable=SC1090 # Allow sourcing non-constant.
 [[ $TERM_PROGRAM == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
 
 [ -f "${HOME}/.config/fzf/setup.bash" ] && source "${HOME}/.config/fzf/setup.bash"

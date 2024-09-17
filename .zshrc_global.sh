@@ -70,7 +70,7 @@ export FPATH
 
 [ -r "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh" ] && . "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh"
 
-# shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
+# shellcheck disable=SC1090 # Allow sourcing non-constant.
 [[ "$TERM_PROGRAM" == "vscode" ]] && type code &>/dev/null 2>&1 && . "$(code --locate-shell-integration-path zsh)"
 
 [ -f "${HOME}/.config/fzf/setup.zsh" ] && . "${HOME}/.config/fzf/setup.zsh"
@@ -90,7 +90,7 @@ bindkey -M vicmd 'vv' edit-command-line
 
 # source local shell overrides and additions
 for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"; do
-    # shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
+    # shellcheck disable=SC1090 # Allow sourcing non-constant.
     [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
 done
 unset _LOCAL_OVERRIDES

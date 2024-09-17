@@ -7,28 +7,24 @@
 # End:
 
 # source local shell overrides and additions
-for _COMPLETION in "/usr/local/share/bash-completion/bash_completion" "/usr/local/etc/profile.d/bash_completion.sh" "$NVM_DIR/bash_completion"
-do
+for _COMPLETION in "/usr/local/share/bash-completion/bash_completion" "/usr/local/etc/profile.d/bash_completion.sh" "$NVM_DIR/bash_completion"; do
   # shellcheck disable=SC1090
   [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
 done
 unset _COMPLETION
 
-if type brew &>/dev/null
-then
-    HOMEBREW_PREFIX="$(brew --prefix)"
-    if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]
-    then
-            # shellcheck disable=SC1091
-        [ -r "${_COMPLETION}" ] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-    else
-        for _COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-        do
-            # shellcheck disable=SC1090
-            [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
-        done
-        unset _COMPLETION
-    fi
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]; then
+    # shellcheck disable=SC1091
+    [ -r "${_COMPLETION}" ] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for _COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      # shellcheck disable=SC1090
+      [ -r "${_COMPLETION}" ] && . "${_COMPLETION}"
+    done
+    unset _COMPLETION
+  fi
 fi
 
 # occasionally, bash completion scripts will have zsh completion baked into them
