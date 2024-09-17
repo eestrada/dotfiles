@@ -100,6 +100,153 @@ local user_home = vim.fn.expand('~')
 
 -- [[ Define functions for plugin setup ]] {{{1
 
+-- [[ Generic lsp keymap setup ]] {{{2
+local function lsp_keymaps_setup(args)
+  local always_set = args.always_set or false
+  local args_data = args.data or {}
+  local client = vim.lsp.get_client_by_id(args_data.client_id)
+
+  local function references_on_list(options)
+    vim.fn.setqflist({}, ' ', options)
+    vim.api.nvim_command('botright copen')
+
+    -- Most references I want to see are in the same window that the cursor
+    -- is already in, so return to that window from the Quickfix window.
+    vim.api.nvim_command('wincmd p')
+  end
+
+  local function location_on_list(options)
+    vim.fn.setqflist({}, ' ', options)
+
+    if #options.items == 0 then
+      vim.notify('No ' .. options.title .. ' to jump to.', vim.log.levels.WARN)
+    elseif #options.items == 1 then
+      vim.api.nvim_command('cfirst')
+    else
+      vim.api.nvim_command('botright copen')
+      vim.api.nvim_command('wincmd p')
+      require('periscope.builtin').quickfix()
+    end
+  end
+
+  -- These options are ignored in VScode, so we don't need to make a special
+  -- case for excluding them.
+  local references_lsp_options = { on_list = references_on_list }
+  local location_lsp_options = { on_list = location_on_list }
+
+  vim.keymap.set('n', '<leader>wa', function()
+    vim.lsp.buf.add_workspace_folder()
+  end, { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
+  vim.keymap.set('n', '<leader>wr', function()
+    vim.lsp.buf.remove_workspace_folder()
+  end, { buffer = args.buf, desc = '[w]orkspace [r]emove folder' })
+  vim.keymap.set('n', '<leader>wl', function()
+    vim.print(vim.lsp.buf.list_workspace_folders())
+  end, { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
+
+  -- Start of keymaps that shadow existing keymaps
+
+  -- Only redefine `K` keymap if current LSP supports hover capability.
+  if always_set or client ~= nil and client.server_capabilities.hoverProvider then
+    vim.keymap.set('n', 'K', function()
+      vim.lsp.buf.hover()
+    end, { buffer = args.buf, desc = 'Hover Popup' })
+  end
+
+  -- Explicitly set `tagfunc` to call `vim.lsp.tagfunc`. This is the lsp
+  -- default anyway, but it's made explicit here.
+  --
+  -- By setting `tagfunc`, the `<C-]>` keybinding should work using the lsp
+  -- server. `gd` is bound to `<C-]>` in `init.vim` as well.
+  --
+  -- Found originally at this link:
+  -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
+  --
+  -- See also: `:h lsp-defaults`
+  if always_set or client ~= nil and client.server_capabilities.definitionProvider then
+    vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
+  end
+
+  -- References
+  --
+  -- Use the following link for reference on how to override the default
+  -- references behavior.
+  --
+  -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
+  if always_set or client ~= nil and client.server_capabilities.referencesProvider then
+    local function references_func()
+      vim.lsp.buf.references(nil, references_lsp_options)
+    end
+
+    -- `gr` is bound to `[I` in `init.vim`
+    vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
+  end
+
+  local function implementation_func()
+    vim.lsp.buf.implementation(location_lsp_options)
+  end
+  vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
+
+  vim.keymap.set('n', 'gD', function()
+    vim.lsp.buf.declaration(location_lsp_options)
+  end, { buffer = args.buf, desc = '[g]oto [D]eclaration' })
+
+  vim.keymap.set('n', '<C-k>', function()
+    vim.lsp.buf.signature_help()
+  end, { buffer = args.buf, desc = 'Signature help' })
+
+  local function type_definition_func()
+    vim.lsp.buf.type_definition(location_lsp_options)
+  end
+  vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
+
+  -- telescope builtins
+
+  vim.keymap.set('n', '<leader>sd', function()
+    require('periscope.builtin').lsp_document_symbols()
+  end, { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
+
+  vim.keymap.set('n', '<leader>sw', function()
+    require('periscope.builtin').lsp_dynamic_workspace_symbols()
+  end, { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
+
+  -- custom keymaps using <leader> key
+  vim.keymap.set('n', '<leader>rn', function()
+    vim.lsp.buf.rename()
+  end, { buffer = args.buf, desc = '[r]e[n]ame' })
+
+  vim.keymap.set({ 'n', 'v' }, '<leader>ca', function()
+    vim.lsp.buf.code_action()
+  end, { buffer = args.buf, desc = '[c]ode [a]ction' })
+
+  -- This is something different in vscode, but it is duplicated here so that it actually points to something
+  vim.keymap.set({ 'n', 'v' }, '<leader>qf', function()
+    vim.lsp.buf.code_action()
+  end, { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' })
+
+  -- Get capabilities of current LSP server
+  vim.api.nvim_create_user_command('LspCapabilities', function()
+    vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
+  end, { desc = 'Print capabilities of current LSP server implementation.' })
+
+  -- foldingRangeProvider
+  -- Should ONLY be set in Neovim with a legitimate client.
+  if client ~= nil and client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+      pattern = '<buffer>',
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end,
+    })
+    vim.api.nvim_create_autocmd('CursorMoved', {
+      pattern = '<buffer>',
+      callback = function()
+        vim.lsp.buf.clear_references()
+      end,
+    })
+  end
+end
+
 -- [[ Configure VSCode ]] {{{2
 local function vscode_setup()
   local vscode = require('vscode-neovim')
@@ -111,15 +258,6 @@ local function vscode_setup()
   -- It doesn't seem like the commentary code linked below is necessary anymore
   -- https://github.com/vscode-neovim/vscode-neovim/wiki/Plugins#vim-commentary
 
-  -- Use common keybindings
-  vim.keymap.set('n', '[I', function()
-    vscode.call('editor.action.referenceSearch.trigger')
-  end, { desc = 'References' })
-
-  vim.keymap.set('n', '<C-]>', function()
-    vscode.call('editor.action.revealDefinition')
-  end, { desc = 'Goto definition' })
-
   vim.keymap.set('n', ']d', function()
     vscode.call('editor.action.marker.next')
   end, { desc = 'Goto next diagnostic message' })
@@ -127,10 +265,6 @@ local function vscode_setup()
   vim.keymap.set('n', '[d', function()
     vscode.call('editor.action.marker.prev')
   end, { desc = 'Goto previous diagnostic message' })
-
-  vim.keymap.set('n', '<leader>dl', function()
-    vscode.call('workbench.actions.view.problems')
-  end, { desc = 'Open diagnostic location list' })
 
   -- Act like vim signify and jump between diff changes in editor
   vim.keymap.set('n', ']c', function()
@@ -141,43 +275,7 @@ local function vscode_setup()
     vscode.call('workbench.action.editor.previousChange')
   end, { desc = 'Goto previous diff change' })
 
-  -- Keymaps used by lsp buffers
-  vim.keymap.set('n', 'gi', function()
-    vscode.call('editor.action.goToImplementation')
-  end, { desc = 'Goto implementation' })
-
-  vim.keymap.set('n', 'gD', function()
-    vscode.call('editor.action.revealDeclaration')
-  end, { desc = 'Goto declaration' })
-
-  vim.keymap.set('n', '<space>D', function()
-    vscode.call('editor.action.goToTypeDefinition')
-  end, { desc = 'Goto type definition' })
-
-  vim.keymap.set('n', '<leader>rn', function()
-    vscode.call('editor.action.rename')
-  end, { desc = '[r]e[n]ame' })
-
-  vim.keymap.set('n', '<space>ca', function()
-    vscode.call('editor.action.sourceAction')
-  end, { desc = 'Code action' })
-
-  vim.keymap.set('n', '<space>qf', function()
-    vscode.call('editor.action.quickFix')
-  end, { desc = 'Quick fix' })
-
-  -- Add keybindings for telescope tools used often
-  vim.keymap.set('n', '<space>sc', function()
-    vscode.call('workbench.action.showCommands')
-  end, { desc = '[s]earch [c]ommands' })
-
-  vim.keymap.set('n', '<space>sg', function()
-    vscode.call('workbench.action.findInFiles')
-  end, { desc = '[s]earch file contents with [g]rep' })
-
-  vim.keymap.set('n', '<space>sp', function()
-    vscode.call('workbench.action.quickOpenNavigateNextInFilePicker')
-  end, { desc = '[s]earch project [p]aths' })
+  lsp_keymaps_setup({ always_set = true })
 end
 
 -- [[ Mason tool installer ]] {{{2
@@ -281,7 +379,8 @@ local function nvim_lint_setup()
 
   vim.keymap.set('n', '<leader>lf', function()
     lint.try_lint()
-  end, { desc = 'Trigger linting for current file' })
+    lint.try_lint('codespell')
+  end, { desc = '[l]int current [f]ile' })
 end
 
 -- [[ Configure conform ]] {{{2
@@ -537,146 +636,7 @@ local function lsp_config_setup()
 
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
-    callback = function(args)
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-      local function references_on_list(options)
-        vim.fn.setqflist({}, ' ', options)
-        vim.api.nvim_command('botright copen')
-
-        -- Most references I want to see are in the same window that the cursor
-        -- is already in, so return to that window from the Quickfix window.
-        vim.api.nvim_command('wincmd p')
-      end
-
-      local function location_on_list(options)
-        vim.fn.setqflist({}, ' ', options)
-
-        if #options.items == 0 then
-          vim.notify('No ' .. options.title .. ' to jump to.', vim.log.levels.WARN)
-        elseif #options.items == 1 then
-          vim.api.nvim_command('cfirst')
-        else
-          vim.api.nvim_command('botright copen')
-          vim.api.nvim_command('wincmd p')
-          require('periscope.builtin').quickfix()
-        end
-      end
-
-      local references_lsp_options = { on_list = references_on_list }
-      local location_lsp_options = { on_list = location_on_list }
-
-      vim.keymap.set('n', '<leader>wa', function()
-        vim.lsp.buf.add_workspace_folder()
-      end, { buffer = args.buf, desc = '[w]orkspace [a]dd folder' })
-      vim.keymap.set('n', '<leader>wr', function()
-        vim.lsp.buf.remove_workspace_folder()
-      end, { buffer = args.buf, desc = '[w]orkspace [r]emove folder' })
-      vim.keymap.set('n', '<leader>wl', function()
-        vim.print(vim.lsp.buf.list_workspace_folders())
-      end, { buffer = args.buf, desc = '[w]orkspace [l]ist folders' })
-
-      -- Start of keymaps that shadow existing keymaps
-
-      -- Only redefine `K` keymap if current LSP supports hover capability.
-      if client ~= nil and client.server_capabilities.hoverProvider then
-        vim.keymap.set('n', 'K', function()
-          vim.lsp.buf.hover()
-        end, { buffer = args.buf, desc = 'Hover Popup' })
-      end
-
-      -- Explicitly set `tagfunc` to call `vim.lsp.tagfunc`. This is the lsp
-      -- default anyway, but it's made explicit here.
-      --
-      -- By setting `tagfunc`, the `<C-]>` keybinding should work using the lsp
-      -- server. `gd` is bound to `<C-]>` in `init.vim` as well.
-      --
-      -- Found originally at this link:
-      -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
-      --
-      -- See also: `:h lsp-defaults`
-      if client ~= nil and client.server_capabilities.definitionProvider then
-        vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
-      end
-
-      -- References
-      --
-      -- Use the following link for reference on how to override the default
-      -- references behavior.
-      --
-      -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
-      if client ~= nil and client.server_capabilities.referencesProvider then
-        local function references_func()
-          vim.lsp.buf.references(nil, references_lsp_options)
-        end
-
-        -- `gr` is bound to `[I` in `init.vim`
-        vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
-      end
-
-      local function implementation_func()
-        vim.lsp.buf.implementation(location_lsp_options)
-      end
-      vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
-
-      vim.keymap.set('n', 'gD', function()
-        vim.lsp.buf.declaration(location_lsp_options)
-      end, { buffer = args.buf, desc = '[g]oto [D]eclaration' })
-
-      vim.keymap.set('n', '<C-k>', function()
-        vim.lsp.buf.signature_help()
-      end, { buffer = args.buf, desc = 'Signature help' })
-
-      local function type_definition_func()
-        vim.lsp.buf.type_definition(location_lsp_options)
-      end
-      vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
-
-      -- telescope builtins
-
-      vim.keymap.set('n', '<leader>sd', function()
-        require('telescope.builtin').lsp_document_symbols()
-      end, { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
-
-      vim.keymap.set('n', '<leader>sw', function()
-        require('telescope.builtin').lsp_dynamic_workspace_symbols()
-      end, { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
-
-      -- custom keymaps using <leader> key
-      vim.keymap.set('n', '<leader>rn', function()
-        vim.lsp.buf.rename()
-      end, { buffer = args.buf, desc = '[r]e[n]ame' })
-
-      vim.keymap.set({ 'n', 'v' }, '<leader>ca', function()
-        vim.lsp.buf.code_action()
-      end, { buffer = args.buf, desc = '[c]ode [a]ction' })
-
-      -- This is something different in vscode, but it is duplicated here so that it actually points to something
-      vim.keymap.set({ 'n', 'v' }, '<leader>qf', function()
-        vim.lsp.buf.code_action()
-      end, { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' })
-
-      -- Get capabilities of current LSP server
-      vim.api.nvim_create_user_command('LspCapabilities', function()
-        vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
-      end, { desc = 'Print capabilities of current LSP server implementation.' })
-
-      -- foldingRangeProvider
-      if client ~= nil and client.server_capabilities.documentHighlightProvider then
-        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-          pattern = '<buffer>',
-          callback = function()
-            vim.lsp.buf.document_highlight()
-          end,
-        })
-        vim.api.nvim_create_autocmd('CursorMoved', {
-          pattern = '<buffer>',
-          callback = function()
-            vim.lsp.buf.clear_references()
-          end,
-        })
-      end
-    end,
+    callback = lsp_keymaps_setup,
   })
 end
 
@@ -1100,44 +1060,26 @@ else
   vim.keymap.set('n', '<leader>nf', function()
     vim.diagnostic.open_float()
   end, { desc = 'Open diag[n]ostic [f]loat' })
+
   vim.keymap.set('n', '[d', function()
     vim.diagnostic.goto_prev()
   end, { desc = 'Goto previous diagnostic message' })
+
   vim.keymap.set('n', ']d', function()
     vim.diagnostic.goto_next()
   end, { desc = 'Goto next diagnostic message' })
+
   vim.keymap.set('n', '<leader>nl', function()
     vim.diagnostic.setloclist()
   end, { desc = 'Open diag[n]ostics in [l]ocation list' })
+
   vim.keymap.set('n', '<leader>nq', function()
     vim.diagnostic.setqflist()
   end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
 
-  -- Ideas originated from links below:
-  -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#875160
-  -- * https://superuser.com/questions/875095/adding-parenthesis-around-highlighted-text-in-vim#comment2405624_875160
-  vim.keymap.set('v', '<leader>wv', function()
-    vim.ui.input({ prompt = 'Wrap text: ' }, function(input)
-      if input then
-        vim.cmd('normal! d')
-        vim.cmd('normal! i' .. input)
-        vim.cmd('stopinsert')
-        vim.cmd('normal! P')
-      end
-    end)
-  end, { desc = '[w]rap [v]isible selection in input text' })
-
-  -- [[ User commands for nvim only ]] {{{2
-  -- Originally ideas found here: https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
-  -- vim.api.nvim_create_user_command('UrlEncode',
-  --   function(opts)
-  --     -- vim.fn.getpos()
-  --     local start_pos = vim.fn.getpos("'<")
-  --     local end_pos = vim.fn.getpos("'>")
-  --     local region = vim.region(0, start_pos, end_pos, "v", true)
-  --     print(region)
-  --   end, { desc = 'Url encode selection.' }
-  -- )
+  -- vim.keymap.set('n', '<leader>ng', function()
+  --   vim.diagnostic.fromqflist(vim.fn.getqflist())
+  -- end, { desc = 'Populate diag[n]ostics with current quickfix list' })
 
   -- [[ Configurations in functions ]] {{{2
   local init_funcs = {
