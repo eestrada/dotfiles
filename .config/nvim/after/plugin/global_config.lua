@@ -636,7 +636,15 @@ local function lsp_config_setup()
 
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
-    callback = lsp_keymaps_setup,
+    callback = function(args)
+      lsp_keymaps_setup(args)
+
+      if pcall(require, 'conform') then
+        -- We need to override this every time LSP attaches,
+        -- otherwise LSP overrides the global `formatexpr` setting.
+        vim.api.nvim_buf_set_option(args.buf, 'formatexpr', "v:lua.require('conform').formatexpr()")
+      end
+    end,
   })
 end
 
@@ -1044,19 +1052,9 @@ local function treesitter_setup()
   }
 end
 
--- [[ Configure inside VSCode ]] {{{1
-if vim.g.vscode then
-  local vscode_setup_succeed, vscode_err = pcall(vscode_setup)
-  if not vscode_setup_succeed then
-    vim.notify(
-      string.format('VSCode setup failed. Check nvim config based on errors: %s', vscode_err),
-      vim.log.levels.ERROR
-    )
-  end
-else
-  -- [[ Configure standalone Neovim ]] {{{1
-  -- [[ Keymaps for nvim only ]] {{{2
-  -- See `:help vim.keymap.set()`
+-- [[ Keymaps for nvim only ]] {{{2
+-- See `:help vim.keymap.set()`
+local function neovim_keymaps_setup()
   vim.keymap.set('n', '<leader>nf', function()
     vim.diagnostic.open_float()
   end, { desc = 'Open diag[n]ostic [f]loat' })
@@ -1076,29 +1074,33 @@ else
   vim.keymap.set('n', '<leader>nq', function()
     vim.diagnostic.setqflist()
   end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
+end
 
-  -- vim.keymap.set('n', '<leader>ng', function()
-  --   vim.diagnostic.fromqflist(vim.fn.getqflist())
-  -- end, { desc = 'Populate diag[n]ostics with current quickfix list' })
+local init_funcs_all = {
+  ['VSCode'] = { func = vscode_setup, vscode_only = true },
+  ['mason tool installer'] = { func = mason_tool_installer_setup, everywhere = true },
+  periscope = { func = periscope_setup, everywhere = true },
+  conform = { func = conform_setup, everywhere = true },
+  fidget = { func = fidget_setup, vscode_never = true },
+  keymaps = { func = neovim_keymaps_setup, vscode_never = true },
+  ['lsp config'] = { func = lsp_config_setup, vscode_never = true },
+  ['cmp and snippet engine'] = { func = cmp_setup, vscode_never = true },
+  treesitter = { func = treesitter_setup, vscode_never = true },
+  dap = { func = dap_setup, vscode_never = true },
+  telescope = { func = telescope_setup, vscode_never = true },
+  dressing = { func = dressing_setup, vscode_never = true },
+  lint = { func = nvim_lint_setup, vscode_never = true },
+  -- llm = {func = llm_setup, vscode_never = true},
+}
 
-  -- [[ Configurations in functions ]] {{{2
-  local init_funcs = {
-    fidget = fidget_setup,
-    ['mason tool installer'] = mason_tool_installer_setup,
-    ['lsp config'] = lsp_config_setup,
-    ['cmp and snippet engine'] = cmp_setup,
-    treesitter = treesitter_setup,
-    dap = dap_setup,
-    telescope = telescope_setup,
-    periscope = periscope_setup,
-    dressing = dressing_setup,
-    lint = nvim_lint_setup,
-    formatting = conform_setup,
-    -- llm = llm_setup,
-  }
-
-  for setup_name, setup_func in pairs(init_funcs) do
-    local setup_succeed, setup_err = pcall(setup_func)
+for setup_name, setup_opts in pairs(init_funcs_all) do
+  local should_run_func = (
+    setup_opts.everywhere
+    or (setup_opts.vscode_only and vim.g.vscode)
+    or (setup_opts.vscode_never and not vim.g.vscode)
+  )
+  if should_run_func then
+    local setup_succeed, setup_err = pcall(setup_opts.func)
     if not setup_succeed then
       vim.notify(
         string.format('%s setup failed. Check nvim config based on errors: %s', setup_name, setup_err),
@@ -1106,8 +1108,8 @@ else
       )
     end
   end
-
-  -- Force lspconfig to work properly with filetype detection. See this link:
-  -- https://www.reddit.com/r/neovim/comments/14cikep/comment/jokw2j6/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-  vim.api.nvim_exec_autocmds('FileType', {})
 end
+
+-- Force lspconfig to work properly with filetype detection. See this link:
+-- https://www.reddit.com/r/neovim/comments/14cikep/comment/jokw2j6/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+vim.api.nvim_exec_autocmds('FileType', {})
