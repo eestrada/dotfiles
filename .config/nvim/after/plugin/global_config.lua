@@ -167,6 +167,20 @@ local function lsp_keymaps_setup(args)
     vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
   end
 
+  -- Explicitly set `formatexpr` to call `vim.lsp.formatexpr()`. This is the lsp
+  -- default anyway, but it's made explicit here.
+  --
+  -- By setting `formatexpr`, the `gq` keybinding should work using the lsp
+  -- server.
+  --
+  -- Found originally at this link:
+  -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
+  --
+  -- See also: `:h lsp-defaults`
+  if always_set or client ~= nil and client.server_capabilities.documentRangeFormattingProvider then
+    vim.api.nvim_buf_set_option(args.buf, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  end
+
   -- References
   --
   -- Use the following link for reference on how to override the default
@@ -440,11 +454,18 @@ local function conform_setup()
     },
   })
 
+  -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
+  --
+  -- By setting `formatexpr`, the `gq` keybinding should work using conform.
+  --
+  -- This will only be used on buffers that do not have an lsp attached, or
+  -- where the attached lsp has no `formatexpr` support or where the local
+  -- `formatexpr` option is explicitly set elsewhere.
   vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
   vim.keymap.set({ 'n' }, '<leader>gq', function()
     require('conform').format()
-  end, { desc = 'format entire buffer as if running [gggqG]' })
+  end, { desc = 'Format entire buffer. May produce different result than `gggqG`.' })
 end
 
 -- [[ Configure lsp ]] {{{2
@@ -638,12 +659,6 @@ local function lsp_config_setup()
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
     callback = function(args)
       lsp_keymaps_setup(args)
-
-      if pcall(require, 'conform') then
-        -- We need to override this every time LSP attaches,
-        -- otherwise LSP overrides the global `formatexpr` setting.
-        vim.api.nvim_buf_set_option(args.buf, 'formatexpr', "v:lua.require('conform').formatexpr()")
-      end
     end,
   })
 end
