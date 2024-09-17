@@ -11,7 +11,7 @@ source_files ()
 {
   for _file_path in "$@"; do
     if [ -f "${_file_path}" ]; then
-        # shellcheck disable=SC1090 # Yes, it is non-constant. Just source it anyway.
+        # shellcheck disable=SC1090 # Allow sourcing non-constant.
         . "${_file_path}"
     fi
   done
@@ -33,6 +33,10 @@ _canonical_home ()
 {
     # NOTE: on FreeBSD, /home is actually just a symlink to /usr/home. Here we
     # detect this and get us back home... which is actually /home.
+
+    # If the version of `test` does not support the `-ef` extension,
+    # that is fine.
+    # shellcheck disable=SC3013
     if [ "$(pwd)" -ef "${HOME}" ] && [ "$(pwd)" '!=' "${HOME}" ]; then
         cd "${HOME}" >/dev/null || return;
     fi
@@ -129,6 +133,7 @@ hfsinit ()
 {
     if [ -d "${HFS}" ]; then
         cd "${HFS}" || return;
+        # shellcheck disable=SC1091
         . ./houdini_setup;
         cd - >/dev/null || return;
         # Modifying PYTHONPATH causes issues when switching Houdini versions
@@ -207,13 +212,13 @@ racket_install ()
 
 racket_repl ()
 {
-    cd ${TEMP};
+    cd "${TEMP}" || return 1;
     racket;
 }
 
 racket_repl_exec ()
 {
-    cd ${TEMP};
+    cd "${TEMP}" || return 1;
     exec racket;
 }
 
@@ -221,17 +226,19 @@ beadm_update ()
 {
     # Ideas for this code were inspired by: https://forums.FreeBSD.org/threads/freebsd-upgrade-with-beadm.53225/post-299112
     set -v
-    local to_mount=$1
+    to_mount="$1"
 
     sudo beadm mount "$to_mount" /mnt
     sudo mount -t devfs devfs /mnt/dev
 
-    sudo chroot /mnt $SHELL
+    sudo chroot /mnt "$SHELL"
 
     sudo umount /mnt/dev
     sudo beadm umount "$to_mount"
     sudo beadm activate "$to_mount"
     set +v
+
+    unset to_mount;
 }
 
 playbeep ()
@@ -299,6 +306,7 @@ dotenv_src ()
     fi
 
     # grep removes all blank and commented out lines
+    # shellcheck disable=SC2046 # We want word splitting.
     export $(grep -vE '^#|^$' "$filename" | xargs -0)
 }
 
@@ -316,6 +324,7 @@ dotenv_unsrc ()
 
     # grep removes all blank and commented out lines
     # sed grabs all variable names and ignores variable values
+    # shellcheck disable=SC2046 # We want word splitting.
     unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
 }
 
@@ -396,13 +405,16 @@ case $(id -u) in
     *) PS1="${PS1}$ ";;
 esac
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+export NVM_DIR;
+# shellcheck disable=SC1091
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # Load RVM into a shell session *as a function*
+# shellcheck disable=SC1091
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
 # Add homebrew variables

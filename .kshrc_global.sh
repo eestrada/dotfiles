@@ -8,6 +8,7 @@
 
 # Source global definitions
 if [ -f /etc/kshrc ]; then
+    # shellcheck disable=SC1091
     . /etc/kshrc
 fi
 

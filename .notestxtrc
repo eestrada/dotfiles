@@ -1,5 +1,8 @@
 # vim: set filetype=sh:
+# shellcheck shell=sh
 
 NOTES_DIR="${HOME}/Sync/Notes-txt"
+export NOTES_DIR;
 ARCHIVE_DIR="${NOTES_DIR}/archive"
+export ARCHIVE_DIR;
 
