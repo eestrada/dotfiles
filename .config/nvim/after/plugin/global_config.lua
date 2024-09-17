@@ -196,7 +196,6 @@ local function mason_tool_installer_setup()
       'codespell',
       'css-lsp',
       'dot-language-server',
-      'eslint_d',
       'html-lsp',
       'htmlhint',
       'java-debug-adapter',
@@ -258,16 +257,12 @@ local function nvim_lint_setup()
     bash = { 'shellcheck' },
     gitcommit = { 'write_good' },
     html = { 'htmlhint' },
-    javascript = { 'eslint_d' },
-    javascriptreact = { 'eslint_d' },
     ksh = { 'shellcheck' },
     lua = { 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
     rst = { 'write_good' },
     sh = { 'shellcheck' },
     sql = { 'sqlfluff' },
-    typescript = { 'eslint_d' },
-    typescriptreact = { 'eslint_d' },
     vim = { 'vint' },
     zsh = { 'zsh' },
   }
@@ -291,35 +286,46 @@ end
 
 -- [[ Configure conform ]] {{{2
 local function conform_setup()
-  require('conform').formatters.xmlformat = {
-    prepend_args = {
-      '--eof-newline',
-      '--blanks',
-      '--selfclose',
-      '--indent',
-      '4',
-    },
-  }
-
-  -- TODO: Set the `--language-dialect` dynamically based on filetype.
-  -- require('conform').formatters.shfmt = {
-  --   prepend_args = function (self, ctx)
-  --     ctx.filetype
-  --   end,
-  -- }
-
   require('conform').setup({
+    formatters = {
+      xmlformat = {
+        prepend_args = {
+          '--eof-newline',
+          '--blanks',
+          '--selfclose',
+          '--indent',
+          '4',
+        },
+      },
+      prettier = {
+        prepend_args = {
+          '--tab-width',
+          '4',
+        },
+        -- TODO: Set the `--tab-width` dynamically based on tabstop, etc.
+        --   prepend_args = function (self, ctx)
+        --     ctx.filetype
+        --   end,
+      },
+
+      -- TODO: Set the `--language-dialect` dynamically based on filetype.
+      -- shfmt = {
+      --   prepend_args = function (self, ctx)
+      --     ctx.filetype
+      --   end,
+      -- },
+    },
     formatters_by_ft = {
       ant = { 'xmlformat' },
       bash = { 'shfmt' },
-      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascript = { 'prettier' },
       ksh = { 'shfmt' },
       lua = { 'stylua' },
       markdown = { 'mdformat' },
       python = { 'black', lsp_format = 'none' },
       sh = { 'shfmt' },
       svg = { 'xmlformat' },
-      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettier' },
       xml = { 'xmlformat' },
       xsd = { 'xmlformat' },
       xsl = { 'xmlformat' },
