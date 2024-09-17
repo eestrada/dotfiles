@@ -422,10 +422,6 @@ Plug 'https://github.com/junegunn/vim-plug'
 " LSP Configuration & Plugins
 Plug 'https://github.com/neovim/nvim-lspconfig', Cond(has('nvim') && !exists('g:vscode'))
 
-" Automatically install common tools to stdpath for neovim
-Plug 'https://github.com/williamboman/mason.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
 " Useful status updates for LSP
 Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
@@ -495,9 +491,6 @@ Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g
 " linting
 Plug 'https://github.com/mfussenegger/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
 
-" formatting
-Plug 'https://github.com/stevearc/conform.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Adds a number of user-friendly snippets
@@ -566,7 +559,7 @@ Plug 'https://github.com/KabbAmine/vCoolor.vim'
 " [[ Neovim anywhere ]] {{{2
 
 " TODO: Consider deleting. Native vim abilities can do most of this, or just
-" use telescope. Or finish this and remove telescope.
+" use telescope. Or finish periscope and remove telescope.
 
 " Periscope
 " FIXME: currently still ignored in VSCode since a lot of Telescope
@@ -579,6 +572,13 @@ Plug 'https://github.com/eestrada/periscope.nvim', Cond(has('nvim') && !exists('
 " Pickers for everywhere nvim is available, including VSCode. Inspiration for
 " periscope.
 Plug 'https://github.com/mfussenegger/nvim-qwahl', Cond(has('nvim'))
+
+" Automatically install common tools to stdpath for neovim
+Plug 'https://github.com/williamboman/mason.nvim', Cond(has('nvim'))
+Plug 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim', Cond(has('nvim'))
+
+" formatting
+Plug 'https://github.com/stevearc/conform.nvim', Cond(has('nvim'))
 
 " [[ Vim only ]] {{{2
 
