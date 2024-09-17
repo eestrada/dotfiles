@@ -254,8 +254,8 @@ augroup END
 " Use system clipboard for Yank and Put
 set clipboard=unnamed
 if has('unnamedplus')
-    "Use system AND xterm clipboards for Yank and Put
-    set clipboard+=unnamedplus
+  "Use system AND xterm clipboards for Yank and Put
+  set clipboard+=unnamedplus
 endif
 
 " [[ Keymaps  ]] {{{1
@@ -619,7 +619,7 @@ function s:vimrc_init() abort
   " unintentionally corrupt the git repo.
   if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
     execute SignifyDisableAll
-  end
+  endif
 
   " Make Netrw commands use Dirvish instead
   " see :help dirvish
