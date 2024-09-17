@@ -373,7 +373,7 @@ au BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> p <CR><C-w>p
 " My custom defined commands
 command! -range=% StripTrailingWS <line1>,<line2>s/\s\+$//e
 
-" Original defintion found here:
+" Original definition found here:
 " https://vim.fandom.com/wiki/Reverse_order_of_lines
 command! -range ReverseLines <line1>,<line2>g/^/m<line1>-1|nohl
 
