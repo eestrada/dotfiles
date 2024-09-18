@@ -292,7 +292,7 @@ local function vscode_setup()
   lsp_keymaps_setup({ always_set = true })
 end
 
--- [[ Mason tool installer ]] {{{2
+-- [[ Configure Mason tool installer ]] {{{2
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 local function mason_tool_installer_setup()
   -- mason-tool-installer requires that mason be setup first.
@@ -1067,7 +1067,7 @@ local function treesitter_setup()
   }
 end
 
--- [[ Keymaps for nvim only ]] {{{2
+-- [[ Configure Keymaps for nvim only ]] {{{2
 -- See `:help vim.keymap.set()`
 local function neovim_keymaps_setup()
   vim.keymap.set('n', '<leader>nf', function()
@@ -1091,6 +1091,7 @@ local function neovim_keymaps_setup()
   end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
 end
 
+-- [[ Run all setup functions ]] {{{1
 local init_funcs_all = {
   ['VSCode'] = { func = vscode_setup, vscode_only = true },
   ['mason tool installer'] = { func = mason_tool_installer_setup, everywhere = true },

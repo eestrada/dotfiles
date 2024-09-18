@@ -2,10 +2,10 @@
 
 # clone repo
 mkdir -p "${HOME}/dev"
-cd "${HOME}/dev"
+cd "${HOME}/dev" || exit
 # git clone --no-checkout git@github.com:eestrada/dotfiles.git dotfiles_git
 git clone --no-checkout https://github.com/eestrada/dotfiles.git dotfiles_git
-cd dotfiles_git
+cd dotfiles_git || exit
 
 # Switch to a dummy branch so that we don't conflict with the worktree on master
 git switch -c local_dummy_branch
@@ -25,9 +25,10 @@ echo "${HOME}/.git" > ".git/worktrees/homedir-dotfiles/gitdir"
 rm -rf "${HOME}/homedir-dotfiles"
 
 # because we created the worktree without checking out, we need to fix its initial stage.
-cd "${HOME}" || exit 1 && git restore --staged .
+cd "${HOME}" || exit && git restore --staged .
 
 # "restore" the files that are safe to do so (i.e. files that don't already exist)
+# shellcheck disable=2046 # we want word splitting
 git restore $(git ls-files --deleted)
 
 # Clone submodules.
@@ -41,6 +42,7 @@ done
 unset _LOCAL_SHELL_RC
 
 # add sourcing for global git config additions
+# shellcheck disable=2088
 git config --global --add include.path '~/.gitconfig-global.ini'
 
 echo 'Running `git status` in your home directory should now work.'

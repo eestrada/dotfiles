@@ -17,14 +17,14 @@ _users="$(who | cut -w -f1 | sort --unique)"
 
 # For some reason this first call "wakes up" xrandr. If we don't do this call,
 # the second one won't work.
-echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr -q
+echo "$_users" | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr -q
 
 # even though we reference HDMI1, if it is disconnected xrandr does the rught
 # thing because of the --auto flag and disables it in X.
-echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr --output eDP1 --auto --pos 0x0 --output HDMI1 --auto --right-of eDP1
+echo "$_users" | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- xrandr --output eDP1 --auto --pos 0x0 --output HDMI1 --auto --right-of eDP1
 
 # Let all logged in users know that something changed.
-echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-send 'Adjusted monitor layout' 'Use xrandr to query current state or make adjustments'
+echo "$_users" | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-send 'Adjusted monitor layout' 'Use xrandr to query current state or make adjustments'
 
 # # Below is the devd.conf entry for HDMI connect/disconnect used to run this script
 # # Below is what we get when we run `telnet /var/run/devd.pipe`. It is the same message for connection and disconnection
@@ -33,7 +33,7 @@ echo $_users | DISPLAY="unix:0.0" xargs -J %s -L 1 sudo -u %s --shell -- notify-
 # #
 #
 # # XXX: Matching on 'type HOTPLUG' does not work for some reason. We don't
-# # strictly need it because is seems like the system and sybsystem never
+# # strictly need it because is seems like the system and subsystem never
 # # generate any events other than notifying that the HDMI cable has been
 # # connected/disconnected. Even if/when we did pick up other events, running the
 # # xrandr script would not really hurt anything (other than a few wasted
