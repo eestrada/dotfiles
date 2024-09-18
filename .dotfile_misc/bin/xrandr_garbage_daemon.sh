@@ -11,11 +11,11 @@ hdmi1_state ()
     xrandr -q | grep HDMI1 | cut -w -f2
 }
 
-_prev=$(hdmi1_state)
+_prev="$(hdmi1_state)"
 
 while sleep 2
 do
-    if [ $(hdmi1_state) '!=' ${_prev} ]; then
+    if [ "$(hdmi1_state)" '!=' "${_prev}" ]; then
         _prev=$(hdmi1_state)
         xrandr -q >/dev/null
         xrandr --output eDP1 --auto --pos 0x0 --output HDMI1 --auto --right-of eDP1
