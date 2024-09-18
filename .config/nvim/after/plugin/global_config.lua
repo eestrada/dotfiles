@@ -298,6 +298,16 @@ local function mason_tool_installer_setup()
   -- mason-tool-installer requires that mason be setup first.
   require('mason').setup()
 
+  -- Be sure to install GFM (Github Flavored Markdown) extensions for `mdformat`
+  -- in the venv created by Mason.
+  -- This allows for autoformatting tables, and along with other common extensions.
+  --
+  -- Instructions for this can be found in the Github repo links below.
+  --
+  -- See links for details:
+  -- * https://github.com/executablebooks/mdformat
+  -- * https://github.com/hukkin/mdformat-gfm
+  -- * https://mdformat.readthedocs.io/en/stable/users/style.html#paragraph-word-wrapping
   require('mason-tool-installer').setup({
 
     -- a list of all tools you want to ensure are installed upon start
@@ -320,7 +330,7 @@ local function mason_tool_installer_setup()
       'lemmy-help',
       'llm-ls',
       'lua-language-server',
-      'luacheck', -- needs `luarocks` available to installed
+      'luacheck', -- needs `luarocks` available to install
       'markdownlint',
       'mdformat',
       'prettier',
@@ -452,8 +462,36 @@ local function conform_setup()
     -- Set this to change the default values when calling conform.format()
     -- This will also affect the default values for format_on_save/format_after_save
     default_format_opts = {
-      lsp_format = 'fallback',
+      lsp_format = 'last',
+      stop_after_first = true,
     },
+
+    format_on_save = function(bufnr)
+      local auto_conform_fts = {
+        'bash',
+        'ksh',
+        'lua',
+        'markdown',
+        'mksh',
+        'python',
+        'sh',
+        'zig',
+        'zsh',
+      }
+
+      if
+          vim.b.disable_auto_conform
+          -- Allow buffer local disable setting to always take precedence
+          or (vim.b.disable_auto_conform == nil and vim.g.disable_auto_conform)
+          or not vim.tbl_contains(auto_conform_fts, vim.bo[bufnr].filetype)
+      then
+        -- `dry_run = true` should disable auto-formatting
+        -- run as `async` to not block UI
+        return { bufnr = bufnr, dry_run = true, async = true }
+      else
+        return { bufnr = bufnr }
+      end
+    end,
   })
 
   -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
@@ -614,7 +652,7 @@ local function lsp_config_setup()
 
       local java_debug_install = mason_registry.get_package('java-debug-adapter'):get_install_path()
       local java_debug_server_jars =
-        vim.fn.glob(java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)
+          vim.fn.glob(java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)
 
       local java_test_install = mason_registry.get_package('java-test'):get_install_path()
       local java_test_jars = vim.fn.glob(java_test_install .. '/extension/server/*.jar', false, true)
@@ -1021,7 +1059,7 @@ end
 -- [[ Configure Treesitter ]] {{{2
 local function treesitter_setup()
   require('nvim-treesitter.configs').setup({
-    modules = {}, -- Added to silence linter
+    modules = {},        -- Added to silence linter
     ignore_install = {}, -- Added to silence linter
 
     -- A list of parser names, or "all" (the five listed parsers should always be installed)
