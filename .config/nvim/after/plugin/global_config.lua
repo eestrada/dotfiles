@@ -177,8 +177,14 @@ local function lsp_keymaps_setup(args)
   -- https://www.reddit.com/r/neovim/comments/rpznbg/tip_use_formatexpr_and_tagfunc_with_lsp/
   --
   -- See also: `:h lsp-defaults`
-  if always_set or client ~= nil and client.server_capabilities.documentRangeFormattingProvider then
-    vim.api.nvim_buf_set_option(args.buf, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  -- if always_set or client ~= nil and client.server_capabilities.documentRangeFormattingProvider then
+  --   vim.api.nvim_buf_set_option(args.buf, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  -- end
+
+  if args.buf then
+    -- This will fallback to 'v:lua.vim.lsp.formatexpr()' if no other formatter
+    -- is configured/found.
+    vim.bo[args.buf].formatexpr = "v:lua.require('conform').formatexpr()"
   end
 
   -- References
