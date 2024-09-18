@@ -183,7 +183,7 @@ local function lsp_keymaps_setup(args)
 
   if args.buf then
     -- This will fallback to 'v:lua.vim.lsp.formatexpr()' if no other formatter
-    -- is configured/found.
+    -- is configured/found by conform.
     vim.bo[args.buf].formatexpr = "v:lua.require('conform').formatexpr()"
   end
 
@@ -415,7 +415,35 @@ end
 
 -- [[ Configure conform ]] {{{2
 local function conform_setup()
+  local format_on_save_ft_configs = {
+    bash = { 'shfmt' },
+    ksh = { 'shfmt' },
+    lua = { 'stylua' },
+    markdown = { 'mdformat' },
+    mksh = { 'shfmt' },
+    python = { 'black', lsp_format = 'none' },
+    sh = { 'shfmt' },
+    zig = { 'zigfmt' },
+    zsh = { 'shfmt' },
+  }
+  local format_on_save_fts = vim.tbl_keys(format_on_save_ft_configs)
+
+  local no_format_on_save_ft_configs = {
+    ant = { 'xmlformat' },
+    javascript = { 'prettier' },
+    json = { 'jq' },
+    svg = { 'xmlformat' },
+    typescript = { 'prettier' },
+    xml = { 'xmlformat' },
+    xsd = { 'xmlformat' },
+    xsl = { 'xmlformat' },
+    xslt = { 'xmlformat' },
+  }
+
+  local formatters_by_ft_all = vim.tbl_extend('error', format_on_save_ft_configs, no_format_on_save_ft_configs)
+
   require('conform').setup({
+    formatters_by_ft = formatters_by_ft_all,
     formatters = {
       xmlformat = {
         prepend_args = {
@@ -450,26 +478,6 @@ local function conform_setup()
       --   end,
       -- },
     },
-    formatters_by_ft = {
-      ant = { 'xmlformat' },
-      bash = { 'shfmt' },
-      javascript = { 'prettier' },
-      json = { 'jq' },
-      ksh = { 'shfmt' },
-      lua = { 'stylua' },
-      markdown = { 'mdformat' },
-      mksh = { 'shfmt' },
-      python = { 'black', lsp_format = 'none' },
-      sh = { 'shfmt' },
-      svg = { 'xmlformat' },
-      typescript = { 'prettier' },
-      xml = { 'xmlformat' },
-      xsd = { 'xmlformat' },
-      xsl = { 'xmlformat' },
-      xslt = { 'xmlformat' },
-      zig = { 'zigfmt' },
-      zsh = { 'shfmt' },
-    },
 
     -- Set this to change the default values when calling conform.format()
     -- This will also affect the default values for format_on_save/format_after_save
@@ -479,27 +487,14 @@ local function conform_setup()
     },
 
     format_on_save = function(bufnr)
-      local auto_conform_fts = {
-        'bash',
-        'ksh',
-        'lua',
-        'markdown',
-        'mksh',
-        'python',
-        'sh',
-        'zig',
-        'zsh',
-      }
-
       if
           vim.b.disable_auto_conform
           -- Allow buffer local disable setting to always take precedence
           or (vim.b.disable_auto_conform == nil and vim.g.disable_auto_conform)
-          or not vim.tbl_contains(auto_conform_fts, vim.bo[bufnr].filetype)
+          or not vim.tbl_contains(format_on_save_fts, vim.bo[bufnr].filetype)
       then
         -- `dry_run = true` should disable auto-formatting
-        -- run as `async` to not block UI
-        return { bufnr = bufnr, dry_run = true, async = true }
+        return { bufnr = bufnr, dry_run = true }
       else
         return { bufnr = bufnr }
       end
@@ -509,10 +504,6 @@ local function conform_setup()
   -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
   --
   -- By setting `formatexpr`, the `gq` keybinding should work using conform.
-  --
-  -- This will only be used on buffers that do not have an lsp attached, or
-  -- where the attached lsp has no `formatexpr` support or where the local
-  -- `formatexpr` option is explicitly set elsewhere.
   vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
   vim.keymap.set({ 'n' }, '<leader>gq', function()
