@@ -430,6 +430,12 @@ local function conform_setup()
         --     ctx.filetype
         --   end,
       },
+      mdformat = {
+        prepend_args = {
+          '--number',
+          '--wrap=keep',
+        },
+      },
 
       -- TODO: Set the `--language-dialect` dynamically based on filetype.
       -- shfmt = {
