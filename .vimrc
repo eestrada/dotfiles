@@ -37,6 +37,12 @@ let g:black_fmt_on_save = 1
 " Force markdown files to always format using `mdformat` upon save.
 let g:mdformat_fmt_on_save = 1
 
+" For zig ftplugin
+if has('nvim')
+  " In nvim, the `nvim-lint` and `conform.nvim` plugins do the same things.
+  let g:zig_fmt_autosave = 0
+endif
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
