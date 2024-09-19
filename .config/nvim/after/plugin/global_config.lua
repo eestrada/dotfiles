@@ -383,12 +383,30 @@ end
 local function nvim_lint_setup()
   local lint = require('lint')
 
+  -- https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#custom-linters
+  -- https://www.lua.org/manual/5.1/luac.html
+  -- https://github.com/Konfekt/vim-compilers/blob/297e220569dc0e5c917b1c1c48aafb4e52ffe755/compiler/luacp.vim
+  require('lint').linters.luacp = {
+    cmd = 'luac',
+    stdin = true,
+    append_fname = false,
+    args = { '-p', '-' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+
+    -- used when reading from a file on disk
+    -- parser = require('lint.parser').from_errorformat('luac:\\ %f:%l:\\ %m,%-G%.%#'),
+
+    -- used when reading from stdin
+    parser = require('lint.parser').from_errorformat('luac:\\ stdin:%l:\\ %m,%-G%.%#'),
+  }
+
   lint.linters_by_ft = {
     bash = { 'shellcheck' },
     gitcommit = { 'write_good' },
     html = { 'htmlhint' },
     ksh = { 'shellcheck' },
-    lua = { 'luacheck' },
+    lua = { 'luacp', 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
     python = { 'ruff', 'pylint' },
     rst = { 'write_good' },
@@ -400,13 +418,15 @@ local function nvim_lint_setup()
 
   local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
-  vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufEnter', 'BufWritePost' }, {
     group = lint_augroup,
     callback = function()
       lint.try_lint()
 
-      -- Run codespell on all buffers of every filetype
-      lint.try_lint('codespell')
+      if not vim.g.disable_codespell_lint then
+        -- Run codespell on all buffers of every filetype
+        lint.try_lint('codespell')
+      end
     end,
   })
 
