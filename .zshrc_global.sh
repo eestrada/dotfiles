@@ -63,7 +63,7 @@ case $(id -u) in
 *) PROMPT="${PROMPT}$ " ;;
 esac
 
-if type brew &>/dev/null; then
+if type brew >/dev/null 2>&1; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh-completions:${FPATH}"
 fi
 export FPATH
@@ -71,7 +71,7 @@ export FPATH
 [ -r "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh" ] && . "${HOME}/.dotfile_misc/macos/iterm2/shell_integration.zsh"
 
 # shellcheck disable=SC1090 # Allow sourcing non-constant.
-[[ "$TERM_PROGRAM" == "vscode" ]] && type code &>/dev/null 2>&1 && . "$(code --locate-shell-integration-path zsh)"
+[[ "$TERM_PROGRAM" == "vscode" ]] && type code >/dev/null 2>&1 && . "$(code --locate-shell-integration-path zsh)"
 
 [ -f "${HOME}/.config/fzf/setup.zsh" ] && . "${HOME}/.config/fzf/setup.zsh"
 
