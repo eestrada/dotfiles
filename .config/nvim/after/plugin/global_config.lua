@@ -405,6 +405,7 @@ local function nvim_lint_setup()
     }),
   }
 
+  -- https://wiki.archlinux.org/title/Dash
   require('lint').linters.dash = {
     cmd = 'dash',
     stdin = true,
@@ -423,6 +424,7 @@ local function nvim_lint_setup()
     }),
   }
 
+  -- https://www.gnu.org/software/bash/
   require('lint').linters.bash = {
     cmd = 'bash',
     stdin = true,
@@ -441,6 +443,7 @@ local function nvim_lint_setup()
     }),
   }
 
+  -- https://github.com/ksh93/ksh
   require('lint').linters.ksh = {
     cmd = 'ksh',
     stdin = true,
