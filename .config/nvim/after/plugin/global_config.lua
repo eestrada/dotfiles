@@ -324,6 +324,7 @@ local function mason_tool_installer_setup()
       'codespell',
       'css-lsp',
       'dot-language-server',
+      'gitlint',
       'html-lsp',
       'htmlhint',
       'java-debug-adapter',
@@ -386,7 +387,7 @@ local function nvim_lint_setup()
   -- https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#custom-linters
   -- https://www.lua.org/manual/5.1/luac.html
   -- https://github.com/Konfekt/vim-compilers/blob/297e220569dc0e5c917b1c1c48aafb4e52ffe755/compiler/luacp.vim
-  require('lint').linters.luacp = {
+  require('lint').linters.luac = {
     cmd = 'luac',
     stdin = true,
     append_fname = false,
@@ -403,10 +404,10 @@ local function nvim_lint_setup()
 
   lint.linters_by_ft = {
     bash = { 'shellcheck' },
-    gitcommit = { 'write_good' },
+    gitcommit = { 'gitlint', 'write_good' },
     html = { 'htmlhint' },
     ksh = { 'shellcheck' },
-    lua = { 'luacp', 'luacheck' },
+    lua = { 'luac', 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
     python = { 'ruff', 'pylint' },
     rst = { 'write_good' },
