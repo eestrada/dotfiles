@@ -399,7 +399,10 @@ local function nvim_lint_setup()
     -- parser = require('lint.parser').from_errorformat('luac:\\ %f:%l:\\ %m,%-G%.%#'),
 
     -- used when reading from stdin
-    parser = require('lint.parser').from_errorformat('luac:\\ stdin:%l:\\ %m,%-G%.%#'),
+    parser = require('lint.parser').from_errorformat('luac:\\ stdin:%l:\\ %m,%-G%.%#', {
+      source = 'luac',
+      severity = vim.diagnostic.severity.ERROR,
+    }),
   }
 
   require('lint').linters.dash = {
@@ -414,7 +417,10 @@ local function nvim_lint_setup()
     -- parser = require('lint.parser').from_errorformat('%f:\\ %l:\\ %m'),
 
     -- used when reading from stdin
-    parser = require('lint.parser').from_errorformat('dash:\\ %l:\\ %m'),
+    parser = require('lint.parser').from_errorformat('dash:\\ %l:\\ %m', {
+      source = 'dash',
+      severity = vim.diagnostic.severity.ERROR,
+    }),
   }
 
   require('lint').linters.bash = {
@@ -429,7 +435,10 @@ local function nvim_lint_setup()
     -- parser = require('lint.parser').from_errorformat('%f:\\ line\\ %l:\\ %m'),
 
     -- used when reading from stdin
-    parser = require('lint.parser').from_errorformat('bash:\\ line\\ %l:\\ %m'),
+    parser = require('lint.parser').from_errorformat('bash:\\ line\\ %l:\\ %m', {
+      source = 'bash',
+      severity = vim.diagnostic.severity.ERROR,
+    }),
   }
 
   lint.linters_by_ft = {
