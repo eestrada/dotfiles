@@ -402,8 +402,38 @@ local function nvim_lint_setup()
     parser = require('lint.parser').from_errorformat('luac:\\ stdin:%l:\\ %m,%-G%.%#'),
   }
 
+  require('lint').linters.dash = {
+    cmd = 'dash',
+    stdin = true,
+    append_fname = false,
+    args = { '-n', '-s' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+
+    -- used when reading from a file on disk
+    -- parser = require('lint.parser').from_errorformat('%f:\\ %l:\\ %m'),
+
+    -- used when reading from stdin
+    parser = require('lint.parser').from_errorformat('dash:\\ %l:\\ %m'),
+  }
+
+  require('lint').linters.bash = {
+    cmd = 'bash',
+    stdin = true,
+    append_fname = false,
+    args = { '-n', '-s' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+
+    -- used when reading from a file on disk
+    -- parser = require('lint.parser').from_errorformat('%f:\\ line\\ %l:\\ %m'),
+
+    -- used when reading from stdin
+    parser = require('lint.parser').from_errorformat('bash:\\ line\\ %l:\\ %m'),
+  }
+
   lint.linters_by_ft = {
-    bash = { 'shellcheck' },
+    bash = { 'bash', 'shellcheck' },
     gitcommit = { 'gitlint', 'write_good' },
     html = { 'htmlhint' },
     ksh = { 'shellcheck' },
@@ -411,7 +441,7 @@ local function nvim_lint_setup()
     markdown = { 'markdownlint', 'write_good' },
     python = { 'ruff', 'pylint' },
     rst = { 'write_good' },
-    sh = { 'shellcheck' },
+    sh = { 'dash', 'shellcheck' },
     sql = { 'sqlfluff' },
     vim = { 'vint' },
     zsh = { 'zsh' },
