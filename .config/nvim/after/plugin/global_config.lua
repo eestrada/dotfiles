@@ -441,11 +441,26 @@ local function nvim_lint_setup()
     }),
   }
 
+  require('lint').linters.ksh = {
+    cmd = 'ksh',
+    stdin = true,
+    append_fname = false,
+    args = { '-o', 'noexec', '-s' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+
+    -- used when reading from stdin
+    parser = require('lint.parser').from_errorformat(
+      'ksh:\\ syntax\\ %t%.%#\\ at\\ line\\ %l:\\ %m,ksh:\\ %t%.%#\\ line\\ %l:\\ %m',
+      { source = 'ksh' }
+    ),
+  }
+
   lint.linters_by_ft = {
     bash = { 'bash', 'shellcheck' },
     gitcommit = { 'gitlint', 'write_good' },
     html = { 'htmlhint' },
-    ksh = { 'shellcheck' },
+    ksh = { 'ksh', 'shellcheck' },
     lua = { 'luac', 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
     python = { 'ruff', 'pylint' },
