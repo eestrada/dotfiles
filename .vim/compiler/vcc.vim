@@ -12,7 +12,8 @@ let s:save_cpo = &cpo
 set cpo-=C
 
 CompilerSet makeprg=vcc\ --Werror\ %:S
-CompilerSet errorformat=%f:%l:%c%.%#:\ %t%.%#\ %n:\ %m
+CompilerSet errorformat=%f:%l:%c-%k:\ %t%.%#\ %n:\ %m,
+                       \%f:%l:%c%.%#:\ %t%.%#\ %n:\ %m
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
