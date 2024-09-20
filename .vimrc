@@ -495,7 +495,7 @@ Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !ex
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " linting
-Plug 'https://github.com/mfussenegger/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'git@github.com:eestrada/nvim-lint.git', Cond(has('nvim') && !exists('g:vscode'))
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
