@@ -1119,7 +1119,8 @@ end
 
 -- [[ Configure Keymaps for nvim only ]] {{{2
 -- See `:help vim.keymap.set()`
-local function neovim_keymaps_setup()
+local function general_neovim_setup()
+  -- [[ Keymaps ]] {{{3
   vim.keymap.set('n', '<leader>nf', function()
     vim.diagnostic.open_float()
   end, { desc = 'Open diag[n]ostic [f]loat' })
@@ -1139,6 +1140,17 @@ local function neovim_keymaps_setup()
   vim.keymap.set('n', '<leader>nq', function()
     vim.diagnostic.setqflist()
   end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
+
+  -- [[ diagnostics config ]] {{{3
+  local dconfig = vim.diagnostic.config()
+
+  dconfig.severity_sort = true
+  dconfig.float = {
+    severity_sort = true,
+    source = true,
+  }
+
+  vim.diagnostic.config(dconfig)
 end
 
 -- [[ Run all setup functions ]] {{{1
@@ -1148,7 +1160,7 @@ local init_funcs_all = {
   periscope = { func = periscope_setup, everywhere = true },
   conform = { func = conform_setup, everywhere = true },
   fidget = { func = fidget_setup, vscode_never = true },
-  keymaps = { func = neovim_keymaps_setup, vscode_never = true },
+  ['general Neovim'] = { func = general_neovim_setup, vscode_never = true },
   ['lsp config'] = { func = lsp_config_setup, vscode_never = true },
   ['cmp and snippet engine'] = { func = cmp_setup, vscode_never = true },
   treesitter = { func = treesitter_setup, vscode_never = true },
