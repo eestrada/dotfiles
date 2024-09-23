@@ -649,6 +649,12 @@ function s:vimrc_init() abort
     " By default this will only format the current line
     command! -range -nargs=0 MarkdownFormatTable <line1>,<line2>EasyAlign *<Bar>
   endif
+
+  if executable('rg')
+    let &grepprg='rg --vimgrep --hidden --no-ignore --smart-case'
+    let &grepformat='%f:%l:%c:%m'
+  endif
+
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
