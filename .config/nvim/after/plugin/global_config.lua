@@ -384,10 +384,24 @@ end
 local function nvim_lint_setup()
   local lint = require('lint')
 
+  lint.linters.json5 = {
+    cmd = 'json5',
+    stdin = true,
+    append_fname = false,
+    args = { '--validate' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+    parser = require('lint.parser').from_errorformat('JSON5:\\ %m\\ at\\ %l:%c', {
+      source = 'json5',
+      severity = vim.diagnostic.severity.ERROR,
+    }),
+  }
+
   lint.linters_by_ft = {
     bash = { 'bash', 'shellcheck' },
     gitcommit = { 'gitlint', 'write_good' },
     html = { 'htmlhint' },
+    json5 = { 'json5' },
     ksh = { 'ksh', 'shellcheck' },
     lua = { 'luac', 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
