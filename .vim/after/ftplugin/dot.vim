@@ -4,9 +4,9 @@ set commentstring=\/\/%s
 " This will only work if the 'liuchengxu/graphviz.vim' plugin is installed and
 " the Graphviz `dot` utility is installed.
 augroup DotAutocompile
-    autocmd!
+  autocmd!
 
-    autocmd BufWritePost *.dot,*.gv :GraphvizCompile
-    autocmd BufWritePost *.dot,*.gv :GraphvizCompile svg
-    autocmd BufWritePost *.dot,*.gv :GraphvizCompile png
+  autocmd BufWritePost *.dot,*.gv :GraphvizCompile
+  autocmd BufWritePost *.dot,*.gv :GraphvizCompile svg
+  autocmd BufWritePost *.dot,*.gv :GraphvizCompile png
 augroup END
