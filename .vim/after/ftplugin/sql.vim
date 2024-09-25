@@ -1,5 +1,5 @@
 if executable('sqlfluff')
-    compiler sqlfluff
+  compiler sqlfluff
 endif
 
 setlocal commentstring=--\ %s
