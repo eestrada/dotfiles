@@ -208,31 +208,31 @@ set statusline+={%p%%,\ line\ %l/%L,\ col\ %c}
 
 function! StatuslineMode()
   let l:mode=mode()
-  if l:mode==#"n"
-    return "NORMAL"
-  elseif l:mode==?"v"
-    return "VISUAL"
-  elseif l:mode==#"i"
-    return "INSERT"
-  elseif l:mode==#"R"
-    return "REPLACE"
-  elseif l:mode==?"s"
-    return "SELECT"
-  elseif l:mode==#"t"
-    return "TERMINAL"
-  elseif l:mode==#"c"
-    return "COMMAND"
-  elseif l:mode==#"!"
-    return "SHELL"
+  if l:mode==#'n'
+    return 'NORMAL'
+  elseif l:mode==?'v'
+    return 'VISUAL'
+  elseif l:mode==#'i'
+    return 'INSERT'
+  elseif l:mode==#'R'
+    return 'REPLACE'
+  elseif l:mode==?'s'
+    return 'SELECT'
+  elseif l:mode==#'t'
+    return 'TERMINAL'
+  elseif l:mode==#'c'
+    return 'COMMAND'
+  elseif l:mode==#'!'
+    return 'SHELL'
   else
-    return "Mode:".l:mode
+    return 'Mode:'.l:mode
   endif
 endfunction
 
 function! StatuslineGitBranch()
-  let b:gitbranch_l_paren="("
-  let b:gitbranch_r_paren=")"
-  let b:gitbranch_no_repo = "-_-"
+  let b:gitbranch_l_paren='('
+  let b:gitbranch_r_paren=')'
+  let b:gitbranch_no_repo = '-_-'
   let b:gitbranch=b:gitbranch_l_paren.b:gitbranch_no_repo.b:gitbranch_r_paren
   if &modifiable
     try
@@ -241,7 +241,7 @@ function! StatuslineGitBranch()
       " some other symbol to statusline to indicate this. Command should be
       " `git diff-index -quiet HEAD --`. See link:
       " https://stackoverflow.com/a/2659808/1733321
-      let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
+      let l:gitrevparse = system('git -C '.l:dir.' rev-parse --abbrev-ref HEAD')
       if !v:shell_error
         let b:gitbranch=b:gitbranch_l_paren.substitute(l:gitrevparse, '\n', '', 'g').b:gitbranch_r_paren
       endif
@@ -624,7 +624,7 @@ function s:vimrc_init() abort
   " a git commit message. We should disable signify so that it doesn't
   " unintentionally corrupt the git repo.
   if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
-    execute SignifyDisableAll
+    execute ':SignifyDisableAll'
   endif
 
   " Make Netrw commands use Dirvish instead
