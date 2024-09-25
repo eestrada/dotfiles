@@ -2,12 +2,15 @@ setlocal tabstop=2
 
 " jq can be installed via :Mason or homebrew
 if executable('jq')
-    let s:shiftwidth=&l:shiftwidth
     if &l:expandtab
-        let s:shiftwidth=&l:tabstop
-        let &l:formatprg= 'jq . --indent ' .. s:shiftwidth
+        if &l:shiftwidth ==? 0
+          let s:shiftwidth=&l:tabstop
+        else
+          let s:shiftwidth=&l:shiftwidth
+        endif
+        let &l:formatprg= 'jq . --indent ' . s:shiftwidth
     else
-        setlocal formatprg=jq\ .\ --tab
+        let &l:formatprg= 'jq . --tab'
     endif
 
     command! -buffer -range=% JSONFormat <line1>,<line2>!jq .
