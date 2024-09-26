@@ -36,17 +36,14 @@ let g:mkdp_auto_close = 0
 " default: 0
 let g:mkdp_refresh_slow = 1
 
-" Force python files to always format using `black` upon save.
-let g:black_fmt_on_save = 1
-
-" Force markdown files to always format using `mdformat` upon save.
-let g:mdformat_fmt_on_save = 1
-
 " For zig ftplugin
 if has('nvim')
   " In nvim, the `nvim-lint` and `conform.nvim` plugins do the same things.
   let g:zig_fmt_autosave = 0
 endif
+
+" Set conform variable so that it comes up in autocomplete contexts
+let g:disable_auto_conform = 0
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
@@ -170,8 +167,15 @@ set softtabstop=-1
 
 " At least 8 line visible buffer when moving up/down file.
 set scrolloff=4
+
 " show sign column even when empty
-set signcolumn=auto:2
+if has('nvim')
+  " nvim allows setting max width
+  set signcolumn=auto:2
+else
+  set signcolumn=auto
+end
+
 " Decrease update time
 set updatetime=250
 set timeoutlen=600
