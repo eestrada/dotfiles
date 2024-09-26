@@ -509,9 +509,9 @@ local function conform_setup()
 
     format_on_save = function(bufnr)
       if
-          vim.b.disable_auto_conform
+          vim.b.conform_disable_autoformat
           -- Allow buffer local disable setting to always take precedence
-          or (vim.b.disable_auto_conform == nil and vim.g.disable_auto_conform)
+          or (vim.b.conform_disable_autoformat == nil and vim.g.conform_disable_autoformat)
           or not vim.tbl_contains(format_on_save_fts, vim.bo[bufnr].filetype)
       then
         -- `dry_run = true` should disable auto-formatting
