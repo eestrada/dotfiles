@@ -2,6 +2,11 @@
 " Kind of pointless, but better safe than sorry.
 set nocompatible
 
+" Use this augroup for all autocmds defined in the vimrc file.
+augroup vimrc_aug
+  autocmd!
+augroup END
+
 " [[ Global Variables ]] {{{1
 
 " Set <space> as the leader key
@@ -373,7 +378,7 @@ nmap <leader>sy :execute '/' . @0<CR>
 " buffer. Only override keymap locally in the quicklist type buffers. Original
 " keymapping from here:
 " https://www.reddit.com/r/vim/comments/hfovi6/comment/fvyxvwd/
-au BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> p <CR><C-w>p | endif
+autocmd vimrc_aug BufRead,BufNewFile * if &ft == 'qf' | nnoremap <silent> <buffer> p <CR><C-w>p | endif
 
 " [[ User Commands ]] {{{1
 " My custom defined commands
@@ -398,8 +403,8 @@ command! -range UrlEncode <line1>,<line2>!python3 -c 'import sys; from urllib im
 command! BuffDeleteOthers :%bdelete|edit #|normal`"<cr>
 
 " [[ Filetype Detection ]] {{{1
-au BufRead,BufNewFile *.cron setfiletype crontab
-au BufRead,BufNewFile *.crontab setfiletype crontab
+autocmd vimrc_aug BufRead,BufNewFile *.cron setfiletype crontab
+autocmd vimrc_aug BufRead,BufNewFile *.crontab setfiletype crontab
 
 " [[ Plugins ]] {{{1
 
@@ -412,7 +417,7 @@ endfunction
 let s:autoload_data_dir_parent = has('nvim') ? s:data_dir . '/site' : s:data_dir
 if empty(glob(s:autoload_data_dir_parent . '/autoload/plug.vim'))
   silent execute '!curl -fLo ' . s:autoload_data_dir_parent . '/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd vimrc_aug VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin(s:plugins_dir)
@@ -658,4 +663,4 @@ function s:vimrc_init() abort
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
-autocmd VimEnter * call s:vimrc_init()
+autocmd vimrc_aug VimEnter * call s:vimrc_init()
