@@ -43,7 +43,7 @@ if has('nvim')
 endif
 
 " Set conform variable so that it comes up in autocomplete contexts
-let g:disable_auto_conform = 0
+let g:conform_disable_autoformat = v:false
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
