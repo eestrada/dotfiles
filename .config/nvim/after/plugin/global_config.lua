@@ -304,9 +304,12 @@ local function mason_tool_installer_setup()
   -- mason-tool-installer requires that mason be setup first.
   require('mason').setup()
 
-  -- Be sure to install GFM (Github Flavored Markdown) extensions for `mdformat`
+  -- Be sure to install GFM (Github Flavored Markdown) extension for `mdformat`
   -- in the venv created by Mason.
   -- This allows for autoformatting tables, and along with other common extensions.
+  --
+  -- Also install the `mdformat-frontmatter` extension
+  -- to allow frontmatter metadata used for writing blog posts.
   --
   -- Instructions for this can be found in the Github repo links below.
   --
@@ -314,6 +317,8 @@ local function mason_tool_installer_setup()
   -- * https://github.com/executablebooks/mdformat
   -- * https://github.com/hukkin/mdformat-gfm
   -- * https://mdformat.readthedocs.io/en/stable/users/style.html#paragraph-word-wrapping
+  -- * https://pypi.org/project/mdformat_frontmatter/
+  -- * https://github.com/butler54/mdformat-frontmatter
   require('mason-tool-installer').setup({
 
     -- a list of all tools you want to ensure are installed upon start
