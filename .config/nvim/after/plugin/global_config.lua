@@ -519,8 +519,8 @@ local function conform_setup()
           or (vim.b.conform_disable_autoformat == nil and vim.g.conform_disable_autoformat)
           or not vim.tbl_contains(format_on_save_fts, vim.bo[bufnr].filetype)
       then
-        -- `dry_run = true` should disable auto-formatting
-        return { bufnr = bufnr, dry_run = true }
+        -- Returning `nil` disables autoformatting
+        return nil
       else
         return { bufnr = bufnr }
       end
