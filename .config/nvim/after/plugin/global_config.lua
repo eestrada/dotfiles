@@ -184,7 +184,7 @@ local function lsp_keymaps_setup(args)
   if args.buf then
     -- This will fallback to 'v:lua.vim.lsp.formatexpr()' if no other formatter
     -- is configured/found by conform.
-    vim.bo[args.buf].formatexpr = "v:lua.require('conform').formatexpr()"
+    vim.bo[args.buf].formatexpr = "v:lua.require'conform'.formatexpr()"
   end
 
   -- References
@@ -469,6 +469,7 @@ local function conform_setup()
   local formatters_by_ft_all = vim.tbl_extend('error', format_on_save_ft_configs, no_format_on_save_ft_configs)
 
   require('conform').setup({
+    -- log_level = vim.log.levels.DEBUG,
     formatters_by_ft = formatters_by_ft_all,
     formatters = {
       xmlformat = {
@@ -534,7 +535,7 @@ local function conform_setup()
   -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
   --
   -- By setting `formatexpr`, the `gq` keybinding should work using conform.
-  vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+  vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
   vim.keymap.set({ 'n' }, '<leader>gq', function()
     require('conform').format()
