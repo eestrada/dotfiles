@@ -527,6 +527,10 @@ local function conform_setup()
     end,
   })
 
+  -- FIXME: Use an `nvim_create_autocmd` instead of `format_on_save` config key
+  -- because it still runs as a dry run even when disabled.
+  -- This is a waste of CPU cycles.
+
   -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
   --
   -- By setting `formatexpr`, the `gq` keybinding should work using conform.
