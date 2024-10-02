@@ -291,16 +291,6 @@ nmap <leader>e :Explore<CR>
 " Buffers/windows/tabs
 " see :help windows
 
-" Jump between buffers
-" Go to previous buffer
-nmap [b :bprevious<CR>
-" Go to next buffer
-nmap ]b :bnext<CR>
-" Go to first buffer
-nmap [B :bfirst<CR>
-" Go to next buffer
-nmap ]B :blast<CR>
-
 " Jump between windows
 " Jump to previous (i.e. above/left) window.
 nmap [w :wincmd W<CR>
@@ -311,39 +301,63 @@ nmap [W :wincmd t<CR>
 " Jump to last (i.e. bottom-right) window.
 nmap ]W :wincmd b<CR>
 
-" Jump between tabs
-" Jump to previous tab.
-nmap [t :tabprevious<CR>
-" Jump to next tab.
-nmap ]t :tabnext<CR>
-" Jump to first tab.
-nmap [T :tabfirst<CR>
-" Jump to last tab.
-nmap ]T :tablast<CR>
+" nvim has these defined, and with more features (like taking a count):
+" https://github.com/neovim/neovim/pull/28525
+if !has('nvim-0.11')
+  " Jump between files specified as arguments
+  " Go to previous buffer
+  nmap [a :previous<CR>
+  " Go to next buffer
+  nmap ]a :next<CR>
+  " Go to first buffer
+  nmap [A :rewind<CR>
+  " Go to next buffer
+  nmap ]A :last<CR>
+
+  " Jump between buffers
+  " Go to previous buffer
+  nmap [b :bprevious<CR>
+  " Go to next buffer
+  nmap ]b :bnext<CR>
+  " Go to first buffer
+  nmap [B :bfirst<CR>
+  " Go to next buffer
+  nmap ]B :blast<CR>
+
+  " Jump between tags
+  " Jump to previous tag.
+  nmap [t :tprevious<CR>
+  " Jump to next tag.
+  nmap ]t :tnext<CR>
+  " Jump to first tag.
+  nmap [T :tfirst<CR>
+  " Jump to last tag.
+  nmap ]T :tlast<CR>
+
+  " Jump to previous Quickfix item.
+  nmap [q :cprevious<CR>
+  " Jump to next Quickfix item.
+  nmap ]q :cnext<CR>
+  " Jump to first Quickfix item.
+  nmap [Q :cfirst<CR>
+  " Jump to last Quickfix item.
+  nmap ]Q :clast<CR>
+
+  " Jump to previous location list item.
+  nmap [l :lprevious<CR>
+  " Jump to next location list item.
+  nmap ]l :lnext<CR>
+  " Jump to first location list item.
+  nmap [L :lfirst<CR>
+  " Jump to last location list item.
+  nmap ]L :llast<CR>
+endif
 
 " " Original implementation found here: https://vi.stackexchange.com/a/2127/15953
 command! Qbuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
 " FIXME: figure out how to indicate the current window for command below. <window> isn't it, obviously.
 command! Lbuffers call setloclist(<window>, map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
-
-" Jump to previous Quickfix item.
-nmap [q :cprevious<CR>
-" Jump to next Quickfix item.
-nmap ]q :cnext<CR>
-" Jump to first Quickfix item.
-nmap [Q :cfirst<CR>
-" Jump to last Quickfix item.
-nmap ]Q :clast<CR>
-
-" Jump to previous location list item.
-nmap [l :lprevious<CR>
-" Jump to next location list item.
-nmap ]l :lnext<CR>
-" Jump to first location list item.
-nmap [L :lfirst<CR>
-" Jump to last location list item.
-nmap ]L :llast<CR>
 
 " Jump to previous location in jump list.
 nmap [j <C-O>
