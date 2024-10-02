@@ -174,7 +174,7 @@ if has('nvim')
   set signcolumn=auto:2
 else
   set signcolumn=auto
-end
+endif
 
 " Decrease update time
 set updatetime=250
