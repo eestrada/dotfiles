@@ -1178,6 +1178,30 @@ local function general_neovim_setup()
 end
 
 -- [[ Run all setup functions ]] {{{1
+
+-- Lua does not guarantee order of string keys,
+-- so it must be tracked in an array style table separately
+-- if strict order is required,
+-- as it is here.
+--
+-- Out of order evaluation can cause plugins to fail.
+local init_funcs_keys = {
+  'VSCode',
+  'mason tool installer',
+  'periscope',
+  'conform',
+  'fidget',
+  'general Neovim',
+  'lsp config',
+  'cmp and snippet engine',
+  'treesitter',
+  'dap',
+  'telescope',
+  'dressing',
+  'lint',
+  -- 'llm',
+}
+
 local init_funcs_all = {
   ['VSCode'] = { func = vscode_setup, vscode_only = true },
   ['mason tool installer'] = { func = mason_tool_installer_setup, everywhere = true },
@@ -1192,10 +1216,11 @@ local init_funcs_all = {
   telescope = { func = telescope_setup, vscode_never = true },
   dressing = { func = dressing_setup, vscode_never = true },
   lint = { func = nvim_lint_setup, vscode_never = true },
-  -- llm = {func = llm_setup, vscode_never = true},
+  llm = { func = llm_setup, vscode_never = true },
 }
 
-for setup_name, setup_opts in pairs(init_funcs_all) do
+for _, setup_name in ipairs(init_funcs_keys) do
+  local setup_opts = init_funcs_all[setup_name]
   local should_run_func = (
     setup_opts.everywhere
     or (setup_opts.vscode_only and vim.g.vscode)
