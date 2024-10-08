@@ -1,4 +1,4 @@
--- vim: set foldmethod=marker:
+-- vim: set foldmethod=marker foldlevel=0:
 -- [[ Utility functions ]] {{{1
 
 -- Dump a table to a readable string. See original implementation here:
@@ -1139,6 +1139,10 @@ local function treesitter_setup()
     filetype = 'gotmpl',
     used_by = { 'gohtmltmpl', 'gotexttmpl', 'gotmpl' },
   }
+
+  vim.o.foldmethod = 'expr'
+  vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+  vim.o.foldlevel = 99
 end
 
 -- [[ Configure Keymaps for nvim only ]] {{{2
