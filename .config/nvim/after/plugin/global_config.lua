@@ -164,7 +164,11 @@ local function lsp_keymaps_setup(args)
   --
   -- See also: `:h lsp-defaults`
   if always_set or client ~= nil and client.server_capabilities.definitionProvider then
-    vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
+    if args.buf ~= nil then
+      vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
+    else
+      vim.api.nvim_set_option('tagfunc', 'v:lua.vim.lsp.tagfunc')
+    end
   end
 
   -- Explicitly set `formatexpr` to call `vim.lsp.formatexpr()`. This is the lsp
@@ -1209,7 +1213,7 @@ local init_funcs_keys = {
 local init_funcs_all = {
   ['VSCode'] = { func = vscode_setup, vscode_only = true },
   ['mason tool installer'] = { func = mason_tool_installer_setup, everywhere = true },
-  periscope = { func = periscope_setup, everywhere = true },
+  periscope = { func = periscope_setup, vscode_never = true },
   conform = { func = conform_setup, everywhere = true },
   fidget = { func = fidget_setup, vscode_never = true },
   ['general Neovim'] = { func = general_neovim_setup, vscode_never = true },
