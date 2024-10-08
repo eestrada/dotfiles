@@ -306,19 +306,19 @@ nmap ]W :wincmd b<CR>
 if !has('nvim-0.11')
   " Jump between files specified as arguments
   " Go to previous buffer
-  nmap [a :previous<CR>
+  nmap [a :<C-U>execute ":" .. v:count1 .. "previous"<CR>
   " Go to next buffer
-  nmap ]a :next<CR>
+  nmap ]a :<C-U>execute ":" .. v:count1 .. "next"<CR>
   " Go to first buffer
-  nmap [A :rewind<CR>
+  nmap [A :first<CR>
   " Go to next buffer
   nmap ]A :last<CR>
 
   " Jump between buffers
   " Go to previous buffer
-  nmap [b :bprevious<CR>
+  nmap [b :<C-U>execute ":" .. v:count1 .. "bprevious"<CR>
   " Go to next buffer
-  nmap ]b :bnext<CR>
+  nmap ]b :<C-U>execute ":" .. v:count1 .. "bnext"<CR>
   " Go to first buffer
   nmap [B :bfirst<CR>
   " Go to next buffer
@@ -326,27 +326,27 @@ if !has('nvim-0.11')
 
   " Jump between tags
   " Jump to previous tag.
-  nmap [t :tprevious<CR>
+  nmap [t :<C-U>execute ":" .. v:count1 .. "tprevious"<CR>
   " Jump to next tag.
-  nmap ]t :tnext<CR>
+  nmap ]t :<C-U>execute ":" .. v:count1 .. "tnext"<CR>
   " Jump to first tag.
   nmap [T :tfirst<CR>
   " Jump to last tag.
   nmap ]T :tlast<CR>
 
   " Jump to previous Quickfix item.
-  nmap [q :cprevious<CR>
+  nmap [q :<C-U>execute ":" .. v:count1 .. "cprevious"<CR>
   " Jump to next Quickfix item.
-  nmap ]q :cnext<CR>
+  nmap ]q :<C-U>execute ":" .. v:count1 .. "cnext"<CR>
   " Jump to first Quickfix item.
   nmap [Q :cfirst<CR>
   " Jump to last Quickfix item.
   nmap ]Q :clast<CR>
 
   " Jump to previous location list item.
-  nmap [l :lprevious<CR>
+  nmap [l :<C-U>execute ":" .. v:count1 .. "lprevious"<CR>
   " Jump to next location list item.
-  nmap ]l :lnext<CR>
+  nmap ]l :<C-U>execute ":" .. v:count1 .. "lnext"<CR>
   " Jump to first location list item.
   nmap [L :lfirst<CR>
   " Jump to last location list item.
