@@ -1,4 +1,4 @@
-" vim: set foldmethod=marker:
+" vim: set foldmethod=marker foldlevel=0:
 " Kind of pointless, but better safe than sorry.
 set nocompatible
 
