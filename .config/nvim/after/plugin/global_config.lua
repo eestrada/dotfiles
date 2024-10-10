@@ -366,6 +366,7 @@ local function mason_tool_installer_setup()
       'write-good',
       'xmlformatter',
       'yaml-language-server',
+      'yq',
       'zls',
     },
 
@@ -468,6 +469,7 @@ local function conform_setup()
     xsd = { 'xmlformat' },
     xsl = { 'xmlformat' },
     xslt = { 'xmlformat' },
+    yaml = { 'yq' },
   }
 
   local formatters_by_ft_all = vim.tbl_extend('error', format_on_save_ft_configs, no_format_on_save_ft_configs)
@@ -499,6 +501,11 @@ local function conform_setup()
         prepend_args = {
           '--number',
           '--wrap=keep',
+        },
+      },
+      yq = {
+        prepend_args = {
+          '--unwrapScalar=false',
         },
       },
 
