@@ -16,8 +16,6 @@ if executable('jq')
   command! -buffer -range=% JSONFormat <line1>,<line2>!jq .
 
   command! -buffer -range=% JSONCompact <line1>,<line2>!jq --compact-output .
-
-  compiler jq
 endif
 
 " jsonlint can be installed via :Mason
