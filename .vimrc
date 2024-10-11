@@ -17,7 +17,7 @@ let g:maplocalleader = ' '
 
 " For vim-test
 if has('nvim')
-  let g:test#strategy = 'neovim'
+  let g:test#strategy = 'make'
 endif
 
 " How to split windows when running Plug commands
