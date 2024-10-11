@@ -460,6 +460,7 @@ local function conform_setup()
 
   local no_format_on_save_ft_configs = {
     ant = { 'xmlformat' },
+    graphql = { 'prettier' },
     javascript = { 'prettier' },
     json = { 'jq' },
     svg = { 'xmlformat' },
