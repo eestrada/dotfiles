@@ -463,6 +463,7 @@ local function conform_setup()
     graphql = { 'prettier' },
     javascript = { 'prettier' },
     json = { 'jq' },
+    sql = { 'sqlfluff' },
     svg = { 'xmlformat' },
     toml = { 'taplo' },
     typescript = { 'prettier' },
