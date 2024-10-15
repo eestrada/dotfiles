@@ -524,6 +524,7 @@ local function conform_setup()
     default_format_opts = {
       lsp_format = 'last',
       stop_after_first = true,
+      timeout_ms = 3000,
     },
 
     format_on_save = function(bufnr)
@@ -540,10 +541,6 @@ local function conform_setup()
       end
     end,
   })
-
-  -- FIXME: Use an `nvim_create_autocmd` instead of `format_on_save` config key
-  -- because it still runs as a dry run even when disabled.
-  -- This is a waste of CPU cycles.
 
   -- Explicitly set global `formatexpr` to call `require('conform').formatexpr()`.
   --
