@@ -36,6 +36,9 @@ git remote add --fetch "--track=${BRANCH}" origin "${REPO_URL}"
 # Force repo to think it is checked out to the same commit as the `origin` remote
 cat ".git/refs/remotes/origin/${BRANCH}" >".git/refs/heads/${BRANCH}"
 
+# track upstream
+git branch "--set-upstream-to=origin/${BRANCH}"
+
 # We haven't actually checked out, so we need to make the index reflect reality.
 git restore --staged .
 
