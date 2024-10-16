@@ -47,7 +47,9 @@ git restore --staged .
 
 # "restore" the files that are safe to do so
 # (i.e. files that git considers to be deleted from the working directory)
-git ls-files -z --deleted | git restore --pathspec-file-nul '--pathspec-from-file=-'
+if [ -n "$(git ls-files --deleted)" ]; then
+    git ls-files -z --deleted | git restore --pathspec-file-nul '--pathspec-from-file=-'
+fi
 
 # Clone submodules.
 git submodule update --init --recursive
