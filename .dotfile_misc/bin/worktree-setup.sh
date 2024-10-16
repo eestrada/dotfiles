@@ -1,43 +1,38 @@
 #!/bin/sh
+set -e
 
-# clone repo
-mkdir -p "${HOME}/dev"
-cd "${HOME}/dev" || exit
-# git clone --no-checkout git@github.com:eestrada/dotfiles.git dotfiles_git
-git clone --no-checkout https://github.com/eestrada/dotfiles.git dotfiles_git
-cd dotfiles_git || exit
+_default_repo='git@github.com:eestrada/dotfiles.git'
+REPO_URL=${1:-${_default_repo}}
+DIRECTORY=${2:-${HOME}}
+unset _default_repo
 
-# Switch to a dummy branch so that we don't conflict with the worktree on master
-git switch -c local_dummy_branch
+# echo "${REPO_URL}"
+# echo "${DIRECTORY}"
 
-# create a bogus work tree pointing to master branch because git won't allow us to
-# create a worktree to an existing directory like our home directory. Lock it
-# from the very beginning to prevent attempted moves or deletes.
-git worktree add --lock --no-checkout --force "${HOME}/homedir-dotfiles" master
+cd "${DIRECTORY}" || exit
 
-# point home dir to repo
-cp -v "${HOME}/homedir-dotfiles/.git" "${HOME}/"
+# start as empty repo
+git init
 
-# point repo to home dir
-echo "${HOME}/.git" > ".git/worktrees/homedir-dotfiles/gitdir"
+# git remote add --fetch --track=master origin git@github.com:eestrada/dotfiles.git
+git remote add --fetch --track=master origin "${REPO_URL}"
 
-# delete dummy work dir; it no longer serves any purpose
-rm -rf "${HOME}/homedir-dotfiles"
+# Force repo to think it is checked out to the same commit as the `origin` remote
+cat .git/refs/remotes/origin/master >.git/refs/heads/master
 
-# because we created the worktree without checking out, we need to fix its initial stage.
-cd "${HOME}" || exit && git restore --staged .
+# We haven't actually checked out, so we need to make the index reflect reality.
+git restore --staged .
 
-# "restore" the files that are safe to do so (i.e. files that don't already exist)
-# shellcheck disable=2046 # we want word splitting
-git restore $(git ls-files --deleted)
+# "restore" the files that are safe to do so
+# (i.e. files that git considers to be deleted from the working directory)
+git ls-files -z --deleted | git restore --pathspec-file-nul '--pathspec-from-file=-'
 
 # Clone submodules.
 git submodule update --init --recursive
 
 # add sourcing for global shell overrides and additions
-for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"
-do
-    printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >> "${HOME}/${_LOCAL_SHELL_RC}"
+for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"; do
+    printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >>"${HOME}/${_LOCAL_SHELL_RC}"
 done
 unset _LOCAL_SHELL_RC
 
@@ -45,6 +40,7 @@ unset _LOCAL_SHELL_RC
 # shellcheck disable=2088
 git config --global --add include.path '~/.gitconfig-global.ini'
 
-echo 'Running `git status` in your home directory should now work.'
+# shellcheck disable=2016
+echo 'Running `git status` and `git diff` in your home directory should now work.'
 echo 'Try it to see how much drift there is between your home dir and the repo.'
 echo "Be careful with checking out files! You don't want to mess up your pre-existing configurations."
