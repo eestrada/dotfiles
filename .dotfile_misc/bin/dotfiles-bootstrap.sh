@@ -2,6 +2,8 @@
 
 # Simple script to clone a git repo
 # into a directory with pre-existing files in it.
+# Primarily meant for bootstrapping dotfiles into the home directory;
+# all default values of arguments reflect this purpose.
 #
 # This script does not overwrite existing files.
 # If you want to overwrite existing files
@@ -39,7 +41,8 @@ cat ".git/refs/remotes/origin/${BRANCH}" >".git/refs/heads/${BRANCH}"
 # track upstream
 git branch "--set-upstream-to=origin/${BRANCH}"
 
-# We haven't actually checked out, so we need to make the index reflect reality.
+# We haven't *actually* checked out,
+# so we need to make the index reflect reality.
 git restore --staged .
 
 # "restore" the files that are safe to do so
