@@ -22,11 +22,6 @@ unset _default_repo
 unset _default_branch
 unset _default_dir
 
-# echo "${REPO_URL}"
-# echo "${BRANCH}"
-# echo "${DIRECTORY}"
-# exit
-
 cd "${DIRECTORY}" || exit
 
 # start as empty repo
@@ -54,15 +49,17 @@ fi
 # Clone submodules.
 git submodule update --init --recursive
 
-# add sourcing for global shell overrides and additions
-for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"; do
-    printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >>"${HOME}/${_LOCAL_SHELL_RC}"
-done
-unset _LOCAL_SHELL_RC
+if [ "${DIRECTORY}" = "${HOME}" ]; then
+    # add sourcing for global shell overrides and additions
+    for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"; do
+        printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >>"${HOME}/${_LOCAL_SHELL_RC}"
+    done
+    unset _LOCAL_SHELL_RC
 
-# add sourcing for global git config additions
-# shellcheck disable=2088
-git config --global --add include.path '~/.gitconfig-global.ini'
+    # add sourcing for global git config additions
+    # shellcheck disable=2088
+    git config --global --add include.path '~/.gitconfig-global.ini'
+fi
 
 # shellcheck disable=2016
 echo 'Running `git status` and `git diff` in your home directory should now work.'
