@@ -555,6 +555,10 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 " highlighting feature of this requirements plugin may be bundled.
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
 
+" voll
+Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
+" Plug '~/dev/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
+
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
 
