@@ -163,46 +163,6 @@ set_job() {
   echo "Current JOB is: ${JOB}" 1>&2
 }
 
-racket_install() {
-  if [ -z "$1" ]; then
-    echo "No arguments given!"
-    echo 'Need at least one argument.'
-    echo 'First arguments indicates the version of Racket to install (e.g. "6.7", "6.8", etc.)'
-    echo 'The second argument, if the string "false", will prevent the script from creating links after install'
-    return 1
-  fi
-
-  plt_url="https://mirror.racket-lang.org/installers/${1}/racket-${1}-x86_64-linux.sh"
-  plt_local="${TEMP}/racket-${1}-x86_64-linux.sh"
-  dest="/usr/local/racket/$1"
-  links="/usr/local"
-
-  if [ "$2" = "false" ]; then
-    create_links=""
-  else
-    create_links="--create-links ${links}"
-  fi
-
-  curl ${plt_url} >${plt_local}
-  chmod a+x ${plt_local}
-
-  echo "We are about to execute the following command: 'sudo ${plt_local} --in-place --dest ${dest} ${create_links}'"
-  echo "Mash Ctrl-c within the next 10 seconds to cancel..."
-  sleep 10
-  echo "Do you want to proceed? (select your choice by number)"
-  sudo ${plt_local} --in-place --dest ${dest} ${create_links}
-}
-
-racket_repl() {
-  cd "${TEMP}" || return 1
-  racket
-}
-
-racket_repl_exec() {
-  cd "${TEMP}" || return 1
-  exec racket
-}
-
 beadm_update() {
   # Ideas for this code were inspired by: https://forums.FreeBSD.org/threads/freebsd-upgrade-with-beadm.53225/post-299112
   set -v
@@ -282,7 +242,7 @@ dotenv_src() {
 
   # grep removes all blank and commented out lines
   # shellcheck disable=SC2046 # We want word splitting.
-  export $(grep -vE '^#|^$' "$filename" | xargs -0)
+  export $(grep -vE '^[ \t]*#|^[ \t]*$' "$filename" | xargs -0)
 }
 
 dotenv_unsrc() {
@@ -299,7 +259,7 @@ dotenv_unsrc() {
   # grep removes all blank and commented out lines
   # sed grabs all variable names and ignores variable values
   # shellcheck disable=SC2046 # We want word splitting.
-  unset $(grep -vE '^#|^$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
+  unset $(grep -vE '^[ \t]*#|^[ \t]*$' "$filename" | sed -E 's/([^=]+)=.*/\1/' | xargs -0)
 }
 
 _git_print_branch() {
