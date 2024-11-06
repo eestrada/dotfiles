@@ -94,6 +94,10 @@ bindsym $mod+Shift+space floating toggle
 # then select the window you want to learn about. The first field is
 # the instance type and the second is the class type.
 
+# Float and sticky Signal
+# for_window [instance="signal" class="Signal"] floating enable
+# for_window [instance="signal" class="Signal"] sticky enable
+
 # Float dsbmixer
 for_window [instance="dsbmixer" class="dsbmixer"] floating enable
 
@@ -216,6 +220,8 @@ bar {
         position bottom
         status_command i3status --config ~/.i3status.conf
 
+        font pango:monospace 24
+        # font pango:DejaVu Sans Mono 24
         # colors {
         #     separator "#0000FF"
         # }
@@ -232,19 +238,6 @@ workspace 7 output HDMI1
 workspace 8 output HDMI1
 workspace 9 output HDMI1
 workspace 10 output HDMI1
-
-# Startup programs
-# Blueman Bluetooth Manager (Fedora)
-exec --no-startup-id blueman-applet
-
-# Dropbox daemon (Fedora)
-exec --no-startup-id dropbox start -i
-
-# Keybase Filesystem Service and GUI (for Fedora)
-exec --no-startup-id "env KEYBASE_START_UI=hideWindow run_keybase"
-
-# Network manager applet
-exec --no-startup-id nm-applet  # Linux: https://wiki.gnome.org/Projects/NetworkManager
 
 # I always start up a terminal anyway. Just make it automatically happen on workspace 1
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-terminal'
