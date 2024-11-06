@@ -79,6 +79,10 @@ volumeicon &
 # Basic brightness systray item for MX Linux
 mx-tweak --tray &
 
+# Always start Signal messenger app
+# In Signal preferences set "Start minimized to tray"
+signal-desktop &
+
 # Use LXqt utilities whenever possible.
 
 # Use policykit agent to spawn authentication windows
@@ -89,6 +93,7 @@ lxqt-policykit-agent &
 lxqt-powermanagement &
 
 # Capture global keymap overrides.
+# XXX: This may break since lxqt assumes a stacking/floating window manager, not a tiling window manager like i3wm.
 # lxqt-globalkeysd &
 
 # dsbmixer is a mixer for bsd. In situations where keyboard keys for turning
