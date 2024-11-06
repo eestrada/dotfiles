@@ -1,3 +1,5 @@
+setlocal tabstop=2
+
 " Originally sourced from here: https://github.com/z0mbix/vim-shfmt
 if executable('shfmt')
   let s:shiftwidth=&l:shiftwidth

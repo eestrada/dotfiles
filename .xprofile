@@ -62,9 +62,6 @@ numlockx on &
 # install from sysutils/dunst on FreeBSD
 dunst &
 
-# volumeicon is a systray mixer for Linux.
-volumeicon &
-
 # Startup programs
 # Blueman Bluetooth Manager (Fedora)
 blueman-applet &
@@ -73,11 +70,26 @@ blueman-applet &
 # Linux: https://wiki.gnome.org/Projects/NetworkManager
 nm-applet &
 
+# Qt based network applet.
+# nm-tray &
+
+# volumeicon is a systray mixer for Linux.
+volumeicon &
+
 # Basic brightness systray item for MX Linux
 mx-tweak --tray &
 
 # Use LXqt utilities whenever possible.
+
+# Use policykit agent to spawn authentication windows
+# for entering sudo password.
 lxqt-policykit-agent &
+
+# Power management daemon and systray item.
+lxqt-powermanagement &
+
+# Capture global keymap overrides.
+# lxqt-globalkeysd &
 
 # dsbmixer is a mixer for bsd. In situations where keyboard keys for turning
 # up/down/off do not work, having this mixer in the tray is pretty critical.
