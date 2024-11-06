@@ -220,8 +220,11 @@ bar {
         position bottom
         status_command i3status --config ~/.i3status.conf
 
+        # increasing the font size increases the size of the status bar
+        # (and thus of systray icons).
         font pango:monospace 24
         # font pango:DejaVu Sans Mono 24
+
         # colors {
         #     separator "#0000FF"
         # }
