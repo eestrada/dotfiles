@@ -646,6 +646,12 @@ function s:vimrc_init() abort
   if exists(':SignifyHunkUndo') > 0
     nmap <leader>hu :SignifyHunkUndo<CR>
     nmap <leader>hd :SignifyHunkDiff<CR>
+
+    " Text object for moving over everything in or around a changed hunk:
+    omap ic <plug>(signify-motion-inner-pending)
+    xmap ic <plug>(signify-motion-inner-visual)
+    omap ac <plug>(signify-motion-outer-pending)
+    xmap ac <plug>(signify-motion-outer-visual)
   endif
 
   " I'm still on the fence on whether or not I want to show the count of deleted
