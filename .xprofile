@@ -7,13 +7,13 @@
 
 # force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
 # https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
-export XDG_CURRENT_DESKTOP=XFCE
+export XDG_CURRENT_DESKTOP="${SESSION}"
 
 sysresources=/usr/local/etc/X11/xinit/.Xresources
 sysmodmap=/usr/local/etc/X11/xinit/.Xmodmap
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
-xinitrclocal=$HOME/.xinitrc_local.sh
+xprofilelocal=$HOME/.xprofile_local.sh
 
 # merge in defaults and keymaps
 
@@ -33,71 +33,13 @@ if [ -f "$usermodmap" ]; then
   xmodmap "$usermodmap"
 fi
 
-if [ -f "$xinitrclocal" ]; then
+if [ -f "$xprofilelocal" ]; then
   # shellcheck disable=SC1090 # Allow sourcing non-constant.
-  . "$xinitrclocal"
+  . "$xprofilelocal"
 fi
-
-# start some nice programs
 
 # set the background to pure black
 xsetroot -solid black &
 
-# We use xscreensaver both to lock the screen and for its basic power
-# management functionality.
-xscreensaver -no-splash &
-
-# Get natural scrolling on MX Linux.
-touchpad-indicator &
-
-# Make sure the basic home directory file hierarchy exists.
-xdg-user-dirs-update &
-
-# Have numlock on at start up
-numlockx on &
-
-# Make sure we get OSD notifications in FreeBSD.
-# dunst a is lightweight notification utility. It is also desktop environment
-# and toolkit independent.  Score!
-# install from sysutils/dunst on FreeBSD
-dunst &
-
-# Startup programs
-# Blueman Bluetooth Manager (Fedora)
-blueman-applet &
-
-# Network manager applet
-# Linux: https://wiki.gnome.org/Projects/NetworkManager
-nm-applet &
-
-# Qt based network applet.
-# nm-tray &
-
-# volumeicon is a systray mixer for Linux.
-volumeicon &
-
-# Basic brightness systray item for MX Linux
-mx-tweak --tray &
-
-# Always start Signal messenger app
-# In Signal preferences set "Start minimized to tray"
-signal-desktop &
-
-# Use LXqt utilities whenever possible.
-
-# Use policykit agent to spawn authentication windows
-# for entering sudo password.
-lxqt-policykit-agent &
-
-# Power management daemon and systray item.
-lxqt-powermanagement &
-
-# Capture global keymap overrides.
-# XXX: This may break since lxqt assumes a stacking/floating window manager, not a tiling window manager like i3wm.
-# lxqt-globalkeysd &
-
-# dsbmixer is a mixer for bsd. In situations where keyboard keys for turning
-# up/down/off do not work, having this mixer in the tray is pretty critical.
-# The `-i` flag ensures the mixer does not show a window on startup, only a
-# status tray icon.
-# dsbmixer -i &
+# start some nice programs
+dex --autostart --environment "$XDG_CURRENT_DESKTOP"
