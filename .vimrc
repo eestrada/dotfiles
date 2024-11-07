@@ -21,6 +21,18 @@ let g:test#strategy = 'make_bang'
 " How to split windows when running Plug commands
 let g:plug_window = 'vnew'
 
+" For Signify
+
+" I'm still on the fence on whether or not I want to show the count of deleted
+" lines in the gutter.
+" let g:signify_sign_show_count = v:false
+
+let g:signify_sign_delete = '-'
+
+" Disable signify for git commits
+" so that it doesn't unintentionally corrupt the git repo.
+let g:signify_skip_filetype = { 'gitcommit': 1 }
+
 " MarkdownPreview settings
 
 " set to 1, the nvim will auto close current preview window when changing
@@ -639,11 +651,7 @@ call plug#end()
 
 " Code that should run *after* plugins are loaded
 function s:vimrc_init() abort
-  " Although this global variable could be set anywhere, setting near all the
-  " other Signify settings keeps things centralized.
-  let g:signify_sign_delete = '-'
-
-  if exists(':SignifyHunkUndo') > 0
+  if exists('g:loaded_signify')
     nmap <leader>hu :SignifyHunkUndo<CR>
     nmap <leader>hd :SignifyHunkDiff<CR>
 
@@ -654,20 +662,9 @@ function s:vimrc_init() abort
     xmap ac <plug>(signify-motion-outer-visual)
   endif
 
-  " I'm still on the fence on whether or not I want to show the count of deleted
-  " lines in the gutter.
-  " vim.g.signify_sign_show_count = false
-
-  " If `$GIT_EXEC` is defined, then nvim is most likely running as an editor for
-  " a git commit message. We should disable signify so that it doesn't
-  " unintentionally corrupt the git repo.
-  if has_key(environ(), 'GIT_EXEC') && exists(':SignifyDisableAll')
-    execute ':SignifyDisableAll'
-  endif
-
   " Make Netrw commands use Dirvish instead
   " see :help dirvish
-  if exists(':Dirvish')
+  if exists('g:loaded_dirvish')
     let g:loaded_netrwPlugin = 1
 
     command! -nargs=? -complete=dir Explore Dirvish <args>
@@ -677,19 +674,20 @@ function s:vimrc_init() abort
 
   " Use Fugitive `:Gclog` to grep git history for word under cursor and place
   " results into Quicklist. Only shows lines that changed between commits.
-  if exists(':Gclog')
+  if exists('g:loaded_fugitive')
     nnoremap <leader>vg :Gclog "-G<cword>" --<CR>
     vnoremap <leader>vg y:Gclog "-G<C-R>0" --<CR>
   endif
 
-  " Add command for formatting markdown tables using easy align. The command
-  if exists(':EasyAlign')
+  " Add command for formatting markdown tables using easy align.
+  if exists('g:loaded_easy_align_plugin')
     " By default this will only format the current line
     command! -range -nargs=0 MarkdownFormatTable <line1>,<line2>EasyAlign *<Bar>
   endif
 
+  " rg is used by default in nvim when available, but not vim.
   if executable('rg')
-    let &grepprg='rg --vimgrep --hidden --no-ignore --smart-case'
+    let &grepprg='rg --vimgrep --hidden --smart-case'
     let &grepformat='%f:%l:%c:%m'
   endif
 
