@@ -130,6 +130,11 @@ set visualbell
 " Never wrap long lines.
 set nowrap
 
+" When wrap is turned on
+" then break at words/punctuation,
+" not characters.
+set linebreak
+
 " Show line and column number.
 set ruler
 " Print the line number in front of cursor line.
