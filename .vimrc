@@ -572,6 +572,9 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 " highlighting feature of this requirements plugin may be bundled.
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
 
+" PlantUML. Includes compiler definition (sort of).
+Plug 'https://github.com/aklt/plantuml-syntax', Cond(!exists('g:vscode'))
+
 " voll
 Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
 " Plug '~/dev/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
