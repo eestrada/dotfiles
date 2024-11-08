@@ -250,5 +250,9 @@ exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-termi
 # effect, even at a fundemental hardware level.
 bindsym XF86AudioRaiseVolume exec --no-startup-id "mixer vol +5 && pkill -SIGUSR1 i3status && dunstify -u low -i audio-volume-high -r 12345 Volume $(mixer vol | sed -E -e 's/Mixer vol.*set to\s*(\d*)/\1/g')"
 bindsym XF86AudioLowerVolume exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status && dunstify -u low -i audio-volume-low  -r 12345 Volume $(mixer vol | sed -E -e 's/Mixer vol.*set to\s*(\d*)/\1/g')"
+
+bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl -c backlight set +5% && dunstify -u low -r 67890 'Display brightness' $(brightnessctl -c backlight get)"
+bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl -c backlight set 5%- && dunstify -u low -r 67890 'Display brightness' $(brightnessctl -c backlight get)"
+
 # bindsym XF86AudioMute exec --no-startup-id "mixer vol -5 && pkill -SIGUSR1 i3status"
 
