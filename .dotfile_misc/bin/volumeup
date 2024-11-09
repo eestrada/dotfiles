@@ -1,4 +1,5 @@
 #!/bin/sh
 
-volume_percent="dunno"
-notify-send --urgency low --replace-id=12345 --transient --app-name 'dunno' "Volume" "${volume_percent}%"
+pamixer --increase 5
+current_volume_value="$(pamixer --get-volume-human)"
+notify-send --urgency low --replace-id=12345 --transient --app-name 'pamixer' "Volume" "${current_volume_value}"
