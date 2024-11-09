@@ -1,0 +1,4 @@
+#!/bin/sh
+
+volume_percent="dunno"
+notify-send --urgency low --replace-id=12345 --transient --app-name 'dunno' "Volume" "${volume_percent}%"
