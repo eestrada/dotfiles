@@ -245,12 +245,11 @@ workspace 10 output HDMI1
 # I always start up a terminal anyway. Just make it automatically happen on workspace 1
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-terminal'
 
-# raise/lower volume with the volume keys. The mute key appears to not register
-# with X11. It is not a hardware thing either, because there is no muting
-# effect, even at a fundemental hardware level.
+# raise/lower/mute volume with the volume keys.
 bindsym XF86AudioRaiseVolume exec --no-startup-id "~/.dotfile_misc/bin/volumeup"
 bindsym XF86AudioLowerVolume exec --no-startup-id "~/.dotfile_misc/bin/volumedown"
 bindsym XF86AudioMute exec --no-startup-id "~/.dotfile_misc/bin/volumemutetoggle"
 
+# increase/decrease brightness with the brightness keys
 bindsym XF86MonBrightnessUp exec --no-startup-id "~/.dotfile_misc/bin/brightnessup"
 bindsym XF86MonBrightnessDown exec --no-startup-id "~/.dotfile_misc/bin/brightnessdown"
