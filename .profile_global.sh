@@ -74,6 +74,11 @@ refreshpath() {
   PATH=${PATH}:${HOME}/.usr/local/bin:${HOME}/.usr/local/sbin:${HOME}/.usr/local/games
   PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/sbin:${HOME}/.local/games
 
+  if [ -n "$ANDROID_HOME" ]; then
+    PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator
+    PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+  fi
+
   # System dirs
   PATH=${PATH}:/usr/local/bin:/usr/local/sbin:/usr/local/games
   PATH=${PATH}:/usr/bin:/usr/sbin:/usr/games
@@ -223,6 +228,11 @@ for _shname in "zsh" "bash" "mksh" "ksh"; do
   fi
 done
 _shname=""
+
+# set ANDROID_HOME
+if [ -d "$HOME/dev/android-sdk" ]; then
+  export ANDROID_HOME="$HOME/dev/android-sdk"
+fi
 
 # Use hardware acceleration for video decoding/encoding
 # Place these values locally in `.profile` since they vary from machine to machine.
