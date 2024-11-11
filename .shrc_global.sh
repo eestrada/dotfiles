@@ -344,15 +344,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # shellcheck disable=SC1091
 [ -s "$HOME/.rvm/scripts/rvm" ] && . "$HOME/.rvm/scripts/rvm"
 
-# Add homebrew variables
-
-# For Apple Silicon CPUs. Apple 64-bit Intel CPUs have homebrew installed
-# elsewhere.
-[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# For linux homebrew
-[ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
 # Functions to run
 setaliases
 _canonical_home
