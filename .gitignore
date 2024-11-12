@@ -34,6 +34,7 @@ adobeconnectapp.log
 /.docker
 /.dropbox
 /.eclipse
+/.emulator_console_auth_token
 /.esd_auth
 /.expo/
 /.fehbg
