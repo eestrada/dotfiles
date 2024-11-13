@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Basic script to launch nvim in a separate terminal emulator that stays in the
+# foreground. It just checks for a bunch of different terminals and runs the
+# first one it finds.
+#
+# name stands for `nvim In Terminal Emulator`
+
+set -e
+
+# The order is as follows:
+# 1. Use ${TERMINAL} and ${TERMINAL_FG_ARGS}. Give user control.
+# 2. emulators that support bold/italic/strikethrough and foreground execution.
+# 3. Distro specific overrides (e.g. x-terminal-emulator on debian)
+# 4. Use i3-sensible-terminal as a last ditch effort.
+if [ -n "$TERMINAL" ]; then
+  loc_term="$TERMINAL"
+  loc_term_fg_args="$TERMINAL_FG_ARGS"
+elif which roxterm >/dev/null; then
+  loc_term=roxterm
+  loc_term_fg_args='--separate --hide-menubar'
+elif which xfce4-terminal >/dev/null; then
+  loc_term=xfce4-terminal
+  loc_term_fg_args='--disable-server --hide-scrollbar --hide-toolbar --hide-menubar'
+elif which x-terminal-emulator >/dev/null; then
+  loc_term=x-terminal-emulator
+elif which qterminal >/dev/null; then
+  loc_term=qterminal
+elif which i3-sensible-terminal >/dev/null; then
+  loc_term=i3-sensible-terminal
+else
+  exit 2
+fi
+
+# shellcheck disable=SC2086 # Allow argument expansion.
+exec "$loc_term" $loc_term_fg_args --execute nvim "$@"
