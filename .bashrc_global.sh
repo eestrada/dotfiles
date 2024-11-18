@@ -35,6 +35,9 @@ esac
 
 [ -f "${HOME}/.config/fzf/setup.bash" ] && source "${HOME}/.config/fzf/setup.bash"
 
+# shellcheck disable=SC1091
+. "${ASDF_DIR}/completions/asdf.bash"
+
 source_files "${HOME}/.bash_completion"
 
 # source local shell overrides and additions

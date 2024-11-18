@@ -263,6 +263,12 @@ run_ssh_agent
 # For linux homebrew
 [ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+# This is a submodule of this dotfiles repo and should always be available
+export ASDF_DIR="$HOME/.asdf"
+
+# shellcheck disable=SC1091
+. "${ASDF_DIR}/asdf.sh"
+
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
 

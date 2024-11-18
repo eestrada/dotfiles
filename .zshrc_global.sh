@@ -1,5 +1,5 @@
 # .zshrc
-# vim: set filetype=sh.ksh.zsh:
+# vim: set filetype=ksh.zsh:
 # shellcheck shell=ksh
 # Emacs stuff
 # Local Variables:
@@ -64,7 +64,7 @@ case $(id -u) in
 esac
 
 if type brew >/dev/null 2>&1; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh-completions:${FPATH}"
+  FPATH="$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh-completions:${FPATH}"
 fi
 export FPATH
 
@@ -74,6 +74,10 @@ export FPATH
 [[ "$TERM_PROGRAM" == "vscode" ]] && type code >/dev/null 2>&1 && . "$(code --locate-shell-integration-path zsh)"
 
 [ -f "${HOME}/.config/fzf/setup.zsh" ] && . "${HOME}/.config/fzf/setup.zsh"
+
+# append completions to fpath
+# shellcheck disable=SC2206
+fpath=(${ASDF_DIR}/completions $fpath)
 
 # This seems to work best when it is the last thing called.
 autoload -Uz compinit && compinit
@@ -90,7 +94,7 @@ bindkey -M vicmd 'vv' edit-command-line
 
 # source local shell overrides and additions
 for _LOCAL_OVERRIDES in "${HOME}/.zshrc_local" "${HOME}/.zshrc_local.sh" "${HOME}/.zshrc-local.sh"; do
-    # shellcheck disable=SC1090 # Allow sourcing non-constant.
-    [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
+  # shellcheck disable=SC1090 # Allow sourcing non-constant.
+  [ -r "${_LOCAL_OVERRIDES}" ] && . "${_LOCAL_OVERRIDES}"
 done
 unset _LOCAL_OVERRIDES
