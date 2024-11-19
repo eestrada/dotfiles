@@ -95,6 +95,7 @@ adobeconnectapp.log
 /.terminfo
 /.terraform.d
 /.themes
+/.tool-versions
 /.tox
 /.usr/*
 /.vagrant.d
