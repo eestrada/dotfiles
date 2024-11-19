@@ -271,5 +271,3 @@ export ASDF_DIR="$HOME/.asdf"
 
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
-
-type rbenv >/dev/null 2>&1 && [ -z "${RBENV_SHELL}" ] && eval "$(rbenv init - "$(basename "${SHELL}")")"
