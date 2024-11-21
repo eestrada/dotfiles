@@ -466,6 +466,9 @@ Plug 'https://github.com/junegunn/vim-plug'
 " LSP Configuration & Plugins
 Plug 'https://github.com/neovim/nvim-lspconfig', Cond(has('nvim') && !exists('g:vscode'))
 
+" Get diagnostics for entire LSP workspace
+Plug 'https://github.com/artemave/workspace-diagnostics.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
 " Useful status updates for LSP
 Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vscode'))
 

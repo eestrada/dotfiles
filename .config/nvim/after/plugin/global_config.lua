@@ -1179,6 +1179,12 @@ local function general_neovim_setup()
     vim.diagnostic.setqflist()
   end, { desc = 'Open diag[n]ostics in [q]uickfix list' })
 
+  vim.keymap.set('n', '<space>na', function()
+    for _, client in ipairs(vim.lsp.get_clients()) do
+      require('workspace-diagnostics').populate_workspace_diagnostics(client, 0)
+    end
+  end, { desc = 'Populate diag[n]ostics for files in [a]ll LSP workspaces' })
+
   -- [[ diagnostics config ]] {{{3
   local dconfig = vim.diagnostic.config()
 
