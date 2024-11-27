@@ -1,4 +1,9 @@
-# files/folders to include under .config
+# folders to include under .config
 !/dunst/
 !/fzf/
 !/nvim/
+!/i3/
+!/i3status/
+
+# files to include under .config
+!/user-dirs.dirs

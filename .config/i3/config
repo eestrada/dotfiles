@@ -223,7 +223,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         position top
-        status_command i3status --config ~/.i3status.conf
+        status_command i3status
 
         # increasing the font size increases the size of the status bar
         # (and thus of systray icons).
