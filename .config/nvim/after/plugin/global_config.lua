@@ -565,6 +565,20 @@ local function lsp_config_setup()
 
   -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
 
+  local xml_filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' }
+  local lemminx_cfg = {
+    filetypes = xml_filetypes,
+  }
+
+  -- Only add a global XML catalog if it can be found.
+  local xml_catalog = user_home .. '/dev/catalog.xml'
+  if vim.fn.filereadable(xml_catalog) then
+    lemminx_cfg = {
+      filetypes = xml_filetypes,
+      xml = { catalogs = { xml_catalog } },
+    }
+  end
+
   -- These language servers will need to be installed somehow before being used.
   local servers = {
     lua_ls = {
@@ -628,9 +642,7 @@ local function lsp_config_setup()
     yamlls = {},
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lemminx
-    lemminx = {
-      filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' },
-    },
+    lemminx = lemminx_cfg,
 
     -- for markdown
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
