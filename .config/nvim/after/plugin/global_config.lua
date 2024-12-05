@@ -605,11 +605,6 @@ local function lsp_config_setup()
     -- Should work so long as `gopls` command is on $PATH
     gopls = {},
 
-    -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_ls
-    -- ruby_ls = {
-    --   cmd = { 'bundle', 'exec', 'ruby-lsp' },
-    -- },
-
     -- for ruby
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
     -- More documentation on using solargraph with bundler:
@@ -617,6 +612,30 @@ local function lsp_config_setup()
     solargraph = {
       cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
     },
+
+    -- for ruby
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruby_lsp
+    -- More documentation on using solargraph with bundler:
+    -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
+    ruby_lsp = {
+      cmd = { 'bundle', 'exec', 'ruby-lsp' },
+
+      -- Don't use eruby for now since it attempts to delegate to another LSP
+      -- for HTML, which is VSCode behavior that doesn't exist in Neovim.
+      -- filetypes = { 'ruby', 'eruby' },
+      filetypes = { 'ruby' },
+      init_options = {
+        -- formatter = 'standard',
+        formatter = 'rubocop',
+        -- linters = { 'standard', 'rubocop' },
+        linters = { 'rubocop' },
+      },
+    },
+
+    -- for ruby
+    -- sorbet = {
+    --   cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp', '--disable-watchman' },
+    -- },
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
     -- rubocop = {},
