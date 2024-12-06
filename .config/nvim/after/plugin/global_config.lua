@@ -415,6 +415,7 @@ local function nvim_lint_setup()
     ksh = { 'ksh', 'shellcheck' },
     lua = { 'luac', 'luacheck' },
     markdown = { 'markdownlint', 'write_good' },
+    plantuml = { 'compiler' },
     python = { 'ruff', 'pylint' },
     rst = { 'write_good' },
     sh = { 'dash', 'shellcheck' },
