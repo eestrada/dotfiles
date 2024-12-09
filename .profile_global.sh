@@ -232,6 +232,11 @@ _shname=""
 # set ANDROID_HOME
 if [ -d "$HOME/dev/android-sdk" ]; then
   export ANDROID_HOME="$HOME/dev/android-sdk"
+  export ANDROID_SDK_HOME="$HOME/dev/android-sdk"
+
+  # Not sure if location below is the canonical place for AVDs to exist, but
+  # that is where Android Studio dumped them on my current Linux desktop.
+  export ANDROID_AVD_HOME="$HOME/.config/.android/avd"
 fi
 
 # Use hardware acceleration for video decoding/encoding
