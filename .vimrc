@@ -521,6 +521,7 @@ Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:v
 " stress, it works on Unix/Linux after the first run. Not worth looking into
 " deeper at the moment.
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
+Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'))
 
 " LLM stuff
 Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
@@ -611,6 +612,9 @@ Plug 'https://github.com/liuchengxu/graphviz.vim'
 
 " Use system color picker to populate color values in code
 Plug 'https://github.com/KabbAmine/vCoolor.vim'
+
+" Better pair matching than builtin matchit
+Plug 'https://github.com/andymass/vim-matchup'
 
 " [[ Neovim anywhere ]] {{{2
 
