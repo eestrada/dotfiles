@@ -1,0 +1,3 @@
+theme = light:iTerm2 Tango Light,dark:iTerm2 Tango Dark
+cursor-style = block
+shell-integration-features = no-cursor
