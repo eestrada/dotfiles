@@ -9,7 +9,7 @@ I may, without prior notice, forcefully overwrite the history of this repo.
 ## Using git worktree to manage git dotfiles
 
 This repo has a simple script to set up your home directory as a git worktree.
-Change it as needed: [.dotfile_misc/bin/worktree-setup.sh](.dotfile_misc/bin/worktree-setup.sh)
+Change it as needed: [.dotfile_misc/bin/dotfiles-bootstrap.sh](.dotfile_misc/bin/dotfiles-bootstrap.sh)
 
 This repo does not track regular shell rc files.
 For example, it ignores `.zshrc`, `.bashrc`, `.profile`, and cousins.
