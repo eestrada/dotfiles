@@ -490,16 +490,6 @@ local function conform_setup()
           '4',
         },
       },
-      prettier = {
-        prepend_args = {
-          '--tab-width',
-          '4',
-        },
-        -- TODO: Set the `--tab-width` dynamically based on tabstop, etc.
-        --   prepend_args = function (self, ctx)
-        --     ctx.filetype
-        --   end,
-      },
       mdformat = {
         prepend_args = {
           '--number',
