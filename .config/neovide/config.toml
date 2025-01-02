@@ -1,0 +1,2 @@
+# Open file arguments in buffers, not tabs.
+tabs = false
