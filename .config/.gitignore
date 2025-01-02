@@ -1,9 +1,10 @@
 # folders to include under .config
 !/dunst/
 !/fzf/
-!/nvim/
+!/ghostty/
 !/i3/
 !/i3status/
+!/nvim/
 
 # files to include under .config
 !/user-dirs.dirs

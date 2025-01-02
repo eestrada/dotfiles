@@ -1,3 +1,12 @@
+# vim: set filetype=voll:
+
+# Ghostty's config syntax is very similar to VOLL.
+# The only real difference is that keys are more freeform in Ghostty.
+# For example, keys can contain dashes.
+# Thus, this format can just be set to voll for the time being.
+# See Syntax docs here: https://ghostty.org/docs/config#syntax
+
 theme = light:iTerm2 Tango Light,dark:iTerm2 Tango Dark
 cursor-style = block
 shell-integration-features = no-cursor
+auto-update = off
