@@ -6,8 +6,7 @@ colors:
 default_hour: 9
 default_minute: 0
 display_format: 'markdown'
-editor: nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp
-  history=0 nomodeline secure'
+editor: "nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'"
 encrypt: false
 highlight: true
 indent_character: '|'
