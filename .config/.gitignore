@@ -9,4 +9,5 @@
 !/nvim/
 
 # files to include under .config
+!/stylua.toml
 !/user-dirs.dirs
