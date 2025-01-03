@@ -1,0 +1,22 @@
+colors:
+  body: none
+  date: black
+  tags: yellow
+  title: cyan
+default_hour: 9
+default_minute: 0
+display_format: 'markdown'
+editor: nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp
+  history=0 nomodeline secure'
+encrypt: false
+highlight: true
+indent_character: '|'
+journals:
+  default:
+    encrypt: false
+    journal: ~/.local/share/jrnl/journal.txt
+linewrap: 79
+tagsymbols: '#@'
+template: false
+timeformat: '%Y-%m-%d %H:%M:%S'
+version: v4.2
