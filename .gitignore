@@ -79,6 +79,7 @@ adobeconnectapp.log
 /.profile
 /.profile-local*
 /.profile_local*
+/.psql_history
 /.python_history
 /.rbenv
 /.restore/
