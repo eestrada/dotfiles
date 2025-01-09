@@ -55,6 +55,12 @@ endif
 " Set conform variable so that it comes up in autocomplete contexts
 let g:conform_disable_autoformat = v:false
 
+" Neovide settings
+" Disable cursor animation
+let g:neovide_cursor_animation_length = 0
+" Disable scroll animation
+let g:neovide_scroll_animation_length = 0
+
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
 " make sure to install xdg-open and Neovim will do the right thing.
