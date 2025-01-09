@@ -117,6 +117,7 @@ adobeconnectapp.log
 /.zshrc_local*
 
 # files to ignore at top level
+
 # General
 /AdobeConnectAppCache
 /Desktop
@@ -133,6 +134,7 @@ adobeconnectapp.log
 /dotfiles
 /go
 /mbox
+/nohup.out
 /tmp
 
 # Apple macOS
