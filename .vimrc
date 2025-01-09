@@ -56,10 +56,14 @@ endif
 let g:conform_disable_autoformat = v:false
 
 " Neovide settings
-" Disable cursor animation
-let g:neovide_cursor_animation_length = 0
-" Disable scroll animation
-let g:neovide_scroll_animation_length = 0
+" https://neovide.dev/faq.html#how-to-turn-off-all-animations
+let g:neovide_position_animation_length = 0
+let g:neovide_cursor_animation_length = 0.00
+let g:neovide_cursor_trail_size = 0
+let g:neovide_cursor_animate_in_insert_mode = v:false
+let g:neovide_cursor_animate_command_line = v:false
+let g:neovide_scroll_animation_far_lines = 0
+let g:neovide_scroll_animation_length = 0.00
 
 " Neovim will use `xdg-open` by default. WSL2 will set this to something that
 " can be opened in Windows directly. No special config is necessary here, just
