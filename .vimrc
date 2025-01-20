@@ -490,6 +490,9 @@ Plug 'https://github.com/mfussenegger/nvim-dap', Cond(has('nvim') && !exists('g:
 Plug 'https://github.com/nvim-neotest/nvim-nio', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/rcarriga/nvim-dap-ui', Cond(has('nvim') && !exists('g:vscode'))
 
+" Specific DAP plugins
+Plug 'https://github.com/suketa/nvim-dap-ruby', Cond(has('nvim') && !exists('g:vscode'))
+
 " Specialized LSP for extra Java jdtls
 Plug 'https://github.com/mfussenegger/nvim-jdtls', Cond(has('nvim') && !exists('g:vscode'))
 

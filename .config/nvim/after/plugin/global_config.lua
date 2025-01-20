@@ -975,6 +975,9 @@ local function dap_setup()
     dapui.close()
   end
 
+  local dap_ruby = require('dap-ruby')
+  dap_ruby.setup()
+
   local function codelldb_setup(filetype, opts)
     if not dap.adapters.codelldb then
       -- Configuration originally from:

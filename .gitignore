@@ -82,6 +82,7 @@ adobeconnectapp.log
 /.psql_history
 /.python_history
 /.rbenv
+/.rdbg_history
 /.restore/
 /.rpmdb/
 /.rvm
