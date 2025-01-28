@@ -561,9 +561,6 @@ Plug 'https://github.com/eestrada/nvim-lint', Cond(has('nvim') && !exists('g:vsc
 " is used for autocompletion, which is Neovim specific.
 Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(!exists('g:vscode'))
 
-" Show buffers as tabs
-Plug 'https://github.com/ap/vim-buftabline', Cond(!exists('g:vscode'))
-
 " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
 " Get diff symbols in gutter for code tracked in a VCS (supports more than
 " just git and can easily be extended to support others)
