@@ -537,7 +537,8 @@ Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'))
 
 " LLM stuff
-Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
+" Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/David-Kunz/gen.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " TODO: Consider deleting. Most of this can be done with native Vim features
 " or periscope.
