@@ -1,1 +1,1 @@
-set tabstop=4
+set tabstop=2
