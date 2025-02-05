@@ -450,7 +450,7 @@ local function conform_setup()
     bash = { 'shfmt' },
     ksh = { 'shfmt' },
     lua = { 'stylua' },
-    markdown = { 'mdformat' },
+    markdown = { 'prettier' },
     mksh = { 'shfmt' },
     python = { 'black', lsp_format = 'none' },
     sh = { 'shfmt' },
@@ -481,26 +481,50 @@ local function conform_setup()
     -- log_level = vim.log.levels.DEBUG,
     formatters_by_ft = formatters_by_ft_all,
     formatters = {
-      xmlformat = {
-        prepend_args = {
-          '--eof-newline',
-          '--blanks',
-          '--selfclose',
-          '--indent',
-          '4',
-        },
-      },
-      mdformat = {
-        prepend_args = {
-          '--number',
-          '--wrap=keep',
-        },
-      },
-      yq = {
-        prepend_args = {
-          '--unwrapScalar=false',
-        },
-      },
+      xmlformat = function(bufnr)
+        return {
+          prepend_args = {
+            '--eof-newline',
+            '--blanks',
+            '--selfclose',
+            '--indent',
+            '4',
+          },
+        }
+      end,
+      prettier = function(bufnr)
+        local filetype = vim.filetype.match({ buf = bufnr })
+        local require_pragma = 'false'
+
+        -- Uncomment to only format certain filetypes when pragma is present.
+        -- if filetype == 'markdown' then
+        --   require_pragma = 'true'
+        -- end
+
+        return {
+          prepend_args = {
+            '--prose-wrap=preserve',
+            '--embedded-language-formatting=off',
+            '--require-pragma',
+            require_pragma,
+          },
+        }
+      end,
+      mdformat = function(bufnr)
+        return {
+          prepend_args = {
+            '--number',
+            '--wrap=keep',
+          },
+        }
+      end,
+      yq = function(bufnr)
+        return {
+          prepend_args = {
+            '--unwrapScalar=false',
+          },
+        }
+      end,
 
       -- TODO: Set the `--language-dialect` dynamically based on filetype.
       -- shfmt = {
