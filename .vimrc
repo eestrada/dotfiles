@@ -582,13 +582,8 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 
 " [[ Language plugins ]] {{{3
 
-" python
-" Depending on the version of Vim/Neovim you are using, the syntax
-" highlighting feature of this requirements plugin may be bundled.
-Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'), {'for': 'requirements'})
-
-" PlantUML. Includes compiler definition (sort of).
-Plug 'https://github.com/aklt/plantuml-syntax', Cond(!exists('g:vscode'))
+" Includes most languages not already included by default with Vim or Neovim
+Plug 'https://github.com/sheerun/vim-polyglot', Cond(!exists('g:vscode'))
 
 " voll
 Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
@@ -596,9 +591,6 @@ Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim
 
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
-
-" Tools to manipulate CSV files
-Plug 'https://github.com/chrisbra/csv.vim'
 
 " Basic Unix commands inside Vim
 Plug 'https://github.com/tpope/vim-eunuch'

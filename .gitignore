@@ -25,6 +25,7 @@ adobeconnectapp.log
 /.bundle
 /.cache
 /.cdk
+/.chezscheme_history
 /.config/*
 /.conky/
 /.cups
