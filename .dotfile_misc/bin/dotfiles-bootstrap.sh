@@ -25,7 +25,7 @@ unset _default_dir
 cd "${DIRECTORY}" || exit
 
 # start as empty repo
-git init
+git init -b "${BRANCH}"
 
 # set up remote, but don't check it out
 git remote add --fetch "--track=${BRANCH}" origin "${REPO_URL}"
