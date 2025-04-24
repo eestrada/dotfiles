@@ -66,6 +66,7 @@ refreshpath() {
   # Vanilla path vars
   # Home dirs
   PATH=${HOME}/go/bin
+  PATH=${PATH}:${ASDF_DATA_DIR:-$HOME/.asdf}/shims
   PATH=${PATH}:${HOME}/bin:${HOME}/sbin:${HOME}/games
   PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games
   PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games
@@ -254,6 +255,8 @@ esac
 
 [ -n "${_interactive_shell}" ] && [ "$(uname -s)" = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
+export ASDF_DATA_DIR="$HOME/.asdf"
+
 refreshpath
 set_manpath
 custvars
@@ -267,12 +270,6 @@ run_ssh_agent
 
 # For linux homebrew
 [ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# This is a submodule of this dotfiles repo and should always be available
-export ASDF_DIR="$HOME/.asdf"
-
-# shellcheck disable=SC1091
-. "${ASDF_DIR}/asdf.sh"
 
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars

@@ -77,7 +77,7 @@ export FPATH
 
 # append completions to fpath
 # shellcheck disable=SC2206
-fpath=(${ASDF_DIR}/completions $fpath)
+fpath=(${ASDF_DATA_DIR}/completions $fpath)
 
 # This seems to work best when it is the last thing called.
 autoload -Uz compinit && compinit
