@@ -360,6 +360,7 @@ local function mason_tool_installer_setup()
       'sqlfmt',
       'stylua',
       'taplo',
+      'terraform-ls',
       'typescript-language-server',
       'vim-language-server',
       'vint',
@@ -685,6 +686,10 @@ local function lsp_config_setup()
     -- for toml
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#taplo
     taplo = {},
+
+    -- for terraform-ls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
+    terraformls = {},
 
     -- for vimscript
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#vimls
