@@ -702,6 +702,10 @@ function s:vimrc_init() abort
   if executable('rg')
     let &grepprg='rg --vimgrep --hidden --smart-case'
     let &grepformat='%f:%l:%c:%m'
+
+    " grep the local directory for the word under the cursor
+    nnoremap <leader>gg :grep "<cword>" ./<CR>
+    vnoremap <leader>gg y:grep "<C-R>0" ./<CR>
   endif
 
 endfunction
