@@ -458,6 +458,13 @@ local function conform_setup()
     zig = { 'zigfmt' },
     zsh = { 'shfmt' },
   }
+
+  if vim.fn.executable('tofu') == 1 then
+    format_on_save_ft_configs.terraform = { 'tofu_fmt' }
+  elseif vim.fn.executable('terraform') == 1 then
+    format_on_save_ft_configs.terraform = { 'terraform_fmt' }
+  end
+
   local format_on_save_fts = vim.tbl_keys(format_on_save_ft_configs)
 
   local no_format_on_save_ft_configs = {
