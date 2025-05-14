@@ -448,13 +448,11 @@ end
 -- [[ Configure conform ]] {{{2
 local function conform_setup()
   local format_on_save_ft_configs = {
-    bash = { 'shfmt' },
     ksh = { 'shfmt' },
     lua = { 'stylua' },
     markdown = { 'prettier' },
     mksh = { 'shfmt' },
     python = { 'black', lsp_format = 'none' },
-    sh = { 'shfmt' },
     zig = { 'zigfmt' },
     zsh = { 'shfmt' },
   }
@@ -469,9 +467,11 @@ local function conform_setup()
 
   local no_format_on_save_ft_configs = {
     ant = { 'xmlformat' },
+    bash = { 'shfmt' },
     graphql = { 'prettier' },
     javascript = { 'prettier' },
     json = { 'jq' },
+    sh = { 'shfmt' },
     sql = { 'sqlfluff' },
     svg = { 'xmlformat' },
     toml = { 'taplo' },

@@ -66,7 +66,6 @@ refreshpath() {
   # Vanilla path vars
   # Home dirs
   PATH=${HOME}/go/bin
-  PATH=${PATH}:${ASDF_DATA_DIR:-$HOME/.asdf}/shims
   PATH=${PATH}:${HOME}/bin:${HOME}/sbin:${HOME}/games
   PATH=${PATH}:${HOME}/local/bin:${HOME}/local/sbin:${HOME}/local/games
   PATH=${PATH}:${HOME}/usr/bin:${HOME}/usr/sbin:${HOME}/usr/games
@@ -91,7 +90,6 @@ refreshpath() {
     PATH=${HOME}/.dotfile_misc/bin:${PATH}
   fi
 
-  PATH=$(remove_duplicate_paths "$PATH")
   export PATH
   unset SYSPATH
 }
@@ -255,8 +253,6 @@ esac
 
 [ -n "${_interactive_shell}" ] && [ "$(uname -s)" = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
 
-export ASDF_DATA_DIR="$HOME/.asdf"
-
 refreshpath
 set_manpath
 custvars
@@ -278,5 +274,12 @@ fi
 
 [ -x "${HOMEBREW_PREFIX}/bin/brew" ] && eval "$("${HOMEBREW_PREFIX}/bin/brew" shellenv)"
 
+# Must come after homebrew so that shim'd versions are always found first.
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="${ASDF_DATA_DIR}/shims:${PATH}"
+
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
+
+# Remove duplicate paths at the very end.
+PATH=$(remove_duplicate_paths "$PATH")
