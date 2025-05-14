@@ -263,13 +263,20 @@ custvars
 run_ssh_agent
 
 # Add homebrew variables
+if [ "$(uname -s)" = "Darwin" ]; then
+  if [ "$(arch)" = "i386" ]; then
+    # For Apple running under Rosetta2 (i.e. 64-bit Intel CPU).
+    export HOMEBREW_PREFIX='/usr/local/homebrew'
+  else
+    # For Native Apple Silicon CPUs.
+    export HOMEBREW_PREFIX='/opt/homebrew'
+  fi
+elif [ "$(uname -s)" = "Linux" ]; then
+  # For linux homebrew
+  export HOMEBREW_PREFIX='/home/linuxbrew/.linuxbrew'
+fi
 
-# For Apple Silicon CPUs. Apple 64-bit Intel CPUs have homebrew installed
-# elsewhere.
-[ -x "/opt/homebrew/bin/brew" ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# For linux homebrew
-[ -x '/home/linuxbrew/.linuxbrew/bin/brew' ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -x "${HOMEBREW_PREFIX}/bin/brew" ] && eval "$("${HOMEBREW_PREFIX}/bin/brew" shellenv)"
 
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
