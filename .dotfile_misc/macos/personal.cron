@@ -18,4 +18,4 @@ CHARSET="UTF-8"
 
 # On complex Exchange setups, syncing can break. Periodically terminate the
 # Exchange sync daemon to force a restart of syncing.
-0	*/2	*	*	*	pkill -x exchangesyncd
+# 0	*/2	*	*	*	pkill -x exchangesyncd
