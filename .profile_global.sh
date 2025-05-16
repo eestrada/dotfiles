@@ -162,18 +162,27 @@ _ps_all() {
 }
 
 _ssh_agent_isnt_running() {
-  # shellcheck disable=SC2143 # Special grepping.
-  if [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
-    return 0
-  else
+  # By checking the agent socket instead of a PID, alternative agents like
+  # Bitwarden or 1Password can be used.
+  #
+  # If you want to use an alternative agent, then set the SSH_AUTH_SOCK envar
+  # *before* sourcing this file. Otherwise an unnecessary ssh-agent will be
+  # spawned.
+  if [ -n "${SSH_AUTH_SOCK}" ] && ssh-add -l >/dev/null 2>&1; then
     return 1
+  else
+    return 0
   fi
 }
 
 run_ssh_agent() {
-  # check for running ssh-agent with proper $SSH_AGENT_PID
+  # check for existing SSH agent with a working $SSH_AUTH_SOCK
+  #
+  # This may be an agent other than `ssh-agent` (e.g. Bitwarden or 1Password).
+  #
+  # If no agent is set and running, then one will be started via `ssh-agent`.
   if _ssh_agent_isnt_running; then
-    # if ${SSH_AGENT_PID} is not properly set, we might be able to load one
+    # if ${SSH_AUTH_SOCK} is not properly set, we might be able to load it
     # from ${SSH_ENV} if it is set.
     if [ -f "${SSH_ENV}" ]; then
       # shellcheck disable=SC1090 # Allow sourcing non-constant.
