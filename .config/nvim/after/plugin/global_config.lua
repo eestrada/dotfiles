@@ -452,7 +452,6 @@ local function conform_setup()
     lua = { 'stylua' },
     markdown = { 'prettier' },
     mksh = { 'shfmt' },
-    python = { 'black', lsp_format = 'none' },
     zig = { 'zigfmt' },
     zsh = { 'shfmt' },
   }
@@ -471,6 +470,7 @@ local function conform_setup()
     graphql = { 'prettier' },
     javascript = { 'prettier' },
     json = { 'jq' },
+    python = { 'black', lsp_format = 'none' },
     sh = { 'shfmt' },
     sql = { 'sqlfluff' },
     svg = { 'xmlformat' },
