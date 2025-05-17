@@ -168,10 +168,16 @@ _ssh_agent_isnt_running() {
   # If you want to use an alternative agent, then set the SSH_AUTH_SOCK envar
   # *before* sourcing this file. Otherwise an unnecessary ssh-agent will be
   # spawned.
+  #
+  # As a fallback, check for presence of PID envar.
+
+  # shellcheck disable=SC2143 # Special grepping.
   if [ -n "${SSH_AUTH_SOCK}" ] && ssh-add -l >/dev/null 2>&1; then
     return 1
-  else
+  elif [ -z "${SSH_AGENT_PID}" ] || [ -z "$(_ps_all | grep "${SSH_AGENT_PID}" | grep -v grep | grep ssh-agent)" ]; then
     return 0
+  else
+    return 1
   fi
 }
 
