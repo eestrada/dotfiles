@@ -15,6 +15,13 @@ augroup END
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
+" For vim-polyglot
+" Disable individual language packs (since some cause issues).
+if has('nvim')
+  " Markdown has issues with URLs, at least in neovim.
+  let g:polyglot_disabled = ['markdown']
+endif
+
 " For vim-test
 let g:test#strategy = 'make_bang'
 
@@ -303,11 +310,6 @@ endif
 " Keymaps for better default experience
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
-
-" Override gx in normal mode to work around timeout issues on wsl
-if has('nvim')
-  nmap gx :lua vim.ui.open(vim.fn.expand("<cfile>"))<CR>
-endif
 
 " Easily explore file system
 " NOTE: if Dirvish has been loaded, it will overload `:Explore`. See below.
