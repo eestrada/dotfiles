@@ -342,6 +342,7 @@ local function mason_tool_installer_setup()
       'jq',
       'json-lsp',
       'jsonlint',
+      'kotlin-language-server',
       'lemminx',
       'lemmy-help',
       'llm-ls',
@@ -717,6 +718,10 @@ local function lsp_config_setup()
     -- Graphviz dot files
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#dotls
     dotls = {},
+
+    -- Kotlin
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_language_server
+    kotlin_language_server = {},
   }
 
   local lspconfig = require('lspconfig')
@@ -1399,6 +1404,10 @@ local function general_neovim_setup()
       orig_signs_handler.hide(ns, bufnr)
     end,
   }
+
+  -- Show marks in sign column
+  -- Also adds some useful kebindings for working with Marks
+  require('marks').setup()
 end
 
 -- [[ Run all setup functions ]] {{{1

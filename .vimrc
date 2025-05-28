@@ -557,6 +557,9 @@ Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g
 " Plug 'git@github.com:eestrada/nvim-lint.git', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/eestrada/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
 
+" Show marks in sign column
+Plug 'https://github.com/chentoast/marks.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Adds a number of user-friendly snippets
