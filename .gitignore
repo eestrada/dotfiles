@@ -8,6 +8,7 @@
 adobeconnectapp.log
 
 # hidden files to ignore at top level
+/*.hprof
 /.CFUserTextEncoding
 /.ICEauthority
 /.VirtualBox
@@ -97,6 +98,7 @@ adobeconnectapp.log
 /.steam
 /.steampath
 /.steampid
+/.swt/
 /.terminfo
 /.terraform.d
 /.themes
