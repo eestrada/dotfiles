@@ -380,11 +380,11 @@ if !has('nvim-0.11')
   nmap ]L :llast<CR>
 endif
 
-" " Original implementation found here: https://vi.stackexchange.com/a/2127/15953
+" Original implementation found here: https://vi.stackexchange.com/a/2127/15953
 command! Qbuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
-" FIXME: figure out how to indicate the current window for command below. <window> isn't it, obviously.
-command! Lbuffers call setloclist(<window>, map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
+" Fill loclist with all open buffers.
+command! Lbuffers call setloclist(winnr(), map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
 " Jump to previous location in jump list.
 nmap [j <C-O>
