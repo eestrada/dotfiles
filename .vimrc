@@ -538,16 +538,18 @@ Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:v
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'))
 
-" LLM stuff
-" Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/David-Kunz/gen.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
 " TODO: Consider deleting. Most of this can be done with native Vim features
 " or periscope.
 
 " Fuzzy finding stuff
 Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
+
+" LLM stuff
+" Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/David-Kunz/gen.nvim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/github/copilot.vim', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/CopilotC-Nvim/CopilotChat.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " UI stuff
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
@@ -713,6 +715,17 @@ function s:vimrc_init() abort
     vnoremap <leader>gg y:grep "<C-R>0" ./<CR>
   endif
 
+  if exists('g:loaded_copilot_chat')
+    " Possible configuration options:
+    " https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#configuration
+    lua require("CopilotChat").setup({})
+  endif
+
+  if exists('g:loaded_copilot')
+    " Copilot is only used for authentication.
+    " Copilot chat is actually used for functionality.
+    exec 'Copilot disable'
+  endif
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
