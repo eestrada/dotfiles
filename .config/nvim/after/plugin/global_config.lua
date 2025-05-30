@@ -396,6 +396,7 @@ end
 local function nvim_lint_setup()
   local lint = require('lint')
 
+  -- TODO: submit this linter upstream.
   lint.linters.json5 = {
     cmd = 'json5',
     stdin = true,

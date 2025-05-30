@@ -555,9 +555,9 @@ Plug 'https://github.com/CopilotC-Nvim/CopilotChat.nvim', Cond(has('nvim') && !e
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
 " linting
-" Plug 'https://github.com/mfussenegger/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/mfussenegger/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
 " Plug 'git@github.com:eestrada/nvim-lint.git', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/eestrada/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
+" Plug 'https://github.com/eestrada/nvim-lint', Cond(has('nvim') && !exists('g:vscode'))
 
 " Show marks in sign column
 Plug 'https://github.com/chentoast/marks.nvim', Cond(has('nvim') && !exists('g:vscode'))
