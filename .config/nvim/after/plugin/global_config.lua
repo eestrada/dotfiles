@@ -417,7 +417,7 @@ local function nvim_lint_setup()
     json5 = { 'json5' },
     ksh = { 'ksh', 'shellcheck' },
     lua = { 'luac', 'luacheck' },
-    markdown = { 'markdownlint', 'write_good' },
+    markdown = { 'markdownlint' },
     plantuml = { 'compiler' },
     python = { 'ruff' },
     rst = { 'write_good' },
