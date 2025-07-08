@@ -707,6 +707,7 @@ function s:vimrc_init() abort
 
   " rg is used by default in nvim when available, but not vim.
   if executable('rg')
+    " How to ignore `.git` dir: https://news.ycombinator.com/item?id=33238626
     let &grepprg='rg --vimgrep --hidden --glob ''!.git/'' --smart-case'
     let &grepformat='%f:%l:%c:%m'
 
