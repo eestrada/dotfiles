@@ -707,7 +707,7 @@ function s:vimrc_init() abort
 
   " rg is used by default in nvim when available, but not vim.
   if executable('rg')
-    let &grepprg='rg --vimgrep --hidden --smart-case'
+    let &grepprg='rg --vimgrep --hidden --glob ''!.git/'' --smart-case'
     let &grepformat='%f:%l:%c:%m'
 
     " grep the local directory for the word under the cursor
