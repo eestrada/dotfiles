@@ -1,0 +1,9 @@
+# There are lots of hidden files in repos; default include them when searching.
+--hidden
+
+# Default to format easily parsable by line oriented tools like vim.
+--vimgrep
+
+# Ignore directories that are rarely (if ever) what I want to search.
+--glob=!.git/
+--glob=!node_modules/

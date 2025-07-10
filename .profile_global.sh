@@ -144,6 +144,9 @@ custvars() {
   xdg_config_home_default="${HOME}/.config"
   export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$xdg_config_home_default}"
   unset xdg_config_home_default
+
+  # Commandline flags to always set for ripgrep
+  export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgrep/config"
 }
 
 _start_ssh_agent() {
