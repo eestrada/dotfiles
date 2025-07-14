@@ -1,0 +1,9 @@
+# .mailmap
+# vim: set filetype=conf:
+# main docs: man gitmailmap
+# Internet docs: https://git-scm.com/docs/gitmailmap
+
+Ethan Estrada <ethan@misterfidget.com>
+Ethan Estrada <ethan@misterfidget.com> <eestrada@Mac.attlocal.net>
+Ethan Estrada <ethan@misterfidget.com> <eestrada@carbonite.com>
+Ethan Estrada <ethan@misterfidget.com> <ethan.estrada@gmail.com>
