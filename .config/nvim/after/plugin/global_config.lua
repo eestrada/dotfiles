@@ -1064,21 +1064,14 @@ local function dap_setup()
     if not dap.adapters.codelldb then
       -- Configuration originally from:
       -- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-%28via--codelldb%29
-      local mason_registry = require('mason-registry')
-      local codelldb_install = mason_registry.get_package('codelldb'):get_install_path()
-      local codelldb_path = codelldb_install .. '/codelldb'
 
       -- codelldb can be used for most natively compiled code with debugging symbols present.
       dap.adapters.codelldb = {
-        type = 'server',
-        port = '${port}',
-        executable = {
-          command = codelldb_path,
-          args = { '--port', '${port}' },
+        type = 'executable',
+        command = 'codelldb',
 
-          -- On windows you may have to uncomment this:
-          -- detached = false,
-        },
+        -- On windows you may have to uncomment this:
+        -- detached = false,
       }
     end
 
