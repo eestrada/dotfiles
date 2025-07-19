@@ -450,6 +450,7 @@ command! BuffDeleteOthers :%bdelete|edit #|normal`"<cr>
 " [[ Filetype Detection ]] {{{1
 autocmd vimrc_aug BufRead,BufNewFile *.cron setfiletype crontab
 autocmd vimrc_aug BufRead,BufNewFile *.crontab setfiletype crontab
+autocmd vimrc_aug BufRead,BufNewFile *.zon setfiletype zig
 
 " [[ Plugins ]] {{{1
 
