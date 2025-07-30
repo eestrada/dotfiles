@@ -7,3 +7,4 @@
 # Ignore directories that are rarely (if ever) what I want to search.
 --glob=!.git/
 --glob=!node_modules/
+--glob=!.terraform/
