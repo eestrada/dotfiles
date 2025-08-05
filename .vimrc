@@ -60,7 +60,7 @@ if has('nvim')
 endif
 
 " Set conform variable so that it comes up in autocomplete contexts
-let g:conform_disable_autoformat = v:false
+let g:conform_autoformat = v:false
 
 " Neovide settings
 " https://neovide.dev/faq.html#how-to-turn-off-all-animations

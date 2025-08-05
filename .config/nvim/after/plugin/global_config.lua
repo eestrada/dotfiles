@@ -475,6 +475,19 @@ local function conform_setup()
 
   local formatters_by_ft_all = vim.tbl_extend('error', format_on_save_ft_configs, no_format_on_save_ft_configs)
 
+  local conform_augroup = vim.api.nvim_create_augroup('NvimConformConfig', { clear = true })
+
+  for _, value in ipairs(format_on_save_fts) do
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = value,
+      group = conform_augroup,
+
+      callback = function(args)
+        vim.b[args.buf].conform_autoformat = true
+      end,
+    })
+  end
+
   require('conform').setup({
     -- log_level = vim.log.levels.DEBUG,
     formatters_by_ft = formatters_by_ft_all,
@@ -541,16 +554,12 @@ local function conform_setup()
     },
 
     format_on_save = function(bufnr)
-      if
-          vim.b.conform_disable_autoformat
-          -- Allow buffer local disable setting to always take precedence
-          or (vim.b.conform_disable_autoformat == nil and vim.g.conform_disable_autoformat)
-          or not vim.tbl_contains(format_on_save_fts, vim.bo[bufnr].filetype)
-      then
+      -- buffer local setting always takes precedence
+      if vim.b[bufnr].conform_autoformat or vim.g.conform_autoformat then
+        return { bufnr = bufnr }
+      else
         -- Returning `nil` disables autoformatting
         return nil
-      else
-        return { bufnr = bufnr }
       end
     end,
   })
