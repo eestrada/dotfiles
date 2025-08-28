@@ -623,12 +623,12 @@ local function lsp_config_setup()
     },
 
     -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#gopls
     -- Should work so long as `gopls` command is on $PATH
     gopls = {},
 
     -- for ruby
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#solargraph
     -- More documentation on using solargraph with bundler:
     -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
     solargraph = {
@@ -659,38 +659,38 @@ local function lsp_config_setup()
     --   cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp', '--disable-watchman' },
     -- },
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rubocop
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rubocop
     -- rubocop = {},
 
     -- for python
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright
     pyright = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#html
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html
     html = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jsonls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#jsonls
     jsonls = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#cssls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#cssls
     cssls = {},
 
     -- for typescript/javascript
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#tsserver
     ts_ls = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#yamlls
     yamlls = {},
 
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lemminx
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lemminx
     lemminx = lemminx_cfg,
 
     -- for markdown
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#marksman
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#marksman
     -- marksman = {},
 
     -- for toml
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#taplo
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#taplo
     taplo = {},
 
     -- for terraform-ls
@@ -698,21 +698,21 @@ local function lsp_config_setup()
     terraformls = {},
 
     -- for vimscript
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#vimls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#vimls
     vimls = {},
 
     -- for zig
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#zls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#zls
     zls = {},
 
     -- bash shell scripts
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#bashls
     bashls = {
       filetypes = { 'sh', 'bash' },
     },
 
     -- Graphviz dot files
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#dotls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#dotls
     dotls = {},
 
     -- Kotlin
