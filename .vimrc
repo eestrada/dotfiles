@@ -22,6 +22,10 @@ if has('nvim')
   let g:polyglot_disabled = ['markdown']
 endif
 
+" For plantuml-syntax
+" Always default to outputting svg files
+let g:plantuml_executable_script = 'plantuml -tsvg'
+
 " For vim-test
 let g:test#strategy = 'make_bang'
 
@@ -592,6 +596,10 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 
 " Includes most languages not already included by default with Vim or Neovim
 Plug 'https://github.com/sheerun/vim-polyglot', Cond(!exists('g:vscode'))
+
+" polyglot does not have the latest plantuml changes, such as errorformat
+" TODO: fork and refactor into a compiler definition. Create a PR for upstream.
+Plug 'https://github.com/aklt/plantuml-syntax', Cond(!exists('g:vscode'))
 
 " voll
 Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
