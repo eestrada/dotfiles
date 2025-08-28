@@ -353,7 +353,7 @@ local function mason_tool_installer_setup()
       'prettier',
       'prettierd',
       'pylint',
-      'pyright',
+      'pyrefly',
       'ruff',
       'shellcheck',
       'shfmt',
@@ -663,8 +663,9 @@ local function lsp_config_setup()
     -- rubocop = {},
 
     -- for python
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright
-    pyright = {},
+    -- Implemented in Rust (Faster than alternative Python native LSPs)
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyrefly
+    pyrefly = {},
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html
     html = {},
@@ -720,15 +721,11 @@ local function lsp_config_setup()
     kotlin_language_server = {},
   }
 
-  local lspconfig = require('lspconfig')
-
   for server_name, opts in pairs(servers) do
     local lopts = table_shallowcopy(opts)
     lopts.capabilities = capabilities
-    local single_config = lspconfig[server_name]
-    if single_config then
-      single_config.setup(lopts)
-    end
+    vim.lsp.config(server_name, lopts)
+    vim.lsp.enable(server_name)
   end
 
   -- Other lsp configuration suggestions can be found here:
