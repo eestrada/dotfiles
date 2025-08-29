@@ -231,24 +231,19 @@ set laststatus=2
 " How to figure out the names of available statusline colors:
 " https://shapeshed.com/vim-statuslines/#colour
 set statusline=
-set statusline+=%#PmenuSel#
 set statusline+=\ %{StatuslineMode()}
 set statusline+=\ %{b:gitbranch}
-set statusline+=\ %#Question#
+set statusline+=\ \|
 set statusline+=\ %t
 set statusline+=%w
 set statusline+=%h
 set statusline+=%r
 set statusline+=%m
 set statusline+=%=
-set statusline+=\ %#CursorLineNr#
-set statusline+=%y
-set statusline+=%#MoreMsg#
+set statusline+=\ %y
 set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
-set statusline+=%#LineNr#
 set statusline+=[%{&ff}]
-set statusline+=\ %#ModeMsg#
-set statusline+={%p%%,\ line\ %l/%L,\ col\ %c}
+set statusline+=\ {%p%%,\ line\ %l/%L,\ col\ %c}
 
 function! StatuslineMode()
   let l:mode=mode()
