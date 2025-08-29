@@ -276,18 +276,20 @@ function! StatuslineGitBranch()
   if &modifiable
     try
       let l:dir=expand('%:p:h')
-      " TODO: add system call to check if worktree is dirty, and add a `!` or
-      " some other symbol to statusline to indicate this. Command should be
-      " `git diff-index -quiet HEAD --`. See link:
-      " https://stackoverflow.com/a/2659808/1733321
       let l:gitrevparse = system('git -C '.l:dir.' rev-parse --abbrev-ref HEAD')
       if !v:shell_error
-        let b:gitbranch=b:gitbranch_l_paren.substitute(l:gitrevparse, '\n', '', 'g').b:gitbranch_r_paren
+        let l:is_dirty = system('git -C '.l:dir.' diff-files --quiet')
+        let l:dirty_char = ''
+        if v:shell_error
+          let l:dirty_char = '!'
+        endif
+        let b:gitbranch=b:gitbranch_l_paren . l:dirty_char . substitute(l:gitrevparse, '\n', '', 'g') . b:gitbranch_r_paren
       endif
     catch
     endtry
   endif
 endfunction
+
 
 augroup GetGitBranch
   autocmd!
