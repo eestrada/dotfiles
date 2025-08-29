@@ -19,7 +19,7 @@ let g:maplocalleader = ' '
 " Disable individual language packs (since some cause issues).
 " Markdown has issues with URLs, at least in neovim.
 " plantuml and zig upstream plugins are much fresher than polyglot embeds.
-let g:polyglot_disabled = ['markdown', 'plantuml', 'zig', 'requirements', 'kotlin', 'terraform']
+let g:polyglot_disabled = ['markdown', 'plantuml', 'zig', 'requirements', 'kotlin', 'terraform', 'typescript']
 
 " For plantuml-syntax
 " Always default to outputting svg files
