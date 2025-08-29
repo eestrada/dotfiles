@@ -19,7 +19,7 @@ let g:maplocalleader = ' '
 " Disable individual language packs (since some cause issues).
 " Markdown has issues with URLs, at least in neovim.
 " plantuml and zig upstream plugins are much fresher than polyglot embeds.
-let g:polyglot_disabled = ['markdown', 'plantuml', 'zig']
+let g:polyglot_disabled = ['markdown', 'plantuml', 'zig', 'requirements', 'kotlin', 'terraform']
 
 " For plantuml-syntax
 " Always default to outputting svg files
@@ -593,11 +593,13 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 
 " [[ Language plugins ]] {{{3
 
-" Includes most languages not already included by default with Vim or Neovim
+" vim-polyglot includes many languages not already included by default with
+" Vim or Neovim.
+"
 " XXX: most of these are terribly out of date, but it is nice to have when
 " first encountering these filetypes "in the wild". Just add the official
 " plugins once it becomes an issue. The polyglot README.md has links to the
-" upstream repos.
+" upstream repos it derives from.
 Plug 'https://github.com/sheerun/vim-polyglot', Cond(!exists('g:vscode'))
 
 " polyglot does not have the latest plantuml changes, such as errorformat
@@ -606,6 +608,15 @@ Plug 'https://github.com/aklt/plantuml-syntax', Cond(!exists('g:vscode'))
 
 " polyglot does not have the latest zig changes
 Plug 'https://github.com/ziglang/zig.vim', Cond(!exists('g:vscode'))
+
+" Python requirements filetype
+Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'))
+
+" Kotlin
+Plug 'https://github.com/udalov/kotlin-vim', Cond(!exists('g:vscode'))
+
+" Terraform
+Plug 'https://github.com/hashivim/vim-terraform', Cond(!exists('g:vscode'))
 
 " voll
 Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim' })
