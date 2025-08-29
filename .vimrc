@@ -293,7 +293,7 @@ endfunction
 
 augroup GetGitBranch
   autocmd!
-  autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
+  autocmd FileChangedShell,BufWritePost,VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
 augroup END
 
 " System friendly settings
