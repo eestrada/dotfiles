@@ -1136,6 +1136,12 @@ local function dap_setup()
         -- local result = response[1]
         -- local index = response[2]
 
+        -- More links for using coroutines in Neovim.
+        -- These could be useful to set up synchronous code that is non-blocking:
+        -- https://gregorias.github.io/posts/using-coroutines-in-neovim-lua/
+        -- https://www.reddit.com/r/neovim/comments/1g8lutp/coroutine_tutorial_for_neovim_lua/
+        -- https://www.lua.org/pil/9.4.html
+
         local choice = vim.fn.inputlist(for_display)
         local final_choice = all_paths[choice]
 
