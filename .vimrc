@@ -16,6 +16,7 @@ let g:mapleader = ' '
 let g:maplocalleader = ' '
 
 " For vim-polyglot
+" See `:help polyglot.vim`
 " Disable individual language packs (since some cause issues).
 " Markdown has issues with URLs, at least in neovim.
 " plantuml and zig upstream plugins are much fresher than polyglot embeds.
@@ -26,6 +27,7 @@ let g:polyglot_disabled = ['markdown', 'plantuml', 'zig', 'requirements', 'kotli
 let g:plantuml_executable_script = 'plantuml -tsvg'
 
 " For vim-test
+" see `:help test-strategies`
 let g:test#strategy = 'make_bang'
 
 " How to split windows when running Plug commands
@@ -241,9 +243,9 @@ set statusline+=%r
 set statusline+=%m
 set statusline+=%=
 set statusline+=\ %y
-set statusline+=\ %{strlen(&fenc)?&fenc:'none'}
+set statusline+=\ \|\ %{strlen(&fenc)?&fenc:'none'}
 set statusline+=[%{&ff}]
-set statusline+=\ {%p%%,\ line\ %l/%L,\ col\ %c}
+set statusline+=\ \|\ %03l,%03c\ \|\ %03p%%
 
 function! StatuslineMode()
   let l:mode=mode()
