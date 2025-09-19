@@ -350,6 +350,7 @@ local function mason_tool_installer_setup()
       'luacheck', -- needs `luarocks` available to install
       'markdownlint',
       'mdformat',
+      'mmdc',
       'prettier',
       'prettierd',
       'pylint',
@@ -396,6 +397,21 @@ end
 local function nvim_lint_setup()
   local lint = require('lint')
 
+  lint.linters.mmdc = {
+    cmd = 'mmdc',
+    stdin = false,
+    append_fname = true,
+    args = { '--input' },
+    stream = 'stderr',
+    ignore_exitcode = true,
+
+    -- FIXME: figure out the actual error format for mmdc.
+    parser = require('lint.parser').from_errorformat('JSON5:\\ %m\\ at\\ %l:%c', {
+      source = 'json5',
+      severity = vim.diagnostic.severity.ERROR,
+    }),
+  }
+
   lint.linters_by_ft = {
     bash = { 'bash', 'shellcheck' },
     gitcommit = { 'gitlint', 'write_good' },
@@ -404,6 +420,7 @@ local function nvim_lint_setup()
     ksh = { 'ksh', 'shellcheck' },
     lua = { 'luac', 'luacheck' },
     markdown = { 'markdownlint' },
+    mermaid = { 'mmdc' },
     plantuml = { 'compiler' },
     python = { 'ruff' },
     rst = { 'write_good' },
