@@ -28,6 +28,8 @@ adobeconnectapp.log
 /.cache
 /.cdk
 /.chezscheme_history
+/.claude.json*
+/.claude/
 /.config/*
 /.conky/
 /.cups
