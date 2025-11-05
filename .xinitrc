@@ -9,4 +9,4 @@ SESSION=${1:-${DEFAULT_SESSION}}
 . "$HOME/.xprofile"
 
 # start the window manager passed into the script or the default window manager if none was passed in.
-exec "$SESSION"
+exec dbus-launch --exit-with-session "$SESSION"

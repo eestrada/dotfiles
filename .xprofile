@@ -9,6 +9,11 @@
 # https://www.reddit.com/r/i3wm/comments/6in8m1/did_you_know_xdg_current_desktop/
 export XDG_CURRENT_DESKTOP="${SESSION}"
 
+# Force similar themes and colors in both GTK and Qt
+export GTK_THEME="Adwaita:dark"
+export QT_STYLE_OVERRIDE="Adwaita-Dark"
+# export QT_QPA_PLATFORMTHEME='qt5ct'
+
 sysresources=/usr/local/etc/X11/xinit/.Xresources
 sysmodmap=/usr/local/etc/X11/xinit/.Xmodmap
 userresources=$HOME/.Xresources

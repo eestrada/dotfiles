@@ -1,5 +1,11 @@
 #!/bin/sh
 
-pamixer --toggle-mute
-current_volume_value="$(pamixer --get-volume-human)"
-notify-send --urgency low --replace-id=12345 --transient --app-name 'pamixer' "Volume" "mute: ${current_volume_value}"
+pulsemixer --toggle-mute
+
+if [ '1' = "$(pulsemixer --get-mute)" ]; then
+  current_mute_state='Muted'
+else
+  current_mute_state='Unmuted'
+fi
+
+dunstify --urgency low --replace=12345 --appname 'pulsemixer' "Volume" "${current_mute_state}"

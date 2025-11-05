@@ -113,6 +113,7 @@ adobeconnectapp.log
 /.vscode-server
 /.wget-hsts
 /.wine
+/.wpa_cli_history
 /.xsession-errors*
 /.yarnrc
 /.zcompcache

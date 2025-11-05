@@ -1,8 +1,5 @@
 #!/bin/sh
 
-bright_percent_re='^[ \t]*Current brightness: [0-9]+ \(([0-9]+)\%\)[ \t]*$'
-_cmd="/${bright_percent_re}/!d; s/${bright_percent_re}/\\1/"
-
-result="$(brightnessctl -c backlight set +5%)"
-bright_percent="$(echo "$result" | sed -E -e "$_cmd")"
-notify-send --urgency low --replace-id=67890 --transient --app-name 'brightnessctl' "Brightness" "${bright_percent}%"
+light -A 5
+bright_percent="$(light -G)"
+notify-send --urgency low --replace-id=67890 --transient --app-name 'backlight' "Brightness" "${bright_percent}%"

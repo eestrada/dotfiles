@@ -1,5 +1,5 @@
 #!/bin/sh
 
-pamixer --decrease 5
-current_volume_value="$(pamixer --get-volume-human)"
-notify-send --urgency low --replace-id=12345 --transient --app-name 'pamixer' "Volume" "${current_volume_value}"
+pulsemixer --change-volume -5 --max-volume 100
+current_volume_value="$(pulsemixer --get-volume | cut -d ' ' -f 1)"
+dunstify --urgency low --replace=12345 --appname 'pulsemixer' --hints "int:value:VALUE_IN_PERCENTAGE" "Volume" "${current_volume_value}"

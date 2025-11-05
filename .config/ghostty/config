@@ -3,11 +3,17 @@
 # Ghostty's config syntax is very similar to VOLL.
 # Thus, the format of this file can just be set to voll for the time being.
 # See Syntax docs here: https://ghostty.org/docs/config#syntax
+# See option reference here: https://ghostty.org/docs/config/reference
 
-theme = light:iTerm2 Tango Light,dark:iTerm2 Tango Dark
+# theme = light:iTerm2 Tango Light,dark:iTerm2 Tango Dark
+theme = iTerm2 Tango Dark
 cursor-style = block
 shell-integration-features = no-cursor
 auto-update = off
 
 # Disable ligatures.
 font-feature = -calt
+
+# Client side decorations look very gnome specific and don't fit i3wm.
+# Use server side decorations instead.
+window-decoration = server

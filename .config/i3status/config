@@ -1,3 +1,5 @@
+# vim: set filetype=config:
+
 # i3status configuration file.
 # see "man i3status" for documentation.
 
@@ -9,9 +11,9 @@
 general {
         interval = 1
 
-        output_format = "none"
-        # output_format = "i3bar"
-        # colors = true
+        # output_format = "none"
+        output_format = "i3bar"
+        colors = true
         # color_separator = "#0000FF"
         # color_good = "#000000"
         # color_degraded = "#FFFF00"
@@ -23,11 +25,12 @@ general {
 # order += "ethernet lagg0"
 # order += "ipv6"
 # order += "wireless wlan0"
-# order += "battery all"
+# order += "wireless wlp4s0"
+order += "battery all"
 # order += "load"
 # order += "cpu_usage"
 # order += "cpu_temperature 0"
-# order += "volume master"
+order += "volume master"
 order += "tztime local"
 
 ethernet re0 {
@@ -37,22 +40,34 @@ ethernet re0 {
         format_down = "E: down"
 }
 
-wireless wlan0 {
-        # format_up = "WLAN: (%quality at %essid)"
-        format_up = "SSID: %essid"
+wireless wlp4s0 {
+        format_up = "WLAN: %essid (%quality)"
+        # format_up = "SSID: %essid"
         format_down = "WLAN: down"
 }
 
 battery all {
         # format = "BAT: %status %percentage %remaining %emptytime %consumption"
-        format = "BAT: %status %percentage %emptytime"
-        format_down = "No battery"
-        status_chr = "⚡ CHR"
-        status_bat = "🔋 DIS"
-        status_unk = "? UNK"
-        status_full = "☻ FULL"
+        # format = "BAT: %status %percentage"
+        align = "left"
+        min_width = "🔋 100%"
+        format = "%status %percentage"
+        format_down = "💀 No battery"
+        # status_chr = "⚡ CHR"
+        # status_bat = "🔋 DIS"
+        # status_bat = "🔋🪫"
+        # status_unk = "? UNK"
+        # status_full = "☻ FULL"
+        # status_chr = "🔋⚡"
+        # status_bat = "🔋🔽"
+        # status_unk = "🔋❓"
+        # status_full = "🔋✅"
+        status_chr = "⚡"
+        status_bat = "🪫"
+        status_unk = "❓"
+        status_full = "🔋"
         threshold_type = "time"
-        low_threshold = 30
+        low_threshold = 10
         integer_battery_capacity = true
         hide_seconds = true
 
@@ -62,20 +77,27 @@ battery all {
 }
 
 cpu_usage {
-  format = "CPU: %usage"
+        format = "CPU: %usage"
 }
 
 cpu_temperature 0 {
-  format = "%degrees°C"
+        format = "%degrees°C"
 }
 
 volume master {
-  format = "VOL: %volume"
-  format_muted = "MUTE"
+        device = "pulse"
+        align = "left"
+        min_width = "🔊 100%"
+        format = "🔊 %volume"
+        format_muted = "🔇 %volume"
 }
 
 tztime local {
-        format = "%Y-%m-%d %H:%M:%S"
+        # Up to the second
+        # format = "%Y-%m-%d %H:%M:%S"
+
+        # Up to the minute
+        format = "🕒 %Y-%m-%d %H:%M"
 }
 
 load {
