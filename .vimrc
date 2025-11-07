@@ -744,6 +744,8 @@ function s:vimrc_init() abort
     nnoremap <leader>gg :grep "<cword>" ./<CR>
     vnoremap <leader>gg y:grep "<C-R>0" ./<CR>
   else
+    let &grepprg='grep --exclude-dir ''.git/'''
+
     " Support more features than the default gnu style `grepformat` for
     " vim/nvim. The `grepformat` below supports outputs from the flags
     " '-L/--files-without-match' (only filename output), and
