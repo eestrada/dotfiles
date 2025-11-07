@@ -733,7 +733,12 @@ function s:vimrc_init() abort
   if executable('rg')
     " How to ignore `.git` dir: https://news.ycombinator.com/item?id=33238626
     let &grepprg='rg --vimgrep --hidden --glob ''!.git/'' --smart-case'
-    let &grepformat='%f:%l:%c:%m'
+
+    " This also supports more features than the default for 'nvim' rg support
+    " because this supports outputs from the flags '--invert-match' (no column
+    " is output), '--files-without-match' (only filename output), and
+    " '--files-with-matches' (only filename output).
+    let &grepformat='%f:%l:%c:%m,%f:%l:%m,%f'
 
     " grep the local directory for the word under the cursor
     nnoremap <leader>gg :grep "<cword>" ./<CR>
