@@ -734,15 +734,25 @@ function s:vimrc_init() abort
     " How to ignore `.git` dir: https://news.ycombinator.com/item?id=33238626
     let &grepprg='rg --vimgrep --hidden --glob ''!.git/'' --smart-case'
 
-    " This also supports more features than the default for 'nvim' rg support
-    " because this supports outputs from the flags '--invert-match' (no column
-    " is output), '--files-without-match' (only filename output), and
-    " '--files-with-matches' (only filename output).
+    " Support more features than the default rg `grepformat` for nvim. The
+    " `grepformat` below supports outputs from the flags '--invert-match'
+    " (column omitted from output), '-L/--files-without-match' (only filename
+    " output), and '-l/--files-with-matches' (only filename output).
     let &grepformat='%f:%l:%c:%m,%f:%l:%m,%f'
 
     " grep the local directory for the word under the cursor
     nnoremap <leader>gg :grep "<cword>" ./<CR>
     vnoremap <leader>gg y:grep "<C-R>0" ./<CR>
+  else
+    " Support more features than the default gnu style `grepformat` for
+    " vim/nvim. The `grepformat` below supports outputs from the flags
+    " '-L/--files-without-match' (only filename output), and
+    " '-l/--files-with-matches' (only filename output).
+    let &grepformat='%f:%l:%m,%f:%l%m,%f  %l%m,%f'
+
+    " grep the local directory for the word under the cursor
+    nnoremap <leader>gg :grep --recursive "<cword>" ./<CR>
+    vnoremap <leader>gg y:grep --recursive "<C-R>0" ./<CR>
   endif
 
   if exists('g:loaded_copilot_chat')
