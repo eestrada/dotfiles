@@ -13,6 +13,7 @@ export XDG_CURRENT_DESKTOP="${SESSION}"
 export GTK_THEME="Adwaita:dark"
 export QT_STYLE_OVERRIDE="Adwaita-Dark"
 # export QT_QPA_PLATFORMTHEME='qt5ct'
+export XCURSOR_SIZE=48
 
 sysresources=/usr/local/etc/X11/xinit/.Xresources
 sysmodmap=/usr/local/etc/X11/xinit/.Xmodmap
@@ -23,7 +24,7 @@ xprofilelocal=$HOME/.xprofile_local.sh
 # merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
-  xrdb -merge $sysresources
+  xrdb $sysresources
 fi
 
 if [ -f $sysmodmap ]; then
@@ -31,7 +32,7 @@ if [ -f $sysmodmap ]; then
 fi
 
 if [ -f "$userresources" ]; then
-  xrdb -merge "$userresources"
+  xrdb "$userresources"
 fi
 
 if [ -f "$usermodmap" ]; then

@@ -8,6 +8,8 @@
 !/neovide/
 !/nvim/
 !/ripgrep/
+!/gtk-3.0/
+!/gtk-4.0/
 
 # files to include under .config
 !/stylua.toml

@@ -1,8 +1,10 @@
-!! URxvt.font                 : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
-!! URxvt.boldFont             : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
-!! URxvt.italicFont           : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
-!! URxvt.boldItalicfont       : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
-!! URxvt.cursorBlink          : 1
+!! vim: set filetype=xdefaults:
+
+! URxvt.font                 : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
+! URxvt.boldFont             : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
+! URxvt.italicFont           : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
+! URxvt.boldItalicfont       : -*-terminus-medium-r-normal-*-12-*-*-*-*-*-iso8859-1
+! URxvt.cursorBlink          : 1
 URxvt.termName             : rxvt-unicode-256color
 URxvt.internalBorder       : 2
 URxvt.externalBorder       : 0
@@ -13,7 +15,7 @@ URxvt*scrollWithBuffer     : true
 URxvt*scrollTtyKeypress    : true
 URxvt*saveLines            : 10000
 
-! rxvt-unicode settings
+!! rxvt-unicode settings
 URxvt*scrollBar            : true
 URxvt*scrollBar_right      : true
 URxvt.saveLines            : 10000

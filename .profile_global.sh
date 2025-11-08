@@ -269,7 +269,7 @@ case $- in
 *) ;;
 esac
 
-[ -n "${_interactive_shell}" ] && [ "$(uname -s)" = "FreeBSD" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune freebsd-tips && echo
+[ -n "${_interactive_shell}" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune -e && echo
 
 refreshpath
 set_manpath

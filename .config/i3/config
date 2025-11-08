@@ -232,7 +232,7 @@ bar {
 
         # increasing the font size increases the size of the status bar
         # (and thus of systray icons).
-        font pango:monospace 12
+        font pango:monospace 18
         # font pango:DejaVu Sans Mono 24
 
         # colors {
