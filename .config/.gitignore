@@ -2,14 +2,14 @@
 !/dunst/
 !/fzf/
 !/ghostty/
+!/gtk-3.0/settings.ini
+!/gtk-4.0/settings.ini
 !/i3/
 !/i3status/
 !/jrnl/
 !/neovide/
 !/nvim/
 !/ripgrep/
-!/gtk-3.0/
-!/gtk-4.0/
 
 # files to include under .config
 !/stylua.toml
