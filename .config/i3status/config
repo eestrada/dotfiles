@@ -26,7 +26,7 @@ general {
 # order += "ipv6"
 # order += "wireless wlan0"
 # order += "wireless wlp4s0"
-order += "battery all"
+# order += "battery all"
 # order += "load"
 # order += "cpu_usage"
 # order += "cpu_temperature 0"
