@@ -71,9 +71,6 @@ setaliases() {
   # alias cp="cp -u"; # This has caused me too many headaches
   alias mkdir="mkdir -v"
   alias dus="du --max-depth=1"
-  alias gtar="tar --format=gnu"
-  alias ustar="tar --format=ustar"
-  alias ptar="tar --format=pax"
 
   # alias c++="${CXX} -std=c++98";
   # alias c99="${CC} -std=c99";
