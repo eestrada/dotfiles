@@ -54,6 +54,7 @@ setaliases() {
     alias ls="ls -G"
     alias ll="ls -Gslh"
   else
+    # GNU coreutils, probably
     alias ls="ls --color=auto"
     alias ll="ls -slh"
   fi
@@ -64,26 +65,8 @@ setaliases() {
   elif [ "$(uname -s)" = "Darwin" ]; then
     alias rm="rm -i"
   else
+    # GNU coreutils, probably
     alias rm="rm -I --preserve-root"
-  fi
-
-  # alias mv="mv -u";
-  # alias cp="cp -u"; # This has caused me too many headaches
-  alias mkdir="mkdir -v"
-  alias dus="du --max-depth=1"
-
-  # alias c++="${CXX} -std=c++98";
-  # alias c99="${CC} -std=c99";
-  # alias c89="${CC} -std=c89";
-  #alias nospaces="rename -v \  _ ";
-
-  # Do not create gvim swap files.
-  alias gvimn="gvim -n -p"
-
-  # To make sure my muscle memory is the same everywhere, just use `vim`, but
-  # have it default to using `nvim` whenever it is available.
-  if type nvim >/dev/null 2>&1; then
-    alias vim='nvim'
   fi
 
   # Make diff print in an easier to read format by default
@@ -92,26 +75,6 @@ setaliases() {
   # I often forget the rsync flags I like for backups, so let's just
   # bake them into an alias. Ignore obvious temporary files.
   alias rsync-backup="rsync -vrlpEtgoDH --exclude '*~'"
-}
-
-set_cc() {
-  # Use clang if it exists, otherwise use gcc, otherwise use the system default
-  if which clang >/dev/null 2>&1; then
-    export CXX=clang++
-    export CC=clang
-    export CXXFLAGS="-pedantic -Wall"
-    export CFLAGS="-pedantic -Wall"
-  elif which gcc >/dev/null 2>&1; then
-    export CXX=g++
-    export CC=gcc
-    export CXXFLAGS="-pedantic -Wall"
-    export CFLAGS="-pedantic -Wall"
-  else
-    export CXX=c++
-    export CC=cc
-    export CXXFLAGS=""
-    export CFLAGS=""
-  fi
 }
 
 # Set up any Houdini specific env
