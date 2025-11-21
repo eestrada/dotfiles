@@ -452,6 +452,7 @@ command! BuffDeleteOthers :%bdelete|edit #|normal`"<cr>
 autocmd vimrc_aug BufRead,BufNewFile *.cron setfiletype crontab
 autocmd vimrc_aug BufRead,BufNewFile *.crontab setfiletype crontab
 autocmd vimrc_aug BufRead,BufNewFile *.zon setfiletype zig
+autocmd vimrc_aug BufRead,BufNewFile Pipfile setfiletype toml
 
 " [[ Plugins ]] {{{1
 
