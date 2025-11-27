@@ -1,3 +1,0 @@
-[submodule "asdf-vm"]
-	path = .asdf
-	url = https://github.com/asdf-vm/asdf.git
