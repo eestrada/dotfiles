@@ -8,5 +8,10 @@ SESSION=${1:-${DEFAULT_SESSION}}
 # on. Otherwise we just get the basic default PATH set up by the system.
 . "$HOME/.xprofile"
 
+eval "$(dbus-launch --sh-syntax)"
+
 # start the window manager passed into the script or the default window manager if none was passed in.
-exec dbus-launch --exit-with-session "$SESSION"
+"$SESSION"
+
+# .xlogout cleans up dbus session created from dbus-launch above.
+. "$HOME/.xlogout"
