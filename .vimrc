@@ -606,7 +606,7 @@ Plug 'https://github.com/sheerun/vim-polyglot', Cond(!exists('g:vscode'))
 Plug 'https://github.com/aklt/plantuml-syntax', Cond(!exists('g:vscode'))
 
 " polyglot does not have the latest zig changes
-Plug 'https://github.com/ziglang/zig.vim', Cond(!exists('g:vscode'))
+Plug 'https://codeberg.org/ziglang/zig.vim', Cond(!exists('g:vscode'))
 
 " Python requirements filetype
 Plug 'https://github.com/raimon49/requirements.txt.vim', Cond(!exists('g:vscode'))
