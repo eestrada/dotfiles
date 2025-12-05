@@ -1,6 +1,5 @@
 #!/bin/sh
 
 pulsemixer --change-volume -5 --max-volume 100
-current_volume_value="$(pulsemixer --get-volume | cut -d ' ' -f 1)"
-# notify-send --urgency low --replace-id=12345 --transient --app-name 'pulsemixer' --hint "int:value:VALUE_IN_PERCENTAGE" "Volume" "${current_volume_value}"
-notify-send --urgency low --replace-id=12345 --transient --app-name 'pulsemixer' "Volume" "${current_volume_value}"
+# current_volume_value="$(pulsemixer --get-volume | cut -d ' ' -f 1)"
+# notify-send --urgency low --replace-id=12345 --transient --app-name 'pulsemixer' "Volume" "${current_volume_value}"

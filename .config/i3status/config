@@ -30,7 +30,7 @@ general {
 # order += "load"
 # order += "cpu_usage"
 # order += "cpu_temperature 0"
-order += "volume master"
+# order += "volume master"
 order += "tztime local"
 
 ethernet re0 {

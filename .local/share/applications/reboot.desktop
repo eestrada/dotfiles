@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Reboot
+Exec=/home/eestrada/.dotfile_misc/bin/x11/simple_reboot.sh
+Terminal=false
+Type=Application
+Icon=system-reboot-symbolic
+Comment=Reboot system
+Categories=System;

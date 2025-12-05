@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lock Screen
+Exec=xscreensaver-command -lock
+Terminal=false
+Type=Application
+Icon=system-lock-screen
+Comment=Lock X11 session
+Categories=System;

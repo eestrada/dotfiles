@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Poweroff
+Exec=/home/eestrada/.dotfile_misc/bin/x11/simple_poweroff.sh
+Terminal=false
+Type=Application
+Icon=system-shutdown-symbolic
+Comment=Power off system
+Categories=System;
