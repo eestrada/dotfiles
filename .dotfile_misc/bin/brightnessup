@@ -2,4 +2,4 @@
 
 light -A 5
 bright_percent="$(light -G)"
-notify-send --urgency low --replace-id=67890 --transient --app-name 'backlight' "Brightness" "${bright_percent}%"
+notify-send --expire-time=1000 --urgency low --replace-id=67890 --transient --app-name 'backlight' "Brightness" "${bright_percent}%"
