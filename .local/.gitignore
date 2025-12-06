@@ -1,3 +1,4 @@
 /share/*
 /state/*
+/bin/*
 !/share/applications/
