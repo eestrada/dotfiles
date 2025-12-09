@@ -18,4 +18,6 @@
 
 //@theme "/usr/share/rofi/themes/material.rasi"
 
-@theme "/usr/share/rofi/themes/sidebar.rasi"
+//@theme "/usr/share/rofi/themes/sidebar.rasi"
+
+@theme "/usr/share/rofi/themes/glue_pro_blue.rasi"

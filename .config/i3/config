@@ -225,21 +225,23 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        position top
-        status_command i3status
+# bar {
+#         position top
+#         status_command i3status
 
-        # increasing the font size increases the size of the status bar
-        # (and thus of systray icons).
-        font pango:monospace 18
-        # font pango:DejaVu Sans Mono 24
+#         # increasing the font size increases the size of the status bar
+#         # (and thus of systray icons).
+#         font pango:monospace 18
+#         # font pango:DejaVu Sans Mono 24
 
-        # colors {
-        #     separator "#0000FF"
-        # }
-}
+#         # colors {
+#         #     separator "#0000FF"
+#         # }
+# }
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Assign workspaces to specific screens
 workspace 1 output eDP1
