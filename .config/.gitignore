@@ -10,6 +10,7 @@
 !/neovide/
 !/nvim/
 !/ripgrep/
+!/rofi/
 
 # files to include under .config
 !/stylua.toml
