@@ -1,11 +1,3 @@
 #!/bin/sh
 
 pulsemixer --toggle-mute
-
-# if [ '1' = "$(pulsemixer --get-mute)" ]; then
-#   current_mute_state='Muted'
-# else
-#   current_mute_state='Unmuted'
-# fi
-
-# notify-send --urgency low --replace-id=12345 --transient --app-name 'pulsemixer' "Volume" "${current_mute_state}"
