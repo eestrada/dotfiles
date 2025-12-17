@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Poweroff
-Exec=/home/eestrada/.dotfile_misc/bin/x11/simple_poweroff.sh
+Exec=/home/eestrada/.dotfile_misc/bin/x11/simple_poweroff.sh --ask
 Terminal=false
 Type=Application
 Icon=system-shutdown-symbolic

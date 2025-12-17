@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if zenity --question --title 'Poweroff?' --text 'Poweroff?' ; then
+_do_poweroff () {
   printf '%s\n' 'Exit window manager...'
   i3-msg exit
 
@@ -10,6 +10,14 @@ if zenity --question --title 'Poweroff?' --text 'Poweroff?' ; then
 
   printf '%s\n' 'Powering off...'
   sudo poweroff
+}
+
+if [ "$1" = '--ask' ]; then
+  if zenity --question --title 'Poweroff?' --text 'Poweroff?' ; then
+    _do_poweroff
+  else
+    printf '%s\n' 'Skipping poweroff.'
+  fi
 else
-  printf '%s\n' 'Skipping poweroff.'
+  _do_poweroff
 fi

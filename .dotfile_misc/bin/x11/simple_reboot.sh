@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if zenity --question --title 'Reboot?' --text 'Reboot?' ; then
+_do_reboot () {
   printf '%s\n' 'Exit window manager...'
   i3-msg exit
 
@@ -10,6 +10,14 @@ if zenity --question --title 'Reboot?' --text 'Reboot?' ; then
 
   printf '%s\n' 'Rebooting...'
   sudo reboot
+}
+
+if [ "$1" = '--ask' ]; then
+  if zenity --question --title 'Reboot?' --text 'Reboot?' ; then
+    _do_reboot
+  else
+    printf '%s\n' 'Skipping reboot.'
+  fi
 else
-  printf '%s\n' 'Skipping reboot.'
+  _do_reboot
 fi
