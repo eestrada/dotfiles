@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Logout
-Exec=/home/eestrada/.dotfile_misc/bin/x11/simple_logout.sh --ask
+Exec=/home/eestrada/.dotfile_misc/bin/simple_logout.sh --ask
 Terminal=false
 Type=Application
 Icon=system-log-out-symbolic
