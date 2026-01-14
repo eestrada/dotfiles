@@ -12,7 +12,7 @@
 # after running this script.
 set -e
 
-_default_repo='git@github.com:eestrada/dotfiles.git'
+_default_repo='ssh://git@codeberg.org/eestrada/dotfiles.git'
 _default_branch='master'
 _default_dir="${HOME}"
 REPO_URL=${1:-${_default_repo}}
