@@ -32,6 +32,7 @@ adobeconnectapp.log
 /.claude/
 /.config/*
 /.conky/
+/.cshrc
 /.cups
 /.dbus
 /.dlv
@@ -72,6 +73,10 @@ adobeconnectapp.log
 /.lemminx
 /.lesshs?
 /.local/*
+/.login
+/.login_conf
+/.mail_aliases
+/.mailrc
 /.mgem
 /.mirb_history
 /.mkshrc
@@ -93,6 +98,7 @@ adobeconnectapp.log
 /.restore/
 /.rpmdb/
 /.rvm
+/.sh_history
 /.shrc
 /.shrc-local*
 /.shrc_local*
@@ -145,6 +151,7 @@ adobeconnectapp.log
 /go
 /mbox
 /nohup.out
+/public_html
 /tmp
 
 # Apple macOS
@@ -177,4 +184,6 @@ adobeconnectapp.log
 /VirtualBoxVMs
 /_netrc
 /houdini*
+
+
 
