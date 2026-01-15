@@ -539,7 +539,7 @@ Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:v
 " stress, it works on Unix/Linux after the first run. Not worth looking into
 " deeper at the moment.
 Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
-Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'))
+Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'), { 'branch': 'main' })
 
 " TODO: Consider deleting. Most of this can be done with native Vim features
 " or periscope.
