@@ -7,6 +7,31 @@ augroup vimrc_aug
   autocmd!
 augroup END
 
+
+" [[ Utility Functions ]] {{{1
+
+" [[ Platform identification ]] {{{2
+
+" Functions found here:
+" https://devel.tech/snippets/n/vIIMu4mB/vim-functions-to-detect-os-and-platform/
+
+silent function! OSX()
+  return has('macunix')
+endfunction
+
+silent function! LINUX()
+  return has('unix') && !has('macunix') && !has('win32unix')
+endfunction
+
+silent function! WINDOWS()
+  return  (has('win16') || has('win32') || has('win64'))
+endfunction
+
+silent function! FREEBSD()
+  let s:uname = system("uname -s")
+  return (match(s:uname, 'FreeBSD') >= 0)
+endfunction
+
 " [[ Global Variables ]] {{{1
 
 " Set <space> as the leader key
@@ -749,6 +774,11 @@ function s:vimrc_init() abort
     vnoremap <leader>gg y:grep "<C-R>0" ./<CR>
   else
     let &grepprg='grep --exclude-dir ''.git/'''
+
+    if FREEBSD()
+      " Must explicitly request line numbers with FreeBSD grep
+      let &grepprg='grep --line-number --exclude-dir ''.git/'''
+    end
 
     " Support more features than the default gnu style `grepformat` for
     " vim/nvim. The `grepformat` below supports outputs from the flags
