@@ -383,7 +383,7 @@ local function mason_tool_installer_setup()
     -- will happen on startup. You can use :MasonToolsInstall or
     -- :MasonToolsUpdate to install tools and check for updates.
     -- Default: true
-    run_on_start = true,
+    run_on_start = false,
 
     -- set a delay (in ms) before the installation starts. This is only
     -- effective if run_on_start is set to true.
@@ -412,7 +412,7 @@ local function nvim_lint_setup()
     }),
   }
 
-  lint.linters_by_ft = {
+  local linters_by_ft = {
     bash = { 'bash', 'shellcheck' },
     gitcommit = { 'gitlint', 'write_good' },
     html = { 'htmlhint' },
@@ -429,6 +429,10 @@ local function nvim_lint_setup()
     vim = { 'vint' },
     zsh = { 'zsh' },
   }
+
+  -- FIXME: filter out linters than aren't installed on machine
+
+  lint.linters_by_ft = linters_by_ft
 
   local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
