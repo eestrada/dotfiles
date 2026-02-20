@@ -1,5 +1,7 @@
 source ~/.vimrc
 
+" https://github.com/JetBrains/ideavim
+
 " [[ Keymaps  ]] {{{1
 
 " Replacement for vim signify plugin, sort of.
