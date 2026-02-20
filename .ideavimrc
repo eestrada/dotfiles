@@ -1,1 +1,46 @@
 source ~/.vimrc
+
+" [[ Keymaps  ]] {{{1
+
+" Replacement for vim signify plugin, sort of.
+map ]c <Action>(VcsShowNextChangeMarker)
+map [c <Action>(VcsShowPrevChangeMarker)
+map <leader>hu <Action>(Vcs.RollbackChangedLines)
+" Not clear on how to bring up a similar diff style view in Idea products.
+" map <leader>hd <Action>(Frontend.ChangesView.ShowDiff)
+
+" Replacement for nvim diagnostics, sort of.
+map ]d <Action>(GotoNextError)
+map [d <Action>(GotoPreviousError)
+
+" Replacement for nvim LSP finding references and putting them in the quickfix
+" list, sort of.
+map gr <Action>(FindUsages)
+map gi <Action>(GotoImplementation)
+map gD <Action>(GotoDeclaration)
+map gt <Action>(GotoTypeDeclaration)
+map ]q <Action>(NextOccurence)
+map [q <Action>(PreviousOccurence)
+
+" Replacement for LSP rename, sort of.
+map <leader>rn <Action>(RenameElement)
+
+" Replacement for LSP code actions, sort of.
+map <leader>ca <Action>(ShowIntentionActions)
+
+" Replacement for formatting whole document, sort of.
+map <leader>gq <Action>(ShowReformatFileDialog)
+
+" Replacement for tab jumping, sort of.
+map ]t <Action>(NextTab)
+map [t <Action>(PreviousTab)
+
+" Replacement for buffer jumping, sort of. Buffers are the same thing as tabs,
+" sort of.
+map ]b <Action>(NextTab)
+map [b <Action>(PreviousTab)
+
+" Jump to previous location in jump list, sort of.
+map [j <Action>(JumpToLastChange)
+" Jump to next location in jump list, sort of.
+map ]j <Action>(JumpToNextChange)
