@@ -1475,7 +1475,7 @@ local init_funcs_keys = {
   'general Neovim',
   'lsp config',
   'cmp and snippet engine',
-  'treesitter',
+  -- 'treesitter',
   'dap',
   'telescope',
   'dressing',

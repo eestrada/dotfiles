@@ -24,6 +24,7 @@ adobeconnectapp.log
 /.bashrc
 /.bashrc-local*
 /.bashrc_local*
+/.bun/
 /.bundle
 /.cache
 /.cdk
