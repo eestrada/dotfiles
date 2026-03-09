@@ -621,7 +621,7 @@ Plug 'https://github.com/iamcco/markdown-preview.nvim', Cond(!exists('g:vscode')
 " Vim or Neovim.
 "
 " XXX: most of these are terribly out of date, but it is nice to have when
-" first encountering these filetypes "in the wild". Just add the official
+" first encountering these filetypes 'in the wild'. Just add the official
 " plugins once it becomes an issue. The polyglot README.md has links to the
 " upstream repos it derives from.
 Plug 'https://github.com/sheerun/vim-polyglot', Cond(!exists('g:vscode'))
