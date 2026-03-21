@@ -649,6 +649,9 @@ Plug 'https://github.com/eestrada/voll', Cond(!exists('g:vscode'), { 'rtp': 'vim
 " Avro/avdl
 Plug 'https://github.com/eestrada/vim-avro', Cond(!exists('g:vscode'))
 
+" Ruby RDoc
+Plug 'https://github.com/hallison/vim-rdoc', Cond(!exists('g:vscode'))
+
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
 
