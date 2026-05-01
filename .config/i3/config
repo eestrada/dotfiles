@@ -40,10 +40,18 @@ bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 # kill focused window
 bindsym $mod+q kill
 
-# lock screen
+# lock screen (same as macOS)
 bindsym $mod+Control+q exec --no-startup-id xscreensaver-command -lock
 
+# mimic macOS copy/paste short cuts. This assumes $mod stays bound as Mod4 (i.e. Super key).
+# Found in this reddit thread: https://old.reddit.com/r/i3wm/comments/v38t6h/macoslike_clipboard_keybindings_supercvx/
+# Makes it way easier to quickly switch between macOS and i3wm/X11/Linux machines.
+bindsym --release $mod+c exec --no-startup-id xdotool key --clearmodifiers Ctrl+Insert
+bindsym --release $mod+x exec --no-startup-id xdotool key --clearmodifiers Shift+Delete
+bindsym --release $mod+v exec --no-startup-id xdotool key --clearmodifiers Shift+Insert
+
 # exit i3 (logs you out of your X session)
+# same binding as logging out on macOS
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # reload the configuration file
