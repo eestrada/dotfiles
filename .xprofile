@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# Source our environment. For example, this makes sure applications like dmenu
-# see our customized PATH pointing to executables in our home directory, and so
-# on. Otherwise we just get the basic default PATH set up by the system.
+# Source the environment. For example, this makes sure applications like dmenu
+# see the customized PATH pointing to executables in the home directory, and so
+# on. Otherwise the env just gets the basic default PATH set up by the system.
 . "$HOME/.profile"
 
 # force certain XDG based applications to think we are in XFCE so they look and behave more nicely.
@@ -13,6 +13,8 @@ export XDG_CURRENT_DESKTOP="${SESSION}"
 export GTK_THEME="Adwaita:dark"
 export QT_STYLE_OVERRIDE="Adwaita-Dark"
 # export QT_QPA_PLATFORMTHEME='qt5ct'
+
+# Use a large cursor, because I like a big cursor these days.
 export XCURSOR_SIZE=48
 
 sysresources=/usr/local/etc/X11/xinit/.Xresources
