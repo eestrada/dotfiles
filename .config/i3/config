@@ -50,7 +50,8 @@ bindsym --release $mod+c exec --no-startup-id xdotool key --clearmodifiers Ctrl+
 bindsym --release $mod+x exec --no-startup-id xdotool key --clearmodifiers Shift+Delete
 bindsym --release $mod+v exec --no-startup-id xdotool key --clearmodifiers Shift+Insert
 
-# Commonly used to close tabs on Chromium based browsers, and other related applications.
+# Commonly used on macOS to close tabs on Chromium based browsers. Other
+# applications also use this keybinding for similar behavior.
 bindsym --release $mod+w exec --no-startup-id xdotool key --clearmodifiers Ctrl+w
 
 # exit i3 (logs you out of your X session)
