@@ -49,3 +49,5 @@ RSS
 proc
 jsonl
 https
+wildcard
+gitignore
