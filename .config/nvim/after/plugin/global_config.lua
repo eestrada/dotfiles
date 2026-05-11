@@ -334,6 +334,7 @@ local function mason_tool_installer_setup()
       'css-lsp',
       'dot-language-server',
       'gitlint',
+      'groovy-language-server', -- For Jenkinsfiles, mostly.
       'html-lsp',
       'htmlhint',
       'java-debug-adapter',
@@ -740,6 +741,13 @@ local function lsp_config_setup()
     -- Kotlin
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_language_server
     kotlin_language_server = {},
+
+    -- Groovy
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#groovyls
+    groovyls = {
+      cmd = { 'groovy-language-server' },
+      filetypes = { 'groovy', 'Jenkinsfile' },
+    },
   }
 
   for server_name, opts in pairs(servers) do
