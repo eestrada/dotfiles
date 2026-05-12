@@ -344,6 +344,7 @@ local function mason_tool_installer_setup()
       'json-lsp',
       'jsonlint',
       'kotlin-language-server',
+      'kotlin-lsp', -- pre-alpha as of 2026-05-12, may break.
       'lemminx',
       'lemmy-help',
       'llm-ls',
@@ -738,9 +739,13 @@ local function lsp_config_setup()
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#dotls
     dotls = {},
 
-    -- Kotlin
+    -- Kotlin (unofficial)
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_language_server
-    kotlin_language_server = {},
+    -- kotlin_language_server = {},
+
+    -- Kotlin (official, pre-alpha as of 2026-05-12, may break)
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_lsp
+    kotlin_lsp = {},
 
     -- Groovy
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#groovyls
