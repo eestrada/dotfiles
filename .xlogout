@@ -6,18 +6,14 @@
 # Browser name 'chrome' works for both chrome and chromium
 # TODO: find a place in openrc/init to do this same thing so that a script isn't needed.
 
-BROWSERS=chromium chromium-browser chrome brave
+BROWSERS=brave chrome
 
-# First send the signal to kill any and all chromium derived browsers...
+# Wait for each chromium derived browser to die gracefully.
 for browser in ${BROWSERS}; do
   printf 'Attempting to gracefully kill %s...\n' "$browser" 1>&2
-  pkill --oldest -x "$browser"
-done
-
-# Then wait for them all to die.
-for browser in ${BROWSERS}; do
   pid=$(pgrep --oldest -x "$browser")
-  while kill -0 "${pid}"; do sleep 1; done
+  pkill --oldest -x "$browser"
+  while kill -0 "${pid}"; do sleep '0.05'; done
   printf '%s killed!\n' "$browser" 1>&2
 done
 

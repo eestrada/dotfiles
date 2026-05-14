@@ -14,4 +14,5 @@ eval "$(dbus-launch --sh-syntax)"
 "$SESSION"
 
 # .xlogout cleans up dbus session created from dbus-launch above.
+# It also does any other cleanup work needed after the session ends.
 . "$HOME/.xlogout"
