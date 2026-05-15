@@ -431,6 +431,20 @@ nmap gr [I
 " https://hea-www.harvard.edu/~fine/Tech/vi.html
 nmap gd <C-]>
 
+" Semantic Linebreak command
+" See SemBr spec here: https://sembr.org/
+"
+" Original command from here:
+" https://gist.github.com/KeeperCyclone/0d44bfd4780b9a332603187d4096887f
+command -range SemBr <line1>,<line2>s/\(\(\S\+\s\S\+\)[.,?!;"]\) /\1\r/g
+
+xmap gs :SemBr<CR>
+nmap gss :SemBr<CR>
+
+" TODO: create keymap for SemBr to take motion commands.
+" e.g. `gsip` in normal mode to (g)o (s)embr (i)n (p)aragraph.
+" nmap gs :SemBr<CR>
+
 " [[ Toggling keymaps ]]
 " Toggle spellcheck
 nmap <leader>ts :set spelllang=en_us spell! spell?<CR>
