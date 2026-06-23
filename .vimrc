@@ -257,8 +257,7 @@ set laststatus=2
 
 " How to figure out the names of available statusline colors:
 " https://shapeshed.com/vim-statuslines/#colour
-set statusline=
-set statusline+=\ %8{StatuslineMode()}
+set statusline=\ %8{StatuslineMode()}
 set statusline+=\ %{b:gitbranch}
 set statusline+=\ \|
 set statusline+=\ %t
