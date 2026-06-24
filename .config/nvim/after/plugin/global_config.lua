@@ -1398,11 +1398,11 @@ local function general_neovim_setup()
   end, { desc = 'Open diag[n]ostic [f]loat' })
 
   vim.keymap.set('n', '[d', function()
-    vim.diagnostic.goto_prev({ wrap = false })
+    vim.diagnostic.jump({ count = -1, float = true, wrap = false })
   end, { desc = 'Goto previous diagnostic message' })
 
   vim.keymap.set('n', ']d', function()
-    vim.diagnostic.goto_next({ wrap = false })
+    vim.diagnostic.jump({ count = 1, float = true, wrap = false })
   end, { desc = 'Goto next diagnostic message' })
 
   vim.keymap.set('n', '<leader>nl', function()

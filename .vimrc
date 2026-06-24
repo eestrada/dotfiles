@@ -258,7 +258,7 @@ set laststatus=2
 " How to figure out the names of available statusline colors:
 " https://shapeshed.com/vim-statuslines/#colour
 set statusline=\ %8{StatuslineMode()}
-set statusline+=\ %{b:gitbranch}
+set statusline+=\ %{CurrentGitBranch()}
 set statusline+=\ \|
 set statusline+=\ %t
 set statusline+=%w
@@ -269,6 +269,14 @@ set statusline+=%=
 set statusline+=\ %y
 set statusline+=\ \|\ %(%{strlen(&fenc)?&fenc:'none'}[%{&ff}]%)
 set statusline+=\ \|\ %03l,%03c\ \|\ %3p%%
+
+function! CurrentGitBranch()
+  if exists('b:gitbranch') && !empty(b:gitbranch)
+    return b:gitbranch
+  else
+    return '(-_-)'
+  endif
+endfunction
 
 function! StatuslineMode()
   let l:mode=mode()
@@ -314,7 +322,6 @@ function! StatuslineGitBranch()
     endtry
   endif
 endfunction
-
 
 augroup GetGitBranch
   autocmd!
@@ -576,8 +583,10 @@ Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:v
 " The `TSUpdate` call tends to throw errors when this is installed. Don't
 " stress, it works on Unix/Linux after the first run. Not worth looking into
 " deeper at the moment.
-Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
-Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'), { 'branch': 'main' })
+" FIXME: It is failing all the time now, at least for Lua.
+" Just disabling for the time being.
+" Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
+" Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'), { 'branch': 'main' })
 
 " TODO: Consider deleting. Most of this can be done with native Vim features
 " or periscope.
