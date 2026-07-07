@@ -595,12 +595,6 @@ Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:v
 Plug 'https://github.com/nvim-lua/plenary.nvim', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-telescope/telescope.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-" LLM stuff
-" Plug 'https://github.com/huggingface/llm.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/David-Kunz/gen.nvim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/github/copilot.vim', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/CopilotC-Nvim/CopilotChat.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
 " UI stuff
 Plug 'https://github.com/stevearc/dressing.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
