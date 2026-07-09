@@ -343,10 +343,6 @@ endif
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
-" Easily explore file system
-" NOTE: if Dirvish has been loaded, it will overload `:Explore`. See below.
-nmap <leader>e :Explore<CR>
-
 " Buffers/windows/tabs
 " see :help windows
 
