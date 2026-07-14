@@ -268,7 +268,7 @@ workspace 9 output HDMI1
 workspace 10 output HDMI1
 
 # I always start up a terminal anyway. Just make it automatically happen on workspace 1
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-terminal -e tmux new -A -s main'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id i3-sensible-terminal -e tmux new -A -s laptop'
 
 # raise/lower/mute volume with the volume keys.
 bindsym XF86AudioRaiseVolume exec --no-startup-id "~/.dotfile_misc/bin/volumeup"

@@ -136,6 +136,7 @@ adobeconnectapp.log
 # files to ignore at top level
 
 # General
+/*.png
 /AdobeConnectAppCache
 /Desktop
 /Documents
