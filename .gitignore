@@ -33,6 +33,7 @@ adobeconnectapp.log
 /.claude/
 /.config/*
 /.conky/
+/.copilot/
 /.cshrc
 /.cups
 /.dbus
@@ -186,6 +187,3 @@ adobeconnectapp.log
 /VirtualBoxVMs
 /_netrc
 /houdini*
-
-
-
