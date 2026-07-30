@@ -14,6 +14,8 @@ auto-update = off
 # Disable ligatures.
 font-feature = -calt
 
+font-size = 18
+
 # Client side decorations look very gnome specific and don't fit i3wm.
 # Use server side decorations instead.
 window-decoration = server
