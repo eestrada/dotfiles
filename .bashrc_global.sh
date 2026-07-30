@@ -1,10 +1,6 @@
 # .bashrc
 # vim: set filetype=bash:
 # shellcheck shell=bash
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 
 # Source global bashrc definitions
 if [ -f /etc/bashrc ]; then

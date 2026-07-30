@@ -1,10 +1,6 @@
 # .profile - Bourne Shell startup script for login shells
 # vim: set filetype=sh:
 # shellcheck shell=sh
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 #
 # see also sh(1), environ(7).
 #
@@ -203,10 +199,6 @@ run_ssh_agent() {
       cat >>"${HOME}/.ssh/config" <<EOF
 # .ssh/config
 # vim: set filetype=sshconfig:
-# Emacs stuff
-# Local Variables:
-# mode: sshconfig
-# End:
 
 # We don't need to directly add ssh keys in our ~/.profile anymore. This can all
 # be done here in the ssh config.

@@ -1,8 +1,5 @@
 # .zprofile_global.sh
-# vim: set filetype=sh.bash.zsh:
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
+# vim: set filetype=ksh.zsh:
+# shellcheck shell=ksh
 
 emulate sh -c ". $HOME/.profile"

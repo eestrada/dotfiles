@@ -1,10 +1,6 @@
-# .mkshrc
+# .mkshrc_global.sh
 # vim: set filetype=sh.ksh.mksh:
 # shellcheck shell=ksh
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 
 . "${HOME}/.shrc"
 

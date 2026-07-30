@@ -1,10 +1,6 @@
 # .bash_profile
-# vim: set filetype=sh.ksh.bash:
+# vim: set filetype=bash:
 # shellcheck shell=bash
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 
 # User specific environment and startup programs
 

@@ -1,10 +1,6 @@
 # .zshrc
 # vim: set filetype=ksh.zsh:
 # shellcheck shell=ksh
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 
 emulate sh -c ". ${HOME}/.shrc"
 

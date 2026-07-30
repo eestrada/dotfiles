@@ -1,10 +1,6 @@
 # .shrc
 # vim: set filetype=sh:
 # shellcheck shell=sh
-# Emacs stuff
-# Local Variables:
-# mode: sh
-# End:
 
 # This might not pull in from profile.sh if it isn't sourced as part of the same shell session. Just redefine it here.
 source_files() {
