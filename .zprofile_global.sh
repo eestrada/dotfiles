@@ -1,4 +1,4 @@
-# .zprofile
+# .zprofile_global.sh
 # vim: set filetype=sh.bash.zsh:
 # Emacs stuff
 # Local Variables:

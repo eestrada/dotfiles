@@ -127,6 +127,7 @@ adobeconnectapp.log
 /.yarnrc
 /.zcompcache
 /.zcompdump
+/.zprofile
 /.zsh
 /.zsh_history
 /.zsh_sessions

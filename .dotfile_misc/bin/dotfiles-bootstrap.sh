@@ -60,6 +60,7 @@ if [ "${DIRECTORY}" = "${HOME}" ]; then
 .mkshrc
 .profile
 .shrc
+.zprofile
 .zshrc
 EOF
     )
