@@ -51,7 +51,20 @@ git submodule update --init --recursive
 
 if [ "${DIRECTORY}" = "${HOME}" ]; then
     # add sourcing for global shell overrides and additions
-    for _LOCAL_SHELL_RC in ".bashrc" ".kshrc" ".mkshrc" ".shrc" ".zshrc" ".profile"; do
+
+    # Sorted alphanumerically
+    _ALL_SHELL_RCS=$(
+        cat <<EOF
+.bashrc
+.kshrc
+.mkshrc
+.profile
+.shrc
+.zshrc
+EOF
+    )
+
+    for _LOCAL_SHELL_RC in $_ALL_SHELL_RCS; do
         printf '\n. "%s"\n' "\${HOME}/${_LOCAL_SHELL_RC}_global.sh" >>"${HOME}/${_LOCAL_SHELL_RC}"
     done
     unset _LOCAL_SHELL_RC
@@ -59,6 +72,8 @@ if [ "${DIRECTORY}" = "${HOME}" ]; then
     # add sourcing for global git config additions
     # shellcheck disable=2088
     git config --global --add include.path '~/.gitconfig-global.ini'
+
+    unset _ALL_SHELL_RCS
 fi
 
 # shellcheck disable=2016
