@@ -365,6 +365,7 @@ local function mason_tool_installer_setup()
       'stylua',
       'taplo',
       'terraform-ls',
+      'tofu-ls',
       'typescript-language-server',
       'vim-language-server',
       'vint',
@@ -721,6 +722,10 @@ local function lsp_config_setup()
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
     terraformls = {},
 
+    -- for tofu-ls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#tofu_ls
+    tofu_ls = {},
+
     -- for vimscript
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#vimls
     vimls = {},
@@ -754,6 +759,14 @@ local function lsp_config_setup()
       filetypes = { 'groovy', 'Jenkinsfile' },
     },
   }
+
+  if vim.fn.executable('tofu') == 1 then
+    -- probably on personal projects
+    servers.terraformls = nil
+  elseif vim.fn.executable('terraform') == 1 then
+    -- probably on dayjob projects
+    servers.tofu_ls = nil
+  end
 
   for server_name, opts in pairs(servers) do
     local lopts = table_shallowcopy(opts)
