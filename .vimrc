@@ -51,6 +51,13 @@ let g:polyglot_disabled = ['markdown', 'plantuml', 'zig', 'requirements', 'kotli
 " Always default to outputting svg files
 let g:plantuml_executable_script = 'plantuml -tsvg'
 
+" For codespell linting
+" Only enable codespell auto-linting if codespell is actually available
+" (it sometimes isn't).
+if !executable('codespell')
+  let g:disable_codespell_lint = v:true
+endif
+
 " For vim-test
 " see `:help test-strategies`
 let g:test#strategy = 'make_bang'
@@ -796,7 +803,7 @@ function s:vimrc_init() abort
     if FREEBSD()
       " Must explicitly request line numbers with FreeBSD grep
       let &grepprg='grep --line-number --exclude-dir ''.git/'''
-    end
+    endif
 
     " Support more features than the default gnu style `grepformat` for
     " vim/nvim. The `grepformat` below supports outputs from the flags
