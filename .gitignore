@@ -72,6 +72,7 @@ adobeconnectapp.log
 /.local/*
 /.login
 /.login_conf
+/.m2/
 /.mail_aliases
 /.mailrc
 /.mgem
