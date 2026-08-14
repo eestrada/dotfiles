@@ -15,6 +15,7 @@ adobeconnectapp.log
 /.VirtualBox
 /.Xauthority
 /.Xclients
+/.agents/
 /.android
 /.asdf/
 /.atom
