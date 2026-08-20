@@ -58,11 +58,24 @@ setaliases() {
   # User specific aliases
   if [ "$(uname -s)" = "FreeBSD" ]; then
     alias rm="rm -I"
+
+    # `open` probably isnt' used by anything else
+    # TODO: only alias this if X11 is running.
+    alias open='xdg-open'
+
+    # There is the possibility that `open` is already defined
+    # via the installed package `sysutils/open`.
+    # So we just alias `openvt` to that.
+    alias openvt='/usr/bin/open'
   elif [ "$(uname -s)" = "Darwin" ]; then
     alias rm="rm -i"
   else
     # GNU coreutils, probably
     alias rm="rm -I --preserve-root"
+
+    # `open` probably isnt' used by anything else
+    # TODO: only alias this if X11 is running.
+    alias open='xdg-open'
   fi
 
   # Make diff print in an easier to read format by default
