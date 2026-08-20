@@ -59,8 +59,8 @@ setaliases() {
   if [ "$(uname -s)" = "FreeBSD" ]; then
     alias rm="rm -I"
 
-    # `open` probably isnt' used by anything else
-    # TODO: only alias this if X11 is running.
+    # `open` probably isn't used by anything else
+    # TODO: only alias this if xdg-open is present.
     alias open='xdg-open'
 
     # There is the possibility that `open` is already defined
@@ -73,8 +73,8 @@ setaliases() {
     # GNU coreutils, probably
     alias rm="rm -I --preserve-root"
 
-    # `open` probably isnt' used by anything else
-    # TODO: only alias this if X11 is running.
+    # `open` probably isn't used by anything else
+    # TODO: only alias this if xdg-open is present.
     alias open='xdg-open'
   fi
 
