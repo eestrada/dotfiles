@@ -82,9 +82,11 @@ adobeconnectapp.log
 /.mozilla
 /.netrc
 /.npm
+/.npmrc
 /.nvm*
 /.ollama
 /.pgadmin
+/.pip/
 /.pki
 /.profile
 /.profile-local*
