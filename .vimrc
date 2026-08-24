@@ -674,6 +674,9 @@ Plug 'https://github.com/hallison/vim-rdoc', Cond(!exists('g:vscode'))
 " Ruby RBS
 Plug 'https://github.com/pocke/rbs.vim', Cond(!exists('g:vscode'))
 
+" Hyperscript
+Plug 'https://github.com/eestrada/_hyperscript', Cond(!exists('g:vscode'), { 'rtp': 'tools/vim' })
+
 " [[ Vim and Neovim anywhere ]] {{{2
 " We start with plugins that can be used in both Vim and Neovim
 
