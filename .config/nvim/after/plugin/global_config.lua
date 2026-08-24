@@ -97,6 +97,9 @@ end
 
 -- [[ Utility Variables ]] {{{1
 local user_home = vim.fn.expand('~')
+local on_windows = vim.fn.has('win32') == 1
+local vim_dir = on_windows and 'vimfiles' or '.vim'
+local plugins_dir = vim.fs.joinpath(user_home, vim_dir, 'plugged')
 
 -- [[ Define functions for plugin setup ]] {{{1
 
@@ -757,6 +760,16 @@ local function lsp_config_setup()
     groovyls = {
       cmd = { 'groovy-language-server' },
       filetypes = { 'groovy', 'Jenkinsfile' },
+    },
+
+    -- Hyperscript
+    -- https://github.com/bigskysoftware/_hyperscript/tree/master/tools#neovim
+    -- https://github.com/eestrada/_hyperscript/tree/master/tools#neovim
+    hyperscript = {
+      cmd = { 'node', vim.fs.joinpath(plugins_dir, '_hyperscript/tools/lsp/server.js') },
+      filetypes = { 'html', 'hyperscript' },
+      root_markers = { '.hsrc', '.git' },
+      workspace_required = false,
     },
   }
 
