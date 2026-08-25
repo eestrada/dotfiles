@@ -1,4 +1,5 @@
 # folders to include under .config
+!/codebook/
 !/dunst/
 !/fzf/
 !/ghostty/
@@ -15,5 +16,6 @@
 !/rofi/
 
 # files to include under .config
+!/codebook.toml
 !/stylua.toml
 !/user-dirs.dirs

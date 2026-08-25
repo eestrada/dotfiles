@@ -1,0 +1,2 @@
+words = []
+ignore_paths = [".config/nvim/after/plugin/global_config.lua"]

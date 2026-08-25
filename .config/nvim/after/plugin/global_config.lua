@@ -332,6 +332,7 @@ local function mason_tool_installer_setup()
     ensure_installed = {
       'bash-language-server',
       'black',
+      'codebook',
       'codelldb',
       'codespell',
       'css-lsp',
@@ -771,6 +772,11 @@ local function lsp_config_setup()
       root_markers = { '.hsrc', '.git' },
       workspace_required = false,
     },
+
+    -- Codebook
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#codebook
+    -- https://github.com/blopker/codebook
+    codebook = {},
   }
 
   if vim.fn.executable('tofu') == 1 then
