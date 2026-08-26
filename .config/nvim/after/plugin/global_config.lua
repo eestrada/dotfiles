@@ -651,9 +651,6 @@ local function lsp_config_setup()
       },
     },
 
-    -- `gopls` command must be on $PATH
-    gopls = {},
-
     -- More documentation on using solargraph with bundler:
     -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
     solargraph = {
@@ -674,19 +671,6 @@ local function lsp_config_setup()
         linters = { 'rubocop' },
       },
     },
-
-    pyrefly = {},
-    html = {},
-    jsonls = {},
-    cssls = {},
-    ts_ls = {},
-    yamlls = {},
-    lemminx = lemminx_cfg,
-    taplo = {},
-    terraformls = {},
-    tofu_ls = {},
-    vimls = {},
-    zls = {},
 
     bashls = {
       filetypes = { 'sh', 'bash' },
@@ -711,6 +695,19 @@ local function lsp_config_setup()
     },
 
     codebook = {},
+    cssls = {},
+    gopls = {},
+    html = {},
+    jsonls = {},
+    lemminx = lemminx_cfg,
+    pyrefly = {},
+    taplo = {},
+    terraformls = {},
+    tofu_ls = {},
+    ts_ls = {},
+    vimls = {},
+    yamlls = {},
+    zls = {},
   }
 
   if vim.fn.executable('tofu') == 1 then
