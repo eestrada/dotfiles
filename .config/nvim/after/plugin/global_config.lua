@@ -632,57 +632,27 @@ local function lsp_config_setup()
   -- These language servers will need to be installed somehow before being used.
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
   local servers = {
-    lua_ls = {
-      Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua is being used
-          -- (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT',
-        },
-        workspace = {
-          checkThirdParty = false,
-
-          -- pull in all of 'runtimepath'. NOTE: this is slower
-          library = vim.api.nvim_get_runtime_file('', true),
-        },
-        telemetry = { enable = false },
-        -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-        -- diagnostics = { disable = { 'missing-fields' } },
-      },
-    },
-
-    -- More documentation on using solargraph with bundler:
-    -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
-    solargraph = {
-      cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
-    },
-
-    ruby_lsp = {
-      cmd = { 'bundle', 'exec', 'ruby-lsp' },
-
-      -- Don't use eruby for now since it attempts to delegate to another LSP
-      -- for HTML, which is VSCode behavior that doesn't exist in Neovim.
-      -- filetypes = { 'ruby', 'eruby' },
-      filetypes = { 'ruby' },
-      init_options = {
-        -- formatter = 'standard',
-        formatter = 'rubocop',
-        -- linters = { 'standard', 'rubocop' },
-        linters = { 'rubocop' },
-      },
-    },
-
-    bashls = {
-      filetypes = { 'sh', 'bash' },
-    },
-
+    bashls = {},
+    codebook = {},
+    cssls = {},
     dotls = {},
+    gopls = {},
+    groovyls = {},
+    html = {},
+    jsonls = {},
     kotlin_lsp = {},
-
-    groovyls = {
-      cmd = { 'groovy-language-server' },
-      filetypes = { 'groovy', 'Jenkinsfile' },
-    },
+    lemminx = lemminx_cfg,
+    lua_ls = {},
+    pyrefly = {},
+    ruby_lsp = {},
+    solargraph = {},
+    taplo = {},
+    terraformls = {},
+    tofu_ls = {},
+    ts_ls = {},
+    vimls = {},
+    yamlls = {},
+    zls = {},
 
     -- Hyperscript
     -- https://github.com/bigskysoftware/_hyperscript/tree/master/tools#neovim
@@ -693,21 +663,6 @@ local function lsp_config_setup()
       root_markers = { '.hsrc', '.git' },
       workspace_required = false,
     },
-
-    codebook = {},
-    cssls = {},
-    gopls = {},
-    html = {},
-    jsonls = {},
-    lemminx = lemminx_cfg,
-    pyrefly = {},
-    taplo = {},
-    terraformls = {},
-    tofu_ls = {},
-    ts_ls = {},
-    vimls = {},
-    yamlls = {},
-    zls = {},
   }
 
   if vim.fn.executable('tofu') == 1 then
