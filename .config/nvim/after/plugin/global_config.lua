@@ -630,6 +630,7 @@ local function lsp_config_setup()
   end
 
   -- These language servers will need to be installed somehow before being used.
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
   local servers = {
     lua_ls = {
       Lua = {
@@ -650,23 +651,15 @@ local function lsp_config_setup()
       },
     },
 
-    -- https://cs.opensource.google/go/x/tools/+/refs/tags/gopls/v0.14.2:gopls/doc/vim.md#neovim
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#gopls
-    -- Should work so long as `gopls` command is on $PATH
+    -- `gopls` command must be on $PATH
     gopls = {},
 
-    -- for ruby
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#solargraph
     -- More documentation on using solargraph with bundler:
     -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
     solargraph = {
       cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
     },
 
-    -- for ruby
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ruby_lsp
-    -- More documentation on using solargraph with bundler:
-    -- https://github.com/castwide/solargraph?tab=readme-ov-file#solargraph-and-bundler
     ruby_lsp = {
       cmd = { 'bundle', 'exec', 'ruby-lsp' },
 
@@ -682,82 +675,26 @@ local function lsp_config_setup()
       },
     },
 
-    -- for ruby
-    -- sorbet = {
-    --   cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp', '--disable-watchman' },
-    -- },
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#rubocop
-    -- rubocop = {},
-
-    -- for python
-    -- Implemented in Rust (Faster than alternative Python native LSPs)
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyrefly
     pyrefly = {},
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html
     html = {},
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#jsonls
     jsonls = {},
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#cssls
     cssls = {},
-
-    -- for typescript/javascript
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#tsserver
     ts_ls = {},
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#yamlls
     yamlls = {},
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lemminx
     lemminx = lemminx_cfg,
-
-    -- for markdown
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#marksman
-    -- marksman = {},
-
-    -- for toml
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#taplo
     taplo = {},
-
-    -- for terraform-ls
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
     terraformls = {},
-
-    -- for tofu-ls
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#tofu_ls
     tofu_ls = {},
-
-    -- for vimscript
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#vimls
     vimls = {},
-
-    -- for zig
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#zls
     zls = {},
 
-    -- bash shell scripts
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#bashls
     bashls = {
       filetypes = { 'sh', 'bash' },
     },
 
-    -- Graphviz dot files
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#dotls
     dotls = {},
-
-    -- Kotlin (unofficial)
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_language_server
-    -- kotlin_language_server = {},
-
-    -- Kotlin (official, pre-alpha as of 2026-05-12, may break)
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#kotlin_lsp
     kotlin_lsp = {},
 
-    -- Groovy
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#groovyls
     groovyls = {
       cmd = { 'groovy-language-server' },
       filetypes = { 'groovy', 'Jenkinsfile' },
@@ -773,9 +710,6 @@ local function lsp_config_setup()
       workspace_required = false,
     },
 
-    -- Codebook
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#codebook
-    -- https://github.com/blopker/codebook
     codebook = {},
   }
 
