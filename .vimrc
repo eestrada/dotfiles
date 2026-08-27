@@ -28,7 +28,7 @@ silent function! WINDOWS()
 endfunction
 
 silent function! FREEBSD()
-  let s:uname = system("uname -s")
+  let s:uname = system('uname -s')
   return (match(s:uname, 'FreeBSD') >= 0)
 endfunction
 
