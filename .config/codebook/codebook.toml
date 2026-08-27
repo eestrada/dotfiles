@@ -5,3 +5,4 @@ words = [
     "shfmt",
     "zls",
 ]
+ignore_paths = [".config/nvim/after/plugin/global_config.lua"]

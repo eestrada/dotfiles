@@ -535,9 +535,6 @@ Plug 'https://github.com/artemave/workspace-diagnostics.nvim', Cond(has('nvim') 
 " Useful status updates for LSP
 Plug 'https://github.com/j-hui/fidget.nvim', Cond(has('nvim') && !exists('g:vscode'))
 
-" Additional lua configuration, makes nvim stuff amazing!
-Plug 'https://github.com/folke/neodev.nvim', Cond(has('nvim') && !exists('g:vscode'))
-
 " General DAP plugins
 Plug 'https://github.com/mfussenegger/nvim-dap', Cond(has('nvim') && !exists('g:vscode'))
 Plug 'https://github.com/nvim-neotest/nvim-nio', Cond(has('nvim') && !exists('g:vscode'))

@@ -604,15 +604,6 @@ end
 
 -- [[ Configure lsp ]] {{{2
 local function lsp_config_setup()
-  -- Setup neovim lua configuration
-  -- IMPORTANT: make sure to setup neodev BEFORE lspconfig. See here:
-  -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
-  --
-  -- FIXME: neodev is deprecated.
-  -- It seems like lsp-config has a pretty solid setup anyway for lua dev in Nvim,
-  -- so just use that instead.
-  require('neodev').setup()
-
   -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
