@@ -27,6 +27,7 @@ vim.list_extend(bundles, java_test_jars)
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = user_home .. '/tmp/jdtls/data/' .. project_name
 
+---@type vim.lsp.Config
 return {
   cmd = {
     jdtls_path,

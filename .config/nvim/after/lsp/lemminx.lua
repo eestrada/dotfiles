@@ -1,4 +1,6 @@
 local user_home = vim.fn.expand('~')
+
+---@type vim.lsp.Config
 local lemminx_cfg = {
   filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' },
 }
