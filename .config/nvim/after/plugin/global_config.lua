@@ -746,8 +746,8 @@ local function cmp_setup()
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-  vim.lsp.config('*', { capabilities = capabilities })
+  local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  vim.lsp.config('*', { capabilities = cmp_capabilities })
 end
 
 -- [[ Configure fidget ]] {{{2
