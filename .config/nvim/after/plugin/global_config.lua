@@ -609,11 +609,12 @@ local function lsp_config_setup()
   -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
   require('neodev').setup()
 
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  vim.lsp.config('*', { capabilities = capabilities })
 
-  -- Using nvim-lspconfig plugin to quickly configure multiple LSPs with sane defaults. See links below.
+  -- Use nvim-lspconfig configs and local overrides in `~/.config/nvim/after/lsp/`.
 
   local xml_filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' }
   local lemminx_cfg = {
@@ -629,55 +630,43 @@ local function lsp_config_setup()
     }
   end
 
+  vim.lsp.config('lemminx', lemminx_cfg)
+
   -- These language servers will need to be installed somehow before being used.
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
   local servers = {
-    bashls = {},
-    codebook = {},
-    cssls = {},
-    dotls = {},
-    gopls = {},
-    groovyls = {},
-    html = {},
-    jsonls = {},
-    kotlin_lsp = {},
-    lemminx = lemminx_cfg,
-    lua_ls = {},
-    pyrefly = {},
-    ruby_lsp = {},
-    solargraph = {},
-    taplo = {},
-    terraformls = {},
-    tofu_ls = {},
-    ts_ls = {},
-    vimls = {},
-    yamlls = {},
-    zls = {},
-
-    -- Hyperscript
-    -- https://github.com/bigskysoftware/_hyperscript/tree/master/tools#neovim
-    -- https://github.com/eestrada/_hyperscript/tree/master/tools#neovim
-    hyperscript = {
-      cmd = { 'node', vim.fs.joinpath(plugins_dir, '_hyperscript/tools/lsp/server.js') },
-      filetypes = { 'html', 'hyperscript' },
-      root_markers = { '.hsrc', '.git' },
-      workspace_required = false,
-    },
+    'bashls',
+    'codebook',
+    'cssls',
+    'dotls',
+    'gopls',
+    'groovyls',
+    'html',
+    'hyperscript',
+    'jsonls',
+    'kotlin_lsp',
+    'lemminx',
+    'lua_ls',
+    'pyrefly',
+    'ruby_lsp',
+    'solargraph',
+    'taplo',
+    'ts_ls',
+    'vimls',
+    'yamlls',
+    'zls',
   }
 
   if vim.fn.executable('tofu') == 1 then
     -- probably on personal projects
-    servers.terraformls = nil
+    table.insert(servers, 'tofu_ls')
   elseif vim.fn.executable('terraform') == 1 then
     -- probably on dayjob projects
-    servers.tofu_ls = nil
+    table.insert(servers, 'terraformls')
   end
 
-  for server_name, opts in pairs(servers) do
-    local lopts = table_shallowcopy(opts)
-    lopts.capabilities = capabilities
-    vim.lsp.config(server_name, lopts)
-    vim.lsp.enable(server_name)
+  for i = 1, #servers do
+    vim.lsp.enable(servers[i])
   end
 
   -- Other lsp configuration suggestions can be found here:
