@@ -604,14 +604,9 @@ end
 
 -- [[ Configure lsp ]] {{{2
 local function lsp_config_setup()
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-  vim.lsp.config('*', { capabilities = capabilities })
-
   -- This assumes nvim-lspconfig configs,
   -- LSP configs from plugins,
-  -- and local overrides in `~/.config/nvim/after/lsp/`.
+  -- and local overrides in locations like `~/.config/nvim/after/lsp/*`.
 
   -- These language servers will need to be installed somehow before being used.
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
@@ -647,8 +642,8 @@ local function lsp_config_setup()
     table.insert(servers, 'terraformls')
   end
 
-  for i = 1, #servers do
-    vim.lsp.enable(servers[i])
+  for _, server_name in ipairs(servers) do
+    vim.lsp.enable(server_name)
   end
 
   -- Other lsp configuration suggestions can be found here:
@@ -748,6 +743,11 @@ local function cmp_setup()
   --   }),
   --   matching = { disallow_symbol_nonprefix_matching = false }
   -- })
+
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  vim.lsp.config('*', { capabilities = capabilities })
 end
 
 -- [[ Configure fidget ]] {{{2
@@ -1276,8 +1276,8 @@ local init_funcs_keys = {
   'conform',
   'fidget',
   'general Neovim',
-  'lsp config',
   'cmp and snippet engine',
+  'lsp config',
   -- 'treesitter',
   'dap',
   'telescope',
