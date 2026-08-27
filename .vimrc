@@ -815,18 +815,6 @@ function s:vimrc_init() abort
     nnoremap <leader>gg :grep --recursive "<cword>" ./<CR>
     vnoremap <leader>gg y:grep --recursive "<C-R>0" ./<CR>
   endif
-
-  if exists('g:loaded_copilot_chat')
-    " Possible configuration options:
-    " https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#configuration
-    lua require("CopilotChat").setup({})
-  endif
-
-  if exists('g:loaded_copilot')
-    " Copilot is only used for authentication.
-    " Copilot chat is actually used for functionality.
-    exec 'Copilot disable'
-  endif
 endfunction
 
 " Only run once Vim has actually loaded using `VimEnter` event
