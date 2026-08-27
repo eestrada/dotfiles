@@ -607,6 +607,10 @@ local function lsp_config_setup()
   -- Setup neovim lua configuration
   -- IMPORTANT: make sure to setup neodev BEFORE lspconfig. See here:
   -- https://github.com/folke/neodev.nvim?tab=readme-ov-file#-setup
+  --
+  -- FIXME: neodev is deprecated.
+  -- It seems like lsp-config has a pretty solid setup anyway for lua dev in Nvim,
+  -- so just use that instead.
   require('neodev').setup()
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
@@ -614,23 +618,9 @@ local function lsp_config_setup()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   vim.lsp.config('*', { capabilities = capabilities })
 
-  -- Use nvim-lspconfig configs and local overrides in `~/.config/nvim/after/lsp/`.
-
-  local xml_filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'ant' }
-  local lemminx_cfg = {
-    filetypes = xml_filetypes,
-  }
-
-  -- Only add a global XML catalog if it can be found.
-  local xml_catalog = user_home .. '/dev/catalog.xml'
-  if vim.fn.filereadable(xml_catalog) then
-    lemminx_cfg = {
-      filetypes = xml_filetypes,
-      xml = { catalogs = { xml_catalog } },
-    }
-  end
-
-  vim.lsp.config('lemminx', lemminx_cfg)
+  -- This assumes nvim-lspconfig configs,
+  -- LSP configs from plugins,
+  -- and local overrides in `~/.config/nvim/after/lsp/`.
 
   -- These language servers will need to be installed somehow before being used.
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
