@@ -1,106 +1,6 @@
 -- vim: set foldmethod=marker foldlevel=0:
 -- [[ Utility functions ]] {{{1
 
--- Dump a table to a readable string. See original implementation here:
--- https://stackoverflow.com/a/27028488/1733321
-local function table_dump(orig)
-  if type(orig) == 'table' then
-    local s = '{ '
-    for k, v in pairs(orig) do
-      if type(k) ~= 'number' then
-        k = '"' .. k .. '"'
-      end
-      s = s .. '[' .. k .. '] = ' .. table_dump(v) .. ','
-    end
-    return s .. '} '
-  else
-    return tostring(orig)
-  end
-end
-
--- Shallow copy table contents. nested cloning does not work.
--- Implementation from here: http://lua-users.org/wiki/CopyTable
-local function table_shallowcopy(orig)
-  local orig_type = type(orig)
-  local copy
-  if orig_type == 'table' then
-    copy = {}
-    for orig_key, orig_value in pairs(orig) do
-      copy[orig_key] = orig_value
-    end
-  else -- number, string, boolean, etc
-    copy = orig
-  end
-  return copy
-end
-
-local function format_setqflist_what(item)
-  return string.format('%s|%s col %s| %s', item.filename, item.lnum, item.col, string.gsub(item.text, '^%s+', ''))
-end
-
-local function download_file(install_path, download_url)
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.system({ 'curl', '-fLo', install_path, '--create-dirs', download_url })
-    return true
-  else
-    return false
-  end
-end
-
-local function ensure_vim_plug()
-  local fn = vim.fn
-
-  local install_path = fn.stdpath('data') .. '/site/autoload/plug.vim'
-  local vim_plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  local bootstrapped = download_file(install_path, vim_plug_url)
-  if bootstrapped then
-    -- Source it explicitly this first time. Will be autoloaded by neovim on
-    -- future startups.
-    vim.cmd('source ' .. install_path)
-    return true
-  else
-    return false
-  end
-end
-
-local function load_vim_plug()
-  local no_error, bootstrapped = pcall(ensure_vim_plug)
-  if no_error then
-    -- Module for the [vim-plug plugin manager](https://github.com/junegunn/vim-plug)
-    local plug = {}
-
-    -- Indicate whether plug was bootstrapped on this run. i.e. was it
-    -- downloaded and sourced on this run of the config.
-    plug.Bootstrapped = bootstrapped
-
-    -- Define an individual plugin
-    plug.Plug = vim.fn['plug#']
-
-    -- Begin plugin definitions
-    plug.Begin = vim.fn['plug#begin']
-
-    -- End plugin definitions
-    plug.End = vim.fn['plug#end']
-
-    -- Interactive command(s) that *can* be useful in scripting
-
-    -- Install defined plugins
-    function plug.Install()
-      vim.cmd(':PlugInstall')
-    end
-
-    return plug
-  else
-    return nil
-  end
-end
-
--- [[ Utility Variables ]] {{{1
-local user_home = vim.fn.expand('~')
-local on_windows = vim.fn.has('win32') == 1
-local vim_dir = on_windows and 'vimfiles' or '.vim'
-local plugins_dir = vim.fs.joinpath(user_home, vim_dir, 'plugged')
-
 -- [[ Define functions for plugin setup ]] {{{1
 
 -- [[ Generic lsp keymap setup ]] {{{2
@@ -168,9 +68,9 @@ local function lsp_keymaps_setup(args)
   -- See also: `:h lsp-defaults`
   if always_set or client ~= nil and client.server_capabilities.definitionProvider then
     if args.buf ~= nil then
-      vim.api.nvim_buf_set_option(args.buf, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
+      vim.api.nvim_set_option_value('tagfunc', 'v:lua.vim.lsp.tagfunc', { scope = 'local', buf = args.buf })
     else
-      vim.api.nvim_set_option('tagfunc', 'v:lua.vim.lsp.tagfunc')
+      vim.api.nvim_set_option_value('tagfunc', 'v:lua.vim.lsp.tagfunc', { scope = 'global' })
     end
   end
 
@@ -252,8 +152,9 @@ local function lsp_keymaps_setup(args)
   end, { buffer = args.buf, desc = '[q]uick [f]ix (i.e. Code Action)' })
 
   -- Get capabilities of current LSP server
+  -- TODO: print all attached servers
   vim.api.nvim_create_user_command('LspCapabilities', function()
-    vim.print(vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
+    vim.print(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
   end, { desc = 'Print capabilities of current LSP server implementation.' })
 
   -- foldingRangeProvider
@@ -520,6 +421,7 @@ local function conform_setup()
     -- log_level = vim.log.levels.DEBUG,
     formatters_by_ft = formatters_by_ft_all,
     formatters = {
+      ---@diagnostic disable-next-line: unused-local
       xmlformat = function(bufnr)
         return {
           prepend_args = {
@@ -532,6 +434,7 @@ local function conform_setup()
         }
       end,
       prettier = function(bufnr)
+        ---@diagnostic disable-next-line: unused-local
         local filetype = vim.filetype.match({ buf = bufnr })
         local require_pragma = 'false'
 
@@ -549,6 +452,7 @@ local function conform_setup()
           },
         }
       end,
+      ---@diagnostic disable-next-line: unused-local
       mdformat = function(bufnr)
         return {
           prepend_args = {
@@ -557,6 +461,7 @@ local function conform_setup()
           },
         }
       end,
+      ---@diagnostic disable-next-line: unused-local
       yq = function(bufnr)
         return {
           prepend_args = {
@@ -1099,6 +1004,7 @@ local function treesitter_setup()
       enable = true,
 
       -- use a function to disable slow treesitter highlight for large files
+      ---@diagnostic disable-next-line: unused-local
       disable = function(lang, buf)
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
