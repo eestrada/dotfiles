@@ -633,6 +633,7 @@ local function lsp_config_setup()
     'groovyls',
     'html',
     'hyperscript',
+    'jdtls',
     'jsonls',
     'kotlin_lsp',
     'lemminx',
@@ -661,72 +662,6 @@ local function lsp_config_setup()
 
   -- Other lsp configuration suggestions can be found here:
   -- https://github.com/neovim/nvim-lspconfig/blob/master/README.md#suggested-configuration
-
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'java',
-    group = vim.api.nvim_create_augroup('NvimJdtlsConfig', { clear = true }),
-    callback = function()
-      vim.api.nvim_buf_create_user_command(0, 'JdtTestClass', function()
-        require('jdtls').test_class()
-      end, { desc = 'Test current class using Java JDT with DAP debugging capabilities enabled.' })
-
-      vim.api.nvim_buf_create_user_command(0, 'JdtTestNearestMethod', function()
-        require('jdtls').test_nearest_method()
-      end, { desc = 'Test nearest method using Java JDT with DAP debugging capabilities enabled.' })
-
-      local cache_dir = vim.fn.stdpath('cache')
-
-      -- Assume `jdtls` and friends have been installed by mason already
-      local mason_registry = require('mason-registry')
-
-      local jdtls_install = mason_registry.get_package('jdtls'):get_install_path()
-      local jdtls_path = jdtls_install .. '/bin/jdtls'
-      local lombok_path = jdtls_install .. '/lombok.jar'
-
-      local java_debug_install = mason_registry.get_package('java-debug-adapter'):get_install_path()
-      local java_debug_server_jars =
-          vim.fn.glob(java_debug_install .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)
-
-      local java_test_install = mason_registry.get_package('java-test'):get_install_path()
-      local java_test_jars = vim.fn.glob(java_test_install .. '/extension/server/*.jar', false, true)
-
-      local bundles = {}
-      vim.list_extend(bundles, java_debug_server_jars)
-      vim.list_extend(bundles, java_test_jars)
-
-      -- Using a unique workspace_dir avoids clashes that can mess up jdtls
-      -- See docs here:
-      -- * master branch: https://github.com/mfussenegger/nvim-jdtls/blob/master/README.md#data-directory-configuration
-      -- * permalink: https://github.com/mfussenegger/nvim-jdtls/blob/99e4b2081de1d9162666cc7b563cbeb01c26b66b/README.md#data-directory-configuration
-
-      -- If neovim was started within `~/dev/xy/project-1` this would resolve to `project-1`
-      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-      local workspace_dir = user_home .. '/tmp/jdtls/data/' .. project_name
-
-      require('jdtls').start_or_attach({
-        cmd = {
-          jdtls_path,
-          -- By using lombok as the Java agent, all definitions are properly loaded, even for lombok generated method definitions.
-          '--jvm-arg=-javaagent:' .. lombok_path,
-          '-configuration',
-          cache_dir .. '/jdtls/configuration',
-          '-data',
-          workspace_dir,
-        },
-
-        -- Language server `initializationOptions`
-        -- You need to extend the `bundles` with paths to jar files
-        -- if you want to use additional eclipse.jdt.ls plugins.
-        --
-        -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
-        --
-        -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
-        init_options = {
-          bundles = bundles,
-        },
-      })
-    end,
-  })
 
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = false }),
