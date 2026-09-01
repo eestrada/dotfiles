@@ -49,13 +49,6 @@ local function lsp_keymaps_setup(args)
 
   -- Start of keymaps that shadow existing keymaps
 
-  -- Only redefine `K` keymap if current LSP supports hover capability.
-  if always_set or client ~= nil and client.server_capabilities.hoverProvider then
-    vim.keymap.set('n', 'K', function()
-      vim.lsp.buf.hover()
-    end, { buffer = args.buf, desc = 'Hover Popup' })
-  end
-
   -- References
   --
   -- Use the following link for reference on how to override the default
@@ -108,6 +101,16 @@ local function lsp_keymaps_setup(args)
     vim.lsp.buf.code_action()
   end, { buffer = args.buf, desc = '[c]ode [a]ction' })
 
+  vim.keymap.set({ 'n', 'v' }, '<leader>tl', function()
+    vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+  end, { buffer = args.buf, desc = '[t]oggle LSP code [l]ense visibility' })
+
+  vim.keymap.set({ 'n', 'v' }, '<leader>rl', function()
+    if vim.lsp.codelens.is_enabled() then
+      vim.lsp.codelens.run()
+    end
+  end, { buffer = args.buf, desc = '[r]un LSP code [l]ense on current line' })
+
   -- This is something different in vscode, but it is duplicated here so that it actually points to something
   vim.keymap.set({ 'n', 'v' }, '<leader>qf', function()
     vim.lsp.buf.code_action()
@@ -118,6 +121,30 @@ local function lsp_keymaps_setup(args)
   vim.api.nvim_create_user_command('LspCapabilities', function()
     vim.print(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })[1].server_capabilities)
   end, { desc = 'Print capabilities of current LSP server implementation.' })
+
+  local function codelens_to_qf()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local items = {}
+
+    for _, res in ipairs(vim.lsp.codelens.get({ bufnr = bufnr })) do
+      local lens = res.lens
+      -- skip unresolved lenses (no command resolved yet)
+      if lens.command then
+        items[#items + 1] = {
+          bufnr = bufnr,
+          lnum = lens.range.start.line + 1, -- LSP is 0-based, qf is 1-based
+          col = lens.range.start.character + 1,
+          text = lens.command.title,
+        }
+      end
+    end
+
+    -- vim.fn.setqflist({}, ' ', { title = 'CodeLens' })
+    vim.fn.setqflist(items, ' ')
+    vim.cmd('copen')
+  end
+
+  vim.api.nvim_create_user_command('CodeLensQF', codelens_to_qf, {})
 
   -- foldingRangeProvider
   -- Should ONLY be set in Neovim with a legitimate client.
