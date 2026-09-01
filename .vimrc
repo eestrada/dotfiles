@@ -435,10 +435,10 @@ nmap gr [I
 
 " The keymap <C-]> is always defined to go to a function/variable definition
 " in a ctags file. Depending on configuration, it may not do anything, but the
-" keymap should always be defined. Just force `gd` to point to that. This
+" keymap should always be defined. Just force `grd` to point to that. This
 " should work in Vim, Neovim, and Neovim embedded in VSCode. See link here:
 " https://hea-www.harvard.edu/~fine/Tech/vi.html
-nmap gd <C-]>
+nmap grd <C-]>
 
 " Semantic Linebreak command
 " See SemBr spec here: https://sembr.org/

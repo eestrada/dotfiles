@@ -5,18 +5,11 @@
 
 -- [[ Generic lsp keymap setup ]] {{{2
 local function lsp_keymaps_setup(args)
+  ---@diagnostic disable-next-line: unused-local
   local always_set = args.always_set or false
+
   local args_data = args.data or {}
   local client = vim.lsp.get_client_by_id(args_data.client_id)
-
-  local function references_on_list(options)
-    vim.fn.setqflist({}, ' ', options)
-    vim.api.nvim_command('botright copen')
-
-    -- Most references I want to see are in the same window that the cursor
-    -- is already in, so return to that window from the Quickfix window.
-    vim.api.nvim_command('wincmd p')
-  end
 
   local function location_on_list(options)
     vim.fn.setqflist({}, ' ', options)
@@ -34,7 +27,6 @@ local function lsp_keymaps_setup(args)
 
   -- These options are ignored in VScode, so we don't need to make a special
   -- case for excluding them.
-  local references_lsp_options = { on_list = references_on_list }
   local location_lsp_options = { on_list = location_on_list }
 
   vim.keymap.set('n', '<leader>wa', function()
@@ -49,67 +41,21 @@ local function lsp_keymaps_setup(args)
 
   -- Start of keymaps that shadow existing keymaps
 
-  -- References
-  --
-  -- Use the following link for reference on how to override the default
-  -- references behavior.
-  --
-  -- https://github.com/pbogut/dotfiles/blob/7ba96f5871868c1ce02f4b3832c1659637fb0c2c/config/nvim/lua/plugins/nvim_lsp.lua#L88C1-L101C4
-  if always_set or client ~= nil and client.server_capabilities.referencesProvider then
-    local function references_func()
-      vim.lsp.buf.references(nil, references_lsp_options)
-    end
-
-    -- `gr` is bound to `[I` in `init.vim`
-    vim.keymap.set('n', '[I', references_func, { buffer = args.buf, desc = 'References' })
-  end
-
-  local function implementation_func()
-    vim.lsp.buf.implementation(location_lsp_options)
-  end
-  vim.keymap.set('n', 'gi', implementation_func, { buffer = args.buf, desc = '[g]oto [i]mplementation' })
-
-  vim.keymap.set('n', 'gD', function()
+  vim.keymap.set('n', 'grD', function()
     vim.lsp.buf.declaration(location_lsp_options)
-  end, { buffer = args.buf, desc = '[g]oto [D]eclaration' })
+  end, { buffer = args.buf, desc = '[g]o [r]eference [D]eclaration' })
 
   vim.keymap.set('n', '<C-k>', function()
     vim.lsp.buf.signature_help()
   end, { buffer = args.buf, desc = 'Signature help' })
 
-  local function type_definition_func()
-    vim.lsp.buf.type_definition(location_lsp_options)
-  end
-  vim.keymap.set('n', 'gt', type_definition_func, { buffer = args.buf, desc = '[g]oto [t]ype definition' })
-
-  -- telescope builtins
-
-  vim.keymap.set('n', '<leader>sd', function()
-    require('telescope.builtin').lsp_document_symbols()
-  end, { buffer = args.buf, desc = '[s]earch [d]ocument symbols' })
-
   vim.keymap.set('n', '<leader>sw', function()
     require('telescope.builtin').lsp_dynamic_workspace_symbols()
   end, { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
 
-  -- custom keymaps using <leader> key
-  vim.keymap.set('n', '<leader>rn', function()
-    vim.lsp.buf.rename()
-  end, { buffer = args.buf, desc = '[r]e[n]ame' })
-
-  vim.keymap.set({ 'n', 'v' }, '<leader>ca', function()
-    vim.lsp.buf.code_action()
-  end, { buffer = args.buf, desc = '[c]ode [a]ction' })
-
   vim.keymap.set({ 'n', 'v' }, '<leader>tl', function()
     vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
-  end, { buffer = args.buf, desc = '[t]oggle LSP code [l]ense visibility' })
-
-  vim.keymap.set({ 'n', 'v' }, '<leader>rl', function()
-    if vim.lsp.codelens.is_enabled() then
-      vim.lsp.codelens.run()
-    end
-  end, { buffer = args.buf, desc = '[r]un LSP code [l]ense on current line' })
+  end, { buffer = args.buf, desc = '[t]oggle LSP code [l]ens visibility' })
 
   -- This is something different in vscode, but it is duplicated here so that it actually points to something
   vim.keymap.set({ 'n', 'v' }, '<leader>qf', function()
