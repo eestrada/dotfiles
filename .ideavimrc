@@ -17,18 +17,18 @@ map [d <Action>(GotoPreviousError)
 
 " Replacement for nvim LSP finding references and putting them in the quickfix
 " list, sort of.
-map gr <Action>(FindUsages)
-map gi <Action>(GotoImplementation)
-map gD <Action>(GotoDeclaration)
-map gt <Action>(GotoTypeDeclaration)
+map grr <Action>(FindUsages)
+map gri <Action>(GotoImplementation)
+map grD <Action>(GotoDeclaration)
+map grt <Action>(GotoTypeDeclaration)
 map ]q <Action>(NextOccurence)
 map [q <Action>(PreviousOccurence)
 
 " Replacement for LSP rename, sort of.
-map <leader>rn <Action>(RenameElement)
+map grn <Action>(RenameElement)
 
 " Replacement for LSP code actions, sort of.
-map <leader>ca <Action>(ShowIntentionActions)
+map gra <Action>(ShowIntentionActions)
 
 " Replacement for formatting whole document, sort of.
 map <leader>gq <Action>(ShowReformatFileDialog)
