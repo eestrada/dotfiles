@@ -45,10 +45,6 @@ local function lsp_keymaps_setup(args)
     vim.lsp.buf.declaration(location_lsp_options)
   end, { buffer = args.buf, desc = '[g]o [r]eference [D]eclaration' })
 
-  vim.keymap.set('n', '<C-k>', function()
-    vim.lsp.buf.signature_help()
-  end, { buffer = args.buf, desc = 'Signature help' })
-
   vim.keymap.set('n', '<leader>sw', function()
     require('telescope.builtin').lsp_dynamic_workspace_symbols()
   end, { buffer = args.buf, desc = '[s]earch [w]orkspace symbols' })
