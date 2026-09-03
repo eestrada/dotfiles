@@ -1113,7 +1113,7 @@ local init_funcs_keys = {
   'conform',
   'fidget',
   'general Neovim',
-  'cmp and snippet engine',
+  -- 'cmp and snippet engine',
   'lsp config',
   -- 'treesitter',
   'dap',

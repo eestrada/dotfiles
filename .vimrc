@@ -169,7 +169,9 @@ set incsearch
 set fileformats=unix,dos,mac
 
 " Set completeopt to have a better completion experience
-set completeopt=menu,menuone,noselect,noinsert,preview
+set autocomplete
+set complete=.,o,t
+set completeopt=fuzzy,menu,menuone,noselect,noinsert,popup
 
 " Syntax settings
 " NOTE: make sure current terminal supports this
@@ -349,6 +351,13 @@ endif
 " Keymaps for better default experience
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
+
+" Use `Enter` to accept the currently selected autocomplete item.
+inoremap <expr> <cr> pumvisible() ? '<c-y>' : '<cr>'
+
+" Use `Tab` and `Shift+Tab` for cycling through autocomplete.
+" inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Buffers/windows/tabs
 " see :help windows
@@ -546,40 +555,6 @@ Plug 'https://github.com/suketa/nvim-dap-ruby', Cond(has('nvim') && !exists('g:v
 " Specialized LSP for extra Java jdtls
 Plug 'https://github.com/mfussenegger/nvim-jdtls', Cond(has('nvim') && !exists('g:vscode'))
 
-" Start Autocompletion plugins
-Plug 'https://github.com/hrsh7th/nvim-cmp', Cond(has('nvim') && !exists('g:vscode'))
-
-" LuaSnip Snippet Engine & its associated nvim-cmp source
-Plug 'https://github.com/L3MON4D3/LuaSnip', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/saadparwaiz1/cmp_luasnip', Cond(has('nvim') && !exists('g:vscode'))
-
-" vim-vsnip Snippet Engine & its associated nvim-cmp source
-"
-" I tried out vim-vsnip since is written in pure vimscript
-" and can technically work in Vanilla vim.
-" I thought "Hey, if I can get this working,
-" maybe I can also get a completion set up that will work for Vanilla vim as well".
-"
-" However, after trying it for a bit, it is slow enough to be painful
-" (at least compared to LuaSnip).
-" It is also slightly less featureful.
-" The lack of features wouldn't be such a big issue, except it is slow.
-" That is pretty much a deal breaker.
-"
-" Leaving this here for reference.
-"
-" Plug 'https://github.com/hrsh7th/vim-vsnip', Cond(has('nvim') && !exists('g:vscode'))
-" Plug 'https://github.com/hrsh7th/cmp-vsnip', Cond(has('nvim') && !exists('g:vscode'))
-
-" Add additional completion sources for nvim-cmp.
-Plug 'https://github.com/hrsh7th/cmp-nvim-lsp', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/hrsh7th/cmp-path', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/hrsh7th/cmp-buffer', Cond(has('nvim') && !exists('g:vscode'))
-" Plug 'https://github.com/hrsh7th/cmp-cmdline', Cond(has('nvim') && !exists('g:vscode'))
-Plug 'https://github.com/lukas-reineke/cmp-rg', Cond(has('nvim') && !exists('g:vscode'))
-
-" End Autocompletion plugins
-
 " The `TSUpdate` call tends to throw errors when this is installed. Don't
 " stress, it works on Unix/Linux after the first run. Not worth looking into
 " deeper at the moment.
@@ -609,8 +584,10 @@ Plug 'https://github.com/chentoast/marks.nvim', Cond(has('nvim') && !exists('g:v
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
 " Adds a number of user-friendly snippets
-" This plugin *can* be used outside Neovim, but currently is not. Only cmp
-" is used for autocompletion, which is Neovim specific.
+" XXX: This plugin isn't used for anything
+" since moving to builtin Neovim autocomplete for auotcompletion.
+" It is here for reference until a snippet loader can be created
+" to load these via `vim.snippet` in Neovim's lua config.
 Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(!exists('g:vscode'))
 
 " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
