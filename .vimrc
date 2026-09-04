@@ -128,6 +128,7 @@ let s:plugins_dir = s:vim_dir . '/plugged'
 let s:data_dir = has('nvim') ? stdpath('data') : s:vim_dir
 let s:state_dir = has('nvim') ? stdpath('state') : s:vim_dir . '/state'
 let s:config_dir = has('nvim') ? stdpath('config') : s:vim_dir
+let s:cache_dir = has('nvim') ? stdpath('cache') : s:vim_dir . '/cache'
 
 " [[ Options ]] {{{1
 
@@ -148,13 +149,14 @@ set mouse=a
 
 " Save undo history
 set undofile
+
+" The Vim default is the current directory `.` This ends up causing lots of
+" junk being scattered around. Use cache directory or /tmp
+let &undodir = s:cache_dir . '/undo'
+
 if !has('nvim')
-  " The Vim default is the current directory `.` This ends up causing lots of
-  " junk being scattered around. Use data directory or /tmp
-  let s:undo_dir = s:state_dir . '/undo'
-  let &undodir = s:undo_dir
+  set undodir+=/tmp/
 endif
-set undodir+=/tmp/
 
 " Case-insensitive searching UNLESS \C or capital in search
 set ignorecase
@@ -169,8 +171,10 @@ set incsearch
 set fileformats=unix,dos,mac
 
 " Set completeopt to have a better completion experience
-set autocomplete
-set complete=.,o,t
+if has('nvim-0.12')
+  set autocomplete
+  set complete=.,o,t
+endif
 set completeopt=fuzzy,menu,menuone,noselect,noinsert,popup
 
 " Syntax settings
