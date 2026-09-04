@@ -493,97 +493,15 @@ local function lsp_config_setup()
   })
 end
 
--- [[ Configure nvim-cmp ]] {{{2
+-- [[ Configure snippets ]] {{{2
 -- See `:help cmp`
-local function cmp_setup()
-  local cmp = require('cmp')
+local function snippet_setup()
   local luasnip = require('luasnip')
   require('luasnip.loaders.from_vscode').lazy_load()
   require('luasnip.loaders.from_snipmate').lazy_load()
   luasnip.config.setup({})
 
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        luasnip.lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-      end,
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-n>'] = cmp.mapping.select_next_item(),
-      ['<C-p>'] = cmp.mapping.select_prev_item(),
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete({}),
-      ['<CR>'] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      }),
-      ['<Tab>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_locally_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          fallback()
-        end
-      end, { 'i', 's' }),
-      ['<S-Tab>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.locally_jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { 'i', 's' }),
-    }),
-    sources = {
-      -- { name = 'vsnip' },
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
-      { name = 'buffer' },
-      { name = 'path' },
-      {
-        name = 'rg',
-        keyword_length = 3,
-      },
-      -- { name = 'cmdline' },
-    },
-  })
-
-  -- -- `/` cmdline setup.
-  -- cmp.setup.cmdline('/', {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = {
-  --     { name = 'buffer' }
-  --   }
-  -- })
-
-  -- -- `:` cmdline setup.
-  -- cmp.setup.cmdline(':', {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = cmp.config.sources({
-  --     {
-  --       name = 'path',
-  --       keyword_length = 3,
-  --     }
-  --   }, {
-  --     {
-  --       name = 'cmdline',
-  --       keyword_length = 3,
-  --     }
-  --   }),
-  --   matching = { disallow_symbol_nonprefix_matching = false }
-  -- })
-
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to all servers
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-  vim.lsp.config('*', { capabilities = cmp_capabilities })
+  -- TODO: figure out how to register luasnip snippets into builtin autocomplete
 end
 
 -- [[ Configure fidget ]] {{{2
@@ -1113,7 +1031,7 @@ local init_funcs_keys = {
   'conform',
   'fidget',
   'general Neovim',
-  -- 'cmp and snippet engine',
+  'snippet',
   'lsp config',
   -- 'treesitter',
   'dap',
@@ -1130,7 +1048,7 @@ local init_funcs_all = {
   fidget = { func = fidget_setup, vscode_never = true },
   ['general Neovim'] = { func = general_neovim_setup, vscode_never = true },
   ['lsp config'] = { func = lsp_config_setup, vscode_never = true },
-  ['cmp and snippet engine'] = { func = cmp_setup, vscode_never = true },
+  snippet = { func = snippet_setup, vscode_never = true },
   treesitter = { func = treesitter_setup, vscode_never = true },
   dap = { func = dap_setup, vscode_never = true },
   telescope = { func = telescope_setup, vscode_never = true },

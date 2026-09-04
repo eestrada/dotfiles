@@ -594,6 +594,10 @@ Plug 'https://github.com/chentoast/marks.nvim', Cond(has('nvim') && !exists('g:v
 " to load these via `vim.snippet` in Neovim's lua config.
 Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(!exists('g:vscode'))
 
+" LuaSnip Snippet Engine.
+" For loading snippets.
+Plug 'https://github.com/L3MON4D3/LuaSnip', Cond(has('nvim') && !exists('g:vscode'))
+
 " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
 " Get diff symbols in gutter for code tracked in a VCS (supports more than
 " just git and can easily be extended to support others)
