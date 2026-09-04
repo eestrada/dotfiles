@@ -494,14 +494,26 @@ local function lsp_config_setup()
 end
 
 -- [[ Configure snippets ]] {{{2
--- See `:help cmp`
+-- See `:help MiniSnippets`
 local function snippet_setup()
-  local luasnip = require('luasnip')
-  require('luasnip.loaders.from_vscode').lazy_load()
-  require('luasnip.loaders.from_snipmate').lazy_load()
-  luasnip.config.setup({})
+  local mini_snippets = require('mini.snippets')
 
-  -- TODO: figure out how to register luasnip snippets into builtin autocomplete
+  mini_snippets.setup({
+    snippets = {
+      -- Load global snippets first
+      mini_snippets.gen_loader.from_runtime('global.json'),
+
+      -- Load snippets based on current language by reading files from
+      -- "snippets/" subdirectories from 'runtimepath' directories.
+      mini_snippets.gen_loader.from_lang(),
+    },
+  })
+
+  -- starts a generic in-process LSP server that only offers completions.
+  -- By default this attaches to every buffer.
+  -- By passing `match = false` the matching is left to the completion engine
+  -- (which is currently the builtin Neovim autocomplete).
+  mini_snippets.start_lsp_server({ match = false })
 end
 
 -- [[ Configure fidget ]] {{{2

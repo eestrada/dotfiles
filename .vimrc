@@ -357,7 +357,7 @@ nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
 " Use `Enter` to accept the currently selected autocomplete item.
-inoremap <expr> <cr> pumvisible() ? '<c-y>' : '<cr>'
+" inoremap <expr> <cr> pumvisible() ? '<c-y>' : '<cr>'
 
 " Use `Tab` and `Shift+Tab` for cycling through autocomplete.
 " inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -587,16 +587,13 @@ Plug 'https://github.com/chentoast/marks.nvim', Cond(has('nvim') && !exists('g:v
 
 " [[ Vim and Neovim native (e.g. not embedded in vscode) ]] {{{2
 
-" Adds a number of user-friendly snippets
-" XXX: This plugin isn't used for anything
-" since moving to builtin Neovim autocomplete for auotcompletion.
-" It is here for reference until a snippet loader can be created
-" to load these via `vim.snippet` in Neovim's lua config.
+" Adds snippets for many different languages
 Plug 'https://github.com/rafamadriz/friendly-snippets', Cond(!exists('g:vscode'))
 
-" LuaSnip Snippet Engine.
-" For loading snippets.
-Plug 'https://github.com/L3MON4D3/LuaSnip', Cond(has('nvim') && !exists('g:vscode'))
+" nvim-mini snippet engine
+" Just spawns an inprocess LSP server so any completion engine that supports
+" an LSP source can use snippets.
+Plug 'https://github.com/nvim-mini/mini.snippets', Cond(has('nvim') && !exists('g:vscode'))
 
 " XXX: signify can add a significant (~800 ms) amount of start up time to nvim
 " Get diff symbols in gutter for code tracked in a VCS (supports more than
