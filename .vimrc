@@ -356,6 +356,15 @@ endif
 nmap <silent> <space> <Nop>
 vmap <silent> <space> <Nop>
 
+" Stop using the `s` key.
+" Use `c` instead.
+" `c` can be used in motion commands like `ciw`,
+" but `s` cannot so it is less useful to have muscle memory for it.
+nnoremap s <nop>
+nnoremap S <nop>
+vnoremap s <nop>
+vnoremap S <nop>
+
 " Use `Enter` to accept the currently selected autocomplete item.
 " inoremap <expr> <cr> pumvisible() ? '<c-y>' : '<cr>'
 
