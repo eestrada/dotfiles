@@ -5,11 +5,8 @@
 # See Syntax docs here: https://ghostty.org/docs/config#syntax
 # See option reference here: https://ghostty.org/docs/config/reference
 
-# FIXME: It seems that Ghostty no longer ships with any themes
-# due to licensing reasons.
-
 # theme = light:iTerm2 Tango Light,dark:iTerm2 Tango Dark
-# theme = iTerm2 Tango Dark
+theme = iTerm2 Tango Dark
 cursor-style = block
 shell-integration-features = no-cursor
 auto-update = off
