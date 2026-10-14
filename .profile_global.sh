@@ -261,8 +261,6 @@ case $- in
 *) ;;
 esac
 
-[ -n "${_interactive_shell}" ] && [ -x /usr/bin/fortune ] && /usr/bin/fortune -e && echo
-
 refreshpath
 set_manpath
 custvars
@@ -290,6 +288,14 @@ export PATH="${ASDF_DATA_DIR}/shims:${PATH}"
 
 # Run again after adding homebrew so that we can pick up nvim as the default editor.
 custvars
+
+if [ -n "${_interactive_shell}" ]; then
+  if [ -x /usr/bin/fortune ]; then
+    /usr/bin/fortune -e && echo
+  elif which brew >/dev/null 2>&1 && [ -x "${HOMEBREW_PREFIX}/bin/fortune" ] ; then
+    "${HOMEBREW_PREFIX}/bin/fortune" -e && echo
+  fi
+fi
 
 # Remove duplicate paths at the very end.
 PATH=$(remove_duplicate_paths "$PATH")
