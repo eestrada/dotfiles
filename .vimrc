@@ -571,10 +571,8 @@ Plug 'https://github.com/mfussenegger/nvim-jdtls', Cond(has('nvim') && !exists('
 " The `TSUpdate` call tends to throw errors when this is installed. Don't
 " stress, it works on Unix/Linux after the first run. Not worth looking into
 " deeper at the moment.
-" FIXME: It is failing all the time now, at least for Lua.
-" Just disabling for the time being.
-" Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
-" Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'), { 'branch': 'main' })
+Plug 'https://github.com/nvim-treesitter/nvim-treesitter', Cond(has('nvim') && !exists('g:vscode'), { 'do': ':TSUpdate' })
+Plug 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', Cond(has('nvim') && !exists('g:vscode'), { 'branch': 'main' })
 
 " TODO: Consider deleting. Most of this can be done with native Vim features
 " or periscope.
